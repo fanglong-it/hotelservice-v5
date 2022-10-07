@@ -24,7 +24,12 @@ public class Customer {
     private String lastName;
     private int gender;
     private String phoneNumber;
-    private String identityPapers;
     private String email;
+    private int idNo;
+    private int passportNo;
+    private String createDate;
+    private String updateDate;
+    private String createBy;
+    private String lastModifyBy;
 
 }

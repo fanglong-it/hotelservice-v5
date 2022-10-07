@@ -36,11 +36,6 @@ public class DeviceServiceImpl implements DeviceService {
 		if (device != null) {
 			Device dto = device.orElseGet(null);
 			if (dto == null) {
-
-//				productResponse res = new productResponse(dto.getProductID(), dto.getProductSKU(), dto.getProductName(), dto.getProductPrice(), dto.getProductWeight(), dto.getProductCartDesc(),
-//						dto.getProductShortDesc(), dto.getProductLongDesc(), dto.getProductThumb(), dto.getProductImage(), dto.getProductUpdateDate(), dto.getProductStock(), dto.getProductLive(),
-//						dto.getProductUnlimited(), listOption, listOptionGroups);
-//				return res;
 				throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.GET_FAIL, "Not Found Device"));
 			}
 			logger.info("START GET DEVICE BY ID");
@@ -59,7 +54,7 @@ public class DeviceServiceImpl implements DeviceService {
 	public boolean deleteDevice(long id) {
 		logger.info("START DELETE DEVICE BY ID");
 		Optional<Device> device = Optional.ofNullable(deviceRepository.findById(id).orElse(null));
-		if (device != null) {
+		if (device.isPresent()) {
 			Device dto = device.orElseGet(null);
 			if (dto != null) {
 				deviceRepository.deleteById(id);

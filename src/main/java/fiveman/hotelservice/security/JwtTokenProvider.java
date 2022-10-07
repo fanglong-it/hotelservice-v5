@@ -1,5 +1,6 @@
 package fiveman.hotelservice.security;
 
+import fiveman.hotelservice.entities.AppUserRole;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.response.CustomResponseObject;
 import io.jsonwebtoken.Claims;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.stream.Collectors;
+
 @Component
 public class JwtTokenProvider {
 
@@ -38,12 +41,13 @@ public class JwtTokenProvider {
     secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
   }
 
-  public String createToken(String username, Collection<SimpleGrantedAuthority> authorities) {
+  public String createToken(String username, List<AppUserRole> appUserRoles) {
 
 
 
     Claims claims = Jwts.claims().setSubject(username);
-    claims.put("auth", authorities);
+    claims.put("auth", appUserRoles.stream().map(appUserRole ->
+            new SimpleGrantedAuthority(appUserRole.getAuthority())).filter(Objects::nonNull).collect(Collectors.toList()));
 
     Date now = new Date();
     Date validity = new Date(now.getTime() + validityInMilliseconds);

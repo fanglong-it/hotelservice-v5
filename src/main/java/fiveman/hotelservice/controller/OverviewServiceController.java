@@ -41,7 +41,7 @@ public class OverviewServiceController {
 			@ApiResponse(code = 403, message = "Access denied"), //
 			@ApiResponse(code = 500, message = "Expired or invalid JWT token")})
 	public ResponseEntity<OverviewService> getOverviewService(@PathVariable("id") long id){
-		return new ResponseEntity<OverviewService>(overviewServiceService.getOverviewService(id), HttpStatus.OK);
+		return new ResponseEntity<>(overviewServiceService.getOverviewService(id), HttpStatus.OK);
 	}
 
 	@PostMapping("/overview/addOverviewService")
@@ -53,7 +53,7 @@ public class OverviewServiceController {
 			@ApiResponse(code = 500, message = "Expired or invalid JWT token")})
 	public ResponseEntity<CustomResponseObject> addOverviewService(@RequestBody OverviewService overviewService){
 		overviewServiceService.addOverviewService(overviewService);
-		return new ResponseEntity<CustomResponseObject>(new CustomResponseObject(Common.ADDING_SUCCESS, "Add Overview success" ), HttpStatus.OK);
+		return new ResponseEntity<>(new CustomResponseObject(Common.ADDING_SUCCESS, "Add Overview success" ), HttpStatus.OK);
 	}
 
 	@PostMapping("/overview/updateOverviewService")
@@ -64,7 +64,7 @@ public class OverviewServiceController {
 			@ApiResponse(code = 500, message = "Expired or invalid JWT token")})
 	public ResponseEntity<CustomResponseObject> updateOverviewService(@RequestBody OverviewService overviewService){
 		overviewServiceService.updateOverviewService(overviewService);
-		return new ResponseEntity<CustomResponseObject>(new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Overview success" ), HttpStatus.OK);
+		return new ResponseEntity<>(new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Overview success" ), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/overview/deleteOverview/{id}")
@@ -75,7 +75,7 @@ public class OverviewServiceController {
 			@ApiResponse(code = 500, message = "Expired or invalid JWT token")})
 	public ResponseEntity<CustomResponseObject> deleteOverviewService(@PathVariable("id") long id){
 		overviewServiceService.deleteOverviewService(id);
-		return new ResponseEntity<CustomResponseObject>(new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Overview success" ), HttpStatus.OK);
+		return new ResponseEntity<>(new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Overview success" ), HttpStatus.OK);
 	}
 
 }

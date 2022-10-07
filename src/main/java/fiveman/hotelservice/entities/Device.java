@@ -30,10 +30,6 @@ public class Device implements Serializable {
     private String brand;
     private String description;
 
-
-
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
-    private Hotel hotel;
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Room.class)
     private Room room;
 }

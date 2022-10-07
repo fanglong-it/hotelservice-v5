@@ -24,6 +24,4 @@ public class CustomerBooking {
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Booking.class)
     private Booking booking;
 
-    private String bookingDate;
-    private String bookingTime;
 }

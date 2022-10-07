@@ -1,7 +1,7 @@
 package fiveman.hotelservice.response;
 
 
-import fiveman.hotelservice.entities.Role;
+import fiveman.hotelservice.entities.AppUserRole;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -17,5 +17,5 @@ public class UserResponse {
     @ApiModelProperty(position = 2)
     private String username;
     @ApiModelProperty(position = 3)
-    private List<Role> roles = new ArrayList<>();
+    private List<AppUserRole> appUserRoles;
 }

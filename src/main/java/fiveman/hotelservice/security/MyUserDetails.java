@@ -26,15 +26,12 @@ public class MyUserDetails implements UserDetailsService {
       throw new UsernameNotFoundException("User '" + username + "' not found");
     }
 
-    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-    appUser.getRoles().forEach(role -> {
-      authorities.add(new SimpleGrantedAuthority(role.getName()));
-    });
+
 
     return org.springframework.security.core.userdetails.User//
         .withUsername(username)//
         .password(appUser.getPassword())//
-        .authorities(authorities)//
+        .authorities(appUser.getAppUserRoles())//
         .accountExpired(false)//
         .accountLocked(false)//
         .credentialsExpired(false)//

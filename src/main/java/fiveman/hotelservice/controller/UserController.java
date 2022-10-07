@@ -60,14 +60,15 @@ public class UserController {
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //
             @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public ResponseEntity<CustomResponseObject> signup(@RequestBody UserRequest user){
+    public ResponseEntity<CustomResponseObject> signup(@RequestBody UserRequest userRequest){
+        User user = modelMapper.map(userRequest, User.class);
     	userService.signup(user);
         return new ResponseEntity<CustomResponseObject>(new CustomResponseObject(Common.ADDING_SUCCESS, "Add user success: " + user.getName()), HttpStatus.OK);
     }
     
 
     @GetMapping(value = "/me")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     @ApiOperation(value = "Get Current User", response = UserResponse.class, authorizations = { @Authorization(value="apiKey") })
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Something went wrong"), //

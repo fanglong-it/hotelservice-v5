@@ -1,12 +1,11 @@
 package fiveman.hotelservice.entities;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.sql.Date;
 
 @Entity
 @AllArgsConstructor
@@ -20,15 +19,16 @@ public class Event {
     @ApiModelProperty(required = true)
     private long id;
 
+    @NotBlank(message = "Name are mandatory")
     private String name;
-    private String title;
-    private String description;
-    private String startTime;
-    private String endTime;
-    private String organizer;
-    private String picture;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Location.class)
-    private Location location;
+    @NotBlank(message = "Name are mandatory")
+    private String description;
+
+    @NonNull
+    private Date dateTime;
+
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
+    private Hotel hotel;
 
 }

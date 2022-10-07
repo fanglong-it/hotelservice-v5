@@ -26,9 +26,7 @@ public class User {
     @ApiModelProperty(required = true)
     private String password;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER,
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private List<Role> roles = new ArrayList<>();
+    @ElementCollection(fetch = FetchType.EAGER)
+    List<AppUserRole> appUserRoles;
 
 }

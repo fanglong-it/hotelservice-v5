@@ -46,22 +46,22 @@ public class HotelserviceApplication {
 //            userService.addRoleToUser("enstent", "ROLE_ADMIN");
 //            userService.addRoleToUser("tesla", "ROLE_SUPER_ADMIN");
 //
-            User admin = new User();
-            admin.setId(1);
-            admin.setUsername("admin");
-            admin.setName("admin@gmail.com");
-            admin.setPassword("admin");
-            admin.setAppUserRoles(new ArrayList<AppUserRole>(Arrays.asList(AppUserRole.ROLE_ADMIN)));
-            userService.signup(admin);
-
-            User user = new User();
-            user.setId(2);
-            user.setUsername("user");
-            user.setName("Client@gmail.com");
-            user.setPassword("user");
-            user.setAppUserRoles(new ArrayList<AppUserRole>(Arrays.asList(AppUserRole.ROLE_USER)));
-            userService.signup(user);
-
+//            User admin = new User();
+//            admin.setId(1);
+//            admin.setUsername("admin");
+//            admin.setName("admin@gmail.com");
+//            admin.setPassword("admin");
+//            admin.setAppUserRoles(new ArrayList<AppUserRole>(Arrays.asList(AppUserRole.ROLE_ADMIN)));
+//            userService.signup(admin);
+//
+//            User user = new User();
+//            user.setId(2);
+//            user.setUsername("user");
+//            user.setName("Client@gmail.com");
+//            user.setPassword("user");
+//            user.setAppUserRoles(new ArrayList<AppUserRole>(Arrays.asList(AppUserRole.ROLE_USER)));
+//            userService.signup(user);
+//
 
         };
     }

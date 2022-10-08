@@ -1,38 +1,26 @@
 package fiveman.hotelservice.entities;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.sql.Date;
-import java.sql.Time;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "event")
-public class Event {
+@Table(name = "promotion")
+public class Promotion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(required = true)
     private long id;
 
-    @NotBlank(message = "Name are mandatory")
     private String name;
-
-    private String ticketInformation;
-    private String address;
     private String description;
+    private String detailInformation;
     private Date startDate;
     private Date endDate;
-    private Time startTime;
-    private Time endTime;
-    private boolean status;
-
-    private int numberOfView;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
     private Hotel hotel;

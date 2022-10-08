@@ -1,10 +1,7 @@
 package fiveman.hotelservice.entities;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -20,6 +17,12 @@ public class RoomType {
     @ApiModelProperty(required = true)
     private long id;
     private String name;
-    private String picture;
     private String description;
+    private int maxOccupancy;
+    private int maxAdult;
+    private int maxChildren;
+    private int defaultOccupancy;
+    @NonNull
+    private boolean isActive;
+
 }

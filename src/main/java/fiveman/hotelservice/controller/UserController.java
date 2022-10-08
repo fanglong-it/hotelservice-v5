@@ -63,7 +63,7 @@ public class UserController {
     public ResponseEntity<CustomResponseObject> signup(@RequestBody UserRequest userRequest){
         User user = modelMapper.map(userRequest, User.class);
     	userService.signup(user);
-        return new ResponseEntity<CustomResponseObject>(new CustomResponseObject(Common.ADDING_SUCCESS, "Add user success: " + user.getName()), HttpStatus.OK);
+        return new ResponseEntity<CustomResponseObject>(new CustomResponseObject(Common.ADDING_SUCCESS, "Add user success: " + user.getLastName()), HttpStatus.OK);
     }
     
 

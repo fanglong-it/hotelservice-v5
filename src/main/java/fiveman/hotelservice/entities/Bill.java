@@ -21,19 +21,13 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(required = true)
     private long id;
-    private String startDate;
-    private String endDate;
-    private int total;
-    private String guestName;
-    private String phoneNumber;
-    private String email;
-    private String billCode;
-    private String paymentMethod;
+    private double totalAmount;
+    private String createDate;
+    private String updateDate;
+    private String createBy;
+    private String lastModifyBy;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Customer.class)
     private Customer customer;
-
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Room.class)
-    private List<Room> rooms = new ArrayList<>();
 
 }

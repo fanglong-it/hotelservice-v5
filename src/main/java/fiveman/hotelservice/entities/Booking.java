@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.List;
 
 @Entity
@@ -34,18 +35,23 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String arrivalDate;
-    private String departureDate;
-    private String actualArrivalDate;
-    private String actualDepartureDate;
-    private int numOfAdults;
+    private int confirmationNo;
+    private Date arrivalDate;
+    private Date actualArrivalDate;
+    private Date departureDate;
+    private Date actualDepartureDate;
+    private int numOfAdult;
     private int numOfChildren;
-    private int totalAmount;
+    private double totalAmount;
+    private String roomPayment;
+    private String specialNote;
+
+    private boolean status;
+
     private String createDate;
     private String updateDate;
     private String createBy;
     private String lastModifyBy;
-    private boolean status;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
     private Hotel hotel;
@@ -56,6 +62,11 @@ public class Booking {
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = Customer.class)
     private List<Customer> customers;
 
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Customer.class)
+    private Customer customer;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Bill bill;
 
 
 }

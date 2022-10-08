@@ -38,25 +38,25 @@ public class RoomTypeServiceImpl implements RoomTypeService {
         throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(HttpStatus.NOT_FOUND.toString(), "Not found RoomType Id = " + id));
     }
 
-    RoomType checkRoomType(RoomType roomType) {
-        if (Utilities.isEmptyString(roomType.getDescription())) {
-            roomType.setDescription(Common.ROOM_TYPE_DESCRIPTION);
-        }
-        if (Utilities.isEmptyString(roomType.getPicture())) {
-            roomType.setPicture(Common.ROOM_TYPE_IMAGE_URL);
-        }
-        if (Utilities.isEmptyString(roomType.getName())) {
-            roomType.setName(Common.ROOM_TYPE_NAME);
-        }
-        return roomType;
-    }
+//    RoomType checkRoomType(RoomType roomType) {
+//        if (Utilities.isEmptyString(roomType.getDescription())) {
+//            roomType.setDescription(Common.ROOM_TYPE_DESCRIPTION);
+//        }
+//        if (Utilities.isEmptyString(roomType.getPicture())) {
+//            roomType.setPicture(Common.ROOM_TYPE_IMAGE_URL);
+//        }
+//        if (Utilities.isEmptyString(roomType.getName())) {
+//            roomType.setName(Common.ROOM_TYPE_NAME);
+//        }
+//        return roomType;
+//    }
 
     @Override
     public RoomType addRoomType(RoomType roomType) {
         log.info("START OF ADD ROOM TYPE");
         if (!roomTypeRepository.existsById(roomType.getId())) {
-            RoomType roomTypeChecked = checkRoomType(roomType);
-            return roomTypeRepository.save(roomTypeChecked);
+//            RoomType roomTypeChecked = checkRoomType(roomType);
+            return roomTypeRepository.save(roomType);
         }
         log.info("ADD ROOM TYPE FAIL");
         throw new AppException(HttpStatus.ALREADY_REPORTED.value(), new CustomResponseObject(HttpStatus.ALREADY_REPORTED.toString(), "The roomType id is Exist = " + roomType.getId()));
@@ -67,15 +67,15 @@ public class RoomTypeServiceImpl implements RoomTypeService {
         log.info("START OF UPDATE ROOM TYPE");
         RoomType oldRoomType = roomTypeRepository.getRoomTypeById(roomType.getId());
         if (oldRoomType != null) {
-            if (Utilities.isEmptyString(roomType.getName())) {
-                roomType.setName(oldRoomType.getName());
-            }
-            if (Utilities.isEmptyString(roomType.getPicture())) {
-                roomType.setPicture(oldRoomType.getPicture());
-            }
-            if (Utilities.isEmptyString(roomType.getDescription())) {
-                roomType.setDescription(oldRoomType.getDescription());
-            }
+//            if (Utilities.isEmptyString(roomType.getName())) {
+//                roomType.setName(oldRoomType.getName());
+//            }
+//            if (Utilities.isEmptyString(roomType.getPicture())) {
+//                roomType.setPicture(oldRoomType.getPicture());
+//            }
+//            if (Utilities.isEmptyString(roomType.getDescription())) {
+//                roomType.setDescription(oldRoomType.getDescription());
+//            }
             roomTypeRepository.save(roomType);
             log.info("END OF UPDATE ROOM TYPE");
             return roomTypeRepository.getRoomTypeById(roomType.getId());

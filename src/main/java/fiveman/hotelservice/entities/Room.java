@@ -1,10 +1,7 @@
 package fiveman.hotelservice.entities;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -20,10 +17,16 @@ public class Room {
     @ApiModelProperty(required = true)
     private long id;
     private String name;
+    private String roomNo;
     private String description;
-    private double price;
-    private boolean status;
 
+    private String createDate;
+    private String updateDate;
+    private String createBy;
+    private String lastModifyBy;
+
+    @NonNull
+    private boolean status;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
     private Hotel hotel;

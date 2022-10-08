@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.sql.Time;
 
 @Entity
 @AllArgsConstructor
@@ -22,9 +23,8 @@ public class Abstraction {
     @NotBlank(message = "Name are mandatory")
     private String name;
 
-    @NotBlank(message = "Abstraction Type are mandatory")
-    private String abstractionType;
-    private int distance;
+    private Time openTime;
+    private Time closeTime;
     private String address;
     private String description;
 

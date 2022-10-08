@@ -2,10 +2,7 @@ package fiveman.hotelservice.entities;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -26,21 +23,22 @@ public class Service {
     private long id;
     @NotBlank(message = "Name are mandatory")
     private String name;
-    @NotBlank(message = "picture are mandatory")
-    private String picture;
+
     @NotBlank(message = "price are mandatory")
     private double price;
+
     @NotBlank(message = "description are mandatory")
     private String description;
 
-    @ApiModelProperty(required = true)
-    private boolean isExternal;
+    @NonNull
+    private boolean status;
 
     private String createDate;
     private String updateDate;
     private String createBy;
-    private String updateBy;
+    private String lastModifyBy;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = ServiceCategory.class)
     private ServiceCategory serviceCategory;
+
 }

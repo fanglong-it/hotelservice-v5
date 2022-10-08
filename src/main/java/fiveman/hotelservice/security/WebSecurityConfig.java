@@ -25,14 +25,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+    //All resource That doesn't need token
     private final String[] permitURL = {
+            "/h2-console/**/**",
+
+            //resource
             "/api/v1/login",
             "/api/v1/signup",
-            "/h2-console/**/**",
             "/api/v1/role/save",
             "/api/v1/picture/**/**",
             "/api/v1/pictures"
+            //end_resource
     };
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

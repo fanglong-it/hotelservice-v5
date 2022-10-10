@@ -21,7 +21,7 @@ public class BillPayment {
     private long id;
 
     private double paymentAmount;
-    private Date dateTime;
+    private String dateTime;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private PaymentMethod paymentMethod;

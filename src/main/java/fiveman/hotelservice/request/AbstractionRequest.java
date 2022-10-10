@@ -1,23 +1,23 @@
-package fiveman.hotelservice.entities;
+package fiveman.hotelservice.request;
 
+import fiveman.hotelservice.entities.Hotel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.sql.Time;
 
-@Entity
+@Data
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "abstraction")
-public class Abstraction {
+public class AbstractionRequest {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(required = true)
     private long id;
 
     @NotBlank(message = "Name are mandatory")
@@ -28,7 +28,6 @@ public class Abstraction {
     private String address;
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
-    private Hotel hotel;
+    private long hotel_Id;
 
 }

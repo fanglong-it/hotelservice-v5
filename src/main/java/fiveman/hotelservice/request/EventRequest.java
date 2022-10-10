@@ -1,22 +1,24 @@
-package fiveman.hotelservice.entities;
+package fiveman.hotelservice.request;
 
+
+import fiveman.hotelservice.entities.Hotel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.sql.Date;
 import java.sql.Time;
 
-@Entity
 @AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Getter
 @Setter
-@Table(name = "event")
-public class Event {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class EventRequest {
+
     @ApiModelProperty(required = true)
     private long id;
 
@@ -34,7 +36,5 @@ public class Event {
 
     private int numberOfView;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
-    private Hotel hotel;
-
+    private long hotel_Id;
 }

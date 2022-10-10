@@ -36,10 +36,10 @@ public class Booking {
     private long id;
 
     private int confirmationNo;
-    private Date arrivalDate;
-    private Date actualArrivalDate;
-    private Date departureDate;
-    private Date actualDepartureDate;
+    private String arrivalDate;
+    private String actualArrivalDate;
+    private String departureDate;
+    private String actualDepartureDate;
     private int numOfAdult;
     private int numOfChildren;
     private double totalAmount;

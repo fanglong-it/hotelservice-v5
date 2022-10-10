@@ -19,7 +19,7 @@ public class RoomPrice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private double price;
-    private Date date;
+    private String date;
     private int maxBookingRoom;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = RoomType.class)

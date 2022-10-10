@@ -34,7 +34,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/api/v1/signup",
             "/api/v1/role/save",
             "/api/v1/picture/**/**",
-            "/api/v1/pictures"
+            "/api/v1/pictures",
+            "/api/v1/events",
+            "/api/v1/event",
+            "/api/v1/abstractions",
+            "/api/v1/abstraction/**/**"
             //end_resource
     };
 

@@ -20,7 +20,7 @@ public class RequestService {
     private long id;
 
     private String requestServiceName;
-    private Date dateTime;
+    private String dateTime;
     private boolean status;
 
     @ManyToOne(fetch = FetchType.EAGER)

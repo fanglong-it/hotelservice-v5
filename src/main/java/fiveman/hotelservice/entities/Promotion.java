@@ -19,8 +19,8 @@ public class Promotion {
     private String name;
     private String description;
     private String detailInformation;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
     private Hotel hotel;

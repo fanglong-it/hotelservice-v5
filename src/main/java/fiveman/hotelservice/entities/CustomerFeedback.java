@@ -26,7 +26,7 @@ public class CustomerFeedback {
     private feedbackContent feedbackContent;
 
     private int rating;
-    private Date dateTime;
+    private String dateTime;
 
 
 }

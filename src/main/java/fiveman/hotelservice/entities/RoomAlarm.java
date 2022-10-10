@@ -18,7 +18,7 @@ public class RoomAlarm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private Date date;
+    private String date;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Booking booking;

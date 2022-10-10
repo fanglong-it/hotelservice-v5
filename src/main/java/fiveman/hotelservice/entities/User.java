@@ -40,7 +40,7 @@ public class User {
     @Max(value = 10, message = "Phone max is 10")
     private String phoneNumber;
 
-    private Date dateOfBirth;
+    private String dateOfBirth;
 
     @ElementCollection(fetch = FetchType.EAGER)
     List<AppUserRole> appUserRoles;

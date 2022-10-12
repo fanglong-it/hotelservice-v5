@@ -1,10 +1,7 @@
 package fiveman.hotelservice.entities;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -33,6 +30,7 @@ public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(required = true)
     private long id;
 
     private int confirmationNo;
@@ -46,6 +44,7 @@ public class Booking {
     private String roomPayment;
     private String specialNote;
 
+    @NonNull
     private boolean status;
 
     private String createDate;
@@ -59,8 +58,6 @@ public class Booking {
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Room.class)
     private Room room;
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Customer.class)
-    private List<Customer> customers;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Customer.class)
     private Customer customer;

@@ -38,7 +38,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/api/v1/events",
             "/api/v1/event",
             "/api/v1/abstractions",
-            "/api/v1/abstraction/**/**"
+            "/api/v1/abstraction/**/**",
+            "/api/v1/bookings",
+            "/api/v1/booking/**/**",
+            "/api/v1/customers",
+            "/api/v1/customer/**/**"
             //end_resource
     };
 

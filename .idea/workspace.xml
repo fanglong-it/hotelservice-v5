@@ -7,6 +7,13 @@
     <list default="true" id="64a37eb9-d5fd-4799-9624-8c5c9f4b2b96" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/BillController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/BillController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/ServiceController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/ServiceController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/Device$DeviceBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/Device$DeviceBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/Device.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/Device.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/BillDetailServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/BillDetailServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RoomServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RoomServiceImpl.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +100,7 @@
       <workItem from="1665553609763" duration="3407000" />
       <workItem from="1665561762084" duration="1501000" />
       <workItem from="1665595017670" duration="625000" />
-      <workItem from="1665659638502" duration="11942000" />
+      <workItem from="1665659638502" duration="14045000" />
     </task>
     <task id="LOCAL-00001" summary="Fetching code from version 2, change Role to Enum">
       <created>1665160824390</created>
@@ -186,7 +193,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665671373788</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="delete application.properties">
+      <created>1665672015602</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1665672015602</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -229,7 +243,8 @@
     <MESSAGE value="Adding API Fix UserRole adding response Entities" />
     <MESSAGE value="Commit api" />
     <MESSAGE value="Create gitignore for project" />
-    <option name="LAST_COMMIT_MESSAGE" value="Create gitignore for project" />
+    <MESSAGE value="delete application.properties" />
+    <option name="LAST_COMMIT_MESSAGE" value="delete application.properties" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>

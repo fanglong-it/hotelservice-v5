@@ -54,13 +54,13 @@ public class HotelserviceApplication {
 //            admin.setAppUserRoles(new ArrayList<AppUserRole>(Arrays.asList(AppUserRole.ROLE_ADMIN, AppUserRole.ROLE_USER)));
 //            userService.signup(admin);
 //
-//            User user = new User();
-//            user.setId(2);
-//            user.setUsername("user");
-//            user.setFirstName("Client@gmail.com");
-//            user.setPassword("user");
-//            user.setAppUserRoles(new ArrayList<AppUserRole>(Arrays.asList(AppUserRole.ROLE_USER)));
-//            userService.signup(user);
+            User user = new User();
+            user.setId(2);
+            user.setUsername("user");
+            user.setFirstName("Client@gmail.com");
+            user.setPassword("user");
+            user.setAppUserRoles(new ArrayList<AppUserRole>(Arrays.asList(AppUserRole.ROLE_USER)));
+            userService.signup(user);
 
 
         };

@@ -2,15 +2,23 @@ package fiveman.hotelservice.controller;
 
 
 import fiveman.hotelservice.entities.Device;
+import fiveman.hotelservice.request.DeviceRequest;
+import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.DeviceService;
 import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+
+import javax.validation.Valid;
 
 @RestController
 @Api(tags = "device")
@@ -21,9 +29,14 @@ public class DeviceController {
     @Autowired
     private DeviceService deviceService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+    
+
     @GetMapping("/devices")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     public ResponseEntity<List<Device>> getDevices(){
-    	return new ResponseEntity<List<Device>>(deviceService.getDevices(), HttpStatus.OK);	
+    	 return new ResponseEntity<>(deviceService.getDevices(), HttpStatus.OK);
     }
 
     @GetMapping("/device/{id}")
@@ -32,16 +45,22 @@ public class DeviceController {
     }
 
     @PostMapping("/device")
-    public ResponseEntity<Device> insertDevice(@RequestBody Device device){
-    	boolean result = deviceService.addDevice(device);
-    	if(!result) {
-    		return null;
-    	}
-    	return new ResponseEntity<Device>(device, HttpStatus.OK);
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    public ResponseEntity<CustomResponseObject> saveDevice(@RequestBody @Valid DeviceRequest request){
+    	Device device = modelMapper.map(request, Device.class);
+        return new ResponseEntity<>(deviceService.saveDevice(device), HttpStatus.OK);
+    }
+    
+    @PutMapping("/device")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    public ResponseEntity<CustomResponseObject> updateDevice(@RequestBody @Valid DeviceRequest request){
+    	Device device = modelMapper.map(request, Device.class);
+        return new ResponseEntity<>(deviceService.updateDevice(device), HttpStatus.OK);
     }
 
     @DeleteMapping("/device/{id}")
-    public Boolean deleteDevice(@PathVariable("id") long id){
-        return deviceService.deleteDevice(id);
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<CustomResponseObject> deleteDevice(@PathVariable long id){
+        return new ResponseEntity<>(deviceService.deleteDevice(id), HttpStatus.OK);
     }
 }

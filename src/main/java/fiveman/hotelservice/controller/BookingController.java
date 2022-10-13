@@ -23,13 +23,13 @@ public class BookingController {
     BookingService bookingService;
 
     @GetMapping("/booking/{id}")
-    @PreAuthorize("isAnonymous() or hasRole('ROLE_USER')")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<Booking> getBookingById(@PathVariable("id") long id) {
         return new ResponseEntity<>(bookingService.getBookingById(id), HttpStatus.OK);
     }
 
     @GetMapping("/booking")
-    @PreAuthorize("isAnonymous() or hasRole('ROLE_USER')")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<List<Booking>> getAllBooking() {
         return new ResponseEntity<>(bookingService.getAllBooking(), HttpStatus.OK);
     }
@@ -38,21 +38,21 @@ public class BookingController {
     ModelMapper modelMapper;
 
     @PostMapping("/booking")
-    @PreAuthorize("isAnonymous() or hasRole('ROLE_USER')")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<CustomResponseObject> saveBooking(@RequestBody BookingRequest bookingRequest) {
         Booking booking = modelMapper.map(bookingRequest, Booking.class);
         return new ResponseEntity<>(bookingService.saveBooking(booking), HttpStatus.OK);
     }
 
     @PutMapping("/booking")
-    @PreAuthorize("isAnonymous() or hasRole('ROLE_USER')")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<CustomResponseObject> updateBooking(@RequestBody BookingRequest bookingRequest) {
         Booking booking = modelMapper.map(bookingRequest, Booking.class);
         return new ResponseEntity<>(bookingService.updateBooking(booking), HttpStatus.OK);
     }
 
     @DeleteMapping("/booking/{id}")
-    @PreAuthorize("isAnonymous() or hasRole('ROLE_USER')")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<CustomResponseObject> deleteBooking(@PathVariable("id") long id) {
         return new ResponseEntity<>(bookingService.deleteBooking(id), HttpStatus.OK);
     }

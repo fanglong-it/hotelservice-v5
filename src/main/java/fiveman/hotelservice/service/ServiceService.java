@@ -7,6 +7,9 @@ import fiveman.hotelservice.response.CustomResponseObject;
 
 public interface ServiceService {
     List<Service> getAllServices();
+
+    List<Service> getAllServicesByServiceCategory(long id);
+
     CustomResponseObject saveServices(Service service);
     Service getServiceById(Long id);
     CustomResponseObject updateService(Service service);

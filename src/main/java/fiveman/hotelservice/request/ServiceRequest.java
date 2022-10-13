@@ -15,36 +15,27 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class ServiceRequest {
 
-    @ApiModelProperty(required = true, position = 0)
+    @ApiModelProperty(required = true)
     private long id;
 
-    @ApiModelProperty(required = true, position = 1)
+    @ApiModelProperty(required = true)
     @NotBlank(message = "Name are mandatory")
     private String name;
 
-    @ApiModelProperty(position = 2)
-    @NotBlank(message = "picture are mandatory")
-    private String picture;
 
-    @ApiModelProperty(position = 3)
+    @ApiModelProperty(required = true)
     @NotBlank(message = "price are mandatory")
     private double price;
 
-    @ApiModelProperty(position = 4)
     @NotBlank(message = "description are mandatory")
     private String description;
-
-//    @ApiModelProperty(position = 5)
-    @NonNull
-    private Boolean isExternal;
-
 
     private String createDate;
     private String updateDate;
     private String createBy;
     private String updateBy;
 
-    @ApiModelProperty(required = true, position = 10)
+    @ApiModelProperty(required = true)
     private long serviceCategory_Id;
 
 }

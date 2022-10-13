@@ -21,14 +21,32 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
     ServiceCategoryRepository serviceCategoryRepository;
 
     @Override
+    public CustomResponseObject updateServiceCategory(ServiceCategory serviceCategory) {
+        if (!serviceCategoryRepository.existsById(serviceCategory.getId())) {
+            return new CustomResponseObject(Common.UPDATE_FAIL, "Update fail!");
+        }
+        serviceCategoryRepository.save(serviceCategory);
+        return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success!");
+    }
+
+    @Override
+    public CustomResponseObject deleteServiceCategory(long id) {
+        if (!serviceCategoryRepository.existsById(id)) {
+            return new CustomResponseObject(Common.DELETE_FAIL, "Delete fail!");
+        }
+        serviceCategoryRepository.deleteById(id);
+        return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Success!");
+    }
+
+    @Override
     public ServiceCategory getServiceCategoryById(Long id) {
-      log.info("START GETTING SERVICE_CATEGORY");
+        log.info("START GETTING SERVICE_CATEGORY");
         return serviceCategoryRepository.getServiceCategoryById(id);
     }
 
     @Override
     public CustomResponseObject saveServiceCategory(ServiceCategory serviceCategory) {
-        if(!serviceCategoryRepository.existsById(serviceCategory.getId())){
+        if (!serviceCategoryRepository.existsById(serviceCategory.getId())) {
             log.info("START SAVING SERVICE_CATEGORY");
             serviceCategoryRepository.save(serviceCategory);
             return new CustomResponseObject(Common.ADDING_SUCCESS, "Create Success");

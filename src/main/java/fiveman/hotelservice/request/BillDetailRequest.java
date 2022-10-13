@@ -3,10 +3,7 @@ package fiveman.hotelservice.request;
 import fiveman.hotelservice.entities.Bill;
 import fiveman.hotelservice.entities.Service;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -24,9 +21,16 @@ public class BillDetailRequest {
     @ApiModelProperty(required = true)
     private long bill_Id;
 
+    @ApiModelProperty(required = true)
     private int quantity;
+
+    @ApiModelProperty(required = true)
     private double price;
+
+    @ApiModelProperty(required = true)
     private double amount;
-    private int Status;
+
+    @ApiModelProperty(required = true)
+    private int status;
 
 }

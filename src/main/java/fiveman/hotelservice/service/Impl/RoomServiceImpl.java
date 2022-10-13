@@ -1,0 +1,106 @@
+package fiveman.hotelservice.service.Impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import fiveman.hotelservice.response.RoomResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import fiveman.hotelservice.entities.Room;
+import fiveman.hotelservice.exception.AppException;
+import fiveman.hotelservice.repository.RoomRepository;
+import fiveman.hotelservice.response.CustomResponseObject;
+import fiveman.hotelservice.service.RoomService;
+import fiveman.hotelservice.utils.Common;
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+@Slf4j
+public class RoomServiceImpl implements RoomService {
+
+	@Autowired
+	RoomRepository roomRepository;
+
+//	private long id;
+//	private String name;
+//	private String roomNo;
+//	private String description;
+//	private String createDate;
+//	private String updateDate;
+//	private String createBy;
+//	private String lastModifyBy;
+//	private long hotel_Id;
+//	private long roomType_Id;
+
+
+	RoomResponse mapRoomToResponse(Room room) {
+		RoomResponse roomResponse = new RoomResponse();
+		roomResponse.setId(room.getId());
+		roomResponse.setName(room.getName());
+		roomResponse.setRoomNo(room.getRoomNo());
+		roomResponse.setDescription(room.getDescription());
+		roomResponse.setCreateDate(room.getCreateDate());
+		roomResponse.setUpdateDate(room.getUpdateDate());
+		roomResponse.setCreateBy(room.getCreateBy());
+		roomResponse.setLastModifyBy(room.getLastModifyBy());
+		roomResponse.setHotel_Id(room.getHotel().getId());
+		roomResponse.setRoomType_Id(room.getRoomType().getId());
+		return roomResponse;
+	}
+
+	@Override
+	public List<RoomResponse> getRooms() {
+		log.info("GET ALL ROOMS");
+		List<RoomResponse> roomResponses = new ArrayList<>();
+		List<Room> rooms = roomRepository.findAll();
+		for (Room r : rooms) {
+			roomResponses.add(mapRoomToResponse(r));
+		}
+		return roomResponses;
+	}
+
+	@Override
+	public RoomResponse getRoom(long id) {
+		log.info("START GET ROOM BY ID");
+		if (!roomRepository.existsById(id)) {
+			throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.GET_FAIL, "Cant found ID =" + id));
+		}
+		log.info("END GET ROOM BY ID");
+		return mapRoomToResponse(roomRepository.getRoomById(id));
+	}
+
+	@Override
+	public CustomResponseObject saveRoom(Room room) {
+		log.info("START SAVE ROOM");
+		if (roomRepository.existsById(room.getId())) {
+			throw new AppException(HttpStatus.ALREADY_REPORTED.value(), new CustomResponseObject(Common.ADDING_FAIL, "Exist id =" + room.getId()));
+		}
+		roomRepository.save(room);
+		log.info("END SAVE ROOM");
+		return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding Room Success!");
+	}
+
+	@Override
+	public CustomResponseObject updateRoom(Room room) {
+		log.info("START UPDATE ROOM");
+		if (roomRepository.existsById(room.getId())) {
+			roomRepository.save(room);
+			log.info("END UPDATE ROOM");
+			return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update success!");
+		}
+		throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.UPDATE_FAIL, "Not found id = " + room.getId()));
+	}
+
+	@Override
+	public CustomResponseObject deleteRoom(long id) {
+		if (roomRepository.existsById(id)) {
+			log.info("DELETE ROOM");
+			roomRepository.deleteById(id);
+			return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete success!");
+		}
+		throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.DELETE_FAIL, "Not found id = " + id));
+	}
+
+}

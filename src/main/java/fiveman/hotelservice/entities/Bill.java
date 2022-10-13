@@ -1,10 +1,7 @@
 package fiveman.hotelservice.entities;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,13 +18,11 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(required = true)
     private long id;
+    @NonNull
     private double totalAmount;
     private String createDate;
     private String updateDate;
     private String createBy;
     private String lastModifyBy;
-
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Customer.class)
-    private Customer customer;
 
 }

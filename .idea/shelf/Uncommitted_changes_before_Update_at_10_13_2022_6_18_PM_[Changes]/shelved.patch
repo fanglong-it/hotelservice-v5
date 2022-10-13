@@ -1,0 +1,466 @@
+Index: src/main/java/fiveman/hotelservice/service/UserService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package fiveman.hotelservice.service;\r\n\r\nimport fiveman.hotelservice.entities.User;\r\nimport fiveman.hotelservice.request.UserRequest;\r\nimport fiveman.hotelservice.response.UserResponse;\r\n\r\nimport javax.servlet.http.HttpServletRequest;\r\nimport java.util.List;\r\n\r\npublic interface UserService {\r\n    User saveUser(User user);\r\n//    Role saveRole(Role role);\r\n    String addRoleToUser(String username, String roleName);\r\n    String setRoleAdmin(String userName, String roleName);\r\n    User getUser(String username);\r\n    List<UserResponse> getUsers();\r\n    String signin(String username, String password);\r\n    User signup(User user);\r\n    User whoami(HttpServletRequest request);\r\n    String refresh(String username);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/fiveman/hotelservice/service/UserService.java b/src/main/java/fiveman/hotelservice/service/UserService.java
+--- a/src/main/java/fiveman/hotelservice/service/UserService.java	(revision 1b68b8f880d03613f654480896e4514be4507f9b)
++++ b/src/main/java/fiveman/hotelservice/service/UserService.java	(date 1665562436555)
+@@ -10,12 +10,12 @@
+ public interface UserService {
+     User saveUser(User user);
+ //    Role saveRole(Role role);
+-    String addRoleToUser(String username, String roleName);
+-    String setRoleAdmin(String userName, String roleName);
+-    User getUser(String username);
++//    String addRoleToUser(String username, String roleName);
++//    String setRoleAdmin(String userName, String roleName);
++//    User getUser(String username);
+     List<UserResponse> getUsers();
+     String signin(String username, String password);
+     User signup(User user);
+-    User whoami(HttpServletRequest request);
++    UserResponse whoami(HttpServletRequest request);
+     String refresh(String username);
+ }
+Index: src/main/java/fiveman/hotelservice/security/MyUserDetails.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package fiveman.hotelservice.security;\r\n\r\nimport fiveman.hotelservice.entities.User;\r\nimport fiveman.hotelservice.repository.UserRepository;\r\nimport lombok.RequiredArgsConstructor;\r\nimport org.springframework.security.core.authority.SimpleGrantedAuthority;\r\nimport org.springframework.security.core.userdetails.UserDetails;\r\nimport org.springframework.security.core.userdetails.UserDetailsService;\r\nimport org.springframework.security.core.userdetails.UsernameNotFoundException;\r\nimport org.springframework.stereotype.Service;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.Collection;\r\n\r\n@Service\r\n@RequiredArgsConstructor\r\npublic class MyUserDetails implements UserDetailsService {\r\n\r\n  private final UserRepository userRepository;\r\n\r\n  @Override\r\n  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {\r\n    final User appUser = userRepository.findUserByUsername(username);\r\n\r\n    if (appUser == null) {\r\n      throw new UsernameNotFoundException(\"User '\" + username + \"' not found\");\r\n    }\r\n\r\n\r\n\r\n    return org.springframework.security.core.userdetails.User//\r\n        .withUsername(username)//\r\n        .password(appUser.getPassword())//\r\n        .authorities(appUser.getAppUserRoles())//\r\n        .accountExpired(false)//\r\n        .accountLocked(false)//\r\n        .credentialsExpired(false)//\r\n        .disabled(false)//\r\n        .build();\r\n  }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/fiveman/hotelservice/security/MyUserDetails.java b/src/main/java/fiveman/hotelservice/security/MyUserDetails.java
+--- a/src/main/java/fiveman/hotelservice/security/MyUserDetails.java	(revision 1b68b8f880d03613f654480896e4514be4507f9b)
++++ b/src/main/java/fiveman/hotelservice/security/MyUserDetails.java	(date 1665554829468)
+@@ -31,7 +31,7 @@
+     return org.springframework.security.core.userdetails.User//
+         .withUsername(username)//
+         .password(appUser.getPassword())//
+-        .authorities(appUser.getAppUserRoles())//
++        .authorities(appUser.getUserRole())//
+         .accountExpired(false)//
+         .accountLocked(false)//
+         .credentialsExpired(false)//
+Index: src/main/java/fiveman/hotelservice/response/UserResponse.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package fiveman.hotelservice.response;\r\n\r\n\r\nimport fiveman.hotelservice.entities.AppUserRole;\r\nimport io.swagger.annotations.ApiModelProperty;\r\nimport lombok.Data;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\n@Data\r\npublic class UserResponse {\r\n    @ApiModelProperty(position = 0)\r\n    private Long id;\r\n    @ApiModelProperty(position = 1)\r\n    private String name;\r\n    @ApiModelProperty(position = 2)\r\n    private String username;\r\n    @ApiModelProperty(position = 3)\r\n    private List<AppUserRole> appUserRoles;\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/fiveman/hotelservice/response/UserResponse.java b/src/main/java/fiveman/hotelservice/response/UserResponse.java
+--- a/src/main/java/fiveman/hotelservice/response/UserResponse.java	(revision 1b68b8f880d03613f654480896e4514be4507f9b)
++++ b/src/main/java/fiveman/hotelservice/response/UserResponse.java	(date 1665562436547)
+@@ -1,21 +1,34 @@
+ package fiveman.hotelservice.response;
+ 
+ 
+-import fiveman.hotelservice.entities.AppUserRole;
++import fiveman.hotelservice.entities.Hotel;
++import fiveman.hotelservice.entities.UserRole;
+ import io.swagger.annotations.ApiModelProperty;
+-import lombok.Data;
++import lombok.*;
+ 
+-import java.util.ArrayList;
++import javax.persistence.*;
++import javax.validation.constraints.Max;
++import javax.validation.constraints.Min;
+ import java.util.List;
+ 
+ @Data
++@AllArgsConstructor
++@NoArgsConstructor
++@Getter
++@Setter
+ public class UserResponse {
+-    @ApiModelProperty(position = 0)
+-    private Long id;
+-    @ApiModelProperty(position = 1)
+-    private String name;
+-    @ApiModelProperty(position = 2)
++
++    private long id;
+     private String username;
+-    @ApiModelProperty(position = 3)
+-    private List<AppUserRole> appUserRoles;
++    private String password;
++    private String firstName;
++    private String middleName;
++    private String lastName;
++    private boolean gender;
++    private String phoneNumber;
++    private String dateOfBirth;
++    private String userRole;
++    private boolean isActive;
++    private long hotel_Id;
++
+ }
+Index: src/main/java/fiveman/hotelservice/service/Impl/UserServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package fiveman.hotelservice.service.Impl;\r\n\r\nimport fiveman.hotelservice.entities.User;\r\nimport fiveman.hotelservice.exception.AppException;\r\nimport fiveman.hotelservice.repository.UserRepository;\r\nimport fiveman.hotelservice.request.UserRequest;\r\nimport fiveman.hotelservice.response.CustomResponseObject;\r\nimport fiveman.hotelservice.response.UserResponse;\r\nimport fiveman.hotelservice.security.JwtTokenProvider;\r\nimport fiveman.hotelservice.service.UserService;\r\nimport fiveman.hotelservice.utils.Common;\r\nimport lombok.RequiredArgsConstructor;\r\nimport org.modelmapper.ModelMapper;\r\nimport org.slf4j.Logger;\r\nimport org.slf4j.LoggerFactory;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.http.HttpStatus;\r\nimport org.springframework.security.authentication.AuthenticationManager;\r\nimport org.springframework.security.authentication.UsernamePasswordAuthenticationToken;\r\nimport org.springframework.security.core.AuthenticationException;\r\nimport org.springframework.security.core.authority.SimpleGrantedAuthority;\r\nimport org.springframework.security.crypto.password.PasswordEncoder;\r\nimport org.springframework.stereotype.Service;\r\n\r\nimport javax.servlet.http.HttpServletRequest;\r\nimport java.util.ArrayList;\r\nimport java.util.Collection;\r\nimport java.util.List;\r\n\r\n@Service\r\n@RequiredArgsConstructor\r\npublic class UserServiceImpl implements UserService {\r\n\r\n    Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);\r\n\r\n    @Autowired\r\n    PasswordEncoder passwordEncoder;\r\n    @Autowired\r\n    UserRepository userRepository;\r\n\r\n    @Autowired\r\n    JwtTokenProvider jwtTokenProvider;\r\n    @Autowired\r\n    AuthenticationManager authenticationManager;\r\n    @Autowired\r\n    ModelMapper modelMapper;\r\n\r\n    @Override\r\n    public User saveUser(User user) {\r\n//        List<Role> roles = new ArrayList<>();\r\n//        roles.add(roleRepository.findRoleByName(Common.USER));\r\n        user.setPassword(passwordEncoder.encode(user.getPassword()));\r\n        return userRepository.save(user);\r\n    }\r\n\r\n//    @Override\r\n//    public Role saveRole(Role role) {\r\n//        logger.info(\"START TO ADD ROLE\");\r\n//        roleRepository.save(role);\r\n//        return roleRepository.findRoleByName(role.getName());\r\n//    }\r\n\r\n\t@Override\r\n\tpublic String addRoleToUser(String username, String roleName) {\r\n\t\treturn null;\r\n\t}\r\n\r\n//\t@Override\r\n//\tpublic String addRoleToUser(String username, String roleName) {\r\n//\t\tlogger.info(\"START ADD ROLE TO USER\");\r\n//\t\tif (userRepository.existsByUsername(username) || !roleName.equals(Common.ADMIN)) {\r\n//\t\t\tUser user = userRepository.findUserByUsername(username);\r\n//\t\t\tRole role = roleRepository.findRoleByName(roleName);\r\n//\t\t\tList<Role> roles = user.getRoles();\r\n//\t\t\troles.add(role);\r\n//\t\t\tuser.setRoles(roles);\r\n//\t\t\tuserRepository.save(user);\r\n//\t\t} else {\r\n//\t\t\tthrow new AppException(HttpStatus.NOT_FOUND.value(),\r\n//\t\t\t\t\tnew CustomResponseObject(Common.GET_FAIL, \"UserName has already existed\"));\r\n//\t\t}\r\n//\r\n//\t\tlogger.info(\"END ADD ROLE TO USER\");\r\n//\t\treturn username;\r\n//\t}\r\n\r\n    @Override\r\n    public User getUser(String username) {\r\n        logger.info(\"START GET USER BY USER NAME\");\r\n        return userRepository.findUserByUsername(username);\r\n    }\r\n\r\n    @Override\r\n    public List<UserResponse> getUsers() {\r\n        logger.info(\"START GET ALL USER\");\r\n        List<User> users = userRepository.findAll();\r\n        List<UserResponse> userResponses = new ArrayList<>();\r\n        for (int i = 0; i < users.size(); i++) {\r\n            UserResponse userResponse = modelMapper.map(users.get(i), UserResponse.class);\r\n            userResponses.add(userResponse);\r\n        }\r\n\r\n        logger.info(\"END GET ALL USER\");\r\n        return userResponses;\r\n    }\r\n\r\n    @Override\r\n    public User whoami(HttpServletRequest request) {\r\n        return userRepository.findUserByUsername(jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(request)));\r\n    }\r\n\r\n    public String signin(String username, String password) {\r\n        logger.info(\"START CHECK SIGN IN\");\r\n        try {\r\n            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));\r\n            User user = userRepository.findUserByUsername(username);\r\n            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();\r\n\r\n\r\n            logger.info(\"END CHECK SIGN IN\");\r\n            return jwtTokenProvider.createToken(username, user.getAppUserRoles());\r\n        } catch (AuthenticationException e) {\r\n            throw new AppException(HttpStatus.NOT_FOUND.value(),\r\n                    new CustomResponseObject(Common.GET_FAIL, \"INVALID USER NAME OR PASSWORD\"));\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public User signup(User user) {\r\n        logger.info(\"START CHECK REGISTRATION\");\r\n        if (userRepository.existsByUsername(user.getUsername())) {\r\n\t\t\tthrow new AppException(HttpStatus.UNPROCESSABLE_ENTITY.value(),\r\n\t\t\t\t\tnew CustomResponseObject(Common.ADDING_FAIL, \"Username is already in use\"));\r\n\t\t}\r\n            user.setPassword(passwordEncoder.encode(user.getPassword()));\r\n            user.setUsername(user.getUsername());\r\n            userRepository.save(user);\r\n\r\n            logger.info(\"END CHECK REGISTRATION\");\r\n            return user;\r\n        }\r\n\r\n        @Override\r\n        public String refresh (String username){\r\n            User user = userRepository.findUserByUsername(username);\r\n            return jwtTokenProvider.createToken(username, user.getAppUserRoles());\r\n        }\r\n\r\n//        public static User MapUserRequestToUser (UserRequest user){\r\n//            return new User(0, user.getName(), user.getUserName(), user.getPassword(), null);\r\n//        }\r\n\r\n        @Override\r\n        public String setRoleAdmin (String userName, String roleName){\r\n            logger.info(\"START SET ROLE ADMIN FOR ACCOUNT \");\r\n            if (userRepository.existsByUsername(userName) && roleName.equals(Common.ADMIN)) {\r\n                User user = userRepository.findUserByUsername(userName);\r\n//                Role role = roleRepository.findRoleByName(userName);\r\n//                List<Role> roles = user.getRoles();\r\n//                roles.add(role);\r\n//                user.setRoles(roles);\r\n                userRepository.save(user);\r\n            } else {\r\n                throw new AppException(HttpStatus.NOT_FOUND.value(),\r\n                        new CustomResponseObject(Common.GET_FAIL, \"NOT Found UserName\"));\r\n            }\r\n\r\n            logger.info(\"END SET ROLE ADMIN FOR ACCOUNT \");\r\n\r\n            return userName;\r\n        }\r\n    }\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/fiveman/hotelservice/service/Impl/UserServiceImpl.java b/src/main/java/fiveman/hotelservice/service/Impl/UserServiceImpl.java
+--- a/src/main/java/fiveman/hotelservice/service/Impl/UserServiceImpl.java	(revision 1b68b8f880d03613f654480896e4514be4507f9b)
++++ b/src/main/java/fiveman/hotelservice/service/Impl/UserServiceImpl.java	(date 1665562825946)
+@@ -1,6 +1,7 @@
+ package fiveman.hotelservice.service.Impl;
+ 
+ import fiveman.hotelservice.entities.User;
++import fiveman.hotelservice.entities.UserRole;
+ import fiveman.hotelservice.exception.AppException;
+ import fiveman.hotelservice.repository.UserRepository;
+ import fiveman.hotelservice.request.UserRequest;
+@@ -26,6 +27,7 @@
+ import java.util.ArrayList;
+ import java.util.Collection;
+ import java.util.List;
++import java.util.stream.Collectors;
+ 
+ @Service
+ @RequiredArgsConstructor
+@@ -60,10 +62,10 @@
+ //        return roleRepository.findRoleByName(role.getName());
+ //    }
+ 
+-	@Override
+-	public String addRoleToUser(String username, String roleName) {
+-		return null;
+-	}
++//	@Override
++//	public String addRoleToUser(String username, String roleName) {
++//		return null;
++//	}
+ 
+ //	@Override
+ //	public String addRoleToUser(String username, String roleName) {
+@@ -84,11 +86,11 @@
+ //		return username;
+ //	}
+ 
+-    @Override
+-    public User getUser(String username) {
+-        logger.info("START GET USER BY USER NAME");
+-        return userRepository.findUserByUsername(username);
+-    }
++//    @Override
++//    public User getUser(String username) {
++//        logger.info("START GET USER BY USER NAME");
++//        return userRepository.findUserByUsername(username);
++//    }
+ 
+     @Override
+     public List<UserResponse> getUsers() {
+@@ -104,9 +106,30 @@
+         return userResponses;
+     }
+ 
++
++public UserResponse mapUserToUserResponse(User user){
++    UserResponse userResponse = new UserResponse();
++    userResponse.setId(user.getId());
++    userResponse.setUsername(user.getUsername());
++    userResponse.setPassword(user.getPassword());
++    userResponse.setFirstName(user.getFirstName());
++    userResponse.setMiddleName(user.getMiddleName());
++    userResponse.setLastName(user.getLastName());
++    userResponse.setGender(user.isGender());
++    userResponse.setPhoneNumber(user.getPhoneNumber());
++    userResponse.setDateOfBirth(user.getDateOfBirth());
++    userResponse.setActive(user.isActive());
++    userResponse.setUserRole(user.getUserRole().toString());
++    userResponse.setHotel_Id(user.getHotel().getId());
++    return userResponse;
++}
++
+     @Override
+-    public User whoami(HttpServletRequest request) {
+-        return userRepository.findUserByUsername(jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(request)));
++    public UserResponse whoami(HttpServletRequest request) {
++        String username = jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(request));
++        User user = userRepository.findUserByUsername(username);
++        UserResponse userResponse = mapUserToUserResponse(user);
++        return userResponse;
+     }
+ 
+     public String signin(String username, String password) {
+@@ -118,7 +141,9 @@
+ 
+ 
+             logger.info("END CHECK SIGN IN");
+-            return jwtTokenProvider.createToken(username, user.getAppUserRoles());
++            List<UserRole> userRoles = new ArrayList<>();
++            userRoles.add(user.getUserRole());
++            return jwtTokenProvider.createToken(username, userRoles);
+         } catch (AuthenticationException e) {
+             throw new AppException(HttpStatus.NOT_FOUND.value(),
+                     new CustomResponseObject(Common.GET_FAIL, "INVALID USER NAME OR PASSWORD"));
+@@ -143,30 +168,32 @@
+         @Override
+         public String refresh (String username){
+             User user = userRepository.findUserByUsername(username);
+-            return jwtTokenProvider.createToken(username, user.getAppUserRoles());
++            List<UserRole> userRoles = new ArrayList<>();
++            userRoles.add(user.getUserRole());
++            return jwtTokenProvider.createToken(username, userRoles);
+         }
+ 
+ //        public static User MapUserRequestToUser (UserRequest user){
+ //            return new User(0, user.getName(), user.getUserName(), user.getPassword(), null);
+ //        }
+ 
+-        @Override
+-        public String setRoleAdmin (String userName, String roleName){
+-            logger.info("START SET ROLE ADMIN FOR ACCOUNT ");
+-            if (userRepository.existsByUsername(userName) && roleName.equals(Common.ADMIN)) {
+-                User user = userRepository.findUserByUsername(userName);
+-//                Role role = roleRepository.findRoleByName(userName);
+-//                List<Role> roles = user.getRoles();
+-//                roles.add(role);
+-//                user.setRoles(roles);
+-                userRepository.save(user);
+-            } else {
+-                throw new AppException(HttpStatus.NOT_FOUND.value(),
+-                        new CustomResponseObject(Common.GET_FAIL, "NOT Found UserName"));
+-            }
+-
+-            logger.info("END SET ROLE ADMIN FOR ACCOUNT ");
+-
+-            return userName;
+-        }
++//        @Override
++//        public String setRoleAdmin (String userName, String roleName){
++//            logger.info("START SET ROLE ADMIN FOR ACCOUNT ");
++//            if (userRepository.existsByUsername(userName) && roleName.equals(Common.ADMIN)) {
++//                User user = userRepository.findUserByUsername(userName);
++////                Role role = roleRepository.findRoleByName(userName);
++////                List<Role> roles = user.getRoles();
++////                roles.add(role);
++////                user.setRoles(roles);
++//                userRepository.save(user);
++//            } else {
++//                throw new AppException(HttpStatus.NOT_FOUND.value(),
++//                        new CustomResponseObject(Common.GET_FAIL, "NOT Found UserName"));
++//            }
++//
++//            logger.info("END SET ROLE ADMIN FOR ACCOUNT ");
++//
++//            return userName;
++//        }
+     }
+Index: src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># Remote Database\r\n#spring.datasource.url=jdbc:mysql://aws-simplified.cklet7vbtiwj.ap-northeast-1.rds.amazonaws.com:3306/hotel_service_v2\r\n#spring.datasource.username=admin\r\n#spring.datasource.password=12345678\r\n# Local Database\r\nspring.datasource.url=jdbc:mysql://localhost:3306/hotel_service_v5\r\nspring.datasource.username=root\r\nspring.datasource.password=123456\r\nspring.jpa.show-sql=true\r\nspring.jpa.properties.hibernate.format_sql=true\r\nspring.jpa.database=mysql\r\nlogging.level.io.swagger.models.parameters.AbstractSerializableParameter=error\r\nspring.jpa.hibernate.ddl-auto=update\r\nspring.mvc.pathmatch.matching-strategy=ant_path_matcher\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/src/main/resources/application.properties b/src/main/resources/application.properties
+--- a/src/main/resources/application.properties	(revision 1b68b8f880d03613f654480896e4514be4507f9b)
++++ b/src/main/resources/application.properties	(date 1665556091260)
+@@ -6,6 +6,7 @@
+ spring.datasource.url=jdbc:mysql://localhost:3306/hotel_service_v5
+ spring.datasource.username=root
+ spring.datasource.password=123456
++
+ spring.jpa.show-sql=true
+ spring.jpa.properties.hibernate.format_sql=true
+ spring.jpa.database=mysql
+Index: src/main/java/fiveman/hotelservice/controller/UserController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package fiveman.hotelservice.controller;\r\n\r\n\r\nimport fiveman.hotelservice.entities.User;\r\nimport fiveman.hotelservice.request.UserRequest;\r\nimport fiveman.hotelservice.response.CustomResponseObject;\r\nimport fiveman.hotelservice.response.UserResponse;\r\nimport fiveman.hotelservice.service.UserService;\r\nimport fiveman.hotelservice.utils.Common;\r\nimport io.swagger.annotations.*;\r\nimport org.modelmapper.ModelMapper;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.http.HttpStatus;\r\nimport org.springframework.http.ResponseEntity;\r\nimport org.springframework.security.access.prepost.PreAuthorize;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\n\r\nimport javax.servlet.http.HttpServletRequest;\r\nimport java.util.*;\r\n\r\n\r\n@RestController\r\n@Api(tags = \"User\")\r\n@RequestMapping(\"/api/v1\")\r\npublic class UserController {\r\n\t\r\n    @Autowired\r\n    private UserService userService;\r\n    \r\n    @Autowired\r\n    ModelMapper modelMapper;\r\n\r\n    @GetMapping(\"/users\")\r\n    @PreAuthorize(\"hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')\")\r\n    @ApiResponses(value = {//\r\n            @ApiResponse(code = 400, message = \"Something went wrong\"), //\r\n            @ApiResponse(code = 403, message = \"Access denied\"), //\r\n            @ApiResponse(code = 500, message = \"Expired or invalid JWT token\")})\r\n    @ApiOperation(value = \"GetAllUser\", response = User.class, authorizations = { @Authorization(value=\"apiKey\") })\r\n    public ResponseEntity<List<UserResponse>> getUsers(){\r\n        return ResponseEntity.ok().body(userService.getUsers());\r\n    }\r\n\r\n\r\n    @PostMapping(\"/login\")\r\n    @ApiOperation(value = \"Login\")\r\n    @ApiResponses(value = {//\r\n            @ApiResponse(code = 400, message = \"Something went wrong\"), //\r\n            @ApiResponse(code = 422, message = \"Invalid username/password supplied\")})\r\n    public String login(//\r\n                        @ApiParam(\"Username\") @RequestParam String username, //\r\n                        @ApiParam(\"Password\") @RequestParam String password) {\r\n        return userService.signin(username, password);\r\n    }\r\n\r\n    @PostMapping(\"/signup\")\r\n    @ApiOperation( value = \"Registration\")\r\n    @ApiResponses(value = {//\r\n            @ApiResponse(code = 400, message = \"Something went wrong\"), //\r\n            @ApiResponse(code = 403, message = \"Access denied\"), //\r\n            @ApiResponse(code = 500, message = \"Expired or invalid JWT token\")})\r\n    public ResponseEntity<CustomResponseObject> signup(@RequestBody UserRequest userRequest){\r\n        User user = modelMapper.map(userRequest, User.class);\r\n    \tuserService.signup(user);\r\n        return new ResponseEntity<CustomResponseObject>(new CustomResponseObject(Common.ADDING_SUCCESS, \"Add user success: \" + user.getLastName()), HttpStatus.OK);\r\n    }\r\n    \r\n\r\n    @GetMapping(value = \"/me\")\r\n    @PreAuthorize(\"isAuthenticated()\")\r\n    @ApiOperation(value = \"Get Current User\", response = UserResponse.class, authorizations = { @Authorization(value=\"apiKey\") })\r\n    @ApiResponses(value = {//\r\n            @ApiResponse(code = 400, message = \"Something went wrong\"), //\r\n            @ApiResponse(code = 403, message = \"Access denied\"), //\r\n            @ApiResponse(code = 500, message = \"Expired or invalid JWT token\")})\r\n    public UserResponse whoami(HttpServletRequest req) {\r\n        return modelMapper.map(userService.whoami(req), UserResponse.class);\r\n    }\r\n\r\n\r\n\r\n\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/fiveman/hotelservice/controller/UserController.java b/src/main/java/fiveman/hotelservice/controller/UserController.java
+--- a/src/main/java/fiveman/hotelservice/controller/UserController.java	(revision 1b68b8f880d03613f654480896e4514be4507f9b)
++++ b/src/main/java/fiveman/hotelservice/controller/UserController.java	(date 1665562436528)
+@@ -3,6 +3,7 @@
+ 
+ import fiveman.hotelservice.entities.User;
+ import fiveman.hotelservice.request.UserRequest;
++import fiveman.hotelservice.response.ConcreteClass;
+ import fiveman.hotelservice.response.CustomResponseObject;
+ import fiveman.hotelservice.response.UserResponse;
+ import fiveman.hotelservice.service.UserService;
+@@ -74,8 +75,8 @@
+             @ApiResponse(code = 400, message = "Something went wrong"), //
+             @ApiResponse(code = 403, message = "Access denied"), //
+             @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
+-    public UserResponse whoami(HttpServletRequest req) {
+-        return modelMapper.map(userService.whoami(req), UserResponse.class);
++    public ResponseEntity<UserResponse> whoami(HttpServletRequest req) {
++        return new ResponseEntity<>(userService.whoami(req), HttpStatus.OK);
+     }
+ 
+ 
+Index: src/main/java/fiveman/hotelservice/HotelserviceApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package fiveman.hotelservice;\r\n\r\n\r\nimport fiveman.hotelservice.entities.AppUserRole;\r\nimport fiveman.hotelservice.entities.User;\r\nimport fiveman.hotelservice.service.Impl.UserServiceImpl;\r\nimport fiveman.hotelservice.service.UserService;\r\nimport org.modelmapper.ModelMapper;\r\nimport org.springframework.boot.CommandLineRunner;\r\nimport org.springframework.boot.SpringApplication;\r\nimport org.springframework.boot.autoconfigure.SpringBootApplication;\r\nimport org.springframework.context.annotation.Bean;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.Arrays;\r\n\r\n\r\n@SpringBootApplication\r\npublic class HotelserviceApplication {\r\n    public static void main(String[] args) {\r\n        SpringApplication.run(HotelserviceApplication.class, args);\r\n    }\r\n\r\n\r\n\r\n    @Bean\r\n    ModelMapper modelMapper(){\r\n        return new ModelMapper();\r\n    }\r\n\r\n    @Bean\r\n    CommandLineRunner run(UserService userService){\r\n        return args -> {\r\n//            userService.saveRole(new Role(0, \"ROLE_USER\"));\r\n//            userService.saveRole(new Role(0, \"ROLE_MANAGER\"));\r\n//            userService.saveRole(new Role(0, \"ROLE_ADMIN\"));\r\n//            userService.saveRole(new Role(0, \"ROLE_SUPER_ADMIN\"));\r\n//\r\n//            userService.saveUser(new User(0, \"john travola\", \"john\", \"123456\", new ArrayList<>()));\r\n//            userService.saveUser(new User(0, \"mouse\", \"mickey\", \"123456\", new ArrayList<>()));\r\n//            userService.saveUser(new User(0, \"abert ainsten\", \"enstent\", \"123456\", new ArrayList<>()));\r\n//            userService.saveUser(new User(0, \"nikola tesla\", \"tesla\", \"123456\", new ArrayList<>()));\r\n\r\n//            userService.addRoleToUser(\"john\", \"ROLE_USER\");\r\n//            userService.addRoleToUser(\"mickey\", \"ROLE_MANAGER\");\r\n//            userService.addRoleToUser(\"enstent\", \"ROLE_ADMIN\");\r\n//            userService.addRoleToUser(\"tesla\", \"ROLE_SUPER_ADMIN\");\r\n//\r\n//            User admin = new User();\r\n//            admin.setId(1);\r\n//            admin.setUsername(\"admin\");\r\n//            admin.setFirstName(\"admin@gmail.com\");\r\n//            admin.setPassword(\"admin\");\r\n//            admin.setAppUserRoles(new ArrayList<AppUserRole>(Arrays.asList(AppUserRole.ROLE_ADMIN, AppUserRole.ROLE_USER)));\r\n//            userService.signup(admin);\r\n//\r\n//            User user = new User();\r\n//            user.setId(2);\r\n//            user.setUsername(\"user\");\r\n//            user.setFirstName(\"Client@gmail.com\");\r\n//            user.setPassword(\"user\");\r\n//            user.setAppUserRoles(new ArrayList<AppUserRole>(Arrays.asList(AppUserRole.ROLE_USER)));\r\n//            userService.signup(user);\r\n\r\n\r\n        };\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/fiveman/hotelservice/HotelserviceApplication.java b/src/main/java/fiveman/hotelservice/HotelserviceApplication.java
+--- a/src/main/java/fiveman/hotelservice/HotelserviceApplication.java	(revision 1b68b8f880d03613f654480896e4514be4507f9b)
++++ b/src/main/java/fiveman/hotelservice/HotelserviceApplication.java	(date 1665556251878)
+@@ -1,9 +1,8 @@
+ package fiveman.hotelservice;
+ 
+ 
+-import fiveman.hotelservice.entities.AppUserRole;
+ import fiveman.hotelservice.entities.User;
+-import fiveman.hotelservice.service.Impl.UserServiceImpl;
++import fiveman.hotelservice.entities.UserRole;
+ import fiveman.hotelservice.service.UserService;
+ import org.modelmapper.ModelMapper;
+ import org.springframework.boot.CommandLineRunner;
+@@ -11,9 +10,6 @@
+ import org.springframework.boot.autoconfigure.SpringBootApplication;
+ import org.springframework.context.annotation.Bean;
+ 
+-import java.util.ArrayList;
+-import java.util.Arrays;
+-
+ 
+ @SpringBootApplication
+ public class HotelserviceApplication {
+@@ -51,15 +47,16 @@
+ //            admin.setUsername("admin");
+ //            admin.setFirstName("admin@gmail.com");
+ //            admin.setPassword("admin");
+-//            admin.setAppUserRoles(new ArrayList<AppUserRole>(Arrays.asList(AppUserRole.ROLE_ADMIN, AppUserRole.ROLE_USER)));
++//            admin.setUserRole(UserRole.ROLE_ADMIN);
+ //            userService.signup(admin);
+ //
++//
+ //            User user = new User();
+ //            user.setId(2);
+ //            user.setUsername("user");
+ //            user.setFirstName("Client@gmail.com");
+ //            user.setPassword("user");
+-//            user.setAppUserRoles(new ArrayList<AppUserRole>(Arrays.asList(AppUserRole.ROLE_USER)));
++//            user.setUserRole(UserRole.ROLE_USER);
+ //            userService.signup(user);
+ 
+ 
+Index: src/main/java/fiveman/hotelservice/security/JwtTokenProvider.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package fiveman.hotelservice.security;\r\n\r\nimport fiveman.hotelservice.entities.AppUserRole;\r\nimport fiveman.hotelservice.exception.AppException;\r\nimport fiveman.hotelservice.response.CustomResponseObject;\r\nimport io.jsonwebtoken.Claims;\r\nimport io.jsonwebtoken.JwtException;\r\nimport io.jsonwebtoken.Jwts;\r\nimport io.jsonwebtoken.SignatureAlgorithm;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.beans.factory.annotation.Value;\r\nimport org.springframework.http.HttpStatus;\r\nimport org.springframework.security.authentication.UsernamePasswordAuthenticationToken;\r\nimport org.springframework.security.core.Authentication;\r\nimport org.springframework.security.core.authority.SimpleGrantedAuthority;\r\nimport org.springframework.security.core.userdetails.UserDetails;\r\nimport org.springframework.stereotype.Component;\r\nimport javax.annotation.PostConstruct;\r\nimport javax.servlet.http.HttpServletRequest;\r\nimport java.util.*;\r\nimport java.util.stream.Collectors;\r\n\r\n@Component\r\npublic class JwtTokenProvider {\r\n\r\n  /**\r\n   * THIS IS NOT A SECURE PRACTICE! For simplicity, we are storing a static key here. Ideally, in a\r\n   * microservices environment, this key would be kept on a config-server.\r\n   */\r\n  @Value(\"${security.jwt.token.secret-key:secret-key}\")\r\n  private String secretKey;\r\n\r\n  @Value(\"${security.jwt.token.expire-length:3600000}\")\r\n  private long validityInMilliseconds = 3600000; // 1h\r\n\r\n  @Autowired\r\n  private MyUserDetails myUserDetails;\r\n\r\n  @PostConstruct\r\n  protected void init() {\r\n    secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());\r\n  }\r\n\r\n  public String createToken(String username, List<AppUserRole> appUserRoles) {\r\n\r\n\r\n\r\n    Claims claims = Jwts.claims().setSubject(username);\r\n    claims.put(\"auth\", appUserRoles.stream().map(appUserRole ->\r\n            new SimpleGrantedAuthority(appUserRole.getAuthority())).filter(Objects::nonNull).collect(Collectors.toList()));\r\n\r\n    Date now = new Date();\r\n    Date validity = new Date(now.getTime() + validityInMilliseconds);\r\n\r\n    return Jwts.builder()//\r\n        .setClaims(claims)//\r\n        .setIssuedAt(now)//\r\n        .setExpiration(validity)//\r\n        .signWith(SignatureAlgorithm.HS256, secretKey)//\r\n        .compact();\r\n  }\r\n\r\n  public Authentication getAuthentication(String token) {\r\n    UserDetails userDetails = myUserDetails.loadUserByUsername(getUsername(token));\r\n    return new UsernamePasswordAuthenticationToken(userDetails, \"\", userDetails.getAuthorities());\r\n  }\r\n\r\n  public String getUsername(String token) {\r\n    return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();\r\n  }\r\n\r\n  public String resolveToken(HttpServletRequest req) {\r\n    String bearerToken = req.getHeader(\"Authorization\");\r\n    if (bearerToken != null && bearerToken.startsWith(\"Bearer \")) {\r\n      return bearerToken.substring(7);\r\n    }\r\n    return null;\r\n  }\r\n\r\n  public boolean validateToken(String token) {\r\n    try {\r\n      Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);\r\n      return true;\r\n    } catch (JwtException | IllegalArgumentException e) {\r\n      throw new AppException(HttpStatus.INTERNAL_SERVER_ERROR.value(), new CustomResponseObject(\"\"+ HttpStatus.INTERNAL_SERVER_ERROR, \"Expired or invalid JWT token\"));\r\n    }\r\n  }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/fiveman/hotelservice/security/JwtTokenProvider.java b/src/main/java/fiveman/hotelservice/security/JwtTokenProvider.java
+--- a/src/main/java/fiveman/hotelservice/security/JwtTokenProvider.java	(revision 1b68b8f880d03613f654480896e4514be4507f9b)
++++ b/src/main/java/fiveman/hotelservice/security/JwtTokenProvider.java	(date 1665554119813)
+@@ -1,6 +1,6 @@
+ package fiveman.hotelservice.security;
+ 
+-import fiveman.hotelservice.entities.AppUserRole;
++import fiveman.hotelservice.entities.UserRole;
+ import fiveman.hotelservice.exception.AppException;
+ import fiveman.hotelservice.response.CustomResponseObject;
+ import io.jsonwebtoken.Claims;
+@@ -41,7 +41,7 @@
+     secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+   }
+ 
+-  public String createToken(String username, List<AppUserRole> appUserRoles) {
++  public String createToken(String username, List<UserRole> appUserRoles) {
+ 
+ 
+ 
+Index: src/main/java/fiveman/hotelservice/response/ConcreteClass.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/fiveman/hotelservice/response/ConcreteClass.java b/src/main/java/fiveman/hotelservice/response/ConcreteClass.java
+new file mode 100644
+--- /dev/null	(date 1665555612867)
++++ b/src/main/java/fiveman/hotelservice/response/ConcreteClass.java	(date 1665555612867)
+@@ -0,0 +1,10 @@
++package fiveman.hotelservice.response;
++
++import lombok.*;
++
++public class ConcreteClass extends UserResponse{
++
++    public ConcreteClass(long id, String username, String password, String firstName, String middleName, String lastName, boolean gender, String phoneNumber, String dateOfBirth, String userRole, boolean isActive, long hotel_Id) {
++        super(id, username, password, firstName, middleName, lastName, gender, phoneNumber, dateOfBirth, userRole, isActive, hotel_Id);
++    }
++}
+Index: src/main/java/fiveman/hotelservice/entities/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package fiveman.hotelservice.entities;\r\n\r\n\r\nimport com.fasterxml.jackson.annotation.JsonIgnore;\r\nimport io.swagger.annotations.ApiModelProperty;\r\nimport lombok.*;\r\n\r\nimport javax.persistence.*;\r\nimport javax.validation.constraints.Max;\r\nimport javax.validation.constraints.Min;\r\nimport java.sql.Date;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\n@Entity\r\n@Data\r\n@AllArgsConstructor\r\n@NoArgsConstructor\r\n@Table(name = \"user\")\r\npublic class User {\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    @ApiModelProperty(required = true)\r\n    private long id;\r\n\r\n    @ApiModelProperty(required = true)\r\n    private String username;\r\n\r\n    @ApiModelProperty(required = true)\r\n    private String password;\r\n\r\n    private String firstName;\r\n    private String middleName;\r\n    private String lastName;\r\n\r\n    @NonNull\r\n    private boolean gender;\r\n\r\n    @Min(value = 9, message = \"Phone min is 9\")\r\n    @Max(value = 10, message = \"Phone max is 10\")\r\n    private String phoneNumber;\r\n\r\n    private String dateOfBirth;\r\n\r\n    @ElementCollection(fetch = FetchType.EAGER)\r\n    List<AppUserRole> appUserRoles;\r\n\r\n    @NonNull\r\n    private boolean isActive;\r\n\r\n    @ManyToOne(fetch = FetchType.EAGER)\r\n    private Hotel hotel;\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/fiveman/hotelservice/entities/User.java b/src/main/java/fiveman/hotelservice/entities/User.java
+--- a/src/main/java/fiveman/hotelservice/entities/User.java	(revision 1b68b8f880d03613f654480896e4514be4507f9b)
++++ b/src/main/java/fiveman/hotelservice/entities/User.java	(date 1665555098972)
+@@ -4,6 +4,7 @@
+ import com.fasterxml.jackson.annotation.JsonIgnore;
+ import io.swagger.annotations.ApiModelProperty;
+ import lombok.*;
++import org.springframework.security.core.GrantedAuthority;
+ 
+ import javax.persistence.*;
+ import javax.validation.constraints.Max;
+@@ -42,8 +43,8 @@
+ 
+     private String dateOfBirth;
+ 
+-    @ElementCollection(fetch = FetchType.EAGER)
+-    List<AppUserRole> appUserRoles;
++    @Enumerated(EnumType.STRING)
++    private UserRole userRole;
+ 
+     @NonNull
+     private boolean isActive;
+Index: src/main/java/fiveman/hotelservice/entities/AppUserRole.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/fiveman/hotelservice/entities/AppUserRole.java b/src/main/java/fiveman/hotelservice/entities/UserRole.java
+rename from src/main/java/fiveman/hotelservice/entities/AppUserRole.java
+rename to src/main/java/fiveman/hotelservice/entities/UserRole.java
+--- a/src/main/java/fiveman/hotelservice/entities/AppUserRole.java	(revision 1b68b8f880d03613f654480896e4514be4507f9b)
++++ b/src/main/java/fiveman/hotelservice/entities/UserRole.java	(date 1665554119896)
+@@ -3,7 +3,7 @@
+ import org.springframework.security.core.GrantedAuthority;
+ 
+ 
+-public enum AppUserRole implements GrantedAuthority {
++public enum UserRole implements GrantedAuthority {
+     ROLE_USER, ROLE_ADMIN, ROLE_MANAGER;
+     @Override
+     public String getAuthority() {
+Index: target/classes/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># Remote Database\r\n#spring.datasource.url=jdbc:mysql://aws-simplified.cklet7vbtiwj.ap-northeast-1.rds.amazonaws.com:3306/hotel_service_v2\r\n#spring.datasource.username=admin\r\n#spring.datasource.password=12345678\r\n# Local Database\r\nspring.datasource.url=jdbc:mysql://localhost:3306/hotel_service_v5\r\nspring.datasource.username=root\r\nspring.datasource.password=123456\r\nspring.jpa.show-sql=true\r\nspring.jpa.properties.hibernate.format_sql=true\r\nspring.jpa.database=mysql\r\nlogging.level.io.swagger.models.parameters.AbstractSerializableParameter=error\r\nspring.jpa.hibernate.ddl-auto=update\r\nspring.mvc.pathmatch.matching-strategy=ant_path_matcher\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/target/classes/application.properties b/target/classes/application.properties
+--- a/target/classes/application.properties	(revision 1b68b8f880d03613f654480896e4514be4507f9b)
++++ b/target/classes/application.properties	(date 1665556091504)
+@@ -6,6 +6,7 @@
+ spring.datasource.url=jdbc:mysql://localhost:3306/hotel_service_v5
+ spring.datasource.username=root
+ spring.datasource.password=123456
++
+ spring.jpa.show-sql=true
+ spring.jpa.properties.hibernate.format_sql=true
+ spring.jpa.database=mysql

@@ -1,6 +1,5 @@
 package fiveman.hotelservice.request;
 
-import fiveman.hotelservice.entities.Hotel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;

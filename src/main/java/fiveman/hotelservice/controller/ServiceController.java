@@ -30,33 +30,39 @@ public class ServiceController {
     ModelMapper modelMapper;
 
     @GetMapping("/services")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<List<Service>> getAllServices(){
-        return new ResponseEntity<List<Service>>(service.getAllServices(), HttpStatus.OK);   
+    @PreAuthorize("isAuthenticated() or isAnonymous()")
+    public ResponseEntity<List<Service>> getAllServices() {
+        return new ResponseEntity<List<Service>>(service.getAllServices(), HttpStatus.OK);
     }
 
     @GetMapping("/service/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<Service> getServicesById(@PathVariable("id") Long id){
+    @PreAuthorize("isAuthenticated() or isAnonymous()")
+    public ResponseEntity<Service> getServicesById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(service.getServiceById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/service")
+    @PreAuthorize("isAuthenticated() or isAnonymous()")
+    public ResponseEntity<List<Service>> getAllServicesByServiceCategories(@RequestParam("cate_id") long id) {
+        return new ResponseEntity<>(service.getAllServicesByServiceCategory(id), HttpStatus.OK);
     }
 
 
     @PutMapping("/service")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<CustomResponseObject> updateService(@RequestBody Service serviceEntity){
-        return new ResponseEntity<>(service.updateService(serviceEntity),HttpStatus.OK);
+    @PreAuthorize("isAuthenticated() or isAnonymous()")
+    public ResponseEntity<CustomResponseObject> updateService(@RequestBody Service serviceEntity) {
+        return new ResponseEntity<>(service.updateService(serviceEntity), HttpStatus.OK);
     }
 
     @PostMapping("/service")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("isAuthenticated() or isAnonymous()")
     public ResponseEntity<CustomResponseObject> saveService(@RequestBody @Valid ServiceRequest serviceRequest){
         Service serviceEntity = modelMapper.map(serviceRequest, Service.class);
         return new ResponseEntity<>(service.saveServices(serviceEntity),HttpStatus.OK);
     }
-    
+
     @DeleteMapping("/service/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("isAuthenticated() or isAnonymous()")
     public ResponseEntity<CustomResponseObject> deleteServiceById(@PathVariable("id") Long id){
         return new ResponseEntity<>(service.deleteService(id), HttpStatus.OK);
     }

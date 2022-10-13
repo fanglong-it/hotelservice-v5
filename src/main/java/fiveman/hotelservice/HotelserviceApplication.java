@@ -50,13 +50,12 @@ public class HotelserviceApplication {
 //            admin.setUserRole(UserRole.ROLE_ADMIN);
 //            userService.signup(admin);
 //
-//
 //            User user = new User();
 //            user.setId(2);
 //            user.setUsername("user");
 //            user.setFirstName("Client@gmail.com");
 //            user.setPassword("user");
-//            user.setUserRole(UserRole.ROLE_USER);
+//            user.setAppUserRoles(new ArrayList<AppUserRole>(Arrays.asList(AppUserRole.ROLE_USER)));
 //            userService.signup(user);
 
 

@@ -28,19 +28,19 @@ public class ServiceCategoryController {
     ModelMapper modelMapper;
 
     @GetMapping("/serviceCategories")
-    @PreAuthorize("isAnonymous() or hasRole('ROLE_USER')")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<List<ServiceCategory>> getServiceCategories(){
         return new ResponseEntity<>(serviceCategoryService.getServiceCategories(), HttpStatus.OK);
     }
 
     @GetMapping("/serviceCategory/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<ServiceCategory> getServiceCategory(@PathVariable("id") long id){
         return new ResponseEntity<>(serviceCategoryService.getServiceCategoryById(id), HttpStatus.OK);
     }
 
     @PostMapping("/serviceCategory")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<CustomResponseObject> saveServiceCategory(@RequestBody @Valid ServiceCategoryRequest serviceCategoryRequest){
        ServiceCategory serviceCategory = modelMapper.map(serviceCategoryRequest, ServiceCategory.class);
         return new ResponseEntity<>(serviceCategoryService.saveServiceCategory(serviceCategory), HttpStatus.OK);

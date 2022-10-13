@@ -1,12 +1,17 @@
 package fiveman.hotelservice.service;
 import fiveman.hotelservice.entities.RoomType;
+import fiveman.hotelservice.response.CustomResponseObject;
 
 import java.util.List;
 
 public interface RoomTypeService {
     List<RoomType> findAllRoomType();
+
     RoomType getRoomType(long id);
-    RoomType addRoomType(RoomType roomType);
-    RoomType updateRoomType(RoomType roomType);
-    String deleteRoomType(long id);
+
+    CustomResponseObject addRoomType(RoomType roomType);
+
+    CustomResponseObject updateRoomType(RoomType roomType);
+
+    CustomResponseObject deleteRoomType(long id);
 }

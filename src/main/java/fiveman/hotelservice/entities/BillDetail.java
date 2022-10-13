@@ -29,6 +29,6 @@ public class BillDetail {
     private double price;
     private double amount;
 
-    private int Status;
+    private int status;
 
 }

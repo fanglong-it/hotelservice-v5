@@ -18,6 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class ServiceServiceImpl implements ServiceService {
+    @Override
+    public List<fiveman.hotelservice.entities.Service> getAllServicesByServiceCategory(long id) {
+        return serviceRepository.getAllByServiceCategory_Id(id);
+    }
 
     @Autowired
     ServiceRepository serviceRepository;

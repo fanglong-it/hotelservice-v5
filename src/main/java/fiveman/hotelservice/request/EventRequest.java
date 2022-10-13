@@ -1,17 +1,13 @@
 package fiveman.hotelservice.request;
 
-
-import fiveman.hotelservice.entities.Hotel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.sql.Date;
-import java.sql.Time;
+
 
 @AllArgsConstructor
 @Data

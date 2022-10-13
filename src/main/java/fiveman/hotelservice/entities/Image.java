@@ -15,17 +15,18 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @Builder
-@Table(name = "picture")
+@Table(name = "image")
 @Data
-public class Picture {
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "picture type are mandatory")
+    @NotBlank(message = "image type are mandatory")
     @Min(value = 5, message = "Picture Type phai co 5 ki tu")
     private String pictureType;
 
     private String pictureDescription;
-    @NotBlank(message = "picture url are mandatory")
+
+    @NotBlank(message = "image url are mandatory")
     private String pictureUrl;
 }

@@ -8,6 +8,8 @@ import java.util.List;
 public interface BillService {
     Bill getBillById(long id);
 
+    List<Bill> getAllBill();
+
     CustomResponseObject saveBill(Bill bill);
 
     CustomResponseObject updateBill(Bill bill);

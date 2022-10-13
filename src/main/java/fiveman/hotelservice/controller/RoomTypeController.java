@@ -18,64 +18,61 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
-@Api(tags = "Room-Type")
+@Api(tags = "Room_Type")
 public class RoomTypeController {
 
     @Autowired
     RoomTypeService roomTypeService;
 
-    @GetMapping("/RoomType/getRoomTypes")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @ApiResponses(value = {//
-            @ApiResponse(code = 400, message = "Something went wrong"), //
-            @ApiResponse(code = 403, message = "Access denied"), //
-            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public ResponseEntity<List<RoomType>> getRoomTypes(){
-        return new ResponseEntity<List<RoomType>>(roomTypeService.findAllRoomType(), HttpStatus.OK);
-    }
-
-    @GetMapping("/RoomType/getRoomType/{id}")
+    @GetMapping("/roomTypes")
     @PreAuthorize("hasRole('ROLE_USER') or isAnonymous()")
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //
             @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public ResponseEntity<RoomType> getRoomType(@PathVariable("id") long id){
-        return new ResponseEntity<RoomType>(roomTypeService.getRoomType(id), HttpStatus.OK);
+    public ResponseEntity<List<RoomType>> getRoomTypes() {
+        return new ResponseEntity<>(roomTypeService.findAllRoomType(), HttpStatus.OK);
     }
 
-    @PutMapping("/RoomType/updateRoomType")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/roomType/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') or isAnonymous()")
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //
             @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public ResponseEntity<CustomResponseObject> updateRoomType(@RequestBody RoomType roomType){
-        roomTypeService.updateRoomType(roomType);
-        return new ResponseEntity<>(new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Room Type Success" ), HttpStatus.OK);
+    public ResponseEntity<RoomType> getRoomType(@PathVariable("id") long id) {
+        return new ResponseEntity<>(roomTypeService.getRoomType(id), HttpStatus.OK);
     }
 
-    @PostMapping("/RoomType/addRoomType")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping("/roomType")
+    @PreAuthorize("hasRole('ROLE_USER') or isAnonymous()")
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //
             @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public ResponseEntity<CustomResponseObject> addRoomType(@RequestBody RoomType roomType){
-        roomTypeService.addRoomType(roomType);
-        return new ResponseEntity<>(new CustomResponseObject(Common.ADDING_SUCCESS, "Add Room Type Success" ), HttpStatus.OK);
+    public ResponseEntity<CustomResponseObject> updateRoomType(@RequestBody RoomType roomType) {
+        return new ResponseEntity<>(roomTypeService.updateRoomType(roomType), HttpStatus.OK);
     }
 
-
-    @DeleteMapping("/RoomType/deleteRoomType/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/roomType")
+    @PreAuthorize("hasRole('ROLE_USER') or isAnonymous()")
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //
             @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public ResponseEntity<CustomResponseObject> deleteRoomType(@PathVariable("id") long id){
-        roomTypeService.deleteRoomType(id);
-        return new ResponseEntity<>(new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Room Success"), HttpStatus.OK);
+    public ResponseEntity<CustomResponseObject> addRoomType(@RequestBody RoomType roomType) {
+        return new ResponseEntity<>(roomTypeService.addRoomType(roomType), HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/roomType/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') or isAnonymous()")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Something went wrong"), //
+            @ApiResponse(code = 403, message = "Access denied"), //
+            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
+    public ResponseEntity<CustomResponseObject> deleteRoomType(@PathVariable("id") long id) {
+        return new ResponseEntity<>(roomTypeService.deleteRoomType(id), HttpStatus.OK);
     }
 
 

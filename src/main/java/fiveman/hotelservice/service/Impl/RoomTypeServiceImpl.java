@@ -6,7 +6,6 @@ import fiveman.hotelservice.repository.RoomTypeRepository;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.RoomTypeService;
 import fiveman.hotelservice.utils.Common;
-import fiveman.hotelservice.utils.Utilities;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,59 +37,31 @@ public class RoomTypeServiceImpl implements RoomTypeService {
         throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(HttpStatus.NOT_FOUND.toString(), "Not found RoomType Id = " + id));
     }
 
-//    RoomType checkRoomType(RoomType roomType) {
-//        if (Utilities.isEmptyString(roomType.getDescription())) {
-//            roomType.setDescription(Common.ROOM_TYPE_DESCRIPTION);
-//        }
-//        if (Utilities.isEmptyString(roomType.getPicture())) {
-//            roomType.setPicture(Common.ROOM_TYPE_IMAGE_URL);
-//        }
-//        if (Utilities.isEmptyString(roomType.getName())) {
-//            roomType.setName(Common.ROOM_TYPE_NAME);
-//        }
-//        return roomType;
-//    }
+    @Override
+    public CustomResponseObject addRoomType(RoomType roomType) {
+        if (roomTypeRepository.existsById(roomType.getId())) {
+            throw new AppException(HttpStatus.ALREADY_REPORTED.value(), new CustomResponseObject(Common.ADDING_FAIL, "Exist Id = " + roomType.getId()));
+        }
+        roomTypeRepository.save(roomType);
+        return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding success!");
+    }
 
     @Override
-    public RoomType addRoomType(RoomType roomType) {
-        log.info("START OF ADD ROOM TYPE");
+    public CustomResponseObject updateRoomType(RoomType roomType) {
         if (!roomTypeRepository.existsById(roomType.getId())) {
-//            RoomType roomTypeChecked = checkRoomType(roomType);
-            return roomTypeRepository.save(roomType);
+            throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.UPDATE_FAIL, "Not found Id = " + roomType.getId()));
         }
-        log.info("ADD ROOM TYPE FAIL");
-        throw new AppException(HttpStatus.ALREADY_REPORTED.value(), new CustomResponseObject(HttpStatus.ALREADY_REPORTED.toString(), "The roomType id is Exist = " + roomType.getId()));
+        roomTypeRepository.save(roomType);
+        return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success!");
     }
 
     @Override
-    public RoomType updateRoomType(RoomType roomType) {
-        log.info("START OF UPDATE ROOM TYPE");
-        RoomType oldRoomType = roomTypeRepository.getRoomTypeById(roomType.getId());
-        if (oldRoomType != null) {
-//            if (Utilities.isEmptyString(roomType.getName())) {
-//                roomType.setName(oldRoomType.getName());
-//            }
-//            if (Utilities.isEmptyString(roomType.getPicture())) {
-//                roomType.setPicture(oldRoomType.getPicture());
-//            }
-//            if (Utilities.isEmptyString(roomType.getDescription())) {
-//                roomType.setDescription(oldRoomType.getDescription());
-//            }
-            roomTypeRepository.save(roomType);
-            log.info("END OF UPDATE ROOM TYPE");
-            return roomTypeRepository.getRoomTypeById(roomType.getId());
-        }
-        throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(HttpStatus.NOT_FOUND.toString(), "Not found id = " + roomType.getId()));
-    }
-
-    @Override
-    public String deleteRoomType(long id) {
+    public CustomResponseObject deleteRoomType(long id) {
         log.info("START OF DELETE ROOM TYPE");
-        if (roomTypeRepository.existsById(id)) {
-            roomTypeRepository.delete(roomTypeRepository.getRoomTypeById(id));
-            return "Delete Success";
+        if (!roomTypeRepository.existsById(id)) {
+            throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.DELETE_FAIL, "Not found Id = " + id));
         }
-        throw new AppException(HttpStatus.ALREADY_REPORTED.value(), new CustomResponseObject(HttpStatus.ALREADY_REPORTED.toString(), "Not found id =" + id));
-
+        roomTypeRepository.deleteById(id);
+        return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Success!");
     }
 }

@@ -8,7 +8,13 @@ import java.util.List;
 public interface ServiceCategoryService {
 
     List<ServiceCategory> getServiceCategories();
+
     ServiceCategory getServiceCategoryById(Long id);
+
     CustomResponseObject saveServiceCategory(ServiceCategory serviceCategory);
+
+    CustomResponseObject updateServiceCategory(ServiceCategory serviceCategory);
+
+    CustomResponseObject deleteServiceCategory(long id);
 
 }

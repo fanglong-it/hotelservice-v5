@@ -1,6 +1,7 @@
 package fiveman.hotelservice.service.Impl;
 
 import fiveman.hotelservice.entities.User;
+import fiveman.hotelservice.entities.UserRole;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.UserRepository;
 import fiveman.hotelservice.request.UserRequest;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -60,10 +62,10 @@ public class UserServiceImpl implements UserService {
 //        return roleRepository.findRoleByName(role.getName());
 //    }
 
-	@Override
-	public String addRoleToUser(String username, String roleName) {
-		return null;
-	}
+//	@Override
+//	public String addRoleToUser(String username, String roleName) {
+//		return null;
+//	}
 
 //	@Override
 //	public String addRoleToUser(String username, String roleName) {
@@ -84,11 +86,11 @@ public class UserServiceImpl implements UserService {
 //		return username;
 //	}
 
-    @Override
-    public User getUser(String username) {
-        logger.info("START GET USER BY USER NAME");
-        return userRepository.findUserByUsername(username);
-    }
+//    @Override
+//    public User getUser(String username) {
+//        logger.info("START GET USER BY USER NAME");
+//        return userRepository.findUserByUsername(username);
+//    }
 
     @Override
     public List<UserResponse> getUsers() {
@@ -104,9 +106,30 @@ public class UserServiceImpl implements UserService {
         return userResponses;
     }
 
+
+    public UserResponse mapUserToUserResponse(User user) {
+        UserResponse userResponse = new UserResponse();
+        userResponse.setId(user.getId());
+        userResponse.setUsername(user.getUsername());
+        userResponse.setPassword(user.getPassword());
+        userResponse.setFirstName(user.getFirstName());
+        userResponse.setMiddleName(user.getMiddleName());
+        userResponse.setLastName(user.getLastName());
+        userResponse.setGender(user.isGender());
+        userResponse.setPhoneNumber(user.getPhoneNumber());
+        userResponse.setDateOfBirth(user.getDateOfBirth());
+        userResponse.setActive(user.isActive());
+        userResponse.setUserRole(user.getUserRole().toString());
+        userResponse.setHotel_Id(user.getHotel().getId());
+        return userResponse;
+    }
+
     @Override
-    public User whoami(HttpServletRequest request) {
-        return userRepository.findUserByUsername(jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(request)));
+    public UserResponse whoami(HttpServletRequest request) {
+        String username = jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(request));
+        User user = userRepository.findUserByUsername(username);
+        UserResponse userResponse = mapUserToUserResponse(user);
+        return userResponse;
     }
 
     public String signin(String username, String password) {
@@ -118,7 +141,9 @@ public class UserServiceImpl implements UserService {
 
 
             logger.info("END CHECK SIGN IN");
-            return jwtTokenProvider.createToken(username, user.getAppUserRoles());
+            List<UserRole> userRoles = new ArrayList<>();
+            userRoles.add(user.getUserRole());
+            return jwtTokenProvider.createToken(username, userRoles);
         } catch (AuthenticationException e) {
             throw new AppException(HttpStatus.NOT_FOUND.value(),
                     new CustomResponseObject(Common.GET_FAIL, "INVALID USER NAME OR PASSWORD"));
@@ -141,32 +166,34 @@ public class UserServiceImpl implements UserService {
         }
 
         @Override
-        public String refresh (String username){
+        public String refresh (String username) {
             User user = userRepository.findUserByUsername(username);
-            return jwtTokenProvider.createToken(username, user.getAppUserRoles());
+            List<UserRole> userRoles = new ArrayList<>();
+            userRoles.add(user.getUserRole());
+            return jwtTokenProvider.createToken(username, userRoles);
         }
 
 //        public static User MapUserRequestToUser (UserRequest user){
 //            return new User(0, user.getName(), user.getUserName(), user.getPassword(), null);
 //        }
 
-        @Override
-        public String setRoleAdmin (String userName, String roleName){
-            logger.info("START SET ROLE ADMIN FOR ACCOUNT ");
-            if (userRepository.existsByUsername(userName) && roleName.equals(Common.ADMIN)) {
-                User user = userRepository.findUserByUsername(userName);
-//                Role role = roleRepository.findRoleByName(userName);
-//                List<Role> roles = user.getRoles();
-//                roles.add(role);
-//                user.setRoles(roles);
-                userRepository.save(user);
-            } else {
-                throw new AppException(HttpStatus.NOT_FOUND.value(),
-                        new CustomResponseObject(Common.GET_FAIL, "NOT Found UserName"));
-            }
-
-            logger.info("END SET ROLE ADMIN FOR ACCOUNT ");
-
-            return userName;
-        }
-    }
+//        @Override
+//        public String setRoleAdmin (String userName, String roleName){
+//            logger.info("START SET ROLE ADMIN FOR ACCOUNT ");
+//            if (userRepository.existsByUsername(userName) && roleName.equals(Common.ADMIN)) {
+//                User user = userRepository.findUserByUsername(userName);
+////                Role role = roleRepository.findRoleByName(userName);
+////                List<Role> roles = user.getRoles();
+////                roles.add(role);
+////                user.setRoles(roles);
+//                userRepository.save(user);
+//            } else {
+//                throw new AppException(HttpStatus.NOT_FOUND.value(),
+//                        new CustomResponseObject(Common.GET_FAIL, "NOT Found UserName"));
+//            }
+//
+//            logger.info("END SET ROLE ADMIN FOR ACCOUNT ");
+//
+//            return userName;
+//        }
+}

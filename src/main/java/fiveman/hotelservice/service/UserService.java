@@ -9,13 +9,18 @@ import java.util.List;
 
 public interface UserService {
     User saveUser(User user);
-//    Role saveRole(Role role);
-    String addRoleToUser(String username, String roleName);
-    String setRoleAdmin(String userName, String roleName);
-    User getUser(String username);
+
+    //    Role saveRole(Role role);
+//    String addRoleToUser(String username, String roleName);
+//    String setRoleAdmin(String userName, String roleName);
+//    User getUser(String username);
     List<UserResponse> getUsers();
+
     String signin(String username, String password);
+
     User signup(User user);
-    User whoami(HttpServletRequest request);
+
+    UserResponse whoami(HttpServletRequest request);
+
     String refresh(String username);
 }

@@ -1,18 +1,14 @@
 package fiveman.hotelservice;
 
 
-import fiveman.hotelservice.entities.AppUserRole;
 import fiveman.hotelservice.entities.User;
-import fiveman.hotelservice.service.Impl.UserServiceImpl;
+import fiveman.hotelservice.entities.UserRole;
 import fiveman.hotelservice.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 
 @SpringBootApplication
@@ -51,15 +47,16 @@ public class HotelserviceApplication {
 //            admin.setUsername("admin");
 //            admin.setFirstName("admin@gmail.com");
 //            admin.setPassword("admin");
-//            admin.setAppUserRoles(new ArrayList<AppUserRole>(Arrays.asList(AppUserRole.ROLE_ADMIN, AppUserRole.ROLE_USER)));
+//            admin.setUserRole(UserRole.ROLE_ADMIN);
 //            userService.signup(admin);
+//
 //
 //            User user = new User();
 //            user.setId(2);
 //            user.setUsername("user");
 //            user.setFirstName("Client@gmail.com");
 //            user.setPassword("user");
-//            user.setAppUserRoles(new ArrayList<AppUserRole>(Arrays.asList(AppUserRole.ROLE_USER)));
+//            user.setUserRole(UserRole.ROLE_USER);
 //            userService.signup(user);
 
 

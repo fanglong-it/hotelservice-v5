@@ -4,6 +4,7 @@ package fiveman.hotelservice.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -42,8 +43,8 @@ public class User {
 
     private String dateOfBirth;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    List<AppUserRole> appUserRoles;
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
 
     @NonNull
     private boolean isActive;

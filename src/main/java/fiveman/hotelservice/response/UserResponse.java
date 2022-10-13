@@ -1,21 +1,34 @@
 package fiveman.hotelservice.response;
 
 
-import fiveman.hotelservice.entities.AppUserRole;
+import fiveman.hotelservice.entities.Hotel;
+import fiveman.hotelservice.entities.UserRole;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.*;
 
-import java.util.ArrayList;
+import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class UserResponse {
-    @ApiModelProperty(position = 0)
-    private Long id;
-    @ApiModelProperty(position = 1)
-    private String name;
-    @ApiModelProperty(position = 2)
+
+    private long id;
     private String username;
-    @ApiModelProperty(position = 3)
-    private List<AppUserRole> appUserRoles;
+    private String password;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private boolean gender;
+    private String phoneNumber;
+    private String dateOfBirth;
+    private String userRole;
+    private boolean isActive;
+    private long hotel_Id;
+
 }

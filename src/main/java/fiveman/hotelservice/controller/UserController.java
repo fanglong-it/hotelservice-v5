@@ -3,6 +3,7 @@ package fiveman.hotelservice.controller;
 
 import fiveman.hotelservice.entities.User;
 import fiveman.hotelservice.request.UserRequest;
+import fiveman.hotelservice.response.ConcreteClass;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.UserResponse;
 import fiveman.hotelservice.service.UserService;
@@ -65,17 +66,17 @@ public class UserController {
     	userService.signup(user);
         return new ResponseEntity<CustomResponseObject>(new CustomResponseObject(Common.ADDING_SUCCESS, "Add user success: " + user.getLastName()), HttpStatus.OK);
     }
-    
+
 
     @GetMapping(value = "/me")
     @PreAuthorize("isAuthenticated()")
-    @ApiOperation(value = "Get Current User", response = UserResponse.class, authorizations = { @Authorization(value="apiKey") })
+    @ApiOperation(value = "Get Current User", response = UserResponse.class, authorizations = {@Authorization(value = "apiKey")})
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //
             @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public UserResponse whoami(HttpServletRequest req) {
-        return modelMapper.map(userService.whoami(req), UserResponse.class);
+    public ResponseEntity<UserResponse> whoami(HttpServletRequest req) {
+        return new ResponseEntity<>(userService.whoami(req), HttpStatus.OK);
     }
 
 

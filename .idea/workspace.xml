@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="64a37eb9-d5fd-4799-9624-8c5c9f4b2b96" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +93,7 @@
       <workItem from="1665553609763" duration="3407000" />
       <workItem from="1665561762084" duration="1501000" />
       <workItem from="1665595017670" duration="625000" />
-      <workItem from="1665659638502" duration="11309000" />
+      <workItem from="1665659638502" duration="11942000" />
     </task>
     <task id="LOCAL-00001" summary="Fetching code from version 2, change Role to Enum">
       <created>1665160824390</created>
@@ -178,7 +179,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665671018312</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Create gitignore for project">
+      <created>1665671373788</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1665671373788</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -220,7 +228,8 @@
     <MESSAGE value="Adding API (Customer, Customer_Booking, Bill, Bill_Detail)" />
     <MESSAGE value="Adding API Fix UserRole adding response Entities" />
     <MESSAGE value="Commit api" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit api" />
+    <MESSAGE value="Create gitignore for project" />
+    <option name="LAST_COMMIT_MESSAGE" value="Create gitignore for project" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>

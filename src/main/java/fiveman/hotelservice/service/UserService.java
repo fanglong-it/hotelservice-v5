@@ -1,7 +1,6 @@
 package fiveman.hotelservice.service;
 
 import fiveman.hotelservice.entities.User;
-import fiveman.hotelservice.request.UserRequest;
 import fiveman.hotelservice.response.UserResponse;
 
 import javax.servlet.http.HttpServletRequest;

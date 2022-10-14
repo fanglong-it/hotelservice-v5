@@ -27,6 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     //All resource That doesn't need token
     private final String[] permitURL = {
+        
             "/h2-console/**/**",
 
             //resource
@@ -55,7 +56,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/api/v1/room/**/**",
             "/api/v1/bills",
             "/api/v1/bill/**/**",
-            "/api/v1/billDetail/**/**"
+            "/api/v1/billDetail/**/**",
+            "/api/v1/hotels",
+            "/api/v1/hotel/**/**"
             //end_resource
     };
 

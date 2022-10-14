@@ -30,13 +30,13 @@ public class HotelController {
 
 
     @GetMapping("/hotel/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("isAnonymous() or hasRole('ROLE_USER')")
     public ResponseEntity<Hotel> getHotel(@PathVariable("id") long id){
         return new ResponseEntity<>(hotelService.getHotelById(id), HttpStatus.OK);
     }
 
     @PostMapping("/hotel")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("isAnonymous() or hasRole('ROLE_USER')")
     public ResponseEntity<CustomResponseObject> saveHotel(@RequestBody @Valid Hotel hotel){
         return new ResponseEntity<>(hotelService.saveHotel(hotel), HttpStatus.OK);
     }

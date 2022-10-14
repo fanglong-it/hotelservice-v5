@@ -159,6 +159,8 @@ public class UserServiceImpl implements UserService {
 		}
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setUsername(user.getUsername());
+            user.setUserRole(UserRole.ROLE_USER);
+            user.setActive(true);
             userRepository.save(user);
 
             logger.info("END CHECK REGISTRATION");

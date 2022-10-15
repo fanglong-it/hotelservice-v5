@@ -30,4 +30,6 @@ public class BillDetailRequest {
     @ApiModelProperty(required = true)
     private int status;
 
+    private String billDate;
+
 }

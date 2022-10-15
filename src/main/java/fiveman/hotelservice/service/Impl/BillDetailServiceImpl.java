@@ -3,6 +3,7 @@ package fiveman.hotelservice.service.Impl;
 import fiveman.hotelservice.entities.BillDetail;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.BillDetailRepository;
+import fiveman.hotelservice.repository.ServiceRepository;
 import fiveman.hotelservice.response.BillDetailResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.BillDetailService;
@@ -21,6 +22,9 @@ public class BillDetailServiceImpl implements BillDetailService {
     @Autowired
     BillDetailRepository billDetailRepository;
 
+    @Autowired
+    ServiceRepository serviceRepository;
+
     BillDetailResponse mapBillDetailToResponse(BillDetail billDetail) {
 //        private long id;
 //        private long service_Id;
@@ -32,12 +36,13 @@ public class BillDetailServiceImpl implements BillDetailService {
         BillDetailResponse billDetailResponse
                 = new BillDetailResponse();
         billDetailResponse.setId(billDetail.getId());
-        billDetailResponse.setService_Id(billDetail.getService().getId());
+        billDetailResponse.setService(serviceRepository.getServiceById(billDetail.getService().getId()));
         billDetailResponse.setBill_Id(billDetail.getBill().getId());
         billDetailResponse.setQuantity(billDetail.getQuantity());
         billDetailResponse.setPrice(billDetail.getPrice());
         billDetailResponse.setAmount(billDetail.getAmount());
         billDetailResponse.setStatus(billDetail.getStatus());
+        billDetailResponse.setBillDate(billDetail.getBillDate());
         return billDetailResponse;
     }
 

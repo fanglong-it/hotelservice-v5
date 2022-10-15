@@ -31,4 +31,7 @@ public class BillDetail {
 
     private int status;
 
+    private String billDate;
+    
+
 }

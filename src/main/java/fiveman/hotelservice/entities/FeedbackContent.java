@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "Feedback_Content")
-public class feedbackContent {
+public class FeedbackContent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

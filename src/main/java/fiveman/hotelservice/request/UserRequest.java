@@ -32,11 +32,9 @@ public class UserRequest {
     private boolean gender;
 
     @Min(value = 9, message = "Phone min is 9")
-    @Max(value = 10, message = "Phone max is 10")
+    @Max(value = 11, message = "Phone max is 11")
     private String phoneNumber;
 
     private String dateOfBirth;
-
-    private long hotel_Id;
 
 }

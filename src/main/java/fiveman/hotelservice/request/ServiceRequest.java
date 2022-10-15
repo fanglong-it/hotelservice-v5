@@ -1,12 +1,8 @@
 package fiveman.hotelservice.request;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import fiveman.hotelservice.entities.ServiceCategory;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 
 @AllArgsConstructor

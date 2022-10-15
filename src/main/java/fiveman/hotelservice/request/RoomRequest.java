@@ -1,8 +1,5 @@
 package fiveman.hotelservice.request;
 
-import javax.persistence.Id;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;

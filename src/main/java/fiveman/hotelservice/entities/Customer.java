@@ -27,6 +27,9 @@ public class Customer {
     private String email;
     private int idNo;
     private int passportNo;
+    
+    private String birthDate;
+
     private String createDate;
     private String updateDate;
     private String createBy;

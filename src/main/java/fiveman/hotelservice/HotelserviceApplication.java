@@ -1,8 +1,6 @@
 package fiveman.hotelservice;
 
 
-import fiveman.hotelservice.entities.User;
-import fiveman.hotelservice.entities.UserRole;
 import fiveman.hotelservice.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;

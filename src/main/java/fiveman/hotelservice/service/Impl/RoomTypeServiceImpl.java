@@ -17,7 +17,6 @@ import java.util.List;
 @Slf4j
 public class RoomTypeServiceImpl implements RoomTypeService {
 
-    //    Logger logger = LoggerFactory.getLogger(RoomTypeServiceImpl.class);
     @Autowired
     RoomTypeRepository roomTypeRepository;
 

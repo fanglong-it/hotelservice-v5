@@ -1,11 +1,8 @@
 package fiveman.hotelservice.request;
 
-import fiveman.hotelservice.entities.Bill;
-import fiveman.hotelservice.entities.Service;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import javax.persistence.*;
 
 @Data
 @AllArgsConstructor

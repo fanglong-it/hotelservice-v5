@@ -1,11 +1,9 @@
 package fiveman.hotelservice.entities;
 
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
 

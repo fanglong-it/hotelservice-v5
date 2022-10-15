@@ -2,9 +2,6 @@ package fiveman.hotelservice.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,75 +14,71 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fiveman.hotelservice.entities.Promotion;
-import fiveman.hotelservice.request.PromotionRequest;
+import fiveman.hotelservice.entities.Utilities;
 import fiveman.hotelservice.response.CustomResponseObject;
-import fiveman.hotelservice.service.PromotionService;
+import fiveman.hotelservice.service.UtilitiesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
-@Api(tags = "promotion")
-@RequestMapping("/api/v1/")
-public class PromotionController {
-
+@RequestMapping("/api/v1")
+@Api(tags = "Utilities")
+public class UtilitiesController {
+      
       @Autowired
-      private PromotionService promotionService;
+      private UtilitiesService utilitiesService;
 
-      @Autowired
-      private ModelMapper modelMapper;
+      @GetMapping("/getAllUtilities")
+      @PreAuthorize("hasRole('ROLE_USER') or isAnonymous()")
+      @ApiResponses(value = { //
+                  @ApiResponse(code = 400, message = "Something went wrong"), //
+                  @ApiResponse(code = 403, message = "Access denied"), //
+                  @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+      public ResponseEntity<List<Utilities>> getutilities() {
+            return new ResponseEntity<>(utilitiesService.getAllUtilities(), HttpStatus.OK);
+      }
 
-      @GetMapping("/promotions")
+      @GetMapping("/utilities/{id}")
+      @PreAuthorize("hasRole('ROLE_USER') or isAnonymous()")
+      @ApiResponses(value = { //
+                  @ApiResponse(code = 400, message = "Something went wrong"), //
+                  @ApiResponse(code = 403, message = "Access denied"), //
+                  @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+      public ResponseEntity<Utilities> getUtilitiesById(@PathVariable("id") long id) {
+            return new ResponseEntity<>(utilitiesService.getUtilitiesById(id), HttpStatus.OK);
+      }
+
+      @PutMapping("/utilities")
       @PreAuthorize("hasRole('ROLE_ADMIN')")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<List<Promotion>> getpromotions() {
-            return new ResponseEntity<List<Promotion>>(promotionService.getPromotions(), HttpStatus.OK);
+      public ResponseEntity<CustomResponseObject> updateUtilties(@RequestBody Utilities utilities) {
+            return new ResponseEntity<>(utilitiesService.updateUtilities(utilities),
+                        HttpStatus.OK);
       }
 
-      @GetMapping("/promotion/{id}")
-      @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-      @ApiResponses(value = { //
-                  @ApiResponse(code = 400, message = "Something went wrong"), //
-                  @ApiResponse(code = 403, message = "Access denied"), //
-                  @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<Promotion> getpromotion(@PathVariable("id") long id) {
-            return new ResponseEntity<Promotion>(promotionService.getPromotion(id), HttpStatus.OK);
-      }
-
-      @PostMapping("/promotion")
+      @PostMapping("/utilities")
       @PreAuthorize("hasRole('ROLE_ADMIN')")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> savepromotion(@RequestBody @Valid PromotionRequest request) {
-            Promotion promotion = modelMapper.map(request, Promotion.class);
-            return new ResponseEntity<>(promotionService.savePromotion(promotion), HttpStatus.OK);
+      public ResponseEntity<CustomResponseObject> addUtilities(@RequestBody Utilities utilities) {
+            return new ResponseEntity<>(utilitiesService.saveUtilities(utilities),
+                        HttpStatus.OK);
       }
 
-      @PutMapping("/promotion")
+      @DeleteMapping("/utilities/{id}")
       @PreAuthorize("hasRole('ROLE_ADMIN')")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> updatepromotion(@RequestBody @Valid PromotionRequest request) {
-            Promotion promotion = modelMapper.map(request, Promotion.class);
-            return new ResponseEntity<>(promotionService.updatePromotion(promotion), HttpStatus.OK);
-      }
-
-      @DeleteMapping("/promotion/{id}")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
-      @ApiResponses(value = { //
-                  @ApiResponse(code = 400, message = "Something went wrong"), //
-                  @ApiResponse(code = 403, message = "Access denied"), //
-                  @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> deletepromotion(@PathVariable long id) {
-            return new ResponseEntity<>(promotionService.deletePromotion(id), HttpStatus.OK);
+      public ResponseEntity<CustomResponseObject> deleteUtilities(@PathVariable("id") long id) {
+            return new ResponseEntity<>(utilitiesService.deleteUtitlies(id), HttpStatus.OK);
       }
 }

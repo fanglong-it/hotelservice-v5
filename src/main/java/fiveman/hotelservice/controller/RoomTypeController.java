@@ -45,7 +45,7 @@ public class RoomTypeController {
     }
 
     @PutMapping("/roomType")
-    @PreAuthorize("hasRole('ROLE_USER') or isAnonymous()")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //
@@ -55,7 +55,7 @@ public class RoomTypeController {
     }
 
     @PostMapping("/roomType")
-    @PreAuthorize("hasRole('ROLE_USER') or isAnonymous()")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //
@@ -66,7 +66,7 @@ public class RoomTypeController {
 
 
     @DeleteMapping("/roomType/{id}")
-    @PreAuthorize("hasRole('ROLE_USER') or isAnonymous()")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //

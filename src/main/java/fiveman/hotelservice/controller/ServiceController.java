@@ -3,7 +3,6 @@ package fiveman.hotelservice.controller;
 import java.util.List;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 import fiveman.hotelservice.request.ServiceRequest;
 import fiveman.hotelservice.response.CustomResponseObject;

@@ -17,75 +17,75 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fiveman.hotelservice.entities.Promotion;
-import fiveman.hotelservice.request.PromotionRequest;
+import fiveman.hotelservice.entities.RoomAlarm;
+import fiveman.hotelservice.request.RoomAlarmRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
-import fiveman.hotelservice.service.PromotionService;
+import fiveman.hotelservice.service.RoomAlarmService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
-@Api(tags = "promotion")
+@Api(tags = "room_alarm")
 @RequestMapping("/api/v1/")
-public class PromotionController {
-
+public class RoomAlarmController {
+      
       @Autowired
-      private PromotionService promotionService;
-
+      private RoomAlarmService roomAlarmService;
+      
       @Autowired
       private ModelMapper modelMapper;
-
-      @GetMapping("/promotions")
+      
+      @GetMapping("/roomAlarms")
       @PreAuthorize("hasRole('ROLE_ADMIN')")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<List<Promotion>> getpromotions() {
-            return new ResponseEntity<List<Promotion>>(promotionService.getPromotions(), HttpStatus.OK);
+      public ResponseEntity<List<RoomAlarm>> getRoomAlarms() {
+            return new ResponseEntity<List<RoomAlarm>>(roomAlarmService.getAllRoomAlarm(), HttpStatus.OK);
       }
 
-      @GetMapping("/promotion/{id}")
+      @GetMapping("/roomAlarm/{id}")
       @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<Promotion> getpromotion(@PathVariable("id") long id) {
-            return new ResponseEntity<Promotion>(promotionService.getPromotion(id), HttpStatus.OK);
+      public ResponseEntity<RoomAlarm> getRoomAlarm(@PathVariable("id") long id) {
+            return new ResponseEntity<RoomAlarm>(roomAlarmService.getRoomAlarm(id), HttpStatus.OK);
       }
 
-      @PostMapping("/promotion")
+      @PostMapping("/roomAlarm")
       @PreAuthorize("hasRole('ROLE_ADMIN')")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> savepromotion(@RequestBody @Valid PromotionRequest request) {
-            Promotion promotion = modelMapper.map(request, Promotion.class);
-            return new ResponseEntity<>(promotionService.savePromotion(promotion), HttpStatus.OK);
+      public ResponseEntity<CustomResponseObject> saveRoomAlarm(@RequestBody @Valid RoomAlarmRequest request) {
+            RoomAlarm roomAlarm = modelMapper.map(request, RoomAlarm.class);
+            return new ResponseEntity<>(roomAlarmService.saveRoomAlarm(roomAlarm), HttpStatus.OK);
       }
 
-      @PutMapping("/promotion")
+      @PutMapping("/roomAlarm")
       @PreAuthorize("hasRole('ROLE_ADMIN')")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> updatepromotion(@RequestBody @Valid PromotionRequest request) {
-            Promotion promotion = modelMapper.map(request, Promotion.class);
-            return new ResponseEntity<>(promotionService.updatePromotion(promotion), HttpStatus.OK);
+      public ResponseEntity<CustomResponseObject> updateroomAlarm(@RequestBody @Valid RoomAlarmRequest request) {
+            RoomAlarm roomAlarm = modelMapper.map(request, RoomAlarm.class);
+            return new ResponseEntity<>(roomAlarmService.updateRoomAlarm(roomAlarm), HttpStatus.OK);
       }
 
-      @DeleteMapping("/promotion/{id}")
+      @DeleteMapping("/roomAlarm/{id}")
       @PreAuthorize("hasRole('ROLE_ADMIN')")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> deletepromotion(@PathVariable long id) {
-            return new ResponseEntity<>(promotionService.deletePromotion(id), HttpStatus.OK);
+      public ResponseEntity<CustomResponseObject> deleteroomAlarm(@PathVariable long id) {
+            return new ResponseEntity<>(roomAlarmService.deleteRoomAlarm(id), HttpStatus.OK);
       }
 }

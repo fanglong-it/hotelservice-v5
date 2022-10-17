@@ -15,6 +15,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
+          <factory-entry name="entityManagerFactory" />
           <factory-entry name="hotelservice" value="5d461281-3e5b-4551-92dc-6e4e4d3d696b" />
           <factory-entry name="hotelservice_v2" />
         </datasource-mapping>

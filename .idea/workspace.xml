@@ -4,16 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64a37eb9-d5fd-4799-9624-8c5c9f4b2b96" name="Changes" comment="">
+    <list default="true" id="64a37eb9-d5fd-4799-9624-8c5c9f4b2b96" name="Changes" comment="delete application.properties">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hotelservice_v5.iml" beforeDir="false" afterPath="$PROJECT_DIR$/hotelservice_v5.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/BillController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/BillController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/ServiceController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/ServiceController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/Device$DeviceBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/Device$DeviceBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/Device.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/Device.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/BillDetailServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/BillDetailServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RoomServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RoomServiceImpl.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,10 +40,8 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$USER_HOME$/AppData/Local/Temp/tmp_2_WebSecurityConfig.class" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$USER_HOME$/AppData/Local/Temp/tmp_1_WebSecurityConfig.class" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$USER_HOME$/AppData/Local/Temp/tmp__WebSecurityConfig.class" root0="FORCE_HIGHLIGHTING" />
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2FoTZfb7xTuY4uZpVyPRUDrnFxP" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -54,23 +49,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="RequestMappingsPanelOrder0" value="0" />
-    <property name="RequestMappingsPanelOrder1" value="1" />
-    <property name="RequestMappingsPanelWidth0" value="75" />
-    <property name="RequestMappingsPanelWidth1" value="75" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
-    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/repository/RoleRepository.java" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/home/longpc/Documents/Source Code/Api/hotelservice-v5",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "spring.configuration.checksum": "eb1b1009b6c94b45e7de0b2e50bc993c"
+  }
+}]]></component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
   </component>
@@ -101,6 +93,8 @@
       <workItem from="1665561762084" duration="1501000" />
       <workItem from="1665595017670" duration="625000" />
       <workItem from="1665659638502" duration="14045000" />
+      <workItem from="1665975219323" duration="290000" />
+      <workItem from="1665975522715" duration="383000" />
     </task>
     <task id="LOCAL-00001" summary="Fetching code from version 2, change Role to Enum">
       <created>1665160824390</created>
@@ -228,7 +222,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>

@@ -1,13 +1,11 @@
 package fiveman.hotelservice.entities;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -30,7 +28,6 @@ public class Service {
     @NotBlank(message = "description are mandatory")
     private String description;
 
-    @NonNull
     private boolean status;
 
     private String createDate;

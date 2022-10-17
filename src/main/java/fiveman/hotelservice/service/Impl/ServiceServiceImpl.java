@@ -12,7 +12,6 @@ import fiveman.hotelservice.repository.ServiceRepository;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.ServiceService;
 import fiveman.hotelservice.utils.Common;
-import fiveman.hotelservice.utils.Utilities;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

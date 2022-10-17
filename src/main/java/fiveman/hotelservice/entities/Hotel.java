@@ -8,7 +8,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -45,7 +44,6 @@ public class Hotel{
     private String longitude;
     private String latitude;
 
-    @NonNull
     private boolean status;
 
     private String createDate;

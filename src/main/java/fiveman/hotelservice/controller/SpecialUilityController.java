@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +34,7 @@ public class SpecialUilityController {
 
 
       @GetMapping("/specialUtilitys")
-      @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -45,7 +44,7 @@ public class SpecialUilityController {
       }
 
       @GetMapping("/specialUtility/{id}")
-      @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -55,7 +54,7 @@ public class SpecialUilityController {
       }
 
       @PostMapping("/specialUtility")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -65,7 +64,7 @@ public class SpecialUilityController {
       }
 
       @PutMapping("/specialUtility")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -75,7 +74,7 @@ public class SpecialUilityController {
       }
 
       @DeleteMapping("/specialUtility/{id}")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //

@@ -3,7 +3,6 @@ package fiveman.hotelservice.controller;
 
 import fiveman.hotelservice.entities.User;
 import fiveman.hotelservice.request.UserRequest;
-import fiveman.hotelservice.response.ConcreteClass;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.UserResponse;
 import fiveman.hotelservice.service.UserService;

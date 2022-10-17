@@ -28,20 +28,20 @@ public class EventController {
     ModelMapper modelMapper;
 
     @GetMapping("/event/{id}")
-    @PreAuthorize("isAnonymous() or hasRole('ROLE_USER')")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<Event> getEventById(@PathVariable("id") long id) {
         return new ResponseEntity<>(eventService.getEventById(id), HttpStatus.OK);
     }
 
     @GetMapping("/events")
-    @PreAuthorize("isAnonymous() or hasRole('ROLE_USER')")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
 
     public ResponseEntity<List<Event>> getEvents() {
         return new ResponseEntity<>(eventService.getAllEvents(), HttpStatus.OK);
     }
 
     @PostMapping("/event")
-    @PreAuthorize("isAnonymous() or hasRole('ROLE_USER')")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<CustomResponseObject> saveEvent(@RequestBody @Valid EventRequest eventRequest) {
         Event event = modelMapper.map(eventRequest, Event.class);
         return new ResponseEntity<>(eventService.saveEvent(event), HttpStatus.OK);

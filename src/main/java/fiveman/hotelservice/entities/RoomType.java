@@ -22,7 +22,6 @@ public class RoomType {
     private int maxAdult;
     private int maxChildren;
     private int defaultOccupancy;
-    @NonNull
     private boolean isActive;
 
 }

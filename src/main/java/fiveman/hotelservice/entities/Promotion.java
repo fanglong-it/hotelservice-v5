@@ -3,7 +3,6 @@ package fiveman.hotelservice.entities;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Date;
 
 @Entity
 @AllArgsConstructor

@@ -26,7 +26,6 @@ public class ServiceRequest {
     @NotBlank(message = "description are mandatory")
     private String description;
 
-    @NonNull
     private boolean status;
 
     private String createDate;

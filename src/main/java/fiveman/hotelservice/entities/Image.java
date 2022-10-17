@@ -2,10 +2,7 @@ package fiveman.hotelservice.entities;
 
 
 import lombok.*;
-import org.springframework.validation.annotation.Validated;
-
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 

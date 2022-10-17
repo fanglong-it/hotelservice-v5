@@ -22,7 +22,7 @@ public class CustomerBookingController {
     CustomerBookingService customerBookingService;
 
     @GetMapping("/customerBooking/{id}")
-    @PreAuthorize("isAnonymous() or hasRole('ROLE_USER')")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<List<Customer>> getAllCustomerByBooking_Id(@PathVariable("id") long id) {
         return new ResponseEntity<>(customerBookingService.getAllCustomerByBooking_Id(id), HttpStatus.OK);
     }

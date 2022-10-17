@@ -38,7 +38,7 @@ public class MessageController {
       private ModelMapper modelMapper;
 
       @GetMapping("/messages")
-      @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -48,7 +48,7 @@ public class MessageController {
       }
 
       @GetMapping("/message/{id}")
-      @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -58,7 +58,7 @@ public class MessageController {
       }
 
       @PostMapping("/message")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -69,7 +69,7 @@ public class MessageController {
       }
 
       @PutMapping("/message")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -80,7 +80,7 @@ public class MessageController {
       }
 
       @DeleteMapping("/message/{id}")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //

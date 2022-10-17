@@ -31,7 +31,7 @@ public class UtilitiesController {
       private UtilitiesService utilitiesService;
 
       @GetMapping("/getAllUtilities")
-      @PreAuthorize("hasRole('ROLE_USER') or isAnonymous()")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -41,7 +41,7 @@ public class UtilitiesController {
       }
 
       @GetMapping("/utilities/{id}")
-      @PreAuthorize("hasRole('ROLE_USER') or isAnonymous()")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -51,7 +51,7 @@ public class UtilitiesController {
       }
 
       @PutMapping("/utilities")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -62,7 +62,7 @@ public class UtilitiesController {
       }
 
       @PostMapping("/utilities")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -73,7 +73,7 @@ public class UtilitiesController {
       }
 
       @DeleteMapping("/utilities/{id}")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //

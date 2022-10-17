@@ -39,7 +39,7 @@ public class CustomerFeedbackController {
       private ModelMapper modelMapper;
       
       @GetMapping("/customerFeedBacks")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -49,7 +49,7 @@ public class CustomerFeedbackController {
       }
 
       @GetMapping("/customerFeedBack/{id}")
-      @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -59,7 +59,7 @@ public class CustomerFeedbackController {
       }
 
       @PostMapping("/customerFeedBack")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -70,7 +70,7 @@ public class CustomerFeedbackController {
       }
 
       @PutMapping("/customerFeedBack")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -81,7 +81,7 @@ public class CustomerFeedbackController {
       }
 
       @DeleteMapping("/customerFeedBack/{id}")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //

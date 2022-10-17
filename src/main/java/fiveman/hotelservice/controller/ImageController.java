@@ -23,38 +23,38 @@ public class ImageController {
 
 
     @GetMapping("/images")
-    @PreAuthorize("isAnonymous()")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<List<Image>> getAllImages() {
         return new ResponseEntity<>(imageService.getAllImage(), HttpStatus.OK);
     }
 
     @GetMapping("/image")
-    @PreAuthorize("isAnonymous()")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<List<Image>> getImageByType(@RequestParam("type") String type) {
         return new ResponseEntity<>(imageService.getImageByImageType(type), HttpStatus.OK);
     }
 
     @GetMapping("/image/{id}")
-    @PreAuthorize("isAnonymous()")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
 
     public ResponseEntity<Image> getImageById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(imageService.getImageById(id), HttpStatus.OK);
     }
 
     @PostMapping("/image")
-    @PreAuthorize("isAnonymous()")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<CustomResponseObject> saveImage(@RequestBody @Valid Image image) {
         return new ResponseEntity<>(imageService.saveImage(image), HttpStatus.OK);
     }
 
     @PutMapping("/image")
-    @PreAuthorize("isAnonymous()")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<CustomResponseObject> updateImage(@Valid @RequestBody Image image) {
         return new ResponseEntity<>(imageService.updateImage(image), HttpStatus.OK);
     }
 
     @DeleteMapping("/image/{id}")
-    @PreAuthorize("isAnonymous()")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<CustomResponseObject> deleteImage(@PathVariable("id") Long id) {
         return new ResponseEntity<>(imageService.deleteImage(id), HttpStatus.OK);
     }

@@ -38,7 +38,7 @@ public class SpecialRequestController {
       private ModelMapper modelMapper;
 
       @GetMapping("/specialRequests")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -48,7 +48,7 @@ public class SpecialRequestController {
       }
 
       @GetMapping("/specialRequest/{id}")
-      @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -58,29 +58,29 @@ public class SpecialRequestController {
       }
 
       @PostMapping("/specialRequest")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> saveSpecialRequest(@RequestBody @Valid SpecialRequestRequest request) {
-            SpecialRequest specialRequest = modelMapper.map(request, SpecialRequest.class);
+      public ResponseEntity<CustomResponseObject> saveSpecialRequest(@RequestBody @Valid SpecialRequestRequest specialRequestRequest) {
+            SpecialRequest specialRequest = modelMapper.map(specialRequestRequest, SpecialRequest.class);
             return new ResponseEntity<>(specialRequestService.saveSpecialRequest(specialRequest), HttpStatus.OK);
       }
 
       @PutMapping("/specialRequest")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> updateSpecialRequest(@RequestBody @Valid SpecialRequestRequest request) {
-            SpecialRequest specialRequest = modelMapper.map(request, SpecialRequest.class);
+      public ResponseEntity<CustomResponseObject> updateSpecialRequest(@RequestBody @Valid SpecialRequestRequest specialRequestRequest) {
+            SpecialRequest specialRequest = modelMapper.map(specialRequestRequest, SpecialRequest.class);
             return new ResponseEntity<>(specialRequestService.updateSpecialRequest(specialRequest), HttpStatus.OK);
       }
 
       @DeleteMapping("/specialRequest/{id}")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //

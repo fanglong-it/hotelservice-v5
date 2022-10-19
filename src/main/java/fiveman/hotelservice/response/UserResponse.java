@@ -1,15 +1,7 @@
 package fiveman.hotelservice.response;
 
 
-import fiveman.hotelservice.entities.Hotel;
-import fiveman.hotelservice.entities.UserRole;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-
-import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import java.util.List;
 
 @Data
 @AllArgsConstructor

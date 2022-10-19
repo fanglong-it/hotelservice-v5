@@ -3,6 +3,7 @@ package fiveman.hotelservice.controller;
 import fiveman.hotelservice.service.UserService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +19,7 @@ public class TokenController {
 
 
     @GetMapping("/token/refresh")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
     public String refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         return userService.refresh(request.getRemoteUser());
     }

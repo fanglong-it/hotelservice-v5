@@ -38,7 +38,7 @@ public class PromotionController {
       private ModelMapper modelMapper;
 
       @GetMapping("/promotions")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -48,7 +48,7 @@ public class PromotionController {
       }
 
       @GetMapping("/promotion/{id}")
-      @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -58,7 +58,7 @@ public class PromotionController {
       }
 
       @PostMapping("/promotion")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -69,7 +69,7 @@ public class PromotionController {
       }
 
       @PutMapping("/promotion")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
@@ -80,7 +80,7 @@ public class PromotionController {
       }
 
       @DeleteMapping("/promotion/{id}")
-      @PreAuthorize("hasRole('ROLE_ADMIN')")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //

@@ -39,7 +39,6 @@ public class Device implements Serializable {
     private String brand;
     private String description;
 
-    @NonNull
     private boolean status;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Room.class)

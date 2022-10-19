@@ -1,17 +1,12 @@
 package fiveman.hotelservice.entities;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Data
@@ -34,7 +29,6 @@ public class User {
     private String middleName;
     private String lastName;
 
-    @NonNull
     private boolean gender;
 
     @Min(value = 9, message = "Phone min is 9")
@@ -46,7 +40,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-    @NonNull
     private boolean isActive;
 
     @ManyToOne(fetch = FetchType.EAGER)

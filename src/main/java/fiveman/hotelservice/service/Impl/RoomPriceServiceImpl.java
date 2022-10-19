@@ -6,14 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import fiveman.hotelservice.entities.Room;
 import fiveman.hotelservice.entities.RoomPrice;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.RoomPriceRepository;
 import fiveman.hotelservice.response.CustomResponseObject;
-import fiveman.hotelservice.response.RoomResponse;
 import fiveman.hotelservice.service.RoomPriceService;
-import fiveman.hotelservice.service.RoomService;
 import fiveman.hotelservice.utils.Common;
 import lombok.extern.slf4j.Slf4j;
 

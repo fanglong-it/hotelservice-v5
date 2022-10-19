@@ -4,7 +4,6 @@ import fiveman.hotelservice.entities.User;
 import fiveman.hotelservice.entities.UserRole;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.UserRepository;
-import fiveman.hotelservice.request.UserRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.UserResponse;
 import fiveman.hotelservice.security.JwtTokenProvider;
@@ -19,15 +18,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -137,9 +133,6 @@ public class UserServiceImpl implements UserService {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             User user = userRepository.findUserByUsername(username);
-            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-
-
             logger.info("END CHECK SIGN IN");
             List<UserRole> userRoles = new ArrayList<>();
             userRoles.add(user.getUserRole());

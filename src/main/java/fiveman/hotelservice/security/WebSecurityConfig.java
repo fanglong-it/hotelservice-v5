@@ -1,6 +1,5 @@
 package fiveman.hotelservice.security;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +16,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import lombok.RequiredArgsConstructor;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -31,34 +32,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/h2-console/**/**",
 
             //resource
-            "/api/v1/login",
-            "/api/v1/signup",
-            "/api/v1/role/save",
-            "/api/v1/image/**/**",
-            "/api/v1/images",
-            "/api/v1/events",
-            "/api/v1/event",
-            "/api/v1/abstractions",
-            "/api/v1/abstraction/**/**",
-            "/api/v1/bookings",
-            "/api/v1/booking/**/**",
-            "/api/v1/customers",
-            "/api/v1/customer/**/**",
-            "/api/v1/services",
-            "/api/v1/service/**/**",
-            "/api/v1/serviceCategories",
-            "/api/v1/serviceCategory/**/**",
-            "/api/v1/devices",
-            "/api/v1/device/**/**",
-            "/api/v1/roomTypes",
-            "/api/v1/roomType/**/**",
-            "/api/v1/rooms",
-            "/api/v1/room/**/**",
-            "/api/v1/bills",
-            "/api/v1/bill/**/**",
-            "/api/v1/billDetail/**/**",
-            "/api/v1/hotels",
-            "/api/v1/hotel/**/**"
+            // "/api/v1/login",
+            // "/api/v1/signup",
+            // "/api/v1/role/save",
+            // "/api/v1/image/**/**",
+            // "/api/v1/images",
+            // "/api/v1/events",
+            // "/api/v1/event",
+            // "/api/v1/abstractions",
+            // "/api/v1/abstraction/**/**",
+            // "/api/v1/bookings",
+            // "/api/v1/booking/**/**",
+            // "/api/v1/customers",
+            // "/api/v1/customer/**/**",
+            // "/api/v1/services",
+            // "/api/v1/service/**/**",
+            // "/api/v1/serviceCategories",
+            // "/api/v1/serviceCategory/**/**",
+            // "/api/v1/devices",
+            // "/api/v1/device/**/**",
+            // "/api/v1/roomTypes",
+            // "/api/v1/roomType/**/**",
+            // "/api/v1/rooms",
+            // "/api/v1/room/**/**",
+            // "/api/v1/bills",
+            // "/api/v1/bill/**/**",
+            // "/api/v1/billDetail/**/**",
+            // "/api/v1/hotels",
+            // "/api/v1/hotel/**/**"
+            "/api/v1/**/**/**"
             //end_resource
     };
 

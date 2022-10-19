@@ -25,7 +25,6 @@ public class Room {
     private String createBy;
     private String lastModifyBy;
 
-    @NonNull
     private boolean status;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)

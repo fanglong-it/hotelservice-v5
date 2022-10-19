@@ -4,8 +4,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -44,7 +42,6 @@ public class Booking {
     private String roomPayment;
     private String specialNote;
 
-    @NonNull
     private boolean status;
 
     private String createDate;

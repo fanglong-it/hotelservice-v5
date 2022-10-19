@@ -1,15 +1,7 @@
 package fiveman.hotelservice.request;
 
-import fiveman.hotelservice.entities.Bill;
-import fiveman.hotelservice.entities.Customer;
-import fiveman.hotelservice.entities.Hotel;
-import fiveman.hotelservice.entities.Room;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -31,7 +23,6 @@ public class BookingRequest {
     private String roomPayment;
     private String specialNote;
 
-    @NonNull
     private boolean status;
 
     private String createDate;

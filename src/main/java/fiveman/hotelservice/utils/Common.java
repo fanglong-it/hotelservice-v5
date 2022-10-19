@@ -59,6 +59,13 @@ public class Common {
     // Code for getting - success and fail  announcement
     public static final String GET_FAIL = "HS-00016";
     
+    
+    // code for momo payment
+    public static final String PARTNER_CODE = "MOMODJMX20220717";
+    public static final String ACCESS_KEY = "WehkypIRwPP14mHb";
+    public static final String SECRET_KEY = "3fq8h4CqAAPZcTTb3nCDpFKwEkQDsZzz";
+    public static final String MOMO_URI = "https://test-payment.momo.vn/v2/gateway/api/create";
+    
 }
 
 

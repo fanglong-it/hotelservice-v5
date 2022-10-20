@@ -7,7 +7,6 @@ import fiveman.hotelservice.repository.PaymentMethodRepository;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.PaymentMethodService;
 import fiveman.hotelservice.utils.Common;
-import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

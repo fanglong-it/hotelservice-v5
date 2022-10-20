@@ -63,7 +63,7 @@ public class PaymentController {
             CustomerInfoMomoRequest customerInfo = new CustomerInfoMomoRequest("dat", "0123456789", "dat@gmail.com");
             
             // signature example
-            String signature = "accessKey=WehkypIRwPP14mHb&amount=15000&extraData=&ipnUrl=https://momo.vn&orderId=MM1540456472575&orderInfo=test&partnerCode=MOMODJMX20220717&redirectUrl=https://momo.vn&requestId=MM1540456472575&requestType=captureWallet";
+            // String signature = "accessKey=WehkypIRwPP14mHb&amount=15000&extraData=&ipnUrl=https://momo.vn&orderId=MM1540456472575&orderInfo=test&partnerCode=MOMODJMX20220717&redirectUrl=https://momo.vn&requestId=MM1540456472575&requestType=captureWallet";
             
             String sign = "accessKey="+ Common.ACCESS_KEY +"&amount="+ request.getAmount() + "&extraData="
                         + "&ipnUrl=" + request.getIpnUrl() + "&orderId="+ request.getOrderId() +"&orderInfo="+ request.getOrderInfo()

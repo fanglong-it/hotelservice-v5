@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@Api(tags = "bill")
+@Api(tags = "Bill")
 @RequestMapping("/api/v1")
 public class BillController {
     @Autowired

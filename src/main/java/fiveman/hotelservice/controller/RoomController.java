@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
-@Api(tags = "room")
+@Api(tags = "Room")
 @RequestMapping("/api/v1/")
 public class RoomController {
 

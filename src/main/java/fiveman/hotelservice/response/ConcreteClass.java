@@ -1,6 +1,5 @@
 package fiveman.hotelservice.response;
 
-import lombok.*;
 
 public class ConcreteClass extends UserResponse {
 

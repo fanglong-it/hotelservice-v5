@@ -30,6 +30,8 @@ public class Service {
 
     private boolean status;
 
+    private String majorGroup;
+
     private String createDate;
     private String updateDate;
     private String createBy;

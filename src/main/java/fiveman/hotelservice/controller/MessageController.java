@@ -27,7 +27,7 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
-@Api(tags = "message")
+@Api(tags = "Message")
 @RequestMapping("/api/v1/")
 public class MessageController {
       

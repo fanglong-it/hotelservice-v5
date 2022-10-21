@@ -39,5 +39,27 @@ public class EventServiceImpl implements EventService {
         return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding Event Success!");
     }
 
+    @Override
+    public CustomResponseObject updateEvent(Event event) {
+        if (!eventRepository.existsById(event.getId())) {
+            throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.UPDATE_FAIL, "Not found id =" + event.getId()));
+        }
+        eventRepository.save(event);
+        return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Event Success!");
+    }
+
+    @Override
+    public CustomResponseObject deleteEvent(long id) {
+
+        if (!eventRepository.existsById(id)) {
+            throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.DELETE_FAIL, "Cant found ID =" + id));
+        }
+        eventRepository.deleteById(id);
+        return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Event Success!");
+    }
+
+
+    
+
 
 }

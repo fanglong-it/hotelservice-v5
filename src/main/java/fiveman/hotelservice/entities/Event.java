@@ -28,7 +28,7 @@ public class Event {
     private String endDate;
     private String startTime;
     private String endTime;
-    private boolean status;
+    private String status;
 
     private int numberOfView;
 

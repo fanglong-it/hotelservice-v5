@@ -16,6 +16,7 @@ public class RequestServiceRequest {
       private long id;
       
       private String requestServiceName;
+      private String requestServiceType;
       private String dateTime;
       private boolean status;
       

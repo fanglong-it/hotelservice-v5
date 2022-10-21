@@ -2,10 +2,13 @@ package fiveman.hotelservice.controller;
 
 
 import fiveman.hotelservice.entities.BillPayment;
+import fiveman.hotelservice.request.BillPaymentRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.BillPaymentService;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,8 @@ public class BillPaymentController {
     @Autowired
     BillPaymentService billPaymentService;
 
+    @Autowired
+    ModelMapper modelMapper;
 
     @GetMapping("/billPayment/{id}")
     public ResponseEntity<BillPayment> getBillPaymentById(@PathVariable("id") long id) {
@@ -33,12 +38,14 @@ public class BillPaymentController {
     }
 
     @PostMapping("/billPayment")
-    public ResponseEntity<CustomResponseObject> saveBillPayment(@RequestBody @Valid BillPayment billPayment) {
+    public ResponseEntity<CustomResponseObject> saveBillPayment(@RequestBody @Valid BillPaymentRequest billPaymentRequest) {
+        BillPayment billPayment = modelMapper.map(billPaymentRequest, BillPayment.class);
         return new ResponseEntity<>(billPaymentService.saveBillPayment(billPayment), HttpStatus.OK);
     }
 
     @PutMapping("/billPayment")
-    public ResponseEntity<CustomResponseObject> updateBillPayment(@RequestBody @Valid BillPayment billPayment) {
+    public ResponseEntity<CustomResponseObject> updateBillPayment(@RequestBody @Valid BillPaymentRequest billPaymentRequest) {
+        BillPayment billPayment = modelMapper.map(billPaymentRequest, BillPayment.class);
         return new ResponseEntity<>(billPaymentService.updateBillPayment(billPayment), HttpStatus.OK);
     }
 

@@ -13,4 +13,8 @@ public interface EventService {
 
     CustomResponseObject saveEvent(Event event);
 
+    CustomResponseObject updateEvent(Event event);
+
+    CustomResponseObject deleteEvent(long id);
+    
 }

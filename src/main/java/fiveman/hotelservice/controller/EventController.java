@@ -47,5 +47,19 @@ public class EventController {
         return new ResponseEntity<>(eventService.saveEvent(event), HttpStatus.OK);
     }
 
+    @PutMapping("/event")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
+    public ResponseEntity<CustomResponseObject> updateEvent(@RequestBody EventRequest eventRequest){
+        Event event = modelMapper.map(eventRequest, Event.class);
+        return new ResponseEntity<>(eventService.updateEvent(event), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/event/{id}")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
+    public ResponseEntity<CustomResponseObject> deleteEvent(@PathVariable("id") long id){
+        return new ResponseEntity<CustomResponseObject>(eventService.deleteEvent(id), HttpStatus.OK);
+    }
+
+    
 
 }

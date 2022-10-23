@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 public class BillDetailResponse {
     private long id;
-    private Service service;
+    private long service_Id;
     private long bill_Id;
     private int quantity;
     private double price;

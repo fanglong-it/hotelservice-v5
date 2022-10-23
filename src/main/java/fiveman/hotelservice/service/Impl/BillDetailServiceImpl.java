@@ -35,7 +35,7 @@ public class BillDetailServiceImpl implements BillDetailService {
         BillDetailResponse billDetailResponse
                 = new BillDetailResponse();
         billDetailResponse.setId(billDetail.getId());
-        billDetailResponse.setService(serviceRepository.getServiceById(billDetail.getService().getId()));
+        billDetailResponse.setService_Id(serviceRepository.getServiceById(billDetail.getService().getId()).getId());
         billDetailResponse.setBill_Id(billDetail.getBill().getId());
         billDetailResponse.setQuantity(billDetail.getQuantity());
         billDetailResponse.setPrice(billDetail.getPrice());

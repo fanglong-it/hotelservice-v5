@@ -25,7 +25,7 @@ public class ServiceCategoryRequest {
 
     private Boolean status;
 
-    private boolean foodAndBeverage;
+    private Boolean foodAndBeverage;
 
     @ApiModelProperty( required = true)
     private long hotel_Id;

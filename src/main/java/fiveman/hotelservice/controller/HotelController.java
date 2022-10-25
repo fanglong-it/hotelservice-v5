@@ -41,6 +41,22 @@ public class HotelController {
         return new ResponseEntity<>(hotelService.saveHotel(hotel), HttpStatus.OK);
     }
 
+    @PutMapping("/hotel")
+    @PreAuthorize("isAnonymous() or isAuthenticated")
+    public ResponseEntity<CustomResponseObject> updateHotel(@RequestBody Hotel hotel){
+        return new ResponseEntity<CustomResponseObject>(hotelService.updateHotel(hotel), HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/hotel/{id}")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
+    public ResponseEntity<CustomResponseObject> deleteHotel(@PathVariable("id")long id){
+        return new ResponseEntity<CustomResponseObject>(hotelService.deleteHotel(id), HttpStatus.OK);
+    }
+
+
+    
+
 
 
 

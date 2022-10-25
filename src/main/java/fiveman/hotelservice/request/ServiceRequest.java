@@ -28,7 +28,7 @@ public class ServiceRequest {
 
     private boolean status;
 
-    private boolean majorGroup;
+    private String majorGroup;
 
     private String createDate;
     private String updateDate;

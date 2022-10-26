@@ -59,12 +59,30 @@ public class Common {
     // Code for getting - success and fail  announcement
     public static final String GET_FAIL = "HS-00016";
     
+    // althogrithm
+    public static final String HMACSHA256 = "HmacSHA256";
+    public static final String HMACSHA512 = "HmacSHA512";
     
     // code for momo payment
+    public static final String IPN_URL_MOMO = "https://hotelservice-v5.herokuapp.com/api/v1/MomoConfirm";
+    public static final String REDIRECT_URL_MOMO = "https://google.com.vn";
     public static final String PARTNER_CODE = "MOMODJMX20220717";
     public static final String ACCESS_KEY = "WehkypIRwPP14mHb";
     public static final String SECRET_KEY = "3fq8h4CqAAPZcTTb3nCDpFKwEkQDsZzz";
     public static final String MOMO_URI = "https://test-payment.momo.vn/v2/gateway/api/create";
+    
+    // code for VNPAY
+    public static final String VNP_COMMAND = "pay";
+    public static final String VNP_CURCODE = "VND";
+    public static final String VNP_VERSION = "2.1.0";
+    public static final String VNP_TMNCODE = "B3GJ4EAH";
+    public static final String VNP_HASHSCRET = "RAOFLVMYIXMFIPSSRIFYIAWLBOSIJTPQ";
+    public static final String VNP_URI = "http://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+    public static final String VNP_ORDER_TYPE_HOTEL = "170000";
+    
+    public static final String VNP_RETURNURL = "https://hotelservice-v5.herokuapp.com/api/v1/VnPayConfirm";
+    
+    
     
 }
 

@@ -1,5 +1,10 @@
 package fiveman.hotelservice.utils;
 
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.TimeZone;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -12,15 +17,13 @@ public class Utilities {
             return false;
       }
 
-      public static final String ALGORITHM = "HmacSHA256";
 
-      public static String calculateHMac(String data) throws Exception {
-            Mac sha256_HMAC = Mac.getInstance(ALGORITHM);
-            String key = Common.SECRET_KEY;
-            SecretKeySpec secret_key = new SecretKeySpec(key.getBytes("UTF-8"), ALGORITHM);
-            sha256_HMAC.init(secret_key);
+      public static String calculateHMac(String data, String algorithm, String key) throws Exception {
+            Mac Hmac = Mac.getInstance(algorithm);
+            SecretKeySpec secret_key = new SecretKeySpec(key.getBytes("UTF-8"), algorithm);
+            Hmac.init(secret_key);
 
-            return byteArrayToHex(sha256_HMAC.doFinal(data.getBytes("UTF-8")));
+            return byteArrayToHex(Hmac.doFinal(data.getBytes("UTF-8")));
       }
 
       public static String byteArrayToHex(byte[] a) {
@@ -29,7 +32,45 @@ public class Utilities {
                   sb.append(String.format("%02x", b));
             return sb.toString();
       }
+      
+      public static String getCurrentDateByFormat(String format) {
+            Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
 
+            SimpleDateFormat formatter = new SimpleDateFormat(format);
+            String vnp_CreateDate = formatter.format(cld.getTime());
+            
+            return vnp_CreateDate;
+      }
+      
+      public static String getExpireDate(String format) {
+            Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+            SimpleDateFormat formatter = new SimpleDateFormat(format);
+            cld.add(Calendar.MINUTE, 15);
+            return formatter.format(cld.getTime());
+      }
+
+      public static String hmacSHA512(final String key, final String data) {
+            try {
+
+                if (key == null || data == null) {
+                    throw new NullPointerException();
+                }
+                final Mac hmac512 = Mac.getInstance("HmacSHA512");
+                byte[] hmacKeyBytes = key.getBytes();
+                final SecretKeySpec secretKey = new SecretKeySpec(hmacKeyBytes, "HmacSHA512");
+                hmac512.init(secretKey);
+                byte[] dataBytes = data.getBytes(StandardCharsets.UTF_8);
+                byte[] result = hmac512.doFinal(dataBytes);
+                StringBuilder sb = new StringBuilder(2 * result.length);
+                for (byte b : result) {
+                    sb.append(String.format("%02x", b & 0xff));
+                }
+                return sb.toString();
+
+            } catch (Exception ex) {
+                return "";
+            }
+        }
       // public static boolean isLong(String s) {
       // try {
       // Long tmp = Long.parseLong(s);

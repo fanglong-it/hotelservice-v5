@@ -44,5 +44,4 @@ public class MomoRequest {
       
       private CustomerInfoMomoRequest userInfo;
       
-      private List<ItemRequest> items;
 }

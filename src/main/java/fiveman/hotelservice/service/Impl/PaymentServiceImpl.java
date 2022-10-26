@@ -70,6 +70,7 @@ public class PaymentServiceImpl implements PaymentService{
             momoReq.setPartnerCode(Common.PARTNER_CODE);
             momoReq.setSignature(signatureHmac);
             momoReq.setAmount(amount);
+            momoReq.setExtraData("");
             momoReq.setIpnUrl(Common.IPN_URL_MOMO);
             momoReq.setLang(request.getLang());
             momoReq.setOrderId(request.getOrderId());
@@ -101,7 +102,6 @@ public class PaymentServiceImpl implements PaymentService{
       @Override
       public VnPayRes getPaymentVNPay(VNPayRequest request) {
             // get system param
-            String uri = Common.VNP_URI;
             String vnp_Version = Common.VNP_VERSION;
             String vnp_Command = Common.VNP_COMMAND;
             String vnp_TmnCode = Common.VNP_TMNCODE;

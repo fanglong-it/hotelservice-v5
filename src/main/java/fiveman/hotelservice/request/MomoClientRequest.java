@@ -15,29 +15,27 @@ import lombok.Setter;
 @Getter
 public class MomoClientRequest {
       
-      
-    
  
-      private String partnerName; // option
+//      private String partnerName; // option
       
       private String storeId;   // option
       
-      private String requestId; // == orderId
+//      private String requestId; // == orderId
       
-      private String ipnUrl;
+//      private String ipnUrl;
       
-      private String redirectUrl;
+//      private String redirectUrl;
       
-      private long amount;
+//      private long amount;
       
       private String orderId;
       
       private String orderInfo;
       
-      private String extraData; // codebase64 - or ""
+//      private String extraData; // codebase64 - or ""
       
       
-      private boolean autoCapture; // default is true. if false transaction is not auto capture
+//      private boolean autoCapture; // default is true. if false transaction is not auto capture
       
       private String lang; // vi - en
       

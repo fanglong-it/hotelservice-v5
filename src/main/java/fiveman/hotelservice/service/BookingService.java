@@ -10,6 +10,8 @@ public interface BookingService {
 
     List<Booking> getAllBooking();
 
+    List<Booking> getAllBookingByRoomId(long id);
+
     CustomResponseObject saveBooking(Booking booking);
 
     CustomResponseObject updateBooking(Booking booking);

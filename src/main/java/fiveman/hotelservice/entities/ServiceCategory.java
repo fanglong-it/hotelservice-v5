@@ -23,6 +23,8 @@ public class ServiceCategory {
 
    boolean foodAndBeverage;
 
+   boolean ordered;
+
    boolean status;
    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
    private Hotel hotel;

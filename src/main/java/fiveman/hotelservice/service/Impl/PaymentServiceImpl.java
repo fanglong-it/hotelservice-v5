@@ -205,24 +205,25 @@ public class PaymentServiceImpl implements PaymentService {
             boolean checkEmptyId = Utilities.isEmptyString(billId);
             boolean checkEmptyAmount = Utilities.isEmptyString(amount);
             if (checkEmptyId && checkEmptyAmount) {
-                  Bill bill = billService.getBillById(Long.parseLong(billId));
-                  if (bill != null) {
-                        double bill_amount = bill.getTotalAmount();
-                        if (Double.parseDouble(amount) == bill_amount) {
-                              List<BillDetailResponse> list = billDetailService.getAllByBill_Id(bill.getId());
-                              // update status
-                              payLibs(list);
-                              // save all bill detail into DB
-                              // save bill into DB
-                              return new CustomResponseObject(responseCode, "Payment success with bill_id: " + billId);
-                        } else {
-                              new AppException(HttpStatus.BAD_REQUEST.value(),
-                                          new CustomResponseObject(responseCode, "Invalid Amount"));
-                        }
-                  } else {
-                        new AppException(HttpStatus.BAD_REQUEST.value(),
-                                    new CustomResponseObject(responseCode, "Bill Not Found"));
-                  }
+//                  Bill bill = billService.getBillById(Long.parseLong(billId));
+//                  if (bill != null) {
+//                        double bill_amount = bill.getTotalAmount();
+//                        if (Double.parseDouble(amount) == bill_amount) {
+//                              List<BillDetailResponse> list = billDetailService.getAllByBill_Id(bill.getId());
+//                              // update status
+//                              payLibs(list);
+//                              // save all bill detail into DB
+//                              // save bill into DB
+//                              return new CustomResponseObject(responseCode, "Payment success with bill_id: " + billId);
+//                        } else {
+//                              new AppException(HttpStatus.BAD_REQUEST.value(),
+//                                          new CustomResponseObject(responseCode, "Invalid Amount"));
+//                        }
+//                  } else {
+//                        new AppException(HttpStatus.BAD_REQUEST.value(),
+//                                    new CustomResponseObject(responseCode, "Bill Not Found"));
+//                  }
+                  return new CustomResponseObject(responseCode, "Payment success with bill_id: " + billId);
             }
 
             return null;

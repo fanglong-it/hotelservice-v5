@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fiveman.hotelservice.request.MomoClientRequest;
 import fiveman.hotelservice.request.VNPayRequest;
+import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.MomoConfirmResultResponse;
 import fiveman.hotelservice.response.MomoResponse;
 import fiveman.hotelservice.response.VnPayRes;
@@ -53,7 +54,7 @@ public class PaymentController {
 
       @GetMapping("/VnPayConfirm")
       @PreAuthorize("isAuthenticated() or isAnonymous()")
-      public String getVNPayConfirm(@RequestParam("vnp_Amount") String vnp_Amount,
+      public ResponseEntity<CustomResponseObject> getVNPayConfirm(@RequestParam("vnp_Amount") String vnp_Amount,
                   @RequestParam("vnp_BankCode") String vnp_BankCode,
                   @RequestParam("vnp_BankTranNo") String vnp_BankTranNo,
                   @RequestParam("vnp_CardType") String vnp_CardType,
@@ -65,84 +66,14 @@ public class PaymentController {
                   @RequestParam("vnp_TransactionStatus") String vnp_TransactionStatus,
                   @RequestParam("vnp_TxnRef") String vnp_TxnRef,
                   @RequestParam("vnp_SecureHash") String vnp_SecureHash) {
-//            Map fields = new HashMap();
-//            for (Enumeration params = request.getParameterNames(); params.hasMoreElements();) {
-//                String fieldName = (String) params.nextElement();
-//                String fieldValue = request.getParameter(fieldName);
-//                if ((fieldValue != null) && (fieldValue.length() > 0)) 
-//                {
-//                    fields.put(fieldName, fieldValue);
-//                }
-//            }
-//
-//            String vnp_SecureHash = request.getParameter("vnp_SecureHash");
-//            if (fields.containsKey("vnp_SecureHashType")) 
-//            {
-//                fields.remove("vnp_SecureHashType");
-//            }
-//            if (fields.containsKey("vnp_SecureHash")) 
-//            {
-//                fields.remove("vnp_SecureHash");
-//            }
-//            
-            // Check checksum
-//            String signValue = Config.hashAllFields(fields);
-//            if (signValue.equals(vnp_SecureHash)) 
-//            {
-//
-//                boolean checkOrderId = true; // vnp_TxnRef exists in your database
-//                boolean checkAmount = true; // vnp_Amount is valid (Check vnp_Amount VNPAY returns compared to the amount of the code (vnp_TxnRef) in the Your database).
-//                boolean checkOrderStatus = true; // PaymnentStatus = 0 (pending)
-//                
-//                
-//                if(checkOrderId)
-//                {
-//                    if(checkAmount)
-//                    {
-//                        if (checkOrderStatus)
-//                        {
-//                            if ("00".equals(request.getParameter("vnp_ResponseCode")))
-//                            {
-//                                
-//                                //Here Code update PaymnentStatus = 1 into your Database
-//                            }
-//                            else
-//                            {
-//                                
-//                                // Here Code update PaymnentStatus = 2 into your Database
-//                            }
-//                            System.out.print ("{\"RspCode\":\"00\",\"Message\":\"Confirm Success\"}");
-//                        }
-//                        else
-//                        {
-//                            
-//                              System.out.print("{\"RspCode\":\"02\",\"Message\":\"Order already confirmed\"}");
-//                        }
-//                    }
-//                    else
-//                    {
-//                          System.out.print("{\"RspCode\":\"04\",\"Message\":\"Invalid Amount\"}"); 
-//                    }
-//                }
-//                else
-//                {
-//                      System.out.print("{\"RspCode\":\"01\",\"Message\":\"Order not Found\"}");
-//                }
-//            } 
-//            else 
-//            {
-//                  System.out.print("{\"RspCode\":\"97\",\"Message\":\"Invalid Checksum\"}");
-//            }
-//        }
-//        catch(Exception e)
-//        {
-//              System.out.print("{\"RspCode\":\"99\",\"Message\":\"Unknow error\"}");
-//        }
-            String query = vnp_Amount + " - " + vnp_BankCode + " - " + vnp_BankTranNo + " - " + vnp_CardType + " - "
-                        + vnp_OrderInfo + " - " + vnp_PayDate + " - " + vnp_ResponseCode + " - " +
-                        vnp_SecureHash + " - " + vnp_TmnCode + " - " + vnp_TransactionNo + " - " + vnp_TransactionStatus
-                        + " - " + vnp_TxnRef;
-            return query;
+            
+//            String query = vnp_Amount + " - " + vnp_BankCode + " - " + vnp_BankTranNo + " - " + vnp_CardType + " - "
+//                        + vnp_OrderInfo + " - " + vnp_PayDate + " - " + vnp_ResponseCode + " - " +
+//                        vnp_SecureHash + " - " + vnp_TmnCode + " - " + vnp_TransactionNo + " - " + vnp_TransactionStatus
+//                        + " - " + vnp_TxnRef;
+//            System.out.println("query: " + query);
+            CustomResponseObject ressult = paymentService.validateVNPay(vnp_OrderInfo, vnp_Amount, vnp_SecureHash, vnp_ResponseCode);
+            return new ResponseEntity<CustomResponseObject>(ressult, HttpStatus.OK);
       }
 
 }

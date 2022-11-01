@@ -1,10 +1,13 @@
 package fiveman.hotelservice.controller;
 
 import fiveman.hotelservice.entities.Image;
+import fiveman.hotelservice.request.ImageRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.ImageService;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,8 @@ public class ImageController {
     @Autowired
     ImageService imageService;
 
+    @Autowired
+    private ModelMapper mapper;
 
     @GetMapping("/images")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
@@ -43,7 +48,8 @@ public class ImageController {
 
     @PostMapping("/image")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<CustomResponseObject> saveImage(@RequestBody @Valid Image image) {
+    public ResponseEntity<CustomResponseObject> saveImage(@RequestBody @Valid ImageRequest request) {
+        Image image = mapper.map(request, Image.class);
         return new ResponseEntity<>(imageService.saveImage(image), HttpStatus.OK);
     }
 

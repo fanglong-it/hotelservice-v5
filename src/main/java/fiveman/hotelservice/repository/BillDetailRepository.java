@@ -11,6 +11,6 @@ public interface BillDetailRepository extends JpaRepository<BillDetail, Long> {
     BillDetail getBillDetailById(long id);
 
     List<BillDetail> getAllByBill_Id(long bill_Id);
-}
+    }
 
 

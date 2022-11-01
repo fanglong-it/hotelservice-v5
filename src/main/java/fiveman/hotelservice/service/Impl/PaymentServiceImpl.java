@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,19 +19,33 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import fiveman.hotelservice.entities.Bill;
+import fiveman.hotelservice.entities.BillDetail;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.request.MomoClientRequest;
 import fiveman.hotelservice.request.MomoRequest;
 import fiveman.hotelservice.request.VNPayRequest;
+import fiveman.hotelservice.response.BillDetailResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.MomoResponse;
 import fiveman.hotelservice.response.VnPayRes;
+import fiveman.hotelservice.service.BillDetailService;
+import fiveman.hotelservice.service.BillService;
 import fiveman.hotelservice.service.PaymentService;
 import fiveman.hotelservice.utils.Common;
 import fiveman.hotelservice.utils.Utilities;
 
 @Service
-public class PaymentServiceImpl implements PaymentService{
+public class PaymentServiceImpl implements PaymentService {
+
+      @Autowired
+      private BillService billService;
+      
+      @Autowired
+      private BillDetailService billDetailService;
+      
+      @Autowired
+      private ModelMapper mapper;
 
       @Override
       public ResponseEntity<MomoResponse> getPaymentMomo(MomoClientRequest request) {
@@ -50,8 +66,8 @@ public class PaymentServiceImpl implements PaymentService{
             MomoRequest momoReq = new MomoRequest();
 //            CustomerInfoMomoRequest customerInfo = new CustomerInfoMomoRequest("dat", "0123456789", "dat@gmail.com");
 
-            long amount = 10000000;
-            
+            long amount = 1000000;
+
             String sign = "accessKey=" + Common.ACCESS_KEY + "&amount=" + amount + "&extraData="
                         + "&ipnUrl=" + Common.IPN_URL_MOMO + "&orderId=" + request.getOrderId() + "&orderInfo="
                         + request.getOrderInfo()
@@ -68,6 +84,7 @@ public class PaymentServiceImpl implements PaymentService{
             }
 
             momoReq.setPartnerCode(Common.PARTNER_CODE);
+            momoReq.setExtraData("");
             momoReq.setSignature(signatureHmac);
             momoReq.setAmount(amount);
             momoReq.setExtraData("");
@@ -85,17 +102,17 @@ public class PaymentServiceImpl implements PaymentService{
             // send POST request
             try {
                   ResponseEntity<MomoResponse> response = restTemplate.postForEntity(url, req, MomoResponse.class);
-                  if(response != null) {
+                  if (response != null) {
                         return response;
                   }
-            }catch(Exception e) {
-                  String arr[] = String.valueOf(e.getMessage()).split(",");     
+            } catch (Exception e) {
+                  String arr[] = String.valueOf(e.getMessage()).split(",");
                   String ar[] = arr[1].split(":");
                   String message = ar[1].replaceAll("\"", "");
                   throw new AppException(HttpStatus.BAD_REQUEST.value(),
                               new CustomResponseObject(Common.ADDING_FAIL, message));
             }
-           
+
             return null;
       }
 
@@ -181,6 +198,42 @@ public class PaymentServiceImpl implements PaymentService{
             res.setUrl(paymentUrl);
 
             return res;
+      }
+
+      @Override
+      public CustomResponseObject validateVNPay(String billId, String amount, String secureHash, String responseCode) {
+            boolean checkEmptyId = Utilities.isEmptyString(billId);
+            boolean checkEmptyAmount = Utilities.isEmptyString(amount);
+            if (checkEmptyId && checkEmptyAmount) {
+                  Bill bill = billService.getBillById(Long.parseLong(billId));
+                  if (bill != null) {
+                        double bill_amount = bill.getTotalAmount();
+                        if (Double.parseDouble(amount) == bill_amount) {
+                              List<BillDetailResponse> list = billDetailService.getAllByBill_Id(bill.getId());
+                              // update status
+                              payLibs(list);
+                              // save all bill detail into DB
+                              // save bill into DB
+                              return new CustomResponseObject(responseCode, "Payment success with bill_id: " + billId);
+                        } else {
+                              new AppException(HttpStatus.BAD_REQUEST.value(),
+                                          new CustomResponseObject(responseCode, "Invalid Amount"));
+                        }
+                  } else {
+                        new AppException(HttpStatus.BAD_REQUEST.value(),
+                                    new CustomResponseObject(responseCode, "Bill Not Found"));
+                  }
+            }
+
+            return null;
+      }
+      
+      public void payLibs(List<BillDetailResponse> list) {
+            for (BillDetailResponse billDetailResponse : list) {
+                  BillDetail billDetail = mapper.map(billDetailResponse, BillDetail.class);
+                  billDetail.setStatus(1);
+                  billDetailService.updateBillDetail(billDetail);
+            }
       }
 
 }

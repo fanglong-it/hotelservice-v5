@@ -30,6 +30,13 @@ public class BookingController {
 
     @GetMapping("/booking")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
+    public ResponseEntity<List<Booking>> getBookingByRoomId(@RequestParam("room_id") long room_id){
+        return new ResponseEntity<List<Booking>>(bookingService.getAllBookingByRoomId(room_id), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/bookings")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<List<Booking>> getAllBooking() {
         return new ResponseEntity<>(bookingService.getAllBooking(), HttpStatus.OK);
     }

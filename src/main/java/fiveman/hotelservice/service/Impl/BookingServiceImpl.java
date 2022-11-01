@@ -1,17 +1,18 @@
 package fiveman.hotelservice.service.Impl;
 
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
 import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.BookingRepository;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.BookingService;
 import fiveman.hotelservice.utils.Common;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -25,6 +26,8 @@ public class BookingServiceImpl implements BookingService {
         }
         return bookingRepository.getBookingById(id);
     }
+
+    
 
     @Override
     public List<Booking> getAllBooking() {
@@ -57,5 +60,13 @@ public class BookingServiceImpl implements BookingService {
         bookingRepository.deleteById(id);
         return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Success!");
     }
+
+
+
+    @Override
+    public List<Booking> getAllBookingByRoomId(long id) {
+        return bookingRepository.getAllBookingsByRoomId(id);
+    }
+    
 
 }

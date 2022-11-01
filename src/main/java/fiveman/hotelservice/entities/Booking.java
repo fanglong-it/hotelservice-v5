@@ -42,7 +42,7 @@ public class Booking {
     private String roomPayment;
     private String specialNote;
 
-    private boolean status;
+    private String status;
 
     private String createDate;
     private String updateDate;

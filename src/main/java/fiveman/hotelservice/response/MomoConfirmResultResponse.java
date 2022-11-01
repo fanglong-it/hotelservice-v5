@@ -24,5 +24,5 @@ public class MomoConfirmResultResponse {
       private String payType;
       private long responseTime;
       private String extraData;
-      private String sognature;
+      private String signature;
 }

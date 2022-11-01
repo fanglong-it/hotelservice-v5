@@ -6,6 +6,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,8 +18,10 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "image")
 @Data
 public class Image {
+      
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
     @NotBlank(message = "image type are mandatory")
     @Min(value = 5, message = "Picture Type phai co 5 ki tu")

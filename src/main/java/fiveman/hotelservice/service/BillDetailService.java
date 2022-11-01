@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface BillDetailService {
     List<BillDetailResponse> getAllByBill_Id(long Bill_Id);
-
+    
     BillDetailResponse getBillDetailById(long id);
 
     CustomResponseObject deleteBillDetail(long id);

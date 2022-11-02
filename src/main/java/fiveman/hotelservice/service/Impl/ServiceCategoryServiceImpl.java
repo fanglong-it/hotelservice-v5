@@ -46,6 +46,7 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
         serviceCategoryResponse.setImages(imageRepository.getAllByPictureTypeContains("img_serviceCategory_"+ serviceCategory.getId()));
         serviceCategoryResponse.setHotel(serviceCategory.getHotel());
         return serviceCategoryResponse;
+        
     }
 
 

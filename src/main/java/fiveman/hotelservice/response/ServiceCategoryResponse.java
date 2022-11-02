@@ -22,6 +22,7 @@ public class ServiceCategoryResponse {
    boolean foodAndBeverage;
    boolean ordered;
    boolean status;
-    private List<Image> images;
+   private List<Image> images;
    private Hotel hotel;
+
 }

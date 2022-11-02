@@ -22,7 +22,6 @@ public class ServiceResponse {
     private String description;
     private boolean status;
     private String majorGroup;
-
     private List<Image> image;
     private String createDate;
     private String updateDate;

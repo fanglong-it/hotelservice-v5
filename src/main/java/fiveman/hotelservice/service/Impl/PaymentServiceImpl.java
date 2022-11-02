@@ -18,8 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import fiveman.hotelservice.entities.Bill;
 import fiveman.hotelservice.entities.BillDetail;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.request.MomoClientRequest;
@@ -30,7 +28,6 @@ import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.MomoResponse;
 import fiveman.hotelservice.response.VnPayRes;
 import fiveman.hotelservice.service.BillDetailService;
-import fiveman.hotelservice.service.BillService;
 import fiveman.hotelservice.service.PaymentService;
 import fiveman.hotelservice.utils.Common;
 import fiveman.hotelservice.utils.Utilities;
@@ -38,8 +35,6 @@ import fiveman.hotelservice.utils.Utilities;
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
-      @Autowired
-      private BillService billService;
       
       @Autowired
       private BillDetailService billDetailService;

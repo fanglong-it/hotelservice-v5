@@ -3,7 +3,6 @@ package fiveman.hotelservice.service.Impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import fiveman.hotelservice.service.ServiceCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 

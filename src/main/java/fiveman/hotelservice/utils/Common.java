@@ -65,7 +65,7 @@ public class Common {
     
     // code for momo payment
     public static final String IPN_URL_MOMO = "https://hotelservice-v5.herokuapp.com/api/v1/MomoConfirm";
-    public static final String REDIRECT_URL_MOMO = "https://google.com.vn";
+    public static final String REDIRECT_URL_MOMO = "https://hotelservice-v5.herokuapp.com/api/v1/MomoConfirm";
     public static final String PARTNER_CODE = "MOMODJMX20220717";
     public static final String ACCESS_KEY = "WehkypIRwPP14mHb";
     public static final String SECRET_KEY = "3fq8h4CqAAPZcTTb3nCDpFKwEkQDsZzz";

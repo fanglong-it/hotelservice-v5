@@ -66,9 +66,9 @@ public class PaymentServiceImpl implements PaymentService {
             MomoRequest momoReq = new MomoRequest();
 //            CustomerInfoMomoRequest customerInfo = new CustomerInfoMomoRequest("dat", "0123456789", "dat@gmail.com");
 
-            long amount = 1000000;
-
-            String sign = "accessKey=" + Common.ACCESS_KEY + "&amount=" + amount + "&extraData="
+            // long amount = 200000;
+            
+            String sign = "accessKey=" + Common.ACCESS_KEY + "&amount=" + 10000 + "&extraData="
                         + "&ipnUrl=" + Common.IPN_URL_MOMO + "&orderId=" + request.getOrderId() + "&orderInfo="
                         + request.getOrderInfo()
                         + "&partnerCode=" + Common.PARTNER_CODE + "&redirectUrl=" + Common.REDIRECT_URL_MOMO
@@ -86,7 +86,7 @@ public class PaymentServiceImpl implements PaymentService {
             momoReq.setPartnerCode(Common.PARTNER_CODE);
             momoReq.setExtraData("");
             momoReq.setSignature(signatureHmac);
-            momoReq.setAmount(amount);
+            momoReq.setAmount(10000);
             momoReq.setExtraData("");
             momoReq.setIpnUrl(Common.IPN_URL_MOMO);
             momoReq.setLang(request.getLang());

@@ -6,6 +6,8 @@ import javax.validation.Valid;
 
 import fiveman.hotelservice.request.ServiceRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
+import fiveman.hotelservice.response.ServiceResponse;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,19 +32,19 @@ public class ServiceController {
 
     @GetMapping("/services")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<List<Service>> getAllServices() {
-        return new ResponseEntity<List<Service>>(service.getAllServices(), HttpStatus.OK);
+    public ResponseEntity<List<ServiceResponse>> getAllServices() {
+        return new ResponseEntity<List<ServiceResponse>>(service.getAllServices(), HttpStatus.OK);
     }
 
     @GetMapping("/service/{id}")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<Service> getServicesById(@PathVariable("id") Long id) {
+    public ResponseEntity<ServiceResponse> getServicesById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(service.getServiceById(id), HttpStatus.OK);
     }
 
     @GetMapping("/service")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<List<Service>> getAllServicesByServiceCategories(@RequestParam("cate_id") long id) {
+    public ResponseEntity<List<ServiceResponse>> getAllServicesByServiceCategories(@RequestParam("cate_id") long id) {
         return new ResponseEntity<>(service.getAllServicesByServiceCategory(id), HttpStatus.OK);
     }
 

@@ -1,41 +1,89 @@
 package fiveman.hotelservice.service.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fiveman.hotelservice.service.ServiceCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 
+import fiveman.hotelservice.entities.Service;
 import fiveman.hotelservice.exception.AppException;
+import fiveman.hotelservice.repository.ImageRepository;
+import fiveman.hotelservice.repository.ServiceCategoryRepository;
 import fiveman.hotelservice.repository.ServiceRepository;
 import fiveman.hotelservice.response.CustomResponseObject;
+import fiveman.hotelservice.response.ServiceResponse;
 import fiveman.hotelservice.service.ServiceService;
 import fiveman.hotelservice.utils.Common;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Service
+@org.springframework.stereotype.Service
 public class ServiceServiceImpl implements ServiceService {
+    
+    // private long id;
+    // private String name;
+    // private double price;
+    // private String description;
+    // private boolean status;
+    // private String majorGroup;
+
+    // private String image;
+    // private String createDate;
+    // private String updateDate;
+    // private String createBy;
+    // private String lastModifyBy;
+    // private ServiceCategory serviceCategory;
+
+    @Autowired
+    ImageRepository imageRepository;
+
+    ServiceResponse mapServiceToResponse(Service service){
+        ServiceResponse serviceResponse = new ServiceResponse();
+        serviceResponse.setId(service.getId());
+        serviceResponse.setName(service.getName());
+        serviceResponse.setPrice(service.getPrice());
+        serviceResponse.setDescription(service.getDescription());
+        serviceResponse.setMajorGroup(service.getMajorGroup());
+        serviceResponse.setImage(imageRepository.getAllByPictureTypeContains("img_service_"+service.getId()));
+        serviceResponse.setCreateDate(service.getCreateDate());
+        serviceResponse.setUpdateDate(service.getUpdateDate());
+        serviceResponse.setCreateBy(service.getCreateBy());
+        serviceResponse.setLastModifyBy(service.getLastModifyBy());
+        serviceResponse.setServiceCategory(service.getServiceCategory());
+        return serviceResponse;
+    }
+
     @Override
-    public List<fiveman.hotelservice.entities.Service> getAllServicesByServiceCategory(long id) {
-        return serviceRepository.getAllByServiceCategory_Id(id);
+    public List<ServiceResponse> getAllServicesByServiceCategory(long id) {
+        List<Service> services = serviceRepository.getAllByServiceCategory_Id(id);
+        List<ServiceResponse> serviceResponses = new ArrayList<>();
+        for (Service service : services) {
+            serviceResponses.add(mapServiceToResponse(service));
+        }
+        return serviceResponses;
     }
 
     @Autowired
     ServiceRepository serviceRepository;
 
     @Override
-    public List<fiveman.hotelservice.entities.Service> getAllServices() {
+    public List<ServiceResponse> getAllServices() {
         log.info("START OF GET ALL SERVICES!!!");
-        return serviceRepository.findAll();
+        List<Service> services = serviceRepository.findAll();
+        List<ServiceResponse> serviceResponses = new ArrayList<>();
+        for (Service service : services) {
+            serviceResponses.add(mapServiceToResponse(service));
+        }
+        return serviceResponses;
     }
 
     @Override
-    public fiveman.hotelservice.entities.Service getServiceById(Long id) {
+    public ServiceResponse getServiceById(Long id) {
         log.info("START OF GET SERVICE BY ID");
         if (serviceRepository.existsById(id)) {
-            return serviceRepository.getServiceById(id);
+            return mapServiceToResponse(serviceRepository.getServiceById(id));
         }
         throw new AppException(HttpStatus.NOT_FOUND.value(),
                 new CustomResponseObject(HttpStatus.NOT_FOUND.toString(), "Not found service by id = " + id));
@@ -57,7 +105,7 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Autowired
-    ServiceCategoryService serviceCategoryService;
+    ServiceCategoryRepository serviceCategoryRepository;
 
     @Override
     public CustomResponseObject deleteService(Long id) {
@@ -75,7 +123,7 @@ public class ServiceServiceImpl implements ServiceService {
     @Override
     public CustomResponseObject saveServices(fiveman.hotelservice.entities.Service service) {
         if (!serviceRepository.existsById(service.getId())) {
-            service.setServiceCategory(serviceCategoryService.getServiceCategoryById(service.getServiceCategory().getId()));
+            service.setServiceCategory(serviceCategoryRepository.getServiceCategoryById(service.getServiceCategory().getId()));
             serviceRepository.save(service);
             return new CustomResponseObject(Common.ADDING_SUCCESS, "Save success!");
         }

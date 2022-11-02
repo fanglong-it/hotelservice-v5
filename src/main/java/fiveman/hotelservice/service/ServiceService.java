@@ -4,14 +4,15 @@ import java.util.List;
 
 import fiveman.hotelservice.entities.Service;
 import fiveman.hotelservice.response.CustomResponseObject;
+import fiveman.hotelservice.response.ServiceResponse;
 
 public interface ServiceService {
-    List<Service> getAllServices();
+    List<ServiceResponse> getAllServices();
 
-    List<Service> getAllServicesByServiceCategory(long id);
+    List<ServiceResponse> getAllServicesByServiceCategory(long id);
 
     CustomResponseObject saveServices(Service service);
-    Service getServiceById(Long id);
+    ServiceResponse getServiceById(Long id);
     CustomResponseObject updateService(Service service);
     CustomResponseObject deleteService(Long id);
     

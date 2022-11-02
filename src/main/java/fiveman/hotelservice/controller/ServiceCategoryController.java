@@ -4,6 +4,7 @@ package fiveman.hotelservice.controller;
 import fiveman.hotelservice.entities.ServiceCategory;
 import fiveman.hotelservice.request.ServiceCategoryRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
+import fiveman.hotelservice.response.ServiceCategoryResponse;
 import fiveman.hotelservice.service.ServiceCategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -28,13 +29,13 @@ public class ServiceCategoryController {
 
     @GetMapping("/serviceCategories")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<ServiceCategory>> getServiceCategories(){
+    public ResponseEntity<List<ServiceCategoryResponse>> getServiceCategories(){
         return new ResponseEntity<>(serviceCategoryService.getServiceCategories(), HttpStatus.OK);
     }
 
     @GetMapping("/serviceCategory/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<ServiceCategory> getServiceCategory(@PathVariable("id") long id){
+    public ResponseEntity<ServiceCategoryResponse> getServiceCategory(@PathVariable("id") long id){
         return new ResponseEntity<>(serviceCategoryService.getServiceCategoryById(id), HttpStatus.OK);
     }
 

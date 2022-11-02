@@ -14,7 +14,7 @@ import lombok.Setter;
 public class VNPayRequest {
       private long vnp_amount;
       private String vnp_BankCode;
-      private String Curr_Code; // đơn vij tiền tệ sử dụng thanh toán ( VND )
+//      private String Curr_Code; // đơn vij tiền tệ sử dụng thanh toán ( VND )
       private String vnp_IpAddr; // ip of client
       private String vnp_Locale;
       private String vnp_OrderInfo; // info of order tieng viet k dau

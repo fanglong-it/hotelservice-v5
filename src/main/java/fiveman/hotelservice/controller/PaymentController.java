@@ -72,7 +72,7 @@ public class PaymentController {
 //                        vnp_SecureHash + " - " + vnp_TmnCode + " - " + vnp_TransactionNo + " - " + vnp_TransactionStatus
 //                        + " - " + vnp_TxnRef;
 //            System.out.println("query: " + query);
-            CustomResponseObject ressult = paymentService.validateVNPay(vnp_OrderInfo, vnp_Amount, vnp_SecureHash, vnp_ResponseCode);
+            CustomResponseObject ressult = paymentService.validateVNPay(vnp_TxnRef, vnp_Amount, vnp_SecureHash, vnp_ResponseCode);
             return new ResponseEntity<CustomResponseObject>(ressult, HttpStatus.OK);
       }
 

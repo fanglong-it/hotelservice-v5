@@ -131,7 +131,7 @@ public class PaymentServiceImpl implements PaymentService {
             vnp_Params.put("vnp_Command", vnp_Command);
             vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
             vnp_Params.put("vnp_Amount", String.valueOf(amount));
-            vnp_Params.put("vnp_CurrCode", request.getCurr_Code());
+            vnp_Params.put("vnp_CurrCode", "VND");
 
             String bank_code = request.getVnp_BankCode();
             if (bank_code != null && !bank_code.isEmpty()) {
@@ -204,7 +204,7 @@ public class PaymentServiceImpl implements PaymentService {
       public CustomResponseObject validateVNPay(String billId, String amount, String secureHash, String responseCode) {
             boolean checkEmptyId = Utilities.isEmptyString(billId);
             boolean checkEmptyAmount = Utilities.isEmptyString(amount);
-            if (checkEmptyId && checkEmptyAmount) {
+            if (!checkEmptyId && !checkEmptyAmount) {
 //                  Bill bill = billService.getBillById(Long.parseLong(billId));
 //                  if (bill != null) {
 //                        double bill_amount = bill.getTotalAmount();

@@ -34,7 +34,7 @@ public class Utilities {
       }
       
       public static String getCurrentDateByFormat(String format) {
-            Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+            Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
 
             SimpleDateFormat formatter = new SimpleDateFormat(format);
             String vnp_CreateDate = formatter.format(cld.getTime());
@@ -43,7 +43,7 @@ public class Utilities {
       }
       
       public static String getExpireDate(String format) {
-            Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+            Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
             SimpleDateFormat formatter = new SimpleDateFormat(format);
             cld.add(Calendar.MINUTE, 15);
             return formatter.format(cld.getTime());

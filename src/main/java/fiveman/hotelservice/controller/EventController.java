@@ -6,6 +6,8 @@ import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.EventService;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import springfox.documentation.annotations.ApiIgnore;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,7 @@ import java.util.List;
 @RestController
 @Api(tags = "Event")
 @RequestMapping("/api/v1")
+@ApiIgnore
 public class EventController {
 
     @Autowired

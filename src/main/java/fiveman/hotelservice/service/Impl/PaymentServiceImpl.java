@@ -18,16 +18,16 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import fiveman.hotelservice.entities.BillDetail;
+import fiveman.hotelservice.entities.OrderDetail;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.request.MomoClientRequest;
 import fiveman.hotelservice.request.MomoRequest;
 import fiveman.hotelservice.request.VNPayRequest;
-import fiveman.hotelservice.response.BillDetailResponse;
+import fiveman.hotelservice.response.OrderDetailResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.MomoResponse;
 import fiveman.hotelservice.response.VnPayRes;
-import fiveman.hotelservice.service.BillDetailService;
+import fiveman.hotelservice.service.OrderDetailService;
 import fiveman.hotelservice.service.PaymentService;
 import fiveman.hotelservice.utils.Common;
 import fiveman.hotelservice.utils.Utilities;
@@ -37,7 +37,7 @@ public class PaymentServiceImpl implements PaymentService {
 
       
       @Autowired
-      private BillDetailService billDetailService;
+      private OrderDetailService billDetailService;
       
       @Autowired
       private ModelMapper mapper;
@@ -224,9 +224,9 @@ public class PaymentServiceImpl implements PaymentService {
             return null;
       }
       
-      public void payLibs(List<BillDetailResponse> list) {
-            for (BillDetailResponse billDetailResponse : list) {
-                  BillDetail billDetail = mapper.map(billDetailResponse, BillDetail.class);
+      public void payLibs(List<OrderDetailResponse> list) {
+            for (OrderDetailResponse billDetailResponse : list) {
+                  OrderDetail billDetail = mapper.map(billDetailResponse, OrderDetail.class);
                   billDetail.setStatus(1);
                   billDetailService.updateBillDetail(billDetail);
             }

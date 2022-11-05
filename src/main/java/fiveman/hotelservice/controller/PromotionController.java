@@ -25,10 +25,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @Api(tags = "Promotion")
 @RequestMapping("/api/v1/")
+@ApiIgnore
 public class PromotionController {
 
       @Autowired

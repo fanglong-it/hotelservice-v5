@@ -24,7 +24,7 @@ public class NewServiceImpl implements NewService {
         if(!newRepository.existsById(id)){
             throw new AppException(HttpStatus.NOT_FOUND, new CustomResponseObject(Common.GET_FAIL, "Not found id =" + id));
         }
-        return newRepository.getById(id);
+        return newRepository.getNewById(id);
     }
 
     @Override

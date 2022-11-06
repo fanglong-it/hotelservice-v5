@@ -20,8 +20,12 @@ public class RoomType {
     private String description;
     private int maxOccupancy;
     private int maxAdult;
-    private int maxChildren;
+    private int mcaxChildren;
     private int defaultOccupancy;
     private boolean isActive;
 
+    
+
+
 }
+

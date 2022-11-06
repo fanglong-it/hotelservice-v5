@@ -24,9 +24,6 @@ public class New {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
-    private Hotel hotel;
-
     private String newName;
     private String ticketInformation;
     private String address;
@@ -39,7 +36,8 @@ public class New {
     private String status;
     private int numberOfView;
 
-    
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
+    private Hotel hotel;
 
 
 }

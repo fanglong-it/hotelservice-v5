@@ -27,6 +27,13 @@ public class NewServiceImpl implements NewService {
         return newRepository.getNewById(id);
     }
 
+    
+    @Override
+    public List<New> getNewByType(String type) {
+        return newRepository.getAllByNewType(type);
+    }
+
+
     @Override
     public List<New> getAllNew() {
         return newRepository.findAll();

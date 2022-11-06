@@ -41,6 +41,12 @@ public class NewController {
         return new ResponseEntity<>(newService.getNewById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/new")
+    public ResponseEntity<List<New>> getNewByType(@RequestParam("type") String type){
+        return new ResponseEntity<>(newService.getNewByType(type), HttpStatus.OK);
+    }
+
+    
     @GetMapping("/news")
     public ResponseEntity<List<New>> getAllNew(){
         return new ResponseEntity<>(newService.getAllNew(), HttpStatus.OK);

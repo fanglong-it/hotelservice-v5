@@ -13,9 +13,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class NewRequest {
-    
-    @ApiModelProperty(required = true)
-    private long hotel_Id;
+
+  
     private String newName;
     private String ticketInformation;
     private String address;
@@ -27,4 +26,7 @@ public class NewRequest {
     private String newType;
     private String status;
     private int numberOfView;
+
+    @ApiModelProperty(required = true)
+    private long hotel_Id;
 }

@@ -17,6 +17,7 @@ public class NewRequest {
   
     private String newName;
     private String ticketInformation;
+    private String detailInformation;
     private String address;
     private String description;
     private String startDate;

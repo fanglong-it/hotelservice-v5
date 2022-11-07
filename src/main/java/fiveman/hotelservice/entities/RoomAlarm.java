@@ -19,6 +19,8 @@ public class RoomAlarm {
     private long id;
     private String date;
 
+    private boolean status;
+
     @ManyToOne(fetch = FetchType.EAGER)
     private Booking booking;
 }

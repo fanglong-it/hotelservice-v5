@@ -9,9 +9,10 @@ import lombok.*;
 @Getter
 @Setter
 public class OrderDetailRequest {
+
     @ApiModelProperty(required = true)
     private long id;
-
+    
     @ApiModelProperty(required = true)
     private long service_Id;
 
@@ -30,6 +31,6 @@ public class OrderDetailRequest {
     @ApiModelProperty(required = true)
     private int status;
 
-    private String billDate;
+    private String orderDate;
 
 }

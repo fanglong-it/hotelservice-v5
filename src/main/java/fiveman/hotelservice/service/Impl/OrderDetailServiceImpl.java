@@ -41,7 +41,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         billDetailResponse.setPrice(billDetail.getPrice());
         billDetailResponse.setAmount(billDetail.getAmount());
         billDetailResponse.setStatus(billDetail.getStatus());
-        billDetailResponse.setBillDate(billDetail.getBillDate());
+        billDetailResponse.setOrderDate(billDetail.getOrderDate());
         return billDetailResponse;
     }
 

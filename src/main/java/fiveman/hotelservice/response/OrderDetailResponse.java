@@ -15,5 +15,5 @@ public class OrderDetailResponse {
     private double price;
     private double amount;
     private int status;
-    private String billDate;
+    private String orderDate;
 }

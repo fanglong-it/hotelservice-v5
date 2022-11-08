@@ -31,7 +31,7 @@ public class OrderDetail {
 
     private int status;
 
-    private String billDate;
+    private String orderDate;
     
 
 }

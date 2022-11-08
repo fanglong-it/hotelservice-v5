@@ -15,6 +15,8 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ImageRequest {
+      
+      private long id;
       @NotBlank(message = "image type are mandatory")
       @Min(value = 5, message = "Picture Type phai co 5 ki tu")
       private String pictureType;

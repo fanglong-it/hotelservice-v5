@@ -7,6 +7,7 @@ import fiveman.hotelservice.response.CustomResponseObject;
 
 public interface RequestServiceService {
       List<RequestService> getAllRequestService();
+      List<RequestService> getRequestServiceByBookingId(long id);
       
       RequestService getRequestService(long id);
       

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fiveman.hotelservice.entities.RequestService;
@@ -57,6 +58,13 @@ public class RequestServiceController {
       public ResponseEntity<RequestService> getRequestService(@PathVariable("id") long id) {
             return new ResponseEntity<RequestService>(service.getRequestService(id), HttpStatus.OK);
       }
+      @GetMapping("/requestService")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
+      public ResponseEntity<List<RequestService>> getRequestServiceByBookingId(@RequestParam("booking_id") long id){
+            return new ResponseEntity<>(service.getRequestServiceByBookingId(id), HttpStatus.OK);
+      }
+
+
 
       @PostMapping("/requestService")
       @PreAuthorize("isAnonymous() or isAuthenticated()")

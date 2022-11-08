@@ -51,7 +51,8 @@ public class ServiceController {
 
     @PutMapping("/service")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<CustomResponseObject> updateService(@RequestBody Service serviceEntity) {
+    public ResponseEntity<CustomResponseObject> updateService(@RequestBody ServiceRequest serviceRequest) {
+        Service serviceEntity = modelMapper.map(serviceRequest, Service.class);
         return new ResponseEntity<>(service.updateService(serviceEntity), HttpStatus.OK);
     }
 

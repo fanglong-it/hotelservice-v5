@@ -69,4 +69,11 @@ public class RequestServiceServiceImpl implements RequestServiceService{
               throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.DELETE_FAIL, "Not found id = " + id));
       }
 
+      @Override
+      public List<RequestService> getRequestServiceByBookingId(long id) {
+            return requestServiceRepository.getAllRequestServiceByBooking_Id(id);
+      }
+
+      
+
 }

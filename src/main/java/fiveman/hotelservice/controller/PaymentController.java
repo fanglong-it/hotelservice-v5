@@ -41,7 +41,6 @@ public class PaymentController {
       @GetMapping("/MomoConfirm")
       @PreAuthorize("isAuthenticated() or isAnonymous()")
       public ResponseEntity<MomoConfirmResultResponse> momoConfirm(@RequestBody MomoConfirmResultResponse response){
-            // TODO: clarify result and insert into DB
             return new ResponseEntity<>(response, HttpStatus.OK);
       }
 

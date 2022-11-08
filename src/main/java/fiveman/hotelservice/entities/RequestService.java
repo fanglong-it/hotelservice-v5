@@ -21,8 +21,9 @@ public class RequestService {
     private String requestServiceName;
     private String requestServiceType;
     private String dateTime;
-    private boolean status;
+    private String status;
 
+    
     @ManyToOne(fetch = FetchType.EAGER)
     private Booking booking;
 

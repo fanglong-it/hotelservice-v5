@@ -33,20 +33,20 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 public class RequestServiceController {
       
       @Autowired
-      private RequestServiceService service;
+      private RequestServiceService requestServiceService;
       
       @Autowired
       private ModelMapper modelMapper;
       
       
-      @GetMapping("/requestServices")
+      @GetMapping("/requestrequestServiceServices")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<List<RequestService>> getRequestServices() {
-            return new ResponseEntity<List<RequestService>>(service.getAllRequestService(), HttpStatus.OK);
+      public ResponseEntity<List<RequestService>> getRequestServices() {            
+            return new ResponseEntity<List<RequestService>>(requestServiceService.getAllRequestService(), HttpStatus.OK);
       }
 
       @GetMapping("/requestService/{id}")
@@ -56,12 +56,12 @@ public class RequestServiceController {
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
       public ResponseEntity<RequestService> getRequestService(@PathVariable("id") long id) {
-            return new ResponseEntity<RequestService>(service.getRequestService(id), HttpStatus.OK);
+            return new ResponseEntity<RequestService>(requestServiceService.getRequestService(id), HttpStatus.OK);
       }
       @GetMapping("/requestService")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
       public ResponseEntity<List<RequestService>> getRequestServiceByBookingId(@RequestParam("booking_id") long id){
-            return new ResponseEntity<>(service.getRequestServiceByBookingId(id), HttpStatus.OK);
+            return new ResponseEntity<>(requestServiceService.getRequestServiceByBookingId(id), HttpStatus.OK);
       }
 
 
@@ -74,7 +74,7 @@ public class RequestServiceController {
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
       public ResponseEntity<CustomResponseObject> saveRequestService(@RequestBody @Valid RequestServiceRequest request) {
             RequestService requestService = modelMapper.map(request, RequestService.class);
-            return new ResponseEntity<>(service.saveRequestService(requestService), HttpStatus.OK);
+            return new ResponseEntity<>(requestServiceService.saveRequestService(requestService), HttpStatus.OK);
       }
 
       @PutMapping("/requestService")
@@ -85,7 +85,7 @@ public class RequestServiceController {
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
       public ResponseEntity<CustomResponseObject> updateRequestService(@RequestBody @Valid RequestServiceRequest request) {
             RequestService requestService = modelMapper.map(request, RequestService.class);
-            return new ResponseEntity<>(service.updateRequestService(requestService), HttpStatus.OK);
+            return new ResponseEntity<>(requestServiceService.updateRequestService(requestService), HttpStatus.OK);
       }
 
       @DeleteMapping("/requestService/{id}")
@@ -95,7 +95,7 @@ public class RequestServiceController {
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
       public ResponseEntity<CustomResponseObject> deleteRequestService(@PathVariable long id) {
-            return new ResponseEntity<>(service.deleteRequestService(id), HttpStatus.OK);
+            return new ResponseEntity<>(requestServiceService.deleteRequestService(id), HttpStatus.OK);
       }
 
 }

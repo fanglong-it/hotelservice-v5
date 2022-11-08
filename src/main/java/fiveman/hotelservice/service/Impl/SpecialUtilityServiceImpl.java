@@ -31,7 +31,7 @@ public class SpecialUtilityServiceImpl implements SpecialUtilityService {
       public SpecialUtility getSpecialUtility(long id) {
             log.info("START OF GET   ULTILITIES BY ID");
             if (specialUtilityRepository.existsById(id)) {
-                  return specialUtilityRepository.getReferenceById(id);
+                  return specialUtilityRepository.getSpecialUtilityById(id);
             }
             log.info("END GET SPECIAL UTILITY FAIL");
             throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(

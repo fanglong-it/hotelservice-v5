@@ -28,9 +28,6 @@ public class OrderDetailRequest {
     @ApiModelProperty(required = true)
     private double amount;
 
-    @ApiModelProperty(required = true)
-    private int status;
-
     private String orderDate;
 
 }

@@ -17,7 +17,7 @@ public class RoomAlarm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String date;
+    private String dateTime;
 
     private boolean status;
 

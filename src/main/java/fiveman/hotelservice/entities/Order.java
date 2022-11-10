@@ -20,5 +20,6 @@ public class Order {
     private String updateDate;
     private String createBy;
     private String lastModifyBy;
-
+    private String status;
+    
 }

@@ -227,7 +227,7 @@ public class PaymentServiceImpl implements PaymentService {
       public void payLibs(List<OrderDetailResponse> list) {
             for (OrderDetailResponse billDetailResponse : list) {
                   OrderDetail billDetail = mapper.map(billDetailResponse, OrderDetail.class);
-                  billDetail.setStatus(1);
+                  // billDetail.set(1);
                   billDetailService.updateBillDetail(billDetail);
             }
       }

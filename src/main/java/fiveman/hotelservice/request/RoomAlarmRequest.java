@@ -18,8 +18,9 @@ public class RoomAlarmRequest {
       @ApiModelProperty(required = true)
       private long id;
       
-      @NotNull
-      private long booking_Id;
-      
       private String dateTime;
+      
+      private boolean status;
+
+      private long booking_Id;
 }

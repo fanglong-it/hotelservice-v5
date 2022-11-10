@@ -29,8 +29,6 @@ public class OrderDetail {
     private double price;
     private double amount;
 
-    private int status;
-
     private String orderDate;
     
 

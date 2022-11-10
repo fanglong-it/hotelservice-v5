@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-public class BillRequest {
+public class OrderRequest {
 
     @ApiModelProperty(required = true)
     private long id;
@@ -18,5 +18,6 @@ public class BillRequest {
     private String updateDate;
     private String createBy;
     private String lastModifyBy;
+    private String status;
 
 }

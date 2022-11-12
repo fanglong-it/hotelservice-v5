@@ -20,7 +20,13 @@ public class MessageServiceImpl implements MessageService{
       
       @Autowired
       private MessageRepository messageRepository;
+
       
+      @Override
+      public List<Message> getAllMessageByBooking_Id(long id) {
+            return messageRepository.getAllMessageByBooking_Id(id);
+      }
+
       @Override
       public List<Message> getAllMessage() {
             log.info("GET ALL MESSAGES");

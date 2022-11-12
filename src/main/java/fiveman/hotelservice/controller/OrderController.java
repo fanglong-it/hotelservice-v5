@@ -31,6 +31,11 @@ public class OrderController {
         return new ResponseEntity<>(orderService.getBillById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/orderByBooking")
+    public ResponseEntity<List<Order>> getAllOrderByBookingId(@RequestParam("booking_id") long id){
+        return new ResponseEntity<List<Order>>(orderService.getAllOrderByBookingId(id), HttpStatus.OK);
+    }
+
     @GetMapping("/orders")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
     public ResponseEntity<List<Order>> getAllOrder() {

@@ -17,6 +17,12 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderRepository orderRepository;
 
+    
+
+    @Override
+    public List<Order> getAllOrderByBookingId(long id) {
+        return orderRepository.getAllOrderByBooking_Id(id);
+    }
 
     @Override
     public List<Order> getAllBill() {

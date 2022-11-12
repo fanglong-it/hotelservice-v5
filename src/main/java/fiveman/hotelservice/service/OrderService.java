@@ -10,6 +10,7 @@ public interface OrderService {
 
     List<Order> getAllBill();
 
+    List<Order> getAllOrderByBookingId(long id);
     CustomResponseObject saveBill(Order bill);
 
     CustomResponseObject updateBill(Order bill);

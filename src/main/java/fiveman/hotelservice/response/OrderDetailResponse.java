@@ -10,10 +10,9 @@ import lombok.*;
 public class OrderDetailResponse {
     private long id;
     private Service service;
-    private long bill_Id;
+    private long order_Id;
     private int quantity;
     private double price;
     private double amount;
-    private int status;
-    private String billDate;
+    private String orderDate;
 }

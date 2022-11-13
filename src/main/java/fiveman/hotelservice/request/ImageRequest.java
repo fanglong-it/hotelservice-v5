@@ -15,7 +15,9 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ImageRequest {
-      private Long id;
+ 
+      private long id;
+
       private String pictureDescription;
 
       @NotBlank(message = "image url are mandatory")

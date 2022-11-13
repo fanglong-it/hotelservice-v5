@@ -18,6 +18,4 @@ public class FeedbackContent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String content;
-
-
 }

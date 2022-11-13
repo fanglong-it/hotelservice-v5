@@ -1,7 +1,5 @@
 package fiveman.hotelservice.request;
 
-import javax.validation.constraints.NotNull;
-
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,8 +16,9 @@ public class RoomAlarmRequest {
       @ApiModelProperty(required = true)
       private long id;
       
-      @NotNull
-      private long booking_Id;
-      
       private String dateTime;
+      
+      private boolean status;
+
+      private long booking_Id;
 }

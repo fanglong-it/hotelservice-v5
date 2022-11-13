@@ -5,6 +5,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
 @AllArgsConstructor
@@ -42,11 +44,11 @@ public class Booking {
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Room.class)
     private Room room;
-
+    
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Customer.class)
     private Customer customer;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Order.class)
-    private Order order;
+    // @ManyToOne(fetch = FetchType.EAGER, targetEntity = Order.class)
+    // private Order order;
 
 }

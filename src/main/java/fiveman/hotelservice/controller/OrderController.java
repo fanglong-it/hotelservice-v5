@@ -1,7 +1,7 @@
 package fiveman.hotelservice.controller;
 
 import fiveman.hotelservice.entities.Order;
-import fiveman.hotelservice.request.BillRequest;
+import fiveman.hotelservice.request.OrderRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.OrderService;
 import io.swagger.annotations.Api;
@@ -31,6 +31,11 @@ public class OrderController {
         return new ResponseEntity<>(orderService.getBillById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/orderByBooking")
+    public ResponseEntity<List<Order>> getAllOrderByBookingId(@RequestParam("booking_id") long id){
+        return new ResponseEntity<List<Order>>(orderService.getAllOrderByBookingId(id), HttpStatus.OK);
+    }
+
     @GetMapping("/orders")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
     public ResponseEntity<List<Order>> getAllOrder() {
@@ -39,14 +44,14 @@ public class OrderController {
 
     @PostMapping("/order")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<CustomResponseObject> saveOrder(@RequestBody @Valid BillRequest billRequest) {
+    public ResponseEntity<CustomResponseObject> saveOrder(@RequestBody @Valid OrderRequest billRequest) {
         Order bill = modelMapper.map(billRequest, Order.class);
         return new ResponseEntity<>(orderService.saveBill(bill), HttpStatus.OK);
     }
 
     @PutMapping("/order")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<CustomResponseObject> updateOrder(@io.swagger.v3.oas.annotations.parameters.RequestBody @Valid BillRequest billRequest) {
+    public ResponseEntity<CustomResponseObject> updateOrder(@io.swagger.v3.oas.annotations.parameters.RequestBody @Valid OrderRequest billRequest) {
         Order bill = modelMapper.map(billRequest, Order.class);
         return new ResponseEntity<>(orderService.updateBill(bill), HttpStatus.OK);
     }

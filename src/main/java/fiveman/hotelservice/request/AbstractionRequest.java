@@ -22,8 +22,8 @@ public class AbstractionRequest {
     @NotBlank(message = "Name are mandatory")
     private String name;
 
-    private String logtitude;
-    private String latidute;
+    private double longtitude;
+    private double latidute;
 
     private String openTime;
     private String closeTime;

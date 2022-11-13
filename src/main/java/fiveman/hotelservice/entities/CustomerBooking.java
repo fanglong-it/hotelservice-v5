@@ -11,7 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "customer_booking")
+@Table(name = "customer_stay_booking")
 public class CustomerBooking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,5 +23,7 @@ public class CustomerBooking {
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Booking.class)
     private Booking booking;
+
+    private String primaryCustomer;
 
 }

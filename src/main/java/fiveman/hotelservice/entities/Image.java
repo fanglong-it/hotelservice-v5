@@ -19,7 +19,7 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @NotBlank(message = "image type are mandatory")
     @Min(value = 5, message = "Picture Type phai co 5 ki tu")
     private String pictureType;

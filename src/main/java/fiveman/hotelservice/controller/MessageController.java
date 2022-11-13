@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fiveman.hotelservice.entities.Message;
@@ -46,6 +47,14 @@ public class MessageController {
       public ResponseEntity<List<Message>> getmessages() {
             return new ResponseEntity<List<Message>>(messageService.getAllMessage(), HttpStatus.OK);
       }
+
+
+      @GetMapping("/messagesByBooking")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
+      public ResponseEntity<List<Message>> getMessageByBookingId(@RequestParam("booking_id") long id){
+            return new ResponseEntity<>(messageService.getAllMessageByBooking_Id(id), HttpStatus.OK);
+      }
+
 
       @GetMapping("/message/{id}")
       @PreAuthorize("isAnonymous() or isAuthenticated()")

@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,19 +13,6 @@ import javax.persistence.*;
 @Setter
 @Table(name = "booking")
 public class Booking {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @ApiModelProperty(required = true)
-//    private long id;
-//    private String bookingDate;
-//    private String bookingTime;
-//    private String arrivalDate;
-//    private String departureDate;
-//    private int numAdults;
-//    private int numChildren;
-//
-//    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Room.class)
-//    private Room room;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,12 +43,10 @@ public class Booking {
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Room.class)
     private Room room;
 
-
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Customer.class)
     private Customer customer;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Order.class)
     private Order order;
-
 
 }

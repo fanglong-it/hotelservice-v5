@@ -1,6 +1,7 @@
 package fiveman.hotelservice.service;
 import fiveman.hotelservice.entities.RoomType;
 import fiveman.hotelservice.response.CustomResponseObject;
+import fiveman.hotelservice.response.RoomAvailabilityResponse;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface RoomTypeService {
     CustomResponseObject updateRoomType(RoomType roomType);
 
     CustomResponseObject deleteRoomType(long id);
+    
+    List<RoomAvailabilityResponse> checkAvailability(String dateCheckIn, String dateCheckout, String numberOfPerson);
 }

@@ -1,31 +1,51 @@
 package fiveman.hotelservice.entities;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
+@Table(name = "roomType")
+@Data
 @Getter
 @Setter
-@Table(name = "roomType")
-public class RoomType {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(required = true)
-    private long id;
-    private String name;
-    private String description;
-    private int maxOccupancy;
-    private int maxAdult;
-    private int mcaxChildren;
-    private int defaultOccupancy;
-    private boolean isActive;
+@NoArgsConstructor
+@AllArgsConstructor
+public class RoomType implements Serializable{
 
-    
+      @Id
+      @GeneratedValue(strategy = GenerationType.IDENTITY)
+      @ApiModelProperty(required = true)
+      private long id;
+      private String name;
+      private String description;
+      private int maxOccupancy;
+      private int maxAdult;
+      private int maxChildren;
+      private int defaultOccupancy;
+      private boolean isActive;
 
+      
+      @OneToMany(mappedBy = "roomType")
+      @JsonManagedReference
+      private List<RoomPrice> roomPrices;
 
+      @OneToMany(mappedBy = "roomType")
+      @JsonManagedReference
+      private List<RoomTypeUtilities> roomTypeUtilities;
+      
+      @OneToMany(mappedBy = "roomType")
+      @JsonManagedReference
+      private List<Room> rooms;
+      
 }
-

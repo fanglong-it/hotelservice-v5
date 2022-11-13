@@ -43,7 +43,7 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
         serviceCategoryResponse.setFoodAndBeverage(serviceCategory.isFoodAndBeverage());
         serviceCategoryResponse.setOrdered(serviceCategory.isOrdered());
         serviceCategoryResponse.setStatus(serviceCategory.isStatus());
-        serviceCategoryResponse.setImages(imageRepository.getAllByPictureTypeContains("img_serviceCategory_"+ serviceCategory.getId()));
+        serviceCategoryResponse.setImages(imageRepository.getAllByPictureType("img_serviceCategory_"+ serviceCategory.getId()));
         serviceCategoryResponse.setHotel(serviceCategory.getHotel());
         return serviceCategoryResponse;
     }

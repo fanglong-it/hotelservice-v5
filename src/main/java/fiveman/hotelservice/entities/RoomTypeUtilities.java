@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,9 +22,11 @@ public class RoomTypeUtilities {
     private long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
     private RoomType roomType;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
     private Utilities utilities;
 
 }

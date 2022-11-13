@@ -8,4 +8,7 @@ import fiveman.hotelservice.entities.Room;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
     Room getRoomById(long id);
+    
+    Room findTopByOrderByIdDesc();
+    
 }

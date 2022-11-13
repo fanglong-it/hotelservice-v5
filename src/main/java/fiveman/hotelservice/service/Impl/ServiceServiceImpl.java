@@ -45,7 +45,7 @@ public class ServiceServiceImpl implements ServiceService {
         serviceResponse.setPrice(service.getPrice());
         serviceResponse.setDescription(service.getDescription());
         serviceResponse.setMajorGroup(service.getMajorGroup());
-        serviceResponse.setImage(imageRepository.getAllByPictureTypeContains("img_service_"+service.getId()));
+        serviceResponse.setImage(imageRepository.getAllByPictureType("img_service_"+service.getId()));
         serviceResponse.setCreateDate(service.getCreateDate());
         serviceResponse.setUpdateDate(service.getUpdateDate());
         serviceResponse.setCreateBy(service.getCreateBy());

@@ -1,5 +1,7 @@
 package fiveman.hotelservice.request;
 
+import java.util.List;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,4 +34,6 @@ public class RoomRequest {
 
     @ApiModelProperty(required = true)
     private long roomType_Id;
+    
+    private List<ImageRequest> images;
 }

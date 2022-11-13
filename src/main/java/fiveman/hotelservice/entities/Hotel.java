@@ -4,10 +4,14 @@ package fiveman.hotelservice.entities;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+import java.util.List;
+
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @AllArgsConstructor
@@ -52,4 +56,8 @@ public class Hotel{
     private String lastModifyBy;
 
 
+    @OneToMany(mappedBy = "hotel")
+    @JsonManagedReference
+    private List<Room> rooms;
+    
 }

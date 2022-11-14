@@ -59,4 +59,9 @@ public class OrderDetailController {
         return new ResponseEntity<>(orderDetailService.deleteBillDetail(id), HttpStatus.OK);
     }
 
+    @GetMapping("/existTaxiService")
+    public ResponseEntity<CustomResponseObject> checkExistTaxiService(@RequestParam("booking_id") long id){
+        return new ResponseEntity<CustomResponseObject>(orderDetailService.checkExistTaxiServiceInBooking(id), HttpStatus.OK);
+    }
+
 }

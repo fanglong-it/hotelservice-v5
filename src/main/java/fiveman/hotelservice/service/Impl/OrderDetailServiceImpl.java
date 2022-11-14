@@ -55,6 +55,19 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         return billDetailResponses;
     }
 
+
+    
+
+    @Override
+    public CustomResponseObject checkExistTaxiServiceInBooking(long booking_id) {
+
+        boolean exist = orderDetailRepository.existTaxiServiceInBooking(booking_id);
+        if(!exist){
+            throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.GET_FAIL, "Not found"));
+        }
+        return new CustomResponseObject(HttpStatus.ALREADY_REPORTED.toString(), "Exist taxi Service");
+    }
+
     @Override
     public OrderDetailResponse getBillDetailById(long id) {
         if (!orderDetailRepository.existsById(id)) {

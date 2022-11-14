@@ -17,4 +17,8 @@ public interface OrderDetailService {
     CustomResponseObject saveBillDetail(OrderDetail billDetail);
 
     CustomResponseObject updateBillDetail(OrderDetail billDetail);
+
+    CustomResponseObject checkExistTaxiServiceInBooking(long booking_id);
 }
+
+

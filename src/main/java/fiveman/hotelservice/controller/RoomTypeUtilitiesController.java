@@ -2,6 +2,7 @@ package fiveman.hotelservice.controller;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,16 +12,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fiveman.hotelservice.entities.RoomTypeUtilities;
+import fiveman.hotelservice.request.RoomTypeUtilitiesRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.RoomTypeUtilitiesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 
 @RestController
 @RequestMapping("/api/v1")
@@ -29,6 +32,9 @@ public class RoomTypeUtilitiesController {
 
       @Autowired
       private RoomTypeUtilitiesService roomTypeUtilitiesService;
+      
+      @Autowired
+      ModelMapper modelMapper;
       
       @GetMapping("/getAllRoomTypeUtilities")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
@@ -66,7 +72,8 @@ public class RoomTypeUtilitiesController {
               @ApiResponse(code = 400, message = "Something went wrong"), //
               @ApiResponse(code = 403, message = "Access denied"), //
               @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-      public ResponseEntity<CustomResponseObject> addRoomTypeUtilities(@RequestBody RoomTypeUtilities roomTypeUtilities) {
+      public ResponseEntity<CustomResponseObject> addRoomTypeUtilities(@RequestBody RoomTypeUtilitiesRequest roomTypeUtilitiesRequest) {
+            RoomTypeUtilities roomTypeUtilities = modelMapper.map(roomTypeUtilitiesRequest, RoomTypeUtilities.class);
           return new ResponseEntity<>(roomTypeUtilitiesService.addRoomTypeUtilities(roomTypeUtilities), HttpStatus.OK);
       }
 

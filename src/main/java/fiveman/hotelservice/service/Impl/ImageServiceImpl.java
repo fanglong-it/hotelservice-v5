@@ -29,7 +29,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public List<Image> getImageByImageType(String type) {
         log.info("START OF GET PICTURE BY IMAGE TYPE");
-        return imageRepository.getAllByPictureTypeContains(type);
+        return imageRepository.getAllByPictureType(type);
     }
 
     @Override

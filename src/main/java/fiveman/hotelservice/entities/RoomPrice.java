@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,5 +24,6 @@ public class RoomPrice {
     private int maxBookingRoom;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = RoomType.class)
+    @JsonBackReference
     private RoomType roomType;
 }

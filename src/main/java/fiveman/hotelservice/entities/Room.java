@@ -5,6 +5,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,9 +30,11 @@ public class Room {
     private boolean status;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
+    @JsonBackReference
     private Hotel hotel;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = RoomType.class)
+    @JsonBackReference
     private RoomType roomType;
-
+    
 }

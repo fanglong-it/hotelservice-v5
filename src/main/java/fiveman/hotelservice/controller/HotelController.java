@@ -5,7 +5,6 @@ import fiveman.hotelservice.entities.Hotel;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.HotelService;
 import io.swagger.annotations.Api;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

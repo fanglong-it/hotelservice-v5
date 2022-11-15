@@ -26,7 +26,7 @@ public class RoomTypeUtilities {
     private RoomType roomType;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonBackReference
+    // @JsonBackReference
     private Utilities utilities;
 
 }

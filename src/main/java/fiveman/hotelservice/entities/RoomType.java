@@ -34,6 +34,7 @@ public class RoomType implements Serializable{
       private int maxChildren;
       private int defaultOccupancy;
       private boolean isActive;
+      private double defaultPrice;
 
       
       @OneToMany(mappedBy = "roomType")

@@ -17,7 +17,6 @@ public class Utilities {
             return false;
       }
 
-
       public static String calculateHMac(String data, String algorithm, String key) throws Exception {
             Mac Hmac = Mac.getInstance(algorithm);
             SecretKeySpec secret_key = new SecretKeySpec(key.getBytes("UTF-8"), algorithm);

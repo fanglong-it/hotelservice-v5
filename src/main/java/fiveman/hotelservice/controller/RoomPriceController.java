@@ -31,59 +31,59 @@ public class RoomPriceController {
 
       @Autowired
       RoomPriceService roomPriceService;
-      
+
       @Autowired
       ModelMapper modelMapper;
 
       @GetMapping("/roomPrice")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
-      @ApiResponses(value = {//
-              @ApiResponse(code = 400, message = "Something went wrong"), //
-              @ApiResponse(code = 403, message = "Access denied"), //
-              @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
+      @ApiResponses(value = { //
+                  @ApiResponse(code = 400, message = "Something went wrong"), //
+                  @ApiResponse(code = 403, message = "Access denied"), //
+                  @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
       public ResponseEntity<List<RoomPrice>> getroomPrices() {
-          return new ResponseEntity<>(roomPriceService.getRoomPrices(), HttpStatus.OK);
+            return new ResponseEntity<>(roomPriceService.getRoomPrices(), HttpStatus.OK);
       }
 
       @GetMapping("/roomPrice/{id}")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
-      @ApiResponses(value = {//
-              @ApiResponse(code = 400, message = "Something went wrong"), //
-              @ApiResponse(code = 403, message = "Access denied"), //
-              @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
+      @ApiResponses(value = { //
+                  @ApiResponse(code = 400, message = "Something went wrong"), //
+                  @ApiResponse(code = 403, message = "Access denied"), //
+                  @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
       public ResponseEntity<RoomPrice> getroomPrice(@PathVariable("id") long id) {
-          return new ResponseEntity<>(roomPriceService.getRoomPrice(id), HttpStatus.OK);
+            return new ResponseEntity<>(roomPriceService.getRoomPrice(id), HttpStatus.OK);
       }
 
       @PutMapping("/roomPrice")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
-      @ApiResponses(value = {//
-              @ApiResponse(code = 400, message = "Something went wrong"), //
-              @ApiResponse(code = 403, message = "Access denied"), //
-              @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-      public ResponseEntity<CustomResponseObject> updateRoomPrice(@RequestBody RoomPrice roomPrice) {
-          return new ResponseEntity<>(roomPriceService.updateRoomPrice(roomPrice), HttpStatus.OK);
+      @ApiResponses(value = { //
+                  @ApiResponse(code = 400, message = "Something went wrong"), //
+                  @ApiResponse(code = 403, message = "Access denied"), //
+                  @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+      public ResponseEntity<CustomResponseObject> updateRoomPrice(@RequestBody RoomPriceRequest roomPriceRequest) {
+            RoomPrice roomPrice = modelMapper.map(roomPriceRequest, RoomPrice.class);
+            return new ResponseEntity<>(roomPriceService.updateRoomPrice(roomPrice), HttpStatus.OK);
       }
 
       @PostMapping("/roomPrice")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
-      @ApiResponses(value = {//
-              @ApiResponse(code = 400, message = "Something went wrong"), //
-              @ApiResponse(code = 403, message = "Access denied"), //
-              @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
+      @ApiResponses(value = { //
+                  @ApiResponse(code = 400, message = "Something went wrong"), //
+                  @ApiResponse(code = 403, message = "Access denied"), //
+                  @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
       public ResponseEntity<CustomResponseObject> addRoomPrice(@RequestBody RoomPriceRequest roomPriceRequest) {
-          RoomPrice roomPrice = modelMapper.map(roomPriceRequest, RoomPrice.class);
-          return new ResponseEntity<>(roomPriceService.saveRoomPrice(roomPrice), HttpStatus.OK);
+            RoomPrice roomPrice = modelMapper.map(roomPriceRequest, RoomPrice.class);
+            return new ResponseEntity<>(roomPriceService.saveRoomPrice(roomPrice), HttpStatus.OK);
       }
-
 
       @DeleteMapping("/roomPrice/{id}")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
-      @ApiResponses(value = {//
-              @ApiResponse(code = 400, message = "Something went wrong"), //
-              @ApiResponse(code = 403, message = "Access denied"), //
-              @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
+      @ApiResponses(value = { //
+                  @ApiResponse(code = 400, message = "Something went wrong"), //
+                  @ApiResponse(code = 403, message = "Access denied"), //
+                  @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
       public ResponseEntity<CustomResponseObject> deleteRoomPrice(@PathVariable("id") long id) {
-          return new ResponseEntity<>(roomPriceService.deleteRoomPrice(id), HttpStatus.OK);
+            return new ResponseEntity<>(roomPriceService.deleteRoomPrice(id), HttpStatus.OK);
       }
 }

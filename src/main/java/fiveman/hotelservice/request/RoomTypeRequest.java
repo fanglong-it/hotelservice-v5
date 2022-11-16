@@ -21,5 +21,6 @@ public class RoomTypeRequest {
       private int maxChildren;
       private int defaultOccupancy;
       private boolean isActive;
+      private double defaultPrice;
       
 }

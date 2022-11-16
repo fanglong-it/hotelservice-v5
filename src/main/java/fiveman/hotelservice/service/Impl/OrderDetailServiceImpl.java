@@ -1,21 +1,26 @@
 package fiveman.hotelservice.service.Impl;
 
 import fiveman.hotelservice.entities.OrderDetail;
+import fiveman.hotelservice.entities.Service;
+import fiveman.hotelservice.entities.ServiceCategory;
 import fiveman.hotelservice.exception.AppException;
+import fiveman.hotelservice.repository.ImageRepository;
 import fiveman.hotelservice.repository.OrderDetailRepository;
+import fiveman.hotelservice.repository.ServiceCategoryRepository;
 import fiveman.hotelservice.repository.ServiceRepository;
 import fiveman.hotelservice.response.OrderDetailResponse;
+import fiveman.hotelservice.response.ServiceResponse;
+import fiveman.hotelservice.response.ServiceResponseSQL;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.OrderDetailService;
 import fiveman.hotelservice.utils.Common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@org.springframework.stereotype.Service
 public class OrderDetailServiceImpl implements OrderDetailService {
 
     @Autowired
@@ -44,6 +49,31 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         return billDetailResponse;
     }
 
+    @Autowired
+    ImageRepository imageRepository;
+    
+    @Autowired
+    ServiceCategoryRepository serviceCategoryRepository;
+    ServiceResponse mapServiceToResponse(ServiceResponseSQL serviceResponseSQL){
+        ServiceResponse serviceResponse = new ServiceResponse();
+        serviceResponse.setId(serviceResponseSQL.getId());
+        serviceResponse.setName(serviceResponseSQL.getName());
+        serviceResponse.setPrice(serviceResponseSQL.getPrice());
+        serviceResponse.setDescription(serviceResponseSQL.getDescription());
+        serviceResponse.setMajorGroup(serviceResponseSQL.getMajor_group());
+        serviceResponse.setImage(imageRepository.getAllByPictureType("img_service_"+serviceResponseSQL.getId()));
+        serviceResponse.setCreateDate(serviceResponseSQL.getCreate_date());
+        serviceResponse.setUpdateDate(serviceResponseSQL.getUpdate_date());
+        serviceResponse.setCreateBy(serviceResponseSQL.getCreate_by());
+        serviceResponse.setLastModifyBy(serviceResponseSQL.getLast_modify_by());
+        serviceResponse.setServiceCategory(serviceCategoryRepository.getById(serviceResponseSQL.getService_category_id()));
+        return serviceResponse;
+    }
+
+
+
+
+
     @Override
     public List<OrderDetailResponse> getAllByBill_Id(long Bill_Id) {
         List<OrderDetailResponse> billDetailResponses = new ArrayList<>();
@@ -58,15 +88,16 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     
 
-    @Override
-    public CustomResponseObject checkExistTaxiServiceInBooking(long booking_id) {
+    // @Override
+    // public ServiceResponse checkExistTaxiServiceInBooking(long booking_id) {
 
-        boolean exist = orderDetailRepository.existTaxiServiceInBooking(booking_id);
-        if(!exist){
-            throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.GET_FAIL, "Not found"));
-        }
-        return new CustomResponseObject(HttpStatus.ALREADY_REPORTED.toString(), "Exist taxi Service");
-    }
+    //     // Service service = orderDetailRepository.existTaxiServiceInBooking(booking_id);
+    //     // if(service == null){
+    //     //     throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.GET_FAIL, "Not Exist Service"));
+    //     // }
+    //     // return mapServiceToResponse(service);
+    //     return mapServiceToResponse(orderDetailRepository.existTaxiServiceInBooking(booking_id));
+    // }
 
     @Override
     public OrderDetailResponse getBillDetailById(long id) {
@@ -101,5 +132,15 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         }
         orderDetailRepository.save(billDetail);
         return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success!");
+    }
+
+
+
+
+
+    @Override
+    public ServiceResponse checkExistTaxiServiceInBooking(long booking_id) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

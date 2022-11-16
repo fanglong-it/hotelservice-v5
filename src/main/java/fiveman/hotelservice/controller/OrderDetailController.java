@@ -3,6 +3,7 @@ package fiveman.hotelservice.controller;
 import fiveman.hotelservice.entities.OrderDetail;
 import fiveman.hotelservice.request.OrderDetailRequest;
 import fiveman.hotelservice.response.OrderDetailResponse;
+import fiveman.hotelservice.response.ServiceResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.OrderDetailService;
 import io.swagger.annotations.Api;
@@ -60,8 +61,8 @@ public class OrderDetailController {
     }
 
     @GetMapping("/existTaxiService")
-    public ResponseEntity<CustomResponseObject> checkExistTaxiService(@RequestParam("booking_id") long id){
-        return new ResponseEntity<CustomResponseObject>(orderDetailService.checkExistTaxiServiceInBooking(id), HttpStatus.OK);
+    public ResponseEntity<ServiceResponse> checkExistTaxiService(@RequestParam("booking_id") long id){
+        return new ResponseEntity<>(orderDetailService.checkExistTaxiServiceInBooking(id), HttpStatus.OK);
     }
 
 }

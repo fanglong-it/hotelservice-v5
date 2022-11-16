@@ -2,6 +2,8 @@ package fiveman.hotelservice.response;
 
 import java.util.List;
 
+import fiveman.hotelservice.entities.Image;
+import fiveman.hotelservice.entities.Room;
 import fiveman.hotelservice.entities.RoomPrice;
 import fiveman.hotelservice.entities.Utilities;
 import lombok.AllArgsConstructor;
@@ -23,8 +25,10 @@ public class RoomAvailabilityResponse{
       private int maxAdult;
       private int maxChildren;
       private int defaultOccupancy;
+      private double defaultPrice;
       private boolean isActive;
       private List<RoomPrice> roomPrices;
-      private List<RoomAvailableResponse> rooms;
+      private List<Room> rooms;
       private List<Utilities> utilities;
+      private List<Image> images;
 }

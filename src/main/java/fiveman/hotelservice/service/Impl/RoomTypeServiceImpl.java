@@ -12,8 +12,6 @@ import fiveman.hotelservice.repository.RoomTypeUtilitiesRepository;
 import fiveman.hotelservice.repository.UtilitiesRepository;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.RoomAvailabilityResponse;
-import fiveman.hotelservice.response.RoomAvailableResponse;
-import fiveman.hotelservice.response.RoomResponse;
 import fiveman.hotelservice.service.RoomTypeService;
 import fiveman.hotelservice.utils.Common;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +36,7 @@ public class RoomTypeServiceImpl implements RoomTypeService {
 
       @Autowired
       UtilitiesRepository utilitiesRepository;
-      
+
       @Autowired
       ImageRepository imageRepository;
 
@@ -107,7 +105,7 @@ public class RoomTypeServiceImpl implements RoomTypeService {
             int numOfPerson = Integer.parseInt(numberOfPerson);
 
             for (RoomType roomType : listRoomType) {
-                  List<RoomAvailableResponse> listRoom = checkAvailabilityRoom(roomType.getRooms());
+                  List<Room> listRoom = roomType.getRooms();
                   if (roomType.getMaxOccupancy() >= numOfPerson) {
                         if (listRoom.size() > 0) {
                               List<Utilities> utilities = new ArrayList<Utilities>();
@@ -118,8 +116,11 @@ public class RoomTypeServiceImpl implements RoomTypeService {
                               }
                               RoomAvailabilityResponse roomAvailable = modelMapper.map(roomType,
                                           RoomAvailabilityResponse.class);
+                              List<Image> images = imageRepository
+                                          .getAllByPictureType("img_roomType_" + roomType.getId());
                               roomAvailable.setUtilities(utilities);
                               roomAvailable.setRooms(listRoom);
+                              roomAvailable.setImages(images);
                               listRoomAvailable.add(roomAvailable);
                         }
                   }
@@ -127,17 +128,4 @@ public class RoomTypeServiceImpl implements RoomTypeService {
             return listRoomAvailable;
       }
 
-      protected List<RoomAvailableResponse> checkAvailabilityRoom(List<Room> rooms) {
-            List<RoomAvailableResponse> list = new ArrayList<>();
-            for (Room room : rooms) {
-                  if (room.isStatus()) {
-                        RoomAvailableResponse roomResponse = modelMapper.map(room, RoomAvailableResponse.class);
-                        roomResponse.setImages(imageRepository.getAllByPictureType("img_room_" + room.getId()));
-                        list.add(roomResponse);
-                  }
-            }
-            return list;
-      }
-
 }
-

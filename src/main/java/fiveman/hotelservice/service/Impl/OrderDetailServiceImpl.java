@@ -54,6 +54,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     
     @Autowired
     ServiceCategoryRepository serviceCategoryRepository;
+    
     ServiceResponse mapServiceToResponse(ServiceResponseSQL serviceResponseSQL){
         ServiceResponse serviceResponse = new ServiceResponse();
         serviceResponse.setId(serviceResponseSQL.getId());

@@ -58,6 +58,7 @@ public class RoomController {
             return new ResponseEntity<>(roomService.getRoom(id), HttpStatus.OK);
       }
 
+
       @PostMapping("/room")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //

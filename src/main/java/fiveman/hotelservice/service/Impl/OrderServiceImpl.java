@@ -1,11 +1,18 @@
 package fiveman.hotelservice.service.Impl;
 
 import fiveman.hotelservice.entities.Order;
+import fiveman.hotelservice.entities.OrderDetail;
 import fiveman.hotelservice.exception.AppException;
+import fiveman.hotelservice.repository.OrderDetailRepository;
 import fiveman.hotelservice.repository.OrderRepository;
+import fiveman.hotelservice.request.OrderDetailRequest;
+import fiveman.hotelservice.request.OrderRequest;
+import fiveman.hotelservice.request.ServiceRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.OrderService;
 import fiveman.hotelservice.utils.Common;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,6 +25,84 @@ public class OrderServiceImpl implements OrderService {
     OrderRepository orderRepository;
 
     
+
+    @Autowired
+    ModelMapper modelMapper;
+
+    @Autowired
+    OrderDetailRepository orderDetailRepository;
+
+    // public class OrderDetailRequest {
+
+    //     @ApiModelProperty(required = true)
+    //     private long id;
+        
+    //     @ApiModelProperty(required = true)
+    //     private long service_Id;
+    
+    //     @ApiModelProperty(required = true)
+    //     private long order_Id;
+    
+    //     @ApiModelProperty(required = true)
+    //     private int quantity;
+    
+    //     @ApiModelProperty(required = true)
+    //     private double price;
+    
+    //     @ApiModelProperty(required = true)
+    //     private double amount;
+    
+    //     private String orderDate;
+    
+    // }
+
+    // OrderDetailResponse mapBillDetailToResponse(OrderDetail billDetail) {
+    //     //        private long id;
+    //     //        private long service_Id;
+    //     //        private long bill_Id;
+    //     //        private int quantity;
+    //     //        private double price;
+    //     //        private double amount;
+    //     //        private int status;
+    //             OrderDetailResponse billDetailResponse
+    //                     = new OrderDetailResponse();
+    //             billDetailResponse.setId(billDetail.getId());
+    //             billDetailResponse.setService(serviceRepository.getServiceById(billDetail.getService().getId()));
+    //             billDetailResponse.setOrder_Id(billDetail.getOrder().getId());
+    //             billDetailResponse.setQuantity(billDetail.getQuantity());
+    //             billDetailResponse.setPrice(billDetail.getPrice());
+    //             billDetailResponse.setAmount(billDetail.getAmount());
+    //             billDetailResponse.setOrderDate(billDetail.getOrderDate());
+    //             return billDetailResponse;
+    //         }
+
+    
+    @Override
+    public Order submitOrderService(OrderRequest orderRequest) {
+        Order order = null;
+        if(!orderRequest.getLOrderDetailRequests().isEmpty()){
+            //Savev order
+            order = modelMapper.map(orderRequest, Order.class);
+            order.setId(0);
+            saveBill(order);
+
+            //Get Last OrderId
+            order = orderRepository.findTopByOrderByIdDesc();
+
+            //Save OrderDetailRequest
+            for (OrderDetailRequest orderDetailRequest : orderRequest.getLOrderDetailRequests()) {
+                orderDetailRequest.setId(0);
+                orderDetailRequest.setOrder_Id(order.getId());
+                OrderDetail orderDetail = modelMapper.map(orderDetailRequest, OrderDetail.class);
+                orderDetailRepository.save(orderDetail);
+            }
+
+        }else{
+            throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.GET_FAIL, "Can't detect action !"));
+        }    
+
+        return order;
+    }
 
     @Override
     public List<Order> getAllOrderByBookingId(long id) {

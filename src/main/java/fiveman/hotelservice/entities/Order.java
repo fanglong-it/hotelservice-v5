@@ -2,6 +2,8 @@ package fiveman.hotelservice.entities;
 
 import lombok.*;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -25,5 +27,6 @@ public class Order {
     private String createBy;
     private String lastModifyBy;
     private String status;
+
     
 }

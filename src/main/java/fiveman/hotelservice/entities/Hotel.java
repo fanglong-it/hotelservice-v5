@@ -36,6 +36,9 @@ public class Hotel{
     @Max(value = 10, message = "The max of phone is 10")
     private String phoneNumber;
 
+    //Note gio den va gio di
+    //Default gio den 12AM, Default gio di la 14PM
+    
     private String address;
     private String email;
     private String website;

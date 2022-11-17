@@ -14,7 +14,9 @@ import lombok.Setter;
 @Setter
 public class NewRequest {
 
-  
+    @ApiModelProperty(required = true)
+    private long id;
+    
     private String newName;
     private String ticketInformation;
     private String detailInformation;

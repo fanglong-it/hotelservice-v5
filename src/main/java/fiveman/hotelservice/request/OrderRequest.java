@@ -1,5 +1,7 @@
 package fiveman.hotelservice.request;
+import java.util.List;
 
+import fiveman.hotelservice.entities.Service;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
@@ -22,5 +24,7 @@ public class OrderRequest {
     private String createBy;
     private String lastModifyBy;
     private String status;
+
+    private List<OrderDetailRequest> lOrderDetailRequests;
 
 }

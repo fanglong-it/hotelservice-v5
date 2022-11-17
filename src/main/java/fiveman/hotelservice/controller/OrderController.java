@@ -51,7 +51,7 @@ public class OrderController {
 
     @PutMapping("/order")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<CustomResponseObject> updateOrder(@io.swagger.v3.oas.annotations.parameters.RequestBody @Valid OrderRequest billRequest) {
+    public ResponseEntity<CustomResponseObject> updateOrder(@RequestBody @Valid OrderRequest billRequest) {
         Order bill = modelMapper.map(billRequest, Order.class);
         return new ResponseEntity<>(orderService.updateBill(bill), HttpStatus.OK);
     }
@@ -60,6 +60,11 @@ public class OrderController {
     @PreAuthorize("isAuthenticated() or isAnonymous()")
     public ResponseEntity<CustomResponseObject> deleteOrder(@PathVariable("id") long id) {
         return new ResponseEntity<>(orderService.deleteBillById(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/orderService")
+    public ResponseEntity<Order> submitOrder(@org.springframework.web.bind.annotation.RequestBody OrderRequest orderRequest){
+        return new ResponseEntity<>(orderService.submitOrderService(orderRequest), HttpStatus.OK);
     }
 
 

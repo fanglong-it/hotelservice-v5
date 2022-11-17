@@ -29,6 +29,8 @@ public class RoomRequest {
     private String createBy;
     private String lastModifyBy;
 
+    private boolean status;
+
     @ApiModelProperty(required = true)
     private long hotel_Id;
 

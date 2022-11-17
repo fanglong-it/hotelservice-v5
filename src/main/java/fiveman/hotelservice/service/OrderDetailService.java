@@ -3,6 +3,7 @@ package fiveman.hotelservice.service;
 
 import fiveman.hotelservice.entities.OrderDetail;
 import fiveman.hotelservice.response.OrderDetailResponse;
+import fiveman.hotelservice.response.ServiceResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public interface OrderDetailService {
 
     CustomResponseObject updateBillDetail(OrderDetail billDetail);
 
-    CustomResponseObject checkExistTaxiServiceInBooking(long booking_id);
+    ServiceResponse checkExistTaxiServiceInBooking(long booking_id);
 }
 
 

@@ -3,9 +3,11 @@ package fiveman.hotelservice.service.Impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+import fiveman.hotelservice.entities.Image;
 import fiveman.hotelservice.entities.Service;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.ImageRepository;
@@ -37,6 +39,9 @@ public class ServiceServiceImpl implements ServiceService {
 
     @Autowired
     ImageRepository imageRepository;
+    
+    @Autowired 
+    ModelMapper modelMapper;
 
     ServiceResponse mapServiceToResponse(Service service){
         ServiceResponse serviceResponse = new ServiceResponse();
@@ -59,7 +64,10 @@ public class ServiceServiceImpl implements ServiceService {
         List<Service> services = serviceRepository.getAllByServiceCategory_Id(id);
         List<ServiceResponse> serviceResponses = new ArrayList<>();
         for (Service service : services) {
-            serviceResponses.add(mapServiceToResponse(service));
+            ServiceResponse response = modelMapper.map(service, ServiceResponse.class);
+            List<Image> images = imageRepository.getAllByPictureType("img_service_" + service.getId());
+            response.setImage(images);
+            serviceResponses.add(response);
         }
         return serviceResponses;
     }

@@ -5,7 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @AllArgsConstructor
@@ -14,19 +18,23 @@ import javax.persistence.*;
 @Table(name = "service_category")
 public class ServiceCategory {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(required = true)
-   private long id;
-   private String name;
-   private String description;
+      @Id
+      @GeneratedValue(strategy = GenerationType.IDENTITY)
+      @ApiModelProperty(required = true)
+      private long id;
+      private String name;
+      private String description;
 
-   boolean foodAndBeverage;
+      boolean foodAndBeverage;
 
-   boolean ordered;
+      boolean ordered;
 
-   boolean status;
-   @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
-   private Hotel hotel;
+      boolean status;
+      @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
+      private Hotel hotel;
+
+      @OneToMany(mappedBy = "serviceCategory")
+      @JsonManagedReference
+      List<Service> services;
 
 }

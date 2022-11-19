@@ -81,27 +81,33 @@ public class OrderServiceImpl implements OrderService {
     public Order submitOrderService(OrderRequest orderRequest) {
         Order order = null;
         if(!orderRequest.getLOrderDetailRequests().isEmpty()){
+            
             //Savev order
             order = modelMapper.map(orderRequest, Order.class);
             order.setId(0);
-            saveBill(order);
-
+            
+            orderRepository.save(order);
             //Get Last OrderId
             order = orderRepository.findTopByOrderByIdDesc();
 
             //Save OrderDetailRequest
+            double totalAmount = 0;
             for (OrderDetailRequest orderDetailRequest : orderRequest.getLOrderDetailRequests()) {
                 orderDetailRequest.setId(0);
                 orderDetailRequest.setOrder_Id(order.getId());
                 OrderDetail orderDetail = modelMapper.map(orderDetailRequest, OrderDetail.class);
+                double itemAmount = orderDetail.getQuantity() * orderDetail.getAmount();
+                orderDetail.setAmount(itemAmount);
                 orderDetailRepository.save(orderDetail);
+                totalAmount += itemAmount;
             }
+            order.setTotalAmount(totalAmount);
+            orderRepository.save(order);
 
         }else{
             throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.GET_FAIL, "Can't detect action !"));
         }    
-
-        return order;
+        return orderRepository.getOrderById(order.getId());
     }
 
     @Override

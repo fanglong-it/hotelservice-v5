@@ -2,9 +2,12 @@ package fiveman.hotelservice.entities;
 
 import lombok.*;
 
-import java.util.List;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 @AllArgsConstructor
@@ -18,6 +21,7 @@ public class Order {
     private long id;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Booking.class)
+    @JsonManagedReference
     private Booking booking;
     
     private double totalAmount;

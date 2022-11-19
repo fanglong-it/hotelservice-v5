@@ -28,7 +28,7 @@ public class OrderController {
     @GetMapping("/order/{id}")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
     public ResponseEntity<Order> getOrderById(@PathVariable("id") long id) {
-        return new ResponseEntity<>(orderService.getBillById(id), HttpStatus.OK);
+        return new ResponseEntity<Order>(orderService.getBillById(id), HttpStatus.OK);
     }
 
     @GetMapping("/orderByBooking")

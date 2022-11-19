@@ -18,5 +18,5 @@ public class VNPayRequest {
       private String vnp_IpAddr; // ip of client
       private String vnp_Locale;
       private String vnp_OrderInfo; // info of order tieng viet k dau
-      private String vnp_TxnRef; // orderID
+//      private String vnp_TxnRef; // orderID
 }

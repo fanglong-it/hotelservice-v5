@@ -1,13 +1,9 @@
 package fiveman.hotelservice.service.Impl;
 
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,12 +58,15 @@ public class PaymentServiceImpl implements PaymentService {
 //            CustomerInfoMomoRequest customerInfo = new CustomerInfoMomoRequest("dat", "0123456789", "dat@gmail.com");
 
             // long amount = 200000;
+            byte[] array = new byte[10]; // length is bounded by 7
+            new Random().nextBytes(array);
+            String requestId = new String(array, Charset.forName("UTF-8"));
             
-            String sign = "accessKey=" + Common.ACCESS_KEY + "&amount=" + 10000 + "&extraData="
+            String sign = "accessKey=" + Common.ACCESS_KEY + "&amount=" + request.getAmount() + "&extraData="
                         + "&ipnUrl=" + Common.IPN_URL_MOMO + "&orderId=" + request.getOrderId() + "&orderInfo="
                         + request.getOrderInfo()
                         + "&partnerCode=" + Common.PARTNER_CODE + "&redirectUrl=" + Common.REDIRECT_URL_MOMO
-                        + "&requestId=" + request.getOrderId() + "&requestType=captureWallet";
+                        + "&requestId=" + requestId + "&requestType=captureWallet";
 
             String signatureHmac = "";
             try {
@@ -81,16 +80,16 @@ public class PaymentServiceImpl implements PaymentService {
             momoReq.setPartnerCode(Common.PARTNER_CODE);
             momoReq.setExtraData("");
             momoReq.setSignature(signatureHmac);
-            momoReq.setAmount(10000);
+            momoReq.setAmount(request.getAmount());
             momoReq.setExtraData("");
             momoReq.setIpnUrl(Common.IPN_URL_MOMO);
-            momoReq.setLang(request.getLang());
+            momoReq.setLang("vi");
             momoReq.setOrderId(request.getOrderId());
             momoReq.setOrderInfo(request.getOrderInfo());
             momoReq.setRedirectUrl(Common.REDIRECT_URL_MOMO);
             momoReq.setRequestId(request.getOrderId());
             momoReq.setRequestType("captureWallet");
-            momoReq.setStoreId(request.getStoreId());
+            momoReq.setStoreId("1");
 
             HttpEntity<MomoRequest> req = new HttpEntity<>(momoReq, headers);
 
@@ -132,7 +131,19 @@ public class PaymentServiceImpl implements PaymentService {
             if (bank_code != null && !bank_code.isEmpty()) {
                   vnp_Params.put("vnp_BankCode", bank_code);
             }
-            vnp_Params.put("vnp_TxnRef", request.getVnp_TxnRef());
+
+            int leftLimit = 48; // numeral '0'
+            int rightLimit = 122; // letter 'z'
+            int targetStringLength = 10;
+            Random random = new Random();
+
+            String vnp_TxnRef = random.ints(leftLimit, rightLimit + 1)
+                    .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                    .limit(targetStringLength)
+                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                    .toString();
+
+            vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
             vnp_Params.put("vnp_OrderInfo", request.getVnp_OrderInfo());
             vnp_Params.put("vnp_OrderType", Common.VNP_ORDER_TYPE_HOTEL);
 
@@ -140,7 +151,7 @@ public class PaymentServiceImpl implements PaymentService {
             if (locale != null && !locale.isEmpty()) {
                   vnp_Params.put("vnp_Locale", locale);
             } else {
-                  vnp_Params.put("vnp_Locale", "vn");
+                  vnp_Params.put("vnp_Locale", "vi");
             }
 
             vnp_Params.put("vnp_ReturnUrl", Common.VNP_RETURNURL);

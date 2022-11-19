@@ -7,6 +7,7 @@ import fiveman.hotelservice.entities.RoomTypeUtilities;
 import fiveman.hotelservice.entities.Utilities;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.ImageRepository;
+import fiveman.hotelservice.repository.RoomRepository;
 import fiveman.hotelservice.repository.RoomTypeRepository;
 import fiveman.hotelservice.repository.RoomTypeUtilitiesRepository;
 import fiveman.hotelservice.repository.UtilitiesRepository;
@@ -15,7 +16,6 @@ import fiveman.hotelservice.response.RoomAvailabilityResponse;
 import fiveman.hotelservice.service.RoomTypeService;
 import fiveman.hotelservice.utils.Common;
 import lombok.extern.slf4j.Slf4j;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,6 +42,9 @@ public class RoomTypeServiceImpl implements RoomTypeService {
 
       @Autowired
       ModelMapper modelMapper;
+
+      @Autowired
+      RoomRepository roomRepository;
 
       @Override
       public List<RoomType> findAllRoomType() {
@@ -97,15 +100,36 @@ public class RoomTypeServiceImpl implements RoomTypeService {
       public List<RoomAvailabilityResponse> checkAvailability(String dateCheckIn, String dateCheckout,
                   String numberOfPerson) {
             log.info("START TO CHECK AVAILABILITY ");
+            boolean isDateCheckInValid = fiveman.hotelservice.utils.Utilities.isDateValid(dateCheckIn);
+            boolean isDateCheckoutValid = fiveman.hotelservice.utils.Utilities.isDateValid(dateCheckout);
+            if (!isDateCheckInValid || !isDateCheckoutValid) {
+                  throw new AppException(HttpStatus.BAD_REQUEST.value(),
+                              new CustomResponseObject(Common.GET_FAIL, "Invalid Date"));
+            }
             List<RoomType> listRoomType = roomTypeRepository.findAll();
             List<RoomAvailabilityResponse> listRoomAvailable = new ArrayList<RoomAvailabilityResponse>();
             if (fiveman.hotelservice.utils.Utilities.isEmptyString(numberOfPerson)) {
                   numberOfPerson = "1";
             }
             int numOfPerson = Integer.parseInt(numberOfPerson);
-
+            
             for (RoomType roomType : listRoomType) {
+                  List<Room> listRoomAbstract = new ArrayList<Room>();
                   List<Room> listRoom = roomType.getRooms();
+                  for (Room room : listRoom) {
+                        if (room.isStatus()) {
+                              listRoomAbstract.add(room);
+                        }
+                  }
+
+                  List<Room> listRoomByEndDate = roomRepository.getRoomByBookingEndDate(roomType.getId(), false,
+                              dateCheckIn);
+
+                  for (Room room : listRoomByEndDate) {
+                        log.info("--------------------------------------------------------------------roomByBooking: " + room.getName());
+                        listRoomAbstract.add(room);
+                  }
+
                   if (roomType.getMaxOccupancy() >= numOfPerson) {
                         if (listRoom.size() > 0) {
                               List<Utilities> utilities = new ArrayList<Utilities>();
@@ -119,7 +143,7 @@ public class RoomTypeServiceImpl implements RoomTypeService {
                               List<Image> images = imageRepository
                                           .getAllByPictureType("img_roomType_" + roomType.getId());
                               roomAvailable.setUtilities(utilities);
-                              roomAvailable.setRooms(listRoom);
+                              roomAvailable.setRooms(listRoomAbstract);
                               roomAvailable.setImages(images);
                               listRoomAvailable.add(roomAvailable);
                         }

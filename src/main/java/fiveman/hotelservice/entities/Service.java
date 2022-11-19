@@ -6,6 +6,8 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 
 @Entity
@@ -38,6 +40,7 @@ public class Service {
     private String lastModifyBy;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = ServiceCategory.class)
+    @JsonBackReference
     private ServiceCategory serviceCategory;
 
 }

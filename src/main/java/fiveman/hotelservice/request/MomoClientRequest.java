@@ -18,7 +18,7 @@ public class MomoClientRequest {
  
 //      private String partnerName; // option
       
-      private String storeId;   // option
+//      private String storeId;   // option
       
 //      private String requestId; // == orderId
       
@@ -26,7 +26,7 @@ public class MomoClientRequest {
       
 //      private String redirectUrl;
       
-//      private long amount;
+      private long amount;
       
       private String orderId;
       
@@ -37,7 +37,7 @@ public class MomoClientRequest {
       
 //      private boolean autoCapture; // default is true. if false transaction is not auto capture
       
-      private String lang; // vi - en
+//      private String lang; // vi - en
       
 //      private String signature; // encode by Hmac_SHA256 with string 
                  /*

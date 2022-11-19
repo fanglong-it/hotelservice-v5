@@ -17,16 +17,16 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Table(name = "RoomType_Utilities")
 public class RoomTypeUtilities {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+      @Id
+      @GeneratedValue(strategy = GenerationType.IDENTITY)
+      private long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JsonBackReference
-    private RoomType roomType;
+      @ManyToOne(fetch = FetchType.EAGER)
+      @JsonBackReference
+      private RoomType roomType;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    // @JsonBackReference
-    private Utilities utilities;
+      @ManyToOne(fetch = FetchType.EAGER)
+      @JsonBackReference
+      private Utilities utilities;
 
 }

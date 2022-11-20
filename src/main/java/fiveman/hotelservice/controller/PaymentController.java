@@ -48,7 +48,8 @@ public class PaymentController {
 
       @GetMapping("/VnPayConfirm")
       @PreAuthorize("isAuthenticated() or isAnonymous()")
-      public ResponseEntity<CustomResponseObject> getVNPayConfirm(@RequestParam("vnp_Amount") String vnp_Amount,
+      public ResponseEntity<CustomResponseObject> getVNPayConfirm(
+                  @RequestParam("vnp_Amount") String vnp_Amount,
                   @RequestParam("vnp_BankCode") String vnp_BankCode,
                   @RequestParam("vnp_BankTranNo") String vnp_BankTranNo,
                   @RequestParam("vnp_CardType") String vnp_CardType,

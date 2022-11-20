@@ -57,7 +57,7 @@ public class ServiceController {
 
     @PostMapping("/service")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<CustomResponseObject> saveService(@RequestBody @Valid ServiceRequest serviceRequest){
+    public ResponseEntity<List<ServiceResponse>> saveService(@RequestBody @Valid ServiceRequest serviceRequest){
         Service serviceEntity = modelMapper.map(serviceRequest, Service.class);
         return new ResponseEntity<>(service.saveServices(serviceEntity),HttpStatus.OK);
     }

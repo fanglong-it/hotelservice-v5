@@ -11,7 +11,7 @@ public interface ServiceService {
 
     List<ServiceResponse> getAllServicesByServiceCategory(long id);
 
-    CustomResponseObject saveServices(Service service);
+    List<ServiceResponse> saveServices(Service service);
     ServiceResponse getServiceById(Long id);
     CustomResponseObject updateService(Service service);
     CustomResponseObject deleteService(Long id);

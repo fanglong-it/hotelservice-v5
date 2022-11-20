@@ -132,11 +132,11 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public CustomResponseObject saveServices(fiveman.hotelservice.entities.Service service) {
+    public List<ServiceResponse> saveServices(fiveman.hotelservice.entities.Service service) {
         if (!serviceRepository.existsById(service.getId())) {
             service.setServiceCategory(serviceCategoryRepository.getServiceCategoryById(service.getServiceCategory().getId()));
             serviceRepository.save(service);
-            return new CustomResponseObject(Common.ADDING_SUCCESS, "Save success!");
+            return getAllServices();
         }
         throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
                 new CustomResponseObject(Common.ADDING_FAIL, "Is exist service id =" + service.getId()));

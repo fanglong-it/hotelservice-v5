@@ -42,6 +42,7 @@ public class ServiceServiceImpl implements ServiceService {
     
     @Autowired 
     ModelMapper modelMapper;
+    
 
     ServiceResponse mapServiceToResponse(Service service){
         ServiceResponse serviceResponse = new ServiceResponse();
@@ -50,11 +51,14 @@ public class ServiceServiceImpl implements ServiceService {
         serviceResponse.setPrice(service.getPrice());
         serviceResponse.setDescription(service.getDescription());
         serviceResponse.setMajorGroup(service.getMajorGroup());
+        serviceResponse.setStatus(service.isStatus());
         serviceResponse.setImage(imageRepository.getAllByPictureType("img_service_"+service.getId()));
         serviceResponse.setCreateDate(service.getCreateDate());
         serviceResponse.setUpdateDate(service.getUpdateDate());
         serviceResponse.setCreateBy(service.getCreateBy());
         serviceResponse.setLastModifyBy(service.getLastModifyBy());
+        service.getServiceCategory().setHotel(null);
+        service.getServiceCategory().setServices(null);
         serviceResponse.setServiceCategory(service.getServiceCategory());
         return serviceResponse;
     }
@@ -64,7 +68,7 @@ public class ServiceServiceImpl implements ServiceService {
         List<Service> services = serviceRepository.getAllByServiceCategory_Id(id);
         List<ServiceResponse> serviceResponses = new ArrayList<>();
         for (Service service : services) {
-            ServiceResponse response = modelMapper.map(service, ServiceResponse.class);
+            ServiceResponse response = mapServiceToResponse(service);
             List<Image> images = imageRepository.getAllByPictureType("img_service_" + service.getId());
             response.setImage(images);
             serviceResponses.add(response);

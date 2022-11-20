@@ -8,8 +8,6 @@ import fiveman.hotelservice.response.UserResponse;
 import fiveman.hotelservice.service.UserService;
 import fiveman.hotelservice.utils.Common;
 import io.swagger.annotations.*;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

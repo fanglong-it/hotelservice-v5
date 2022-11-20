@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import fiveman.hotelservice.entities.Service;
 import fiveman.hotelservice.service.ServiceService;
 import io.swagger.annotations.Api;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @Api(tags = "Service")

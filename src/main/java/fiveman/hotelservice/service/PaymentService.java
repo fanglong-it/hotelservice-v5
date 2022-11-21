@@ -1,5 +1,6 @@
 package fiveman.hotelservice.service;
 
+import fiveman.hotelservice.request.VnPayConfirmRequest;
 import org.springframework.http.ResponseEntity;
 
 import fiveman.hotelservice.request.MomoClientRequest;
@@ -13,5 +14,5 @@ public interface PaymentService {
       
       VnPayRes getPaymentVNPay(VNPayRequest request);
       
-      CustomResponseObject validateVNPay(String billId, String amount, String secureHash, String responseCode);
+      CustomResponseObject validateVNPay(VnPayConfirmRequest request);
 }

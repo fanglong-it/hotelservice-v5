@@ -62,6 +62,12 @@ public class Common {
     // althogrithm
     public static final String HMACSHA256 = "HmacSHA256";
     public static final String HMACSHA512 = "HmacSHA512";
+
+    //Booking status
+    public static  final String BOOKING_BOOKED = "booked";
+    public static  final String BOOKING_NOT_SHOW = "not show";
+    public static  final String BOOKING_DONE = "done";
+    public static  final String BOOKING_CANCEL = "cancel";
     
     // code for momo payment
     public static final String IPN_URL_MOMO = "https://hotelservice-v5.herokuapp.com/api/v1/MomoConfirm";
@@ -79,10 +85,8 @@ public class Common {
     public static final String VNP_HASHSCRET = "RAOFLVMYIXMFIPSSRIFYIAWLBOSIJTPQ";
     public static final String VNP_URI = "http://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
     public static final String VNP_ORDER_TYPE_HOTEL = "170000";
-    public static final String VNP_RETURNURL = "http://localhost:3000/roomValidate";
+    public static final String VNP_RETURNURL = "http://localhost:3000/RoomValidate";
     public static final String VNP_RETURN_URL_APP = "";
-    
-    
     
 }
 

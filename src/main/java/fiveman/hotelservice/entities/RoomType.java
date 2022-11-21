@@ -1,5 +1,7 @@
 package fiveman.hotelservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +28,7 @@ public class RoomType implements Serializable{
       @Id
       @GeneratedValue(strategy = GenerationType.IDENTITY)
       @ApiModelProperty(required = true)
+      @Column(name = "id")
       private long id;
       private String name;
       private String description;

@@ -4,49 +4,48 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64a37eb9-d5fd-4799-9624-8c5c9f4b2b96" name="Changes" comment="push localhost test api">
-      <change afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/request/VnPayConfirmRequest.java" afterDir="false" />
+    <list default="true" id="64a37eb9-d5fd-4799-9624-8c5c9f4b2b96" name="Changes" comment="delete application.properties">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/controller/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/controller/PaymentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/entities/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/entities/Booking.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/entities/RequestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/entities/RequestService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/entities/RoomType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/entities/RoomType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/entities/Utilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/entities/Utilities.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/repository/BookingRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/repository/BookingRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/request/BookingRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/request/BookingRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/service/Impl/PaymentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/service/Impl/PaymentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/service/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/service/PaymentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/utils/Common.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/utils/Common.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/utils/Utilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/utils/Utilities.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/AbstractionController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/AbstractionController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/BookingController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/BookingController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/CustomerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/CustomerController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/CustomerFeedbackController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/CustomerFeedbackController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/DeviceController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/DeviceController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/FeedbackContentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/FeedbackContentController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/MessageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/MessageController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/NewController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/NewController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/OrderDetailController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/OrderDetailController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/OrderPaymentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/OrderPaymentController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/PaymentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/PaymentController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/RequestServiceController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/RequestServiceController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/RoomAlarmController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/RoomAlarmController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/ServiceCategoryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/ServiceCategoryController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/controller/ServiceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/controller/ServiceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/repository/ServiceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/repository/ServiceRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/service/Impl/ServiceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/service/Impl/ServiceServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/service/ServiceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/service/ServiceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/HotelController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/HotelController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/ImageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/ImageController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/ServiceController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/ServiceController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/SpecialRequestController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/SpecialRequestController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/SpecialUilityController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/SpecialUilityController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/UtilitiesController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/UtilitiesController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/Booking.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/Booking.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/RequestService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/RequestService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/RoomType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/RoomType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/request/BookingRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/request/BookingRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/PaymentServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/PaymentServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RequestServiceServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RequestServiceServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/OrderDetail.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/OrderDetail.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/repository/OrderDetailRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/repository/OrderDetailRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/repository/ServiceRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/repository/ServiceRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/request/OrderRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/request/OrderRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/response/OrderDetailResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/response/OrderDetailResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/security/MyUserDetails.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/security/MyUserDetails.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/AbstractionServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/AbstractionServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/BookingServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/BookingServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/CustomerBookingServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/CustomerBookingServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/CustomerFeedbackServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/CustomerFeedbackServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/CustomerServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/CustomerServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/DeviceServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/DeviceServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/FeedbackContentServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/FeedbackContentServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/HotelServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/HotelServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/ImageServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/ImageServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/MessageServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/MessageServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/NewServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/NewServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/OrderDetailServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/OrderDetailServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/OrderPaymentServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/OrderPaymentServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/OrderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/OrderServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/PaymentMethodServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/PaymentMethodServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RoomAlarmServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RoomAlarmServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RoomPriceServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RoomPriceServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RoomServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RoomServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RoomTypeServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RoomTypeServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RoomTypeUtilitiesServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RoomTypeUtilitiesServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/ServiceCategoryServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/ServiceCategoryServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/ServiceServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/ServiceServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/PaymentService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/PaymentService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/SpecialRequestServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/SpecialRequestServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/SpecialUtilityServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/SpecialUtilityServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/UserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/UtitliesServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/UtitliesServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/ServiceService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/ServiceService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/utils/Common.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/utils/Common.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,23 +91,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/CapstoneProject/Back-End/hotelservice-v5",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.keymap",
-    "spring.configuration.checksum": "eb1b1009b6c94b45e7de0b2e50bc993c"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/CapstoneProject/Back-End/hotelservice-v5&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;eb1b1009b6c94b45e7de0b2e50bc993c&quot;
   }
-}]]></component>
+}</component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
   </component>
@@ -142,10 +141,6 @@
       <option name="HOST" value="localhost" />
       <option name="PORT" value="8080" />
       <option name="AUTO_RESTART" value="false" />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="8080" />
-        <option name="LOCAL" value="false" />
-      </RunnerSettings>
       <method v="2" />
     </configuration>
     <configuration name="HotelserviceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
@@ -159,6 +154,7 @@
       <item itemvalue="Application.HotelserviceApplication" />
       <item itemvalue="JUnit.All in hotelservice_v5" />
       <item itemvalue="Remote JVM Debug.Local Debugger" />
+      <item itemvalue="Spring Boot.HotelserviceApplication" />
     </list>
     <recent_temporary>
       <list>
@@ -189,6 +185,8 @@
       <workItem from="1665975522715" duration="383000" />
       <workItem from="1666023997013" duration="899000" />
       <workItem from="1666062711760" duration="3532000" />
+      <workItem from="1669015559157" duration="4340000" />
+      <workItem from="1669048238714" duration="31000" />
     </task>
     <task id="LOCAL-00001" summary="Fetching code from version 2, change Role to Enum">
       <created>1665160824390</created>
@@ -338,17 +336,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="delete application.properties" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/fiveman/hotelservice/controller/BookingController.java</url>
-          <line>41</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -50,7 +50,7 @@ public class ServiceController {
 
     @PutMapping("/service")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<CustomResponseObject> updateService(@RequestBody ServiceRequest serviceRequest) {
+    public ResponseEntity<List<ServiceResponse>> updateService(@RequestBody ServiceRequest serviceRequest) {
         Service serviceEntity = modelMapper.map(serviceRequest, Service.class);
         return new ResponseEntity<>(service.updateService(serviceEntity), HttpStatus.OK);
     }
@@ -64,7 +64,7 @@ public class ServiceController {
 
     @DeleteMapping("/service/{id}")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<CustomResponseObject> deleteServiceById(@PathVariable("id") Long id){
+    public ResponseEntity<List<ServiceResponse>> deleteServiceById(@PathVariable("id") Long id){
         return new ResponseEntity<>(service.deleteService(id), HttpStatus.OK);
     }
 

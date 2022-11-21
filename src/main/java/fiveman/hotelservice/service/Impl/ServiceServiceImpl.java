@@ -3,6 +3,7 @@ package fiveman.hotelservice.service.Impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import fiveman.hotelservice.utils.Utilities;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -102,13 +103,16 @@ public class ServiceServiceImpl implements ServiceService {
 
 
     @Override
-    public CustomResponseObject updateService(fiveman.hotelservice.entities.Service service) {
+    public List<ServiceResponse> updateService(fiveman.hotelservice.entities.Service service) {
         log.info("CHECKING ID FOR UPDATE SERVICE");
         if (serviceRepository.existsById(service.getId())) {
             log.info("ID IS EXIST START OF UPDATE SERVICE");
+            service.setUpdateDate(Utilities.getCurrentDateByFormat("dd/MM/yyyy"));
             serviceRepository.save(service);
             serviceRepository.getServiceById(service.getId());
-            return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update success!");
+
+            //            return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update success!");
+            return getAllServices();
         }
         throw new AppException(HttpStatus.NOT_FOUND.value(),
                 new CustomResponseObject(Common.UPDATE_FAIL,
@@ -119,13 +123,17 @@ public class ServiceServiceImpl implements ServiceService {
     ServiceCategoryRepository serviceCategoryRepository;
 
     @Override
-    public CustomResponseObject deleteService(Long id) {
+    public List<ServiceResponse> deleteService(Long id) {
         log.info("CHECKING ID FOR DELETE SERVICE");
         if (serviceRepository.existsById(id)) {
             log.info("START OF DELETE SERVICE BY ID");
-            serviceRepository.delete(serviceRepository.getServiceById(id));
-            return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete success!");
-
+//            serviceRepository.delete(serviceRepository.getServiceById(id));
+            Service service  = serviceRepository.getServiceById(id);
+            service.setStatus(false);
+            service.setUpdateDate(Utilities.getCurrentDateByFormat("dd/MM/yyyy"));
+            serviceRepository.save(service);
+            //            return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete success!");
+            return getAllServices();
         }
         throw new AppException(HttpStatus.NOT_FOUND.value(),
                 new CustomResponseObject(Common.DELETE_FAIL, "Not found service by id = " + id));
@@ -135,6 +143,7 @@ public class ServiceServiceImpl implements ServiceService {
     public List<ServiceResponse> saveServices(fiveman.hotelservice.entities.Service service) {
         if (!serviceRepository.existsById(service.getId())) {
             service.setServiceCategory(serviceCategoryRepository.getServiceCategoryById(service.getServiceCategory().getId()));
+            service.setCreateDate(Utilities.getCurrentDateByFormat("dd/MM/yyyy"));
             serviceRepository.save(service);
             return getAllServices();
         }

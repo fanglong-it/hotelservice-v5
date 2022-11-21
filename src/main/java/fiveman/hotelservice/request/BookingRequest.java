@@ -33,13 +33,14 @@ public class BookingRequest {
     @ApiModelProperty(required = true)
     private long hotel_Id;
 
-    @ApiModelProperty(required = true)
     private long room_Id;
+
     @ApiModelProperty(required = true)
     private long roomType_Id;
 
-
     @ApiModelProperty(required = true)
     private long customer_Id;
+
+    private long requestService_Id;
 
 }

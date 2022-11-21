@@ -1,5 +1,6 @@
 package fiveman.hotelservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class RequestService {
 
     
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
     private Booking booking;
 
 }

@@ -1,11 +1,16 @@
 package fiveman.hotelservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import java.util.List;
 
 
 @Entity
@@ -19,6 +24,7 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(required = true)
+    @Column(name = "id")
     private long id;
 
     private int confirmationNo;
@@ -38,6 +44,7 @@ public class Booking {
     private String updateDate;
     private String createBy;
     private String lastModifyBy;
+    private long roomTypeId;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
     private Hotel hotel;
@@ -48,5 +55,8 @@ public class Booking {
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Customer.class)
     private Customer customer;
 
+    @OneToMany(mappedBy = "booking")
+    @JsonManagedReference
+    private List<RequestService> requestServices;
 
 }

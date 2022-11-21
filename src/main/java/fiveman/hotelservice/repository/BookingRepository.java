@@ -11,5 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     Booking getBookingById(long id);
+    Booking findTopByOrderByIdDesc();
     List<Booking> getAllBookingsByRoomId(long roomId);
 }

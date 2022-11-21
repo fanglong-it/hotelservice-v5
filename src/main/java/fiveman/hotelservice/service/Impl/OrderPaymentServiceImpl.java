@@ -18,6 +18,18 @@ public class OrderPaymentServiceImpl implements OrderPaymentService {
     @Autowired
     OrderPaymentRepository orderPaymentRepository;
 
+    
+
+    @Override
+    public Boolean existOrderPaymentByOrderId(long orderId) {
+        OrderPayment orderPayment = orderPaymentRepository.getOrderPaymentByOrder_Id(orderId);
+        if(orderPayment  != null){
+            // throw new AppException(HttpStatus.ALREADY_REPORTED.value(), new CustomResponseObject(Common.ADDING_FAIL, "Exist id = " + orderPayment.getId()));
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public OrderPayment getOrderPaymentById(long id) {
         if (!orderPaymentRepository.existsById(id)) {

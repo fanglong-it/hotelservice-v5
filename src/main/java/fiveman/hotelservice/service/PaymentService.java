@@ -10,6 +10,8 @@ import fiveman.hotelservice.response.MomoResponse;
 import fiveman.hotelservice.response.VnPayRes;
 
 public interface PaymentService {
+
+      
       ResponseEntity<MomoResponse> getPaymentMomo(MomoClientRequest request);
       
       VnPayRes getPaymentVNPay(VNPayRequest request);

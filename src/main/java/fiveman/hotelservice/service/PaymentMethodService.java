@@ -6,6 +6,7 @@ import fiveman.hotelservice.response.CustomResponseObject;
 import java.util.List;
 
 public interface PaymentMethodService {
+
     PaymentMethod getPaymentMethodById(long id);
 
     List<PaymentMethod> getPaymentMethods();

@@ -13,6 +13,7 @@ import fiveman.hotelservice.entities.Order;
 import fiveman.hotelservice.entities.OrderPayment;
 import fiveman.hotelservice.entities.PaymentMethod;
 import fiveman.hotelservice.entities.Utilities;
+import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.request.MomoClientRequest;
 import fiveman.hotelservice.request.VNPayRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
@@ -80,9 +81,21 @@ public class PaymentController {
                   @RequestParam("responseTime") String responseTime,
                   @RequestParam("extraData") String extraData,
                   @RequestParam("signature") String signature) {
+            String sign = "accessKey=" +
+                        Common.ACCESS_KEY + "&orderId=" + orderId + "&partnerCode=" + Common.PARTNER_CODE
+                        + "&requestId=" + requestId;
+            String signatureHmac = "";
+            try {
+                  signatureHmac = fiveman.hotelservice.utils.Utilities.calculateHMac(sign, Common.HMACSHA256, Common.SECRET_KEY);
+                  System.out.println("signature: " + signatureHmac + "   ");
+            } catch (Exception e) {
+                  throw new AppException(HttpStatus.BAD_REQUEST.value(),
+                              new CustomResponseObject(Common.ADDING_FAIL, "Signature bị lỗi"));
+            }
+            
             MomoConfirmResultResponse momoConfirmResultResponse = new MomoConfirmResultResponse(
                         partnerCode, orderInfo, responseTime, amount, orderInfo, orderType, transId,
-                        resultCode, message, payType, resultCode, extraData, signature, Common.PARTNER_CODE);
+                        resultCode, message, payType, resultCode, extraData, signatureHmac, Common.PARTNER_CODE);
 
             String msg = "";
             if (resultCode == 0) {
@@ -106,6 +119,9 @@ public class PaymentController {
                   }
             }
             System.out.println(resultCode);
+
+            // accessKey=WehkypIRwPP14mHb&orderId=23&partnerCode=MOMODJMX20220717&requestId=48468005-6de1-4140-839f-5f2d8d77a001
+
             return new ResponseEntity<>(momoConfirmResultResponse, HttpStatus.OK);
       }
 

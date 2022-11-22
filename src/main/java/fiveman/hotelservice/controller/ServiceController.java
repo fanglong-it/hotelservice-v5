@@ -63,7 +63,7 @@ public class ServiceController {
     }
 
     @DeleteMapping("/service/{id}")
-    @PreAuthorize("isAuthenticated() or isAnonymous()")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<CustomResponseObject> deleteServiceById(@PathVariable("id") Long id){
         return new ResponseEntity<>(service.deleteService(id), HttpStatus.OK);
     }

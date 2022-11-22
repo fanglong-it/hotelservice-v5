@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -22,11 +23,11 @@ public class GlobalExceptionHandler {
 				.body(new CustomResponseObject(String.valueOf(e.getCode()), e.getErr().getMessage()));
 	}
 
-//	@ExceptionHandler(AccessDeniedException.class)
-//	public ResponseEntity<CustomResponseObject> AccessDeniedException(AccessDeniedException e) {
-//		logger.info(e.getMessage());
-//		return ResponseEntity.status(403).body(new CustomResponseObject(String.valueOf(403), "Access is denied"));
-//	}
+	@ExceptionHandler(AccessDeniedException.class)
+	public ResponseEntity<CustomResponseObject> AccessDeniedException(AccessDeniedException e) {
+		logger.info(e.getMessage());
+		return ResponseEntity.status(403).body(new CustomResponseObject(String.valueOf(403), "Access is denied"));
+	}
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<CustomResponseObject> handleUnwantedException(Exception e) {

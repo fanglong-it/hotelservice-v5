@@ -3,6 +3,7 @@ package fiveman.hotelservice.service.Impl;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import fiveman.hotelservice.entities.*;
@@ -24,6 +25,7 @@ import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.MomoResponse;
 import fiveman.hotelservice.response.VnPayRes;
 import fiveman.hotelservice.service.OrderDetailService;
+import fiveman.hotelservice.service.OrderService;
 import fiveman.hotelservice.service.PaymentService;
 import fiveman.hotelservice.utils.Common;
 import fiveman.hotelservice.utils.Utilities;
@@ -31,7 +33,6 @@ import fiveman.hotelservice.utils.Utilities;
 @Service
 @Slf4j
 public class PaymentServiceImpl implements PaymentService {
-
 
     @Autowired
     private OrderDetailService billDetailService;
@@ -47,15 +48,19 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     private RequestServiceRepository requestServiceRepository;
-    
+
     @Autowired
     private SpecialRequestRepository specialRequestRepository;
 
     @Autowired
     private HotelRepository hotelRepository;
 
+    @Autowired
+    OrderService orderService;
+
     @Override
     public ResponseEntity<MomoResponse> getPaymentMomo(MomoClientRequest request) {
+
         // request url
         String url = Common.MOMO_URI;
 
@@ -71,18 +76,33 @@ public class PaymentServiceImpl implements PaymentService {
 
         // build the request
         MomoRequest momoReq = new MomoRequest();
-//            CustomerInfoMomoRequest customerInfo = new CustomerInfoMomoRequest("dat", "0123456789", "dat@gmail.com");
+        // CustomerInfoMomoRequest customerInfo = new CustomerInfoMomoRequest("dat",
+        // "0123456789", "dat@gmail.com");
+        Order order = orderService.getBillById(Long.parseLong(request.getOrderId()));
 
         // long amount = 200000;
         byte[] array = new byte[10]; // length is bounded by 7
         new Random().nextBytes(array);
-        String requestId = new String(array, Charset.forName("UTF-8"));
 
-        String sign = "accessKey=" + Common.ACCESS_KEY + "&amount=" + request.getAmount() + "&extraData="
+
+        // String requestId = new String(array, Charset.forName("UTF-8"));
+        String requestId = String.valueOf(order.getId());
+
+        DecimalFormat df = new DecimalFormat("#");     
+
+        String amount = String.valueOf(df.format(order.getTotalAmount()));
+
+
+        String sign = "accessKey=" + Common.ACCESS_KEY + "&amount=" + amount + "&extraData="
                 + "&ipnUrl=" + Common.IPN_URL_MOMO + "&orderId=" + request.getOrderId() + "&orderInfo="
-                + request.getOrderInfo()
+                + "Thanh toan momo"
                 + "&partnerCode=" + Common.PARTNER_CODE + "&redirectUrl=" + Common.REDIRECT_URL_MOMO
                 + "&requestId=" + requestId + "&requestType=captureWallet";
+
+        // accessKey=$accessKey&amount=$amount&extraData=$extraData
+        // &ipnUrl=$ipnUrl&orderId=$orderId&orderInfo=$orderInfo
+        // &partnerCode=$partnerCode&redirectUrl=$redirectUrl
+        // &requestId=$requestId&requestType=$requestType
 
         String signatureHmac = "";
         try {
@@ -90,22 +110,20 @@ public class PaymentServiceImpl implements PaymentService {
             System.out.println("signature: " + signatureHmac + "   ");
         } catch (Exception e) {
             throw new AppException(HttpStatus.BAD_REQUEST.value(),
-                    new CustomResponseObject(Common.ADDING_FAIL, "pay fail"));
+                    new CustomResponseObject(Common.ADDING_FAIL, "Signature bị lỗi"));
         }
 
         momoReq.setPartnerCode(Common.PARTNER_CODE);
-        momoReq.setExtraData("");
         momoReq.setSignature(signatureHmac);
-        momoReq.setAmount(request.getAmount());
+        momoReq.setAmount(Long.valueOf(amount));
         momoReq.setExtraData("");
         momoReq.setIpnUrl(Common.IPN_URL_MOMO);
         momoReq.setLang("vi");
         momoReq.setOrderId(request.getOrderId());
-        momoReq.setOrderInfo(request.getOrderInfo());
+        momoReq.setOrderInfo("Thanh toan momo");
         momoReq.setRedirectUrl(Common.REDIRECT_URL_MOMO);
-        momoReq.setRequestId(request.getOrderId());
+        momoReq.setRequestId(requestId);
         momoReq.setRequestType("captureWallet");
-        momoReq.setStoreId("1");
 
         HttpEntity<MomoRequest> req = new HttpEntity<>(momoReq, headers);
 
@@ -119,11 +137,12 @@ public class PaymentServiceImpl implements PaymentService {
             String arr[] = String.valueOf(e.getMessage()).split(",");
             String ar[] = arr[1].split(":");
             String message = ar[1].replaceAll("\"", "");
+            System.out.println("" + e.getMessage());
             throw new AppException(HttpStatus.BAD_REQUEST.value(),
                     new CustomResponseObject(Common.ADDING_FAIL, message));
         }
-
         return null;
+    
     }
 
     @Override
@@ -234,29 +253,30 @@ public class PaymentServiceImpl implements PaymentService {
             booking.setCustomer(request.getCustomer());
             booking.setHotel(hotel);
             booking.setArrivalDate(request.getBookingDates().getStartDate());
-            booking.setCreateBy(request.getCustomer().getFirstName() + " " + request.getCustomer().getMiddleName() + " " + request.getCustomer().getLastName());
+            booking.setCreateBy(request.getCustomer().getFirstName() + " " + request.getCustomer().getMiddleName() + " "
+                    + request.getCustomer().getLastName());
             booking.setCreateDate(Utilities.getCurrentDate());
             booking.setConfirmationNo(confirmation_No);
             booking.setStatus(Common.BOOKING_BOOKED);
             booking.setRequestServices(mapRequestBookingToRequestService(request));
             booking.setDepartureDate(request.getBookingDates().getEndDate());
-            if(!Utilities.isEmptyString(request.getSpecialUtilities().getDescription())){
+            if (!Utilities.isEmptyString(request.getSpecialUtilities().getDescription())) {
                 booking.setSpecialNote(request.getSpecialUtilities().getDescription());
             }
-            if(!Utilities.isEmptyString(request.getVnp_Amount())){
-                booking.setRoomPayment(String.valueOf(Double.parseDouble(request.getVnp_Amount())/100));
-            }else{
+            if (!Utilities.isEmptyString(request.getVnp_Amount())) {
+                booking.setRoomPayment(String.valueOf(Double.parseDouble(request.getVnp_Amount()) / 100));
+            } else {
                 booking.setRoomPayment("N/A");
             }
             for (int j = 0; j < request.getPersons().size(); j++) {
-                if(i == j){
+                if (i == j) {
                     booking.setNumOfAdult(request.getPersons().get(j).getAdult());
                     booking.setNumOfChildren(request.getPersons().get(j).getChild());
                 }
             }
             bookingRepository.save(booking);
 
-            if(request.getUtilities().size() > 0){
+            if (request.getUtilities().size() > 0) {
                 for (SpecialUtility utilities : request.getUtilities()) {
                     SpecialRequest specialRequest = new SpecialRequest();
                     specialRequest.setBooking(booking);
@@ -269,13 +289,13 @@ public class PaymentServiceImpl implements PaymentService {
         return new CustomResponseObject(Common.ADDING_SUCCESS, "Booking Successfully");
     }
 
-    public List<RequestService> mapRequestBookingToRequestService(VnPayConfirmRequest request){
+    public List<RequestService> mapRequestBookingToRequestService(VnPayConfirmRequest request) {
         List<RequestService> list = new ArrayList<>();
-        RequestService requestService = requestServiceRepository.getRequestServiceById(request.getRequestServiceBooking().getId());
+        RequestService requestService = requestServiceRepository
+                .getRequestServiceById(request.getRequestServiceBooking().getId());
         list.add(requestService);
         return list;
     }
-
 
     public void payLibs(List<OrderDetailResponse> list) {
         for (OrderDetailResponse billDetailResponse : list) {

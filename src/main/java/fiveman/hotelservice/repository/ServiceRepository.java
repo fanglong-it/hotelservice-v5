@@ -10,6 +10,8 @@ import java.util.List;
 @Repository
 public interface ServiceRepository extends JpaRepository<Service, Long> {
     Service getServiceById(Long id);
-
     List<Service> getAllByServiceCategory_Id(long service_category_id);
+
+
+
 }

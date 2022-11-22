@@ -26,11 +26,11 @@ public class MomoClientRequest {
       
 //      private String redirectUrl;
       
-      private long amount;
+      // private long amount;
       
       private String orderId;
       
-      private String orderInfo;
+      // private String orderInfo;
       
 //      private String extraData; // codebase64 - or ""
       

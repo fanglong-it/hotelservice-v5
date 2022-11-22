@@ -13,7 +13,7 @@ public interface ServiceService {
 
     List<ServiceResponse> saveServices(Service service);
     ServiceResponse getServiceById(Long id);
-    CustomResponseObject updateService(Service service);
-    CustomResponseObject deleteService(Long id);
+    List<ServiceResponse> updateService(Service service);
+    List<ServiceResponse> deleteService(Long id);
     
 }

@@ -8,6 +8,8 @@ import java.util.List;
 public interface OrderPaymentService {
     OrderPayment getOrderPaymentById(long id);
 
+    Boolean existOrderPaymentByOrderId(long orderId);
+
     List<OrderPayment> getAllOrderPayment();
 
     CustomResponseObject saveOrderPayment(OrderPayment billPayment);

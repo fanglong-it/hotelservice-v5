@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+
     <list default="true" id="64a37eb9-d5fd-4799-9624-8c5c9f4b2b96" name="Changes" comment="push localhost test api">
       <change afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/security/CorsFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -12,6 +13,9 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/security/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/security/WebSecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/security/WebSecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/security/WebSecurityConfig.class" afterDir="false" />
     </list>
+
+    <list default="true" id="64a37eb9-d5fd-4799-9624-8c5c9f4b2b96" name="Changes" comment="delete application.properties" />
+
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -66,10 +70,17 @@
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+<<<<<<< HEAD
     &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+=======
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+>>>>>>> main
     &quot;spring.configuration.checksum&quot;: &quot;eb1b1009b6c94b45e7de0b2e50bc993c&quot;
   }
 }</component>
@@ -106,10 +117,6 @@
       <option name="HOST" value="localhost" />
       <option name="PORT" value="8080" />
       <option name="AUTO_RESTART" value="false" />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="8080" />
-        <option name="LOCAL" value="false" />
-      </RunnerSettings>
       <method v="2" />
     </configuration>
     <configuration name="HotelserviceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
@@ -123,6 +130,7 @@
       <item itemvalue="Application.HotelserviceApplication" />
       <item itemvalue="JUnit.All in hotelservice_v5" />
       <item itemvalue="Remote JVM Debug.Local Debugger" />
+      <item itemvalue="Spring Boot.HotelserviceApplication" />
     </list>
     <recent_temporary>
       <list>
@@ -153,6 +161,9 @@
       <workItem from="1665975522715" duration="383000" />
       <workItem from="1666023997013" duration="899000" />
       <workItem from="1666062711760" duration="3532000" />
+      <workItem from="1669015559157" duration="4340000" />
+      <workItem from="1669048238714" duration="31000" />
+      <workItem from="1669048355666" duration="39000" />
     </task>
     <task id="LOCAL-00001" summary="Fetching code from version 2, change Role to Enum">
       <created>1665160824390</created>
@@ -302,17 +313,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="delete application.properties" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/fiveman/hotelservice/controller/BookingController.java</url>
-          <line>41</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

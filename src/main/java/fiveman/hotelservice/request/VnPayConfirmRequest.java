@@ -17,12 +17,13 @@ public class VnPayConfirmRequest {
     private String vnp_Amount;
     private Customer customer;
     private List<NumberPersonInRoomInfo> persons;
-    private RequestServiceBooking requestServiceBooking;
+    private ServiceBooking serviceBooking;
     private List<RoomTypeInfo> roomTypes;
-    private SpecialUtilities specialUtilities;
+    private String bookingNotes;
     private BookingDate bookingDates;
     private long hotel_id;
-    private List<SpecialUtility> utilities;
+    private List<SpecialUtility> specialUtilities;
+    private long paymentMethod;
 
     @Data
     @Getter
@@ -41,7 +42,7 @@ public class VnPayConfirmRequest {
     @AllArgsConstructor
     public static class BookingDate{
         private String startDate;
-        private String EndDate;
+        private String endDate;
     }
 
     @Data
@@ -49,7 +50,7 @@ public class VnPayConfirmRequest {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class RequestServiceBooking{
+    public static class ServiceBooking{
         private long id;
         private String check;
     }
@@ -64,15 +65,6 @@ public class VnPayConfirmRequest {
         private String name;
         private double price;
         private boolean isSelected;
-    }
-
-    @Data
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class SpecialUtilities{
-        private String description;
     }
 
 }

@@ -8,6 +8,8 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import java.util.List;
+
 
 @Entity
 @AllArgsConstructor
@@ -21,8 +23,16 @@ public class Order {
     private long id;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Booking.class)
-    @JsonManagedReference
+    @JsonBackReference
     private Booking booking;
+
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = OrderPayment.class)
+    @JsonBackReference
+    private OrderPayment orderPayment;
+
+    @OneToMany(mappedBy = "order")
+    @JsonManagedReference
+    private List<OrderDetail> orderDetails;
     
     private double totalAmount;
 
@@ -31,6 +41,4 @@ public class Order {
     private String createBy;
     private String lastModifyBy;
     private String status;
-
-    
 }

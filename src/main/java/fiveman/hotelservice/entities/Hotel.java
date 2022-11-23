@@ -57,10 +57,5 @@ public class Hotel{
     private String updateDate;
     private String createBy;
     private String lastModifyBy;
-
-
-    @OneToMany(mappedBy = "hotel")
-    @JsonManagedReference
-    private List<Room> rooms;
     
 }

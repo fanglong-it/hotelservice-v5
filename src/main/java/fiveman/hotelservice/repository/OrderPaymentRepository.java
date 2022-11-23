@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrderPaymentRepository extends JpaRepository<OrderPayment, Long> {
     OrderPayment getOrderPaymentById(long id);
-    OrderPayment getOrderPaymentByOrder_Id(long orderId);
+//    OrderPayment getOrderPaymentByOrder_Id(long orderId);
+
+    OrderPayment findTopByOrderByIdDesc();
 }
 

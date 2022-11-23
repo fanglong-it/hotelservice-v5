@@ -93,15 +93,15 @@ public class RoomServiceImpl implements RoomService {
                               new CustomResponseObject(Common.ADDING_FAIL, "Exist id =" + room.getId()));
             }
             roomRepository.save(room);
-            if (roomRequest.getImages().size() > 0) {
-                  Room latestRoom = roomRepository.findTopByOrderByIdDesc();
-                  for (ImageRequest img : roomRequest.getImages()) {
-                        Image image = new Image();
-                        image.setPictureUrl(img.getPictureUrl());
-                        image.setPictureDescription(img.getPictureDescription());
-                        image.setPictureType("img_room_" + latestRoom.getId());
-                  }
-            }
+//            if (roomRequest.getImages().size() > 0) {
+//                  Room latestRoom = roomRepository.findTopByOrderByIdDesc();
+//                  for (ImageRequest img : roomRequest.getImages()) {
+//                        Image image = new Image();
+//                        image.setPictureUrl(img.getPictureUrl());
+//                        image.setPictureDescription(img.getPictureDescription());
+//                        image.setPictureType("img_room_" + latestRoom.getId());
+//                  }
+//            }
             log.info("END SAVE ROOM");
             return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding Room Success!");
       }

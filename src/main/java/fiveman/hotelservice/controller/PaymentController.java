@@ -2,30 +2,26 @@ package fiveman.hotelservice.controller;
 
 import javax.validation.Valid;
 
+import fiveman.hotelservice.entities.*;
 import fiveman.hotelservice.request.VnPayConfirmRequest;
+import fiveman.hotelservice.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import fiveman.hotelservice.entities.Order;
-import fiveman.hotelservice.entities.OrderPayment;
-import fiveman.hotelservice.entities.PaymentMethod;
-import fiveman.hotelservice.entities.Utilities;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.request.MomoClientRequest;
 import fiveman.hotelservice.request.VNPayRequest;
-import fiveman.hotelservice.response.CustomResponseObject;
-import fiveman.hotelservice.response.MomoConfirmResultResponse;
-import fiveman.hotelservice.response.MomoResponse;
-import fiveman.hotelservice.response.VnPayRes;
 import fiveman.hotelservice.service.OrderPaymentService;
 import fiveman.hotelservice.service.OrderService;
 import fiveman.hotelservice.service.PaymentMethodService;
 import fiveman.hotelservice.service.PaymentService;
 import fiveman.hotelservice.utils.Common;
 import io.swagger.annotations.Api;
+
+import java.util.List;
 
 @RestController
 @Api(tags = "Payment")
@@ -109,7 +105,7 @@ public class PaymentController {
                         orderService.updateBill(order);
                         OrderPayment orderPayment = new OrderPayment();
                         orderPayment.setId(0);
-                        orderPayment.setOrder(order);
+//                        orderPayment.setOrders(order);
                         PaymentMethod pay = paymentMethodService.getPaymentMethodById(1);
                         orderPayment.setPaymentMethod(pay);
                         orderPayment.setPaymentAmount(order.getTotalAmount());
@@ -134,9 +130,9 @@ public class PaymentController {
 
       @PostMapping("/VnPayConfirm")
       @PreAuthorize("isAuthenticated() or isAnonymous()")
-      public ResponseEntity<CustomResponseObject> getVNPayConfirm(@RequestBody VnPayConfirmRequest request) {
-            CustomResponseObject result = paymentService.validateVNPay(request);
-            return new ResponseEntity<CustomResponseObject>(result, HttpStatus.OK);
+      public ResponseEntity<List<BookingResponse>> getVNPayConfirm(@RequestBody VnPayConfirmRequest request) {
+            List<BookingResponse> result = paymentService.validateVNPay(request);
+            return new ResponseEntity<List<BookingResponse>>(result, HttpStatus.OK);
       }
 
 }

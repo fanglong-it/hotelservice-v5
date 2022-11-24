@@ -6,9 +6,12 @@ import fiveman.hotelservice.response.CustomResponseObject;
 import java.util.List;
 
 public interface OrderPaymentService {
+
     OrderPayment getOrderPaymentById(long id);
 
-    Boolean existOrderPaymentByOrderId(long orderId);
+    // OrderPayment getOrderPaymentByOrderId(long orderId);
+
+    // Boolean existOrderPaymentByOrderId(long orderId);
 
     List<OrderPayment> getAllOrderPayment();
 

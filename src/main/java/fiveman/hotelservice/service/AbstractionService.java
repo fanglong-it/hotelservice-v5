@@ -2,18 +2,19 @@ package fiveman.hotelservice.service;
 
 
 import fiveman.hotelservice.entities.Abstraction;
+import fiveman.hotelservice.response.AbstractionResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
 
 import java.util.List;
 
 public interface AbstractionService {
-    Abstraction getAbstractionById(long id);
+    AbstractionResponse getAbstractionById(long id);
 
-    List<Abstraction> getAbstractions();
+    List<AbstractionResponse> getAbstractions();
 
-    CustomResponseObject saveAbstraction(Abstraction abstraction);
+    List<AbstractionResponse> saveAbstraction(Abstraction abstraction);
 
-    CustomResponseObject updateAbstraction(Abstraction abstraction);
+    List<AbstractionResponse> updateAbstraction(Abstraction abstraction);
 
-    CustomResponseObject deleteAbstractionById(long id);
+    List<AbstractionResponse> deleteAbstractionById(long id);
 }

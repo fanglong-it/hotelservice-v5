@@ -4,13 +4,14 @@ import java.util.List;
 
 import fiveman.hotelservice.entities.RoomAlarm;
 import fiveman.hotelservice.response.CustomResponseObject;
+import fiveman.hotelservice.response.RoomAlarmResponse;
 
 public interface RoomAlarmService {
-      List<RoomAlarm> getAllRoomAlarm();
+      List<RoomAlarmResponse> getAllRoomAlarm();
       
-      RoomAlarm getRoomAlarm(long id);
+      RoomAlarmResponse getRoomAlarmById(long id);
       
-      CustomResponseObject saveRoomAlarm(RoomAlarm roomAlarm);
+      RoomAlarmResponse saveRoomAlarm(RoomAlarm roomAlarm);
       
       CustomResponseObject updateRoomAlarm(RoomAlarm roomAlarm);
       

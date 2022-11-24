@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,8 +29,8 @@ public class OrderPayment {
     @ManyToOne(fetch = FetchType.EAGER)
     private PaymentMethod paymentMethod;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Order order;
+    // @ManyToOne(fetch = FetchType.EAGER)
+    // private Order order;
 
 
 }

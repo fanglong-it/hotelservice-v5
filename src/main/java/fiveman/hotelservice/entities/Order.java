@@ -32,5 +32,7 @@ public class Order {
     private String lastModifyBy;
     private String status;
 
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = OrderPayment.class)
+    private OrderPayment orderPayment;
     
 }

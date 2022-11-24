@@ -130,6 +130,7 @@ public class PaymentServiceImpl implements PaymentService {
         // send POST request
         try {
             ResponseEntity<MomoResponse> response = restTemplate.postForEntity(url, req, MomoResponse.class);
+
             if (response != null) {
                 return response;
             }

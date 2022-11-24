@@ -2,6 +2,7 @@ package fiveman.hotelservice.controller;
 
 import fiveman.hotelservice.entities.Abstraction;
 import fiveman.hotelservice.request.AbstractionRequest;
+import fiveman.hotelservice.response.AbstractionResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.AbstractionService;
 import io.swagger.annotations.Api;
@@ -25,14 +26,14 @@ public class AbstractionController {
 
     @GetMapping("/abstraction/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<Abstraction> getAbstractionById(@PathVariable("id") long id) {
+    public ResponseEntity<AbstractionResponse> getAbstractionById(@PathVariable("id") long id) {
         return new ResponseEntity<>(abstractionService.getAbstractionById(id), HttpStatus.OK);
     }
 
 
     @GetMapping("/abstractions")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<Abstraction>> getAbstractions() {
+    public ResponseEntity<List<AbstractionResponse>> getAbstractions() {
         return new ResponseEntity<>(abstractionService.getAbstractions(), HttpStatus.OK);
     }
 
@@ -41,21 +42,21 @@ public class AbstractionController {
 
     @PostMapping("/abstraction")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<CustomResponseObject> saveAbstraction(@RequestBody @Valid AbstractionRequest abstractionRequest) {
+    public ResponseEntity<List<AbstractionResponse>> saveAbstraction(@RequestBody @Valid AbstractionRequest abstractionRequest) {
         Abstraction abstraction = modelMapper.map(abstractionRequest, Abstraction.class);
         return new ResponseEntity<>(abstractionService.saveAbstraction(abstraction), HttpStatus.OK);
     }
 
     @PutMapping("/abstraction")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<CustomResponseObject> updateAbstraction(@RequestBody @Valid AbstractionRequest abstractionRequest) {
+    public ResponseEntity<List<AbstractionResponse>> updateAbstraction(@RequestBody @Valid AbstractionRequest abstractionRequest) {
         Abstraction abstraction = modelMapper.map(abstractionRequest, Abstraction.class);
         return new ResponseEntity<>(abstractionService.updateAbstraction(abstraction), HttpStatus.OK);
     }
 
     @DeleteMapping("/abstraction/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<CustomResponseObject> deleteAbstraction(@PathVariable("id") long id) {
+    public ResponseEntity<List<AbstractionResponse>> deleteAbstraction(@PathVariable("id") long id) {
         return new ResponseEntity<>(abstractionService.deleteAbstractionById(id), HttpStatus.OK);
     }
 

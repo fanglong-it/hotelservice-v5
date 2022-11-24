@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@Api(tags = "Bill_Payment")
+@Api(tags = "Order_Payment")
 @RequestMapping("/api/v1")
 public class OrderPaymentController {
     @Autowired
@@ -26,29 +26,34 @@ public class OrderPaymentController {
     @Autowired
     ModelMapper modelMapper;
 
-    @GetMapping("/billPayment/{id}")
+    @GetMapping("/orderPayment/{id}")
     public ResponseEntity<OrderPayment> getOrderPaymentById(@PathVariable("id") long id) {
         return new ResponseEntity<>(billPaymentService.getOrderPaymentById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/billPayments")
+    // @GetMapping("/orderPayment")
+    // public ResponseEntity<OrderPayment> getOrderPaymentByOrderId(@RequestParam("Order_Id") long orderId){
+    //     return new ResponseEntity<OrderPayment>(billPaymentService.getOrderPaymentByOrderId(orderId), HttpStatus.OK);
+    // }
+
+    @GetMapping("/orderPayments")
     public ResponseEntity<List<OrderPayment>> getOrderPayments() {
         return new ResponseEntity<>(billPaymentService.getAllOrderPayment(), HttpStatus.OK);
     }
 
-    @PostMapping("/billPayment")
+    @PostMapping("/orderPayment")
     public ResponseEntity<CustomResponseObject> saveOrderPayment(@RequestBody @Valid BillPaymentRequest billPaymentRequest) {
         OrderPayment billPayment = modelMapper.map(billPaymentRequest, OrderPayment.class);
         return new ResponseEntity<>(billPaymentService.saveOrderPayment(billPayment), HttpStatus.OK);
     }
 
-    @PutMapping("/billPayment")
+    @PutMapping("/orderPayment")
     public ResponseEntity<CustomResponseObject> updateOrderPayment(@RequestBody @Valid BillPaymentRequest billPaymentRequest) {
         OrderPayment billPayment = modelMapper.map(billPaymentRequest, OrderPayment.class);
         return new ResponseEntity<>(billPaymentService.updateOrderPayment(billPayment), HttpStatus.OK);
     }
 
-    @DeleteMapping("/billPayment/{id}")
+    @DeleteMapping("/orderPayment/{id}")
     public ResponseEntity<CustomResponseObject> deleteOrderPayment(@PathVariable("id") long id) {
         return new ResponseEntity<>(billPaymentService.deleteOrderPayment(id), HttpStatus.OK);
     }

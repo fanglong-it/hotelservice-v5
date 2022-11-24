@@ -24,7 +24,7 @@ public class OrderDetail {
     @JsonBackReference
     private Service service;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Order.class)
     @JsonBackReference
     private Order order;
 

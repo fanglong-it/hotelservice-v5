@@ -76,7 +76,7 @@ public class PaymentController {
       public ResponseEntity<MomoConfirmResultResponse> momoConfirm(
                   @RequestParam("partnerCode") String partnerCode,
                   @RequestParam("orderId") String orderId,
-                  @RequestParam("requestId") long requestId,
+                  @RequestParam("requestId") String requestId,
                   @RequestParam("amount") long amount,
                   @RequestParam("orderInfo") String orderInfo,
                   @RequestParam("orderType") String orderType,
@@ -110,7 +110,8 @@ public class PaymentController {
             } else if (resultCode == 9000) {
                   msg = "giao dich duoc xac nhan, giao dich thang cong!";
 
-                  OrderPayment orderPayment = new OrderPayment(0, amount, Utilities.getCurrentDateByFormat("dd/MM/yyyy"), paymentMethodService.getPaymentMethodById(1), null);
+                  OrderPayment orderPayment = new OrderPayment(0, Double.parseDouble("" + amount), Utilities.getCurrentDateByFormat("dd/MM/yyyy"), paymentMethodService.getPaymentMethodById(1), null);
+                  orderPaymentRepository.save(orderPayment);
                   orderPayment = orderPaymentRepository.findTopByOrderByIdDesc();
 
                   String[] listOrderId = orderId.split("-");

@@ -27,10 +27,10 @@ public class Order {
     private Booking booking;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = OrderPayment.class)
+    @JsonBackReference
     private OrderPayment orderPayment;
 
-    @OneToMany(mappedBy = "order")
-    @JsonManagedReference
+    @OneToMany(mappedBy = "order", targetEntity = OrderDetail.class)
     private List<OrderDetail> orderDetails;
     
     private double totalAmount;

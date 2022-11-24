@@ -13,6 +13,8 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> 
 
     List<OrderDetail> getAllByOrder_Id(long order_id);
 
+    OrderDetail findTopByOrderByIdDesc();
+
 
 // //     select case when (count(scen) > 0)  then true else false end  
 // // from Scenario scen where scen.name = :name

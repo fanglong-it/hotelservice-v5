@@ -17,6 +17,7 @@ public class RoomResponse {
     private String createDate;
     private String updateDate;
     private String createBy;
+    private boolean status;
     private String lastModifyBy;
     private long hotel_Id;
     private long roomType_Id;

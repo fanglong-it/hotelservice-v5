@@ -22,8 +22,8 @@ public class RoomRequest {
 
     @ApiModelProperty(required = true)
     private String roomNo;
-    private String description;
 
+    private String description;
     private String createDate;
     private String updateDate;
     private String createBy;
@@ -36,6 +36,5 @@ public class RoomRequest {
 
     @ApiModelProperty(required = true)
     private long roomType_Id;
-    
-    private List<ImageRequest> images;
+
 }

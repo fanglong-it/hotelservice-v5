@@ -1,5 +1,6 @@
 package fiveman.hotelservice.service.Impl;
 
+import java.awt.print.Book;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
@@ -8,6 +9,8 @@ import java.util.*;
 import fiveman.hotelservice.entities.*;
 import fiveman.hotelservice.repository.*;
 import fiveman.hotelservice.request.*;
+import fiveman.hotelservice.response.*;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -18,10 +21,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import fiveman.hotelservice.exception.AppException;
-import fiveman.hotelservice.response.OrderDetailResponse;
-import fiveman.hotelservice.response.CustomResponseObject;
-import fiveman.hotelservice.response.MomoResponse;
-import fiveman.hotelservice.response.VnPayRes;
 import fiveman.hotelservice.service.OrderDetailService;
 import fiveman.hotelservice.service.OrderService;
 import fiveman.hotelservice.service.PaymentService;
@@ -53,7 +52,21 @@ public class PaymentServiceImpl implements PaymentService {
     private HotelRepository hotelRepository;
 
     @Autowired
-    OrderService orderService;
+    private RoomTypeRepository roomTypeRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private ServiceRepository serviceRepository;
+
+    @Autowired
+    private OrderDetailRepository orderDetailRepository;
+
+    @Autowired
+    private PaymentMethodRepository paymentMethodRepository;
+
+    @Autowired OrderPaymentRepository orderPaymentRepository;
 
     @Override
     public ResponseEntity<MomoResponse> getPaymentMomo(MomoClientRequest request) {
@@ -75,7 +88,7 @@ public class PaymentServiceImpl implements PaymentService {
         MomoRequest momoReq = new MomoRequest();
         // CustomerInfoMomoRequest customerInfo = new CustomerInfoMomoRequest("dat",
         // "0123456789", "dat@gmail.com");
-        Order order = orderService.getBillById(Long.parseLong(request.getOrderId()));
+        Order order = orderRepository.getOrderById(Long.parseLong(request.getOrderId()));
 
         // long amount = 200000;
         byte[] array = new byte[10]; // length is bounded by 7
@@ -88,7 +101,6 @@ public class PaymentServiceImpl implements PaymentService {
         DecimalFormat df = new DecimalFormat("#");     
 
         String amount = String.valueOf(df.format(order.getTotalAmount()));
-
 
         String sign = "accessKey=" + Common.ACCESS_KEY + "&amount=" + amount + "&extraData="
                 + "&ipnUrl=" + Common.IPN_URL_MOMO + "&orderId=" + request.getOrderId() + "&orderInfo="
@@ -240,11 +252,68 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public CustomResponseObject validateVNPay(VnPayConfirmRequest request) {
+    public List<BookingResponse> validateVNPay(VnPayConfirmRequest request) {
         Booking lastBooking = bookingRepository.findTopByOrderByIdDesc();
         int confirmation_No = lastBooking.getConfirmationNo() + 1;
         customerRepository.save(request.getCustomer());
+        List<BookingResponse> listBooking = new ArrayList<>();
+        List<Order> orderList = new ArrayList<>();
+//        List<Order> listOrder = new ArrayList<>();
         for (int i = 0; i < request.getRoomTypes().size(); i++) {
+            BookingResponse bookingResponse = new BookingResponse();
+            List<OrderDetail> orderDetailList = new ArrayList<>();
+
+            Order order = new Order();
+            OrderDetail orderDetail = new OrderDetail();
+
+            // set order and order detail if exist
+            if(request.getServiceBooking().getId() > 0){
+                fiveman.hotelservice.entities.Service service = serviceRepository.getServiceById(request.getServiceBooking().getId());
+                //set service into response
+                bookingResponse.setService(service);
+                // set Order for booking
+                order.setCreateDate(Utilities.getCurrentDate());
+                order.setCreateBy(request.getCustomer().getFirstName() + " " + request.getCustomer().getMiddleName() + " " + request.getCustomer().getLastName());
+                if(request.getPaymentMethod() != 0){
+                    order.setStatus("done");
+                    // set payment method
+                    PaymentMethod paymentMethod = paymentMethodRepository.getPaymentMethodById(request.getPaymentMethod());
+
+                    //set order payment method
+                    OrderPayment orderPayment = new OrderPayment();
+                    orderPayment.setPaymentAmount(service.getPrice());
+                    orderPayment.setPaymentMethod(paymentMethod);
+                    orderPaymentRepository.save(orderPayment);
+
+                    // set order payment to order
+                    OrderPayment orPay = orderPaymentRepository.findTopByOrderByIdDesc();
+                    order.setOrderPayment(orPay);
+                }else{
+                    order.setStatus("not yet");
+                }
+
+                // order detail
+
+                orderDetail.setService(service);
+                orderDetail.setQuantity(1);
+                orderDetail.setPrice(service.getPrice());
+                orderDetail.setAmount(orderDetail.getQuantity() + orderDetail.getPrice());
+                orderDetail.setOrderDate(Utilities.getCurrentDate());
+
+                orderDetailRepository.save(orderDetail);
+                OrderDetail orDetail = orderDetailRepository.findTopByOrderByIdDesc();
+                orderDetailList.add(orDetail);
+
+                order.setTotalAmount(orderDetail.getAmount());
+                order.setOrderDetails(orderDetailList);
+                orderRepository.save(order);
+                Order or = orderRepository.findTopByOrderByIdDesc();
+                orderList.add(or);
+            }
+
+            // set booking
+            RoomType roomType = roomTypeRepository.getRoomTypeById(request.getRoomTypes().get(i).getId());
+//            RoomTypeRequest roomTypeRequest = mapper.map(roomType, RoomTypeRequest.class);
             Booking booking = new Booking();
             Hotel hotel = hotelRepository.getHotelById(request.getHotel_id());
             booking.setRoomTypeId(request.getRoomTypes().get(i).getId());
@@ -256,43 +325,46 @@ public class PaymentServiceImpl implements PaymentService {
             booking.setCreateDate(Utilities.getCurrentDate());
             booking.setConfirmationNo(confirmation_No);
             booking.setStatus(Common.BOOKING_BOOKED);
-            booking.setRequestServices(mapRequestBookingToRequestService(request));
             booking.setDepartureDate(request.getBookingDates().getEndDate());
-            if (!Utilities.isEmptyString(request.getSpecialUtilities().getDescription())) {
-                booking.setSpecialNote(request.getSpecialUtilities().getDescription());
+
+            // set booking notes
+            if (!Utilities.isEmptyString(request.getBookingNotes())) {
+                booking.setSpecialNote(request.getBookingNotes());
             }
+
+            // set booking room payment
             if (!Utilities.isEmptyString(request.getVnp_Amount())) {
-                booking.setRoomPayment(String.valueOf(Double.parseDouble(request.getVnp_Amount()) / 100));
+                booking.setRoomPayment(String.valueOf(request.getRoomTypes().get(i).getPrice()));
             } else {
                 booking.setRoomPayment("N/A");
             }
+
+            // set child and adult
             for (int j = 0; j < request.getPersons().size(); j++) {
                 if (i == j) {
                     booking.setNumOfAdult(request.getPersons().get(j).getAdult());
                     booking.setNumOfChildren(request.getPersons().get(j).getChild());
                 }
             }
+
+            //set list order
+            booking.setOrders(orderList);
             bookingRepository.save(booking);
 
-            if (request.getUtilities().size() > 0) {
-                for (SpecialUtility utilities : request.getUtilities()) {
+            if (request.getSpecialUtilities().size() > 0) {
+                for (SpecialUtility specialUtility : request.getSpecialUtilities()) {
                     SpecialRequest specialRequest = new SpecialRequest();
                     specialRequest.setBooking(booking);
-                    specialRequest.setSpecialUtility(utilities);
+                    specialRequest.setSpecialUtility(specialUtility);
                     specialRequestRepository.save(specialRequest);
                 }
             }
+            bookingResponse.setBooking(booking);
+            bookingResponse.setRoomType(roomType);
+            bookingResponse.setHotel(hotel);
+            listBooking.add(bookingResponse);
         }
-
-        return new CustomResponseObject(Common.ADDING_SUCCESS, "Booking Successfully");
-    }
-
-    public List<RequestService> mapRequestBookingToRequestService(VnPayConfirmRequest request) {
-        List<RequestService> list = new ArrayList<>();
-        RequestService requestService = requestServiceRepository
-                .getRequestServiceById(request.getRequestServiceBooking().getId());
-        list.add(requestService);
-        return list;
+        return listBooking;
     }
 
     public void payLibs(List<OrderDetailResponse> list) {

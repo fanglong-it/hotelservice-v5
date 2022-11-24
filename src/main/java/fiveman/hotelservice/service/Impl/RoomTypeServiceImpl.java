@@ -126,7 +126,6 @@ public class RoomTypeServiceImpl implements RoomTypeService {
                               dateCheckIn);
 
                   for (Room room : listRoomByEndDate) {
-                        log.info("--------------------------------------------------------------------roomByBooking: " + room.getName());
                         listRoomAbstract.add(room);
                   }
 

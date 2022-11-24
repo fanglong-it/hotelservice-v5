@@ -41,6 +41,6 @@ public class BookingRequest {
     @ApiModelProperty(required = true)
     private long customer_Id;
 
-    private long requestService_Id;
+    // private long requestService_Id;
 
 }

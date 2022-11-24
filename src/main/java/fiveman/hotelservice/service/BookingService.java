@@ -1,21 +1,24 @@
 package fiveman.hotelservice.service;
 
 import fiveman.hotelservice.entities.Booking;
-import fiveman.hotelservice.response.BookingResponse;
+import fiveman.hotelservice.request.CheckInRequest;
+import fiveman.hotelservice.response.BookingObjectResponse;
 
 import java.util.List;
 
 public interface BookingService {
-    BookingResponse getBookingById(long id);
+    BookingObjectResponse getBookingById(long id);
 
-    List<BookingResponse> getAllBooking();
+    List<BookingObjectResponse> getAllBooking();
 
-    List<BookingResponse> getAllBookingByRoomId(long id);
+    List<BookingObjectResponse> getAllBookingByRoomId(long id);
 
-    List<BookingResponse> saveBooking(Booking booking);
+    List<BookingObjectResponse> saveBooking(Booking booking);
 
-    List<BookingResponse> updateBooking(Booking booking);
+    List<BookingObjectResponse> updateBooking(Booking booking);
 
-    List<BookingResponse> deleteBooking(long id);
+    List<BookingObjectResponse> deleteBooking(long id);
+
+    CheckInRequest checkInBooking(CheckInRequest checkInRequest);
 
 }

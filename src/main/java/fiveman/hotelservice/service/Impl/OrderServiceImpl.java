@@ -81,8 +81,9 @@ public class OrderServiceImpl implements OrderService {
         Order order = null;
         if(!orderRequest.getLOrderDetailRequests().isEmpty()){
             
-            //Savev order
+            //Save order
             order = modelMapper.map(orderRequest, Order.class);
+            order.setOrderPayment(null);
             order.setId(0);
             
             orderRepository.save(order);

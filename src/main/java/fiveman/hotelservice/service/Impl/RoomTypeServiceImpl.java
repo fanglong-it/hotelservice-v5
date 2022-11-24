@@ -116,11 +116,11 @@ public class RoomTypeServiceImpl implements RoomTypeService {
             for (RoomType roomType : listRoomType) {
                   List<Room> listRoomAbstract = new ArrayList<Room>();
                   List<Room> listRoom = roomType.getRooms();
-                  for (Room room : listRoom) {
-                        if (room.isStatus()) {
-                              listRoomAbstract.add(room);
-                        }
-                  }
+                  // for (Room room : listRoom) {
+                  //       if (room.isStatus()) {
+                  //             listRoomAbstract.add(room);
+                  //       }
+                  // }
 
                   List<Room> listRoomByEndDate = roomRepository.getRoomByBookingEndDate(roomType.getId(), false,
                               dateCheckIn);

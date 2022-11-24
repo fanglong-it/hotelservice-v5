@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
     Customer getCustomerById(long id);
+    Customer findTopByOrderByIdDesc();
 }
 

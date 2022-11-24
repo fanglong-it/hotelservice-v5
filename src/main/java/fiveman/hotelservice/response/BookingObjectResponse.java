@@ -1,7 +1,5 @@
 package fiveman.hotelservice.response;
-
 import java.util.List;
-
 import fiveman.hotelservice.entities.Customer;
 import fiveman.hotelservice.entities.RequestService;
 import lombok.AllArgsConstructor;
@@ -13,11 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-
-public class BookingResponse {
-   
+public class BookingObjectResponse {
     private long id;
-
     private int confirmationNo;
     private String arrivalDate;
     private String actualArrivalDate;
@@ -28,21 +23,14 @@ public class BookingResponse {
     private double totalAmount;
     private String roomPayment;
     private String specialNote;
-
     private String status;
-
     private String createDate;
     private String updateDate;
     private String createBy;
     private String lastModifyBy;
     private long roomTypeId;
-
     private long hotel_Id;
-
     private long room_Id;
-    
     private Customer customer;
-
     private List<RequestService> requestServices;
-
 }

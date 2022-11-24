@@ -100,6 +100,7 @@ public class OrderServiceImpl implements OrderService {
                 orderDetail.setAmount(itemAmount);
                 orderDetailRepository.save(orderDetail);
                 totalAmount += itemAmount;
+                itemAmount = 0;
             }
             order.setTotalAmount(totalAmount);
             orderRepository.save(order);

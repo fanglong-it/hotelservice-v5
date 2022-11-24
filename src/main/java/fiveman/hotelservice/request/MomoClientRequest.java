@@ -1,6 +1,8 @@
 package fiveman.hotelservice.request;
 
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -26,9 +28,11 @@ public class MomoClientRequest {
       
 //      private String redirectUrl;
       
-      // private long amount;
+      private long amount;
       
-      private String orderId;
+      private List<String> orderId;
+
+
       
       // private String orderInfo;
       

@@ -1,5 +1,7 @@
 package fiveman.hotelservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,9 +21,11 @@ public class OrderDetail {
     private long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
     private Service service;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
     private Order order;
 
     private int quantity;

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Five Men Hotel</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+    <!-- use the font -->
+    <style>
+        p {
+            font-family: 'Roboto', sans-serif;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<!--    <p style="font-weight: bold">Dear </p> <span th:text="${data.booking.customer.firstName}"></span>-->
+    <p style="font-size: 35px; font-weight: bold">Thông tin đặt phòng của quý khách</p>
+    <p style="font-weight: bold">Thông tin khách hàng: </p>
+    
+    <div th:each="data,iterStat : ${list}">
+        <div th:if="${iterStat.first}">
+            <div style="display: flex">
+                <p style="padding-right: 20px; font-weight: bold">Họ và tên: </p>
+                <p style="" th:text="${data.booking.customer.firstName + ' ' + data.booking.customer.middleName + ' ' + data.booking.customer.lastName}"></p>
+            </div>
+            <div style="display: flex">
+                <p style="padding-right: 20px; font-weight: bold">Email: </p>
+                <p style="" th:text="${data.booking.customer.email}"></p>
+            </div>
+            <div style="display: flex" th:if="${data.booking.customer.phoneNumber != null}">
+                <p style="padding-right: 20px; font-weight: bold">Điện thoại: </p>
+                <p style="" th:text="${data.booking.customer.phoneNumber}"></p>
+            </div>
+        </div>
+        <div style="padding-right: 20px" th:each="priceObj,num : ${listPrice}">
+            <div th:if="${num.index} == ${iterStat.index}">
+            <p style="font-size: 35px; font-weight: bold; padding-right: 20px" th:text="|Thông tin đặt phòng: ${num.index &lt; 0 ? (num.index+1) : ''}|"></p>
+            <div style="display: flex">
+                <p style="padding-right: 20px; font-weight: bold">Mã số đặt phòng: </p>
+                <p th:text="${data.booking.id}"></p>
+            </div>
+            <div style="display: flex">
+                <div style="display: flex">
+                    <p style="padding-right: 20px; font-weight: bold">Ngày đến: </p>
+                    <p th:text="${data.booking.arrivalDate}"></p>
+                </div>
+                <div style="display: flex">
+                    <p style="padding: 0 20px; font-weight: bold">Ngày đi: </p>
+                    <p th:text="${data.booking.departureDate}"></p>
+                </div>
+
+            </div>
+            <div style="display: flex">
+                <div style="display: flex">
+                    <p style="padding-right: 20px; font-weight: bold">Nhận phòng: </p>
+                    <p th:text="${data.hotel.checkInTime}"></p>
+                </div>
+                <div style="display: flex">
+                    <p style="padding: 0 20px;font-weight: bold">Trả phòng: </p>
+                    <p th:text="${data.hotel.checkOutTime}"></p>
+                </div>
+
+            </div>
+            <div style="display: flex, justify-content: space-between">
+                <div style="display: flex">
+                    <p style="padding-right: 20px;font-weight: bold">Loại phòng: </p>
+                    <p th:text="${data.roomType.name}"></p>
+                </div>
+                <div style="display: flex">
+                    <p style="padding-right: 20px;font-weight: bold">Loại giường: </p>
+                    <p th:text="${data.roomType.bedType}"></p>
+                </div>
+            </div>
+            <div style="display: flex">
+                <p style="padding-right: 20px;font-weight: bold">Tiền phòng: </p>
+                <p th:text="${priceObj.price}"></p>
+            </div>
+            <p style="font-weight: bold"> Yêu cầu khác: <span th:text="${data.booking.specialNote ?: ''}"></span></p>
+            <div style="display: flex">
+                <p style="padding-right: 20px;font-weight: bold">Đón sân bay: </p>
+                <p th:text="${data.service != null ? data.service.name : 'Không'}"></p>
+            </div>
+            <div style="display: flex; padding: 12px 0">
+                <p style="padding-right: 20px;font-weight: bold">Thanh toán: </p>
+                <p th:text="${priceObj.priceByRoom}"></p>
+            </div>
+            </div>
+        </div>
+        <div style="display: flex; padding-top: 30px" th:if="${iterStat.last}">
+            <p style="padding-right: 20px; font-size: 35px; font-weight: bold">Tổng: </p>
+            <p style="font-size: 35px" th:text="${totalPrice}"></p>
+        </div>
+        <div style="padding-top: 50px" th:if="${iterStat.last}">
+            Regards,
+            <p th:text="${data.hotel.fullName}"></p>
+            <p th:text="${data.hotel.address}"></p>
+        </div>
+    </div>
+</body>
+</html>

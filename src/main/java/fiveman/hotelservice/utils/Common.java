@@ -1,6 +1,7 @@
 package fiveman.hotelservice.utils;
 
 
+import fiveman.hotelservice.response.BookingResponse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -90,6 +91,8 @@ public class Common {
     public static final String VNP_ORDER_TYPE_HOTEL = "170000";
     public static final String VNP_RETURNURL = "http://localhost:3000/RoomValidate";
     public static final String VNP_RETURN_URL_APP = "";
+
+
     
 }
 

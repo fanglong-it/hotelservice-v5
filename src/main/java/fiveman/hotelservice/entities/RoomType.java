@@ -30,6 +30,7 @@ public class RoomType implements Serializable{
       private long id;
       private String name;
       private String description;
+      private String bedType;
       private int maxOccupancy;
       private int maxAdult;
       private int maxChildren;

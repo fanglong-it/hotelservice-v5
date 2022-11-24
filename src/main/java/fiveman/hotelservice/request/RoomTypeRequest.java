@@ -22,5 +22,5 @@ public class RoomTypeRequest {
       private int defaultOccupancy;
       private boolean isActive;
       private double defaultPrice;
-      
+      private String bedType;
 }

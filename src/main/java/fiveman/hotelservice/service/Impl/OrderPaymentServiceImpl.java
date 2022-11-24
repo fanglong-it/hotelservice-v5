@@ -29,6 +29,16 @@ public class OrderPaymentServiceImpl implements OrderPaymentService {
     //     throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.GET_FAIL, "Not exist by OrderId =" + orderId));
     // }
 
+//    @Override
+//    public Boolean existOrderPaymentByOrderId(long orderId) {
+////        OrderPayment orderPayment = orderPaymentRepository.getOrderPaymentByOrder_Id(orderId);
+////        if(orderPayment  != null){
+////            // throw new AppException(HttpStatus.ALREADY_REPORTED.value(), new CustomResponseObject(Common.ADDING_FAIL, "Exist id = " + orderPayment.getId()));
+////            return true;
+////        }
+//        return false;
+//    }
+
     // @Override
     // public Boolean existOrderPaymentByOrderId(long orderId) {
     //     OrderPayment orderPayment = orderPaymentRepository.getOrderPaymentByOrder_Id(orderId);
@@ -38,6 +48,7 @@ public class OrderPaymentServiceImpl implements OrderPaymentService {
     //     }
     //     return false;
     // }
+
 
     @Override
     public OrderPayment getOrderPaymentById(long id) {

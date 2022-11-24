@@ -31,16 +31,16 @@ public class Booking {
     private double totalAmount;
     private String roomPayment;
     private String specialNote;
-
+    private long roomTypeId;
     private String status;
 
     private String createDate;
     private String updateDate;
     private String createBy;
     private String lastModifyBy;
-    private long roomTypeId;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
+    @JsonBackReference
     private Hotel hotel;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Room.class)
@@ -53,4 +53,7 @@ public class Booking {
     @JsonManagedReference
     private List<RequestService> requestServices;
 
+    @OneToMany(mappedBy = "booking")
+    @JsonManagedReference
+    private List<Order> orders;
 }

@@ -36,10 +36,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
@@ -77,6 +73,20 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Start of thymeleaf and email dependency -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring5</artifactId>
+			<version>3.0.11.RELEASE</version>
+		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>nz.net.ultraq.thymeleaf</groupId>-->
+<!--			<artifactId>thymeleaf-layout-dialect</artifactId>-->
+<!--		</dependency>-->
 
 		<!--Start of swagger dependency -->
 		<dependency>

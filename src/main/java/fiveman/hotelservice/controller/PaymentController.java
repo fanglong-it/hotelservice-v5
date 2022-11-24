@@ -2,27 +2,29 @@ package fiveman.hotelservice.controller;
 
 import javax.validation.Valid;
 
+import fiveman.hotelservice.entities.*;
 import fiveman.hotelservice.request.VnPayConfirmRequest;
+import fiveman.hotelservice.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+
 // import fiveman.hotelservice.entities.Order;
+
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.request.MomoClientRequest;
 import fiveman.hotelservice.request.VNPayRequest;
-import fiveman.hotelservice.response.CustomResponseObject;
-import fiveman.hotelservice.response.MomoConfirmResultResponse;
-import fiveman.hotelservice.response.MomoResponse;
-import fiveman.hotelservice.response.VnPayRes;
 import fiveman.hotelservice.service.OrderPaymentService;
 import fiveman.hotelservice.service.OrderService;
 import fiveman.hotelservice.service.PaymentMethodService;
 import fiveman.hotelservice.service.PaymentService;
 import fiveman.hotelservice.utils.Common;
 import io.swagger.annotations.Api;
+
+import java.util.List;
 
 @RestController
 @Api(tags = "Payment")
@@ -100,6 +102,7 @@ public class PaymentController {
                   msg = "giao dich thanh cong";
             } else if (resultCode == 9000) {
                   msg = "giao dich duoc xac nhan, giao dich thang cong!";
+
                   // Order order = orderService.getBillById(orderId);
                   // if (!orderPaymentService.existOrderPaymentByOrderId(orderId)) {
                   //       order.setStatus("1");
@@ -132,9 +135,9 @@ public class PaymentController {
 
       @PostMapping("/VnPayConfirm")
       @PreAuthorize("isAuthenticated() or isAnonymous()")
-      public ResponseEntity<CustomResponseObject> getVNPayConfirm(@RequestBody VnPayConfirmRequest request) {
-            CustomResponseObject result = paymentService.validateVNPay(request);
-            return new ResponseEntity<CustomResponseObject>(result, HttpStatus.OK);
+      public ResponseEntity<List<BookingResponse>> getVNPayConfirm(@RequestBody VnPayConfirmRequest request) {
+            List<BookingResponse> result = paymentService.validateVNPay(request);
+            return new ResponseEntity<List<BookingResponse>>(result, HttpStatus.OK);
       }
 
 }

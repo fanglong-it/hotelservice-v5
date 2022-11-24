@@ -1,13 +1,9 @@
 package fiveman.hotelservice;
 
-import fiveman.hotelservice.entities.User;
-import fiveman.hotelservice.entities.UserRole;
 import fiveman.hotelservice.service.HotelService;
 import fiveman.hotelservice.service.UserService;
-import fiveman.hotelservice.service.Impl.HotelServiceImpl;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

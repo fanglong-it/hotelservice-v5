@@ -2,7 +2,6 @@ package fiveman.hotelservice.service;
 
 import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.response.BookingResponse;
-import fiveman.hotelservice.response.CustomResponseObject;
 
 import java.util.List;
 

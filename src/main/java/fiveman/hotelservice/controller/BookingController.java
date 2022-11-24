@@ -3,7 +3,6 @@ package fiveman.hotelservice.controller;
 import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.request.BookingRequest;
 import fiveman.hotelservice.response.BookingResponse;
-import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.BookingService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;

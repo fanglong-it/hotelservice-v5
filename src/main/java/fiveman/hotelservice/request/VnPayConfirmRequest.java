@@ -1,9 +1,7 @@
 package fiveman.hotelservice.request;
 
 import fiveman.hotelservice.entities.Customer;
-import fiveman.hotelservice.entities.Hotel;
 import fiveman.hotelservice.entities.SpecialUtility;
-import fiveman.hotelservice.entities.Utilities;
 import lombok.*;
 
 import java.util.List;

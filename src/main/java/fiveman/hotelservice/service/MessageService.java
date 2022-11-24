@@ -3,7 +3,6 @@ package fiveman.hotelservice.service;
 import java.util.List;
 
 import fiveman.hotelservice.entities.Message;
-import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.MessageResponse;
 
 public interface MessageService {

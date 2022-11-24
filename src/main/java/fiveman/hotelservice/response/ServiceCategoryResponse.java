@@ -2,7 +2,6 @@ package fiveman.hotelservice.response;
 
 import java.util.List;
 
-import fiveman.hotelservice.entities.Hotel;
 import fiveman.hotelservice.entities.Image;
 import lombok.AllArgsConstructor;
 import lombok.Data;

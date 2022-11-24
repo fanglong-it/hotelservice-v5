@@ -3,7 +3,6 @@ package fiveman.hotelservice.service;
 import java.util.List;
 
 import fiveman.hotelservice.entities.Service;
-import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.ServiceResponse;
 
 public interface ServiceService {

@@ -1,7 +1,6 @@
 package fiveman.hotelservice.controller;
 
 import fiveman.hotelservice.entities.Customer;
-import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.CustomerService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;

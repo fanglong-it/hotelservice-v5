@@ -1,7 +1,6 @@
 package fiveman.hotelservice.service.Impl;
 
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -9,7 +8,6 @@ import java.util.*;
 import fiveman.hotelservice.entities.*;
 import fiveman.hotelservice.repository.*;
 import fiveman.hotelservice.request.*;
-import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -31,7 +29,6 @@ import fiveman.hotelservice.utils.Common;
 import fiveman.hotelservice.utils.Utilities;
 
 @Service
-@Slf4j
 public class PaymentServiceImpl implements PaymentService {
 
     @Autowired

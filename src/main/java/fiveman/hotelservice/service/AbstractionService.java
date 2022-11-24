@@ -3,7 +3,6 @@ package fiveman.hotelservice.service;
 
 import fiveman.hotelservice.entities.Abstraction;
 import fiveman.hotelservice.response.AbstractionResponse;
-import fiveman.hotelservice.response.CustomResponseObject;
 
 import java.util.List;
 

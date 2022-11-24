@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fiveman.hotelservice.entities.New;
 import fiveman.hotelservice.request.NewRequest;
-import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.NewResponse;
 import fiveman.hotelservice.service.NewService;
 import io.swagger.annotations.Api;

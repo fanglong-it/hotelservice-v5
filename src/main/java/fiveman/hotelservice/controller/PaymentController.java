@@ -9,10 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import fiveman.hotelservice.entities.Order;
-import fiveman.hotelservice.entities.OrderPayment;
-import fiveman.hotelservice.entities.PaymentMethod;
-import fiveman.hotelservice.entities.Utilities;
+// import fiveman.hotelservice.entities.Order;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.request.MomoClientRequest;
 import fiveman.hotelservice.request.VNPayRequest;
@@ -103,7 +100,7 @@ public class PaymentController {
                   msg = "giao dich thanh cong";
             } else if (resultCode == 9000) {
                   msg = "giao dich duoc xac nhan, giao dich thang cong!";
-                  Order order = orderService.getBillById(orderId);
+                  // Order order = orderService.getBillById(orderId);
                   // if (!orderPaymentService.existOrderPaymentByOrderId(orderId)) {
                   //       order.setStatus("1");
                   //       orderService.updateBill(order);
@@ -119,6 +116,7 @@ public class PaymentController {
                   // }
             }
             System.out.println(resultCode);
+            System.out.println(msg);
 
             // accessKey=WehkypIRwPP14mHb&orderId=23&partnerCode=MOMODJMX20220717&requestId=48468005-6de1-4140-839f-5f2d8d77a001
 

@@ -3,7 +3,6 @@ package fiveman.hotelservice.controller;
 
 import fiveman.hotelservice.entities.ServiceCategory;
 import fiveman.hotelservice.request.ServiceCategoryRequest;
-import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.ServiceCategoryResponse;
 import fiveman.hotelservice.service.ServiceCategoryService;
 import io.swagger.annotations.Api;

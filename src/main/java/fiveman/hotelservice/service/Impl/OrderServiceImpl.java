@@ -7,7 +7,6 @@ import fiveman.hotelservice.repository.OrderDetailRepository;
 import fiveman.hotelservice.repository.OrderRepository;
 import fiveman.hotelservice.request.OrderDetailRequest;
 import fiveman.hotelservice.request.OrderRequest;
-import fiveman.hotelservice.request.ServiceRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.OrderService;
 import fiveman.hotelservice.utils.Common;

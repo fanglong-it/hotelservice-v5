@@ -32,5 +32,7 @@ public class MomoResponse {
       private String qrCodeUrl;
       
       private String deeplinkMiniApp;
+
+      // private String signature;
       
 }

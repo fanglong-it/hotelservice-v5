@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+
+// import fiveman.hotelservice.entities.Order;
+
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.request.MomoClientRequest;
 import fiveman.hotelservice.request.VNPayRequest;
@@ -99,22 +102,24 @@ public class PaymentController {
                   msg = "giao dich thanh cong";
             } else if (resultCode == 9000) {
                   msg = "giao dich duoc xac nhan, giao dich thang cong!";
-                  Order order = orderService.getBillById(orderId);
-                  if (!orderPaymentService.existOrderPaymentByOrderId(orderId)) {
-                        order.setStatus("1");
-                        orderService.updateBill(order);
-                        OrderPayment orderPayment = new OrderPayment();
-                        orderPayment.setId(0);
-//                        orderPayment.setOrders(order);
-                        PaymentMethod pay = paymentMethodService.getPaymentMethodById(1);
-                        orderPayment.setPaymentMethod(pay);
-                        orderPayment.setPaymentAmount(order.getTotalAmount());
-                        orderPayment.setDateTime(
-                                    fiveman.hotelservice.utils.Utilities.getCurrentDateByFormat("dd/MM/yyyy"));
-                        orderPaymentService.saveOrderPayment(orderPayment);
-                  }
+
+                  // Order order = orderService.getBillById(orderId);
+                  // if (!orderPaymentService.existOrderPaymentByOrderId(orderId)) {
+                  //       order.setStatus("1");
+                  //       orderService.updateBill(order);
+                  //       OrderPayment orderPayment = new OrderPayment();
+                  //       orderPayment.setId(0);
+                  //       // orderPayment.setOrder(order);
+                  //       PaymentMethod pay = paymentMethodService.getPaymentMethodById(1);
+                  //       orderPayment.setPaymentMethod(pay);
+                  //       orderPayment.setPaymentAmount(order.getTotalAmount());
+                  //       orderPayment.setDateTime(
+                  //                   fiveman.hotelservice.utils.Utilities.getCurrentDateByFormat("dd/MM/yyyy"));
+                  //       orderPaymentService.saveOrderPayment(orderPayment);
+                  // }
             }
             System.out.println(resultCode);
+            System.out.println(msg);
 
             // accessKey=WehkypIRwPP14mHb&orderId=23&partnerCode=MOMODJMX20220717&requestId=48468005-6de1-4140-839f-5f2d8d77a001
 

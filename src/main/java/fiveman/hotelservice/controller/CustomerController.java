@@ -1,7 +1,6 @@
 package fiveman.hotelservice.controller;
 
 import fiveman.hotelservice.entities.Customer;
-import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.CustomerService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
@@ -39,19 +38,19 @@ public class CustomerController {
 
     @PostMapping("/customer")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<CustomResponseObject> saveCustomer(@RequestBody @Valid Customer customer) {
+    public ResponseEntity<List<Customer>> saveCustomer(@RequestBody @Valid Customer customer) {
         return new ResponseEntity<>(customerService.saveCustomer(customer), HttpStatus.OK);
     }
 
     @PutMapping("/customer")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<CustomResponseObject> updateCustomer(@RequestBody @Valid Customer customer) {
+    public ResponseEntity<List<Customer>> updateCustomer(@RequestBody @Valid Customer customer) {
         return new ResponseEntity<>(customerService.updateCustomer(customer), HttpStatus.OK);
     }
 
     @DeleteMapping("/customer/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<CustomResponseObject> deleteCustomer(@PathVariable("id") long id) {
+    public ResponseEntity<List<Customer>> deleteCustomer(@PathVariable("id") long id) {
         return new ResponseEntity<>(customerService.deleteCustomer(id), HttpStatus.OK);
     }
 

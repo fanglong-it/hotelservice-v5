@@ -3,7 +3,6 @@ package fiveman.hotelservice.service;
 import java.util.List;
 
 import fiveman.hotelservice.entities.RequestService;
-import fiveman.hotelservice.response.CustomResponseObject;
 
 public interface RequestServiceService {
       List<RequestService> getAllRequestService();
@@ -12,9 +11,9 @@ public interface RequestServiceService {
       
       RequestService getRequestService(long id);
       
-      CustomResponseObject saveRequestService(RequestService requestService);
+      List<RequestService> saveRequestService(RequestService requestService);
 
-      CustomResponseObject updateRequestService(RequestService requestService);
+      List<RequestService> updateRequestService(RequestService requestService);
 
-      CustomResponseObject deleteRequestService(long id);
+      List<RequestService> deleteRequestService(long id);
 }

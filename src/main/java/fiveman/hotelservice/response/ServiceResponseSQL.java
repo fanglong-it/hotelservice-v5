@@ -1,9 +1,5 @@
 package fiveman.hotelservice.response;
 
-import javax.persistence.ColumnResult;
-import javax.persistence.ConstructorResult;
-import javax.persistence.NamedNativeQuery;
-import javax.persistence.SqlResultSetMapping;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -38,7 +38,8 @@ public class RoomType implements Serializable{
       private boolean isActive;
       private double defaultPrice;
 
-      
+      private String bedType;
+
       @OneToMany(mappedBy = "roomType")
       @JsonManagedReference
       private List<RoomPrice> roomPrices;

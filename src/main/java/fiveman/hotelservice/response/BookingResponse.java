@@ -1,6 +1,9 @@
 package fiveman.hotelservice.response;
 
-import fiveman.hotelservice.entities.*;
+import fiveman.hotelservice.entities.Booking;
+import fiveman.hotelservice.entities.Hotel;
+import fiveman.hotelservice.entities.RoomType;
+import fiveman.hotelservice.entities.Service;
 import lombok.*;
 
 
@@ -14,4 +17,5 @@ public class BookingResponse {
     private RoomType roomType;
     private Hotel hotel;
     private Service service;
+
 }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import fiveman.hotelservice.entities.CustomerFeedback;
 import fiveman.hotelservice.request.CustomerFeedbackRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
+import fiveman.hotelservice.response.CustomerFeedbackResponse;
 import fiveman.hotelservice.service.CustomerFeedbackService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;
@@ -44,8 +45,8 @@ public class CustomerFeedbackController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<List<CustomerFeedback>> getCustomerFeedBacks() {
-            return new ResponseEntity<List<CustomerFeedback>>(customerFeedbackService.getAllCustomerFeedback(), HttpStatus.OK);
+      public ResponseEntity<List<CustomerFeedbackResponse>> getCustomerFeedBacks() {
+            return new ResponseEntity<List<CustomerFeedbackResponse>>(customerFeedbackService.getAllCustomerFeedback(), HttpStatus.OK);
       }
 
       @GetMapping("/customerFeedBack/{id}")
@@ -54,8 +55,8 @@ public class CustomerFeedbackController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomerFeedback> getCustomerFeedBack(@PathVariable("id") long id) {
-            return new ResponseEntity<CustomerFeedback>(customerFeedbackService.getCustomerFeedback(id), HttpStatus.OK);
+      public ResponseEntity<CustomerFeedbackResponse> getCustomerFeedBack(@PathVariable("id") long id) {
+            return new ResponseEntity<CustomerFeedbackResponse>(customerFeedbackService.getCustomerFeedback(id), HttpStatus.OK);
       }
 
       @PostMapping("/customerFeedBack")

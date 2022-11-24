@@ -1,23 +1,11 @@
 package fiveman.hotelservice.repository;
 
 import fiveman.hotelservice.entities.OrderDetail;
-import fiveman.hotelservice.entities.Service;
-import fiveman.hotelservice.response.ServiceResponse;
-import fiveman.hotelservice.response.ServiceResponseSQL;
 
-import org.hibernate.annotations.NamedNativeQuery;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
-import javax.naming.Name;
-import javax.persistence.ColumnResult;
-import javax.persistence.ConstructorResult;
-import javax.persistence.NamedNativeQueries;
-import javax.persistence.SqlResultSetMapping;
 
 @Repository
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> {

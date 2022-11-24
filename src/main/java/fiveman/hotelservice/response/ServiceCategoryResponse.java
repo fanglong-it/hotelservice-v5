@@ -2,7 +2,6 @@ package fiveman.hotelservice.response;
 
 import java.util.List;
 
-import fiveman.hotelservice.entities.Hotel;
 import fiveman.hotelservice.entities.Image;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +21,8 @@ public class ServiceCategoryResponse {
    boolean foodAndBeverage;
    boolean ordered;
    boolean status;
-    private List<Image> images;
-   private Hotel hotel;
+   
+   private List<Image> images;
+
+   private long hotel_Id;
 }

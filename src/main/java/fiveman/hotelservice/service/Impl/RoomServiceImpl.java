@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import fiveman.hotelservice.entities.Image;
 import fiveman.hotelservice.entities.Room;
-import fiveman.hotelservice.entities.RoomType;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.RoomRepository;
 import fiveman.hotelservice.repository.RoomTypeRepository;

@@ -2,7 +2,7 @@ package fiveman.hotelservice.controller;
 
 import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.request.BookingRequest;
-import fiveman.hotelservice.response.CustomResponseObject;
+import fiveman.hotelservice.response.BookingResponse;
 import fiveman.hotelservice.service.BookingService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
@@ -23,20 +23,20 @@ public class BookingController {
 
     @GetMapping("/booking/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<Booking> getBookingById(@PathVariable("id") long id) {
+    public ResponseEntity<BookingResponse> getBookingById(@PathVariable("id") long id) {
         return new ResponseEntity<>(bookingService.getBookingById(id), HttpStatus.OK);
     }
 
     @GetMapping("/booking")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<Booking>> getBookingByRoomId(@RequestParam("room_id") long room_id){
-        return new ResponseEntity<List<Booking>>(bookingService.getAllBookingByRoomId(room_id), HttpStatus.OK);
+    public ResponseEntity<List<BookingResponse>> getBookingByRoomId(@RequestParam("room_id") long room_id){
+        return new ResponseEntity<List<BookingResponse>>(bookingService.getAllBookingByRoomId(room_id), HttpStatus.OK);
     }
 
 
     @GetMapping("/bookings")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<Booking>> getAllBooking() {
+    public ResponseEntity<List<BookingResponse>> getAllBooking() {
         return new ResponseEntity<>(bookingService.getAllBooking(), HttpStatus.OK);
     }
 
@@ -45,21 +45,21 @@ public class BookingController {
 
     @PostMapping("/booking")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<CustomResponseObject> saveBooking(@RequestBody BookingRequest bookingRequest) {
+    public ResponseEntity<List<BookingResponse>> saveBooking(@RequestBody BookingRequest bookingRequest) {
         Booking booking = modelMapper.map(bookingRequest, Booking.class);
         return new ResponseEntity<>(bookingService.saveBooking(booking), HttpStatus.OK);
     }
 
     @PutMapping("/booking")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<CustomResponseObject> updateBooking(@RequestBody BookingRequest bookingRequest) {
+    public ResponseEntity<List<BookingResponse>> updateBooking(@RequestBody BookingRequest bookingRequest) {
         Booking booking = modelMapper.map(bookingRequest, Booking.class);
         return new ResponseEntity<>(bookingService.updateBooking(booking), HttpStatus.OK);
     }
 
     @DeleteMapping("/booking/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<CustomResponseObject> deleteBooking(@PathVariable("id") long id) {
+    public ResponseEntity<List<BookingResponse>> deleteBooking(@PathVariable("id") long id) {
         return new ResponseEntity<>(bookingService.deleteBooking(id), HttpStatus.OK);
     }
 

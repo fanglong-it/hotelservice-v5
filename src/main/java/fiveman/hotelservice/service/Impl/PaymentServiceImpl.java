@@ -2,7 +2,6 @@ package fiveman.hotelservice.service.Impl;
 
 import java.awt.print.Book;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -29,7 +28,6 @@ import fiveman.hotelservice.utils.Common;
 import fiveman.hotelservice.utils.Utilities;
 
 @Service
-@Slf4j
 public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
@@ -141,6 +139,7 @@ public class PaymentServiceImpl implements PaymentService {
         // send POST request
         try {
             ResponseEntity<MomoResponse> response = restTemplate.postForEntity(url, req, MomoResponse.class);
+
             if (response != null) {
                 return response;
             }

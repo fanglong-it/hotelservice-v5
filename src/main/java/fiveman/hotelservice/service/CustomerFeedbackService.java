@@ -4,11 +4,12 @@ import java.util.List;
 
 import fiveman.hotelservice.entities.CustomerFeedback;
 import fiveman.hotelservice.response.CustomResponseObject;
+import fiveman.hotelservice.response.CustomerFeedbackResponse;
 
 public interface CustomerFeedbackService {
-      List<CustomerFeedback> getAllCustomerFeedback();
+      List<CustomerFeedbackResponse> getAllCustomerFeedback();
       
-      CustomerFeedback getCustomerFeedback(long id);
+      CustomerFeedbackResponse getCustomerFeedback(long id);
       
       CustomResponseObject saveCustomerFeedback(CustomerFeedback customerFeedback);
       

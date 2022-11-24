@@ -38,33 +38,38 @@ public class RequestServiceServiceImpl implements RequestServiceService{
       }
 
       @Override
-      public CustomResponseObject saveRequestService(RequestService requestService) {
+      public List<RequestService> saveRequestService(RequestService requestService) {
             log.info("START SAVE REQUEST SERVICE");
             if (requestServiceRepository.existsById(requestService.getId())) {
                 throw new AppException(HttpStatus.ALREADY_REPORTED.value(), new CustomResponseObject(Common.ADDING_FAIL, "Exist id =" + requestService.getId()));
             }
             requestServiceRepository.save(requestService);
             log.info("END SAVE REQUEST SERVICE");
-            return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding REQUEST SERVICE Success!");
+            // return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding REQUEST SERVICE Success!");
+            return getAllRequestService();
+
       }
 
       @Override
-      public CustomResponseObject updateRequestService(RequestService requestService) {
+      public List<RequestService> updateRequestService(RequestService requestService) {
             log.info("START UPDATE REQUEST SERVICE");
             if (requestServiceRepository.existsById(requestService.getId())) {
                 requestServiceRepository.save(requestService);
                 log.info("END UPDATE REQUEST SERVICE");
-                return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update success!");
+            //     return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update success!");
+                return getAllRequestService();
+
             }
             throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.UPDATE_FAIL, "Not found id = " + requestService.getId()));
       }
 
       @Override
-      public CustomResponseObject deleteRequestService(long id) {
+      public List<RequestService> deleteRequestService(long id) {
             if (requestServiceRepository.existsById(id)) {
                   log.info("DELETE REQUEST SERVICE");
                   requestServiceRepository.deleteById(id);
-                  return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete success!");
+                  // return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete success!");
+                  return getAllRequestService();
               }
               throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.DELETE_FAIL, "Not found id = " + id));
       }

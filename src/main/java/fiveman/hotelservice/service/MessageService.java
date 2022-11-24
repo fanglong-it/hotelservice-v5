@@ -3,16 +3,16 @@ package fiveman.hotelservice.service;
 import java.util.List;
 
 import fiveman.hotelservice.entities.Message;
-import fiveman.hotelservice.response.CustomResponseObject;
+import fiveman.hotelservice.response.MessageResponse;
 
 public interface MessageService {
-      List<Message> getAllMessage();
-      List<Message> getAllMessageByBooking_Id(long id);      
-      Message getMessageById(long id);
+      List<MessageResponse> getAllMessage();
+      List<MessageResponse> getAllMessageByBooking_Id(long id);      
+      MessageResponse getMessageById(long id);
       
-      CustomResponseObject addMessage(Message message);
+      List<MessageResponse> addMessage(Message message);
       
-      CustomResponseObject updateMessage(Message message);
+      List<MessageResponse> updateMessage(Message message);
       
-      CustomResponseObject deleteMessage(long id);
+      List<MessageResponse> deleteMessage(long id);
 }

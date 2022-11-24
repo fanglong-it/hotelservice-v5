@@ -5,7 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import fiveman.hotelservice.request.ServiceRequest;
-import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.ServiceResponse;
 
 import org.modelmapper.ModelMapper;

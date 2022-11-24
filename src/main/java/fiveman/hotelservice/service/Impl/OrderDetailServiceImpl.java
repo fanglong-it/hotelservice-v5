@@ -1,8 +1,6 @@
 package fiveman.hotelservice.service.Impl;
 
 import fiveman.hotelservice.entities.OrderDetail;
-import fiveman.hotelservice.entities.Service;
-import fiveman.hotelservice.entities.ServiceCategory;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.ImageRepository;
 import fiveman.hotelservice.repository.OrderDetailRepository;

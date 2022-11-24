@@ -44,9 +44,9 @@ public class OrderController {
 
     @PostMapping("/order")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<CustomResponseObject> saveOrder(@RequestBody @Valid OrderRequest billRequest) {
-        Order bill = modelMapper.map(billRequest, Order.class);
-        return new ResponseEntity<>(orderService.saveBill(bill), HttpStatus.OK);
+    public ResponseEntity<CustomResponseObject> saveOrder(@org.springframework.web.bind.annotation.RequestBody OrderRequest orderRequest) {
+        Order order = modelMapper.map(orderRequest, Order.class);
+        return new ResponseEntity<>(orderService.saveBill(order), HttpStatus.OK);
     }
 
     @PutMapping("/order")

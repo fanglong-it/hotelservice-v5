@@ -1,7 +1,9 @@
 package fiveman.hotelservice.service.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import fiveman.hotelservice.entities.CustomerFeedback;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.CustomerFeedbackRepository;
 import fiveman.hotelservice.response.CustomResponseObject;
+import fiveman.hotelservice.response.CustomerFeedbackResponse;
 import fiveman.hotelservice.service.CustomerFeedbackService;
 import fiveman.hotelservice.utils.Common;
 import lombok.extern.slf4j.Slf4j;
@@ -21,14 +24,29 @@ public class CustomerFeedbackServiceImpl implements CustomerFeedbackService {
       @Autowired
       private CustomerFeedbackRepository customerFeedbackRepository;
 
+
+      @Autowired
+      ModelMapper modelMapper;
+      public CustomerFeedbackResponse mapCustomerFeedBackToResponse(CustomerFeedback customerFeedback){
+            CustomerFeedbackResponse customerFeedbackResponse = modelMapper.map(customerFeedback, CustomerFeedbackResponse.class);
+            customerFeedbackResponse.setBooking_Id(customerFeedback.getBooking().getId());
+            return customerFeedbackResponse;
+      }
       @Override
-      public List<CustomerFeedback> getAllCustomerFeedback() {
+      public List<CustomerFeedbackResponse> getAllCustomerFeedback() {
             log.info("START GET ALL CUSTOMER FEEDBACK");
-            return customerFeedbackRepository.findAll();
+
+            List<CustomerFeedback> customerFeedbacks = customerFeedbackRepository.findAll();
+            List<CustomerFeedbackResponse> customerFeedbackResponses = new ArrayList<>();
+            for (CustomerFeedback customerFeedback : customerFeedbacks) {
+                  CustomerFeedbackResponse customerFeedbackResponse = mapCustomerFeedBackToResponse(customerFeedback);
+                  customerFeedbackResponses.add(customerFeedbackResponse);
+            }
+            return customerFeedbackResponses;
       }
 
       @Override
-      public CustomerFeedback getCustomerFeedback(long id) {
+      public CustomerFeedbackResponse getCustomerFeedback(long id) {
             log.info("START GET ALL CUSTOMER FEEDBACK BY ID");
             if (!customerFeedbackRepository.existsById(id)) {
                   throw new AppException(HttpStatus.NOT_FOUND.value(),
@@ -36,7 +54,7 @@ public class CustomerFeedbackServiceImpl implements CustomerFeedbackService {
             }
 
             log.info("END GET ALL CUSTOMER FEEDBACK BY ID");
-            return customerFeedbackRepository.getCustomerFeedbackById(id);
+            return mapCustomerFeedBackToResponse(customerFeedbackRepository.getCustomerFeedbackById(id));
       }
 
       @Override

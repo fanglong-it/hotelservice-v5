@@ -10,10 +10,10 @@ public interface CustomerService {
 
     List<Customer> getAllCustomers();
 
-    CustomResponseObject saveCustomer(Customer customer);
+    List<Customer> saveCustomer(Customer customer);
 
-    CustomResponseObject updateCustomer(Customer customer);
+    List<Customer> updateCustomer(Customer customer);
 
-    CustomResponseObject deleteCustomer(long id);
+    List<Customer> deleteCustomer(long id);
 
 }

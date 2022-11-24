@@ -40,7 +40,7 @@ public class ServiceCategoryController {
 
     @PostMapping("/serviceCategory")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<CustomResponseObject> saveServiceCategory(@RequestBody @Valid ServiceCategoryRequest serviceCategoryRequest){
+    public ResponseEntity<List<ServiceCategoryResponse>> saveServiceCategory(@RequestBody @Valid ServiceCategoryRequest serviceCategoryRequest){
        ServiceCategory serviceCategory = modelMapper.map(serviceCategoryRequest, ServiceCategory.class);
         return new ResponseEntity<>(serviceCategoryService.saveServiceCategory(serviceCategory), HttpStatus.OK);
     }
@@ -48,14 +48,14 @@ public class ServiceCategoryController {
 
     @PutMapping("/serviceCategory")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<CustomResponseObject> updateServiceCategory(@RequestBody ServiceCategoryRequest serviceCategoryRequest){
+    public ResponseEntity<List<ServiceCategoryResponse>> updateServiceCategory(@RequestBody ServiceCategoryRequest serviceCategoryRequest){
         ServiceCategory serviceCategory = modelMapper.map(serviceCategoryRequest, ServiceCategory.class);
-        return new ResponseEntity<CustomResponseObject>(serviceCategoryService.updateServiceCategory(serviceCategory), HttpStatus.OK);
+        return new ResponseEntity<>(serviceCategoryService.updateServiceCategory(serviceCategory), HttpStatus.OK);
     }
 
     @DeleteMapping("/serviceCategory/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<CustomResponseObject> deleteServiceCategory(@PathVariable("id") long id){
-        return new ResponseEntity<CustomResponseObject>(serviceCategoryService.deleteServiceCategory(id), HttpStatus.OK);
+    public ResponseEntity<List<ServiceCategoryResponse>> deleteServiceCategory(@PathVariable("id") long id){
+        return new ResponseEntity<>(serviceCategoryService.deleteServiceCategory(id), HttpStatus.OK);
     }
 }

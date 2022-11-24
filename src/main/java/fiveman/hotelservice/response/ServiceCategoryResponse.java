@@ -25,5 +25,5 @@ public class ServiceCategoryResponse {
    
    private List<Image> images;
 
-   private Hotel hotel;
+   private long hotel_Id;
 }

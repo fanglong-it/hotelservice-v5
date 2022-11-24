@@ -31,29 +31,32 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomResponseObject saveCustomer(Customer customer) {
+    public List<Customer> saveCustomer(Customer customer) {
         if (customerRepository.existsById(customer.getId())) {
             throw new AppException(HttpStatus.ALREADY_REPORTED.value(), new CustomResponseObject(Common.ADDING_FAIL, "Exist id =" + customer.getId()));
         }
         customerRepository.save(customer);
-        return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding Success!");
+        // return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding Success!");
+        return customerRepository.findAll();
     }
 
     @Override
-    public CustomResponseObject updateCustomer(Customer customer) {
+    public List<Customer> updateCustomer(Customer customer) {
         if (!customerRepository.existsById(customer.getId())) {
             throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.UPDATE_FAIL, "Not found id =" + customer.getId()));
         }
         customerRepository.save(customer);
-        return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success!");
+        // return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success!");
+        return customerRepository.findAll();
     }
 
     @Override
-    public CustomResponseObject deleteCustomer(long id) {
+    public List<Customer> deleteCustomer(long id) {
         if (!customerRepository.existsById(id)) {
             throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.DELETE_FAIL, "Not found id =" + id));
         }
         customerRepository.deleteById(id);
-        return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Success!");
+        // return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Success!");
+        return customerRepository.findAll();
     }
 }

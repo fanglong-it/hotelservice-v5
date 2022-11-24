@@ -25,6 +25,8 @@ public class OrderRequest {
     private String lastModifyBy;
     private String status;
 
+    private long orderPayment_Id;
+
     private List<OrderDetailRequest> lOrderDetailRequests;
 
 }

@@ -12,9 +12,9 @@ public interface RequestServiceService {
       
       RequestService getRequestService(long id);
       
-      CustomResponseObject saveRequestService(RequestService requestService);
+      List<RequestService> saveRequestService(RequestService requestService);
 
-      CustomResponseObject updateRequestService(RequestService requestService);
+      List<RequestService> updateRequestService(RequestService requestService);
 
-      CustomResponseObject deleteRequestService(long id);
+      List<RequestService> deleteRequestService(long id);
 }

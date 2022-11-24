@@ -44,27 +44,29 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
         serviceCategoryResponse.setOrdered(serviceCategory.isOrdered());
         serviceCategoryResponse.setStatus(serviceCategory.isStatus());
         serviceCategoryResponse.setImages(imageRepository.getAllByPictureType("img_serviceCategory_"+ serviceCategory.getId()));
-        serviceCategoryResponse.setHotel(serviceCategory.getHotel());
+        serviceCategoryResponse.setHotel_Id(serviceCategory.getHotel().getId());
         return serviceCategoryResponse;
     }
 
 
     @Override
-    public CustomResponseObject updateServiceCategory(ServiceCategory serviceCategory) {
+    public List<ServiceCategoryResponse> updateServiceCategory(ServiceCategory serviceCategory) {
         if (!serviceCategoryRepository.existsById(serviceCategory.getId())) {
-            return new CustomResponseObject(Common.UPDATE_FAIL, "Update fail!");
+            throw new AppException(HttpStatus.NOT_FOUND,new CustomResponseObject(Common.UPDATE_FAIL, "Update fail!"));
         }
         serviceCategoryRepository.save(serviceCategory);
-        return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success!");
+        // return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success!");
+        return getServiceCategories();
     }
 
     @Override
-    public CustomResponseObject deleteServiceCategory(long id) {
+    public List<ServiceCategoryResponse> deleteServiceCategory(long id) {
         if (!serviceCategoryRepository.existsById(id)) {
-            return new CustomResponseObject(Common.DELETE_FAIL, "Delete fail!");
+            throw new AppException(HttpStatus.NOT_FOUND,new CustomResponseObject(Common.DELETE_FAIL, "delete fail!"));
         }
         serviceCategoryRepository.deleteById(id);
-        return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Success!");
+        // return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Success!");
+        return getServiceCategories();
     }
 
     @Override
@@ -74,11 +76,12 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
     }
 
     @Override
-    public CustomResponseObject saveServiceCategory(ServiceCategory serviceCategory) {
+    public List<ServiceCategoryResponse> saveServiceCategory(ServiceCategory serviceCategory) {
         if (!serviceCategoryRepository.existsById(serviceCategory.getId())) {
             log.info("START SAVING SERVICE_CATEGORY");
             serviceCategoryRepository.save(serviceCategory);
-            return new CustomResponseObject(Common.ADDING_SUCCESS, "Create Success");
+            // return new CustomResponseObject(Common.ADDING_SUCCESS, "Create Success");
+            return getServiceCategories();
         }
         throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
                 new CustomResponseObject(HttpStatus.ALREADY_REPORTED.toString(),

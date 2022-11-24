@@ -83,10 +83,10 @@
 			<artifactId>thymeleaf-spring5</artifactId>
 			<version>3.0.11.RELEASE</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>nz.net.ultraq.thymeleaf</groupId>-->
-<!--			<artifactId>thymeleaf-layout-dialect</artifactId>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>nz.net.ultraq.thymeleaf</groupId>
+			<artifactId>thymeleaf-layout-dialect</artifactId>
+		</dependency>
 
 		<!--Start of swagger dependency -->
 		<dependency>

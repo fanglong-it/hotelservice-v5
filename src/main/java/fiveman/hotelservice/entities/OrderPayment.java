@@ -1,5 +1,6 @@
 package fiveman.hotelservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,12 +26,12 @@ public class OrderPayment {
 
     private String dateTime;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = PaymentMethod.class)
     private PaymentMethod paymentMethod;
 
-    @OneToMany(mappedBy = "orderPayment")
-    @JsonManagedReference
-    private List<Order> orders;
+    // @OneToMany(mappedBy = "orderPayment", targetEntity = Order.class, fetch = FetchType.LAZY)
+    // @JsonManagedReference
+    // private List<Order> orders;
 
 }
 

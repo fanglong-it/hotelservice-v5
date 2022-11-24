@@ -110,7 +110,7 @@ public class PaymentController {
             } else if (resultCode == 9000) {
                   msg = "giao dich duoc xac nhan, giao dich thang cong!";
 
-                  OrderPayment orderPayment = new OrderPayment(0, Double.parseDouble("" + amount), Utilities.getCurrentDateByFormat("dd/MM/yyyy"), paymentMethodService.getPaymentMethodById(1), null);
+                  OrderPayment orderPayment = new OrderPayment(0, Double.parseDouble("" + amount), Utilities.getCurrentDateByFormat("dd/MM/yyyy"), paymentMethodService.getPaymentMethodById(1));
                   orderPaymentRepository.save(orderPayment);
                   orderPayment = orderPaymentRepository.findTopByOrderByIdDesc();
 

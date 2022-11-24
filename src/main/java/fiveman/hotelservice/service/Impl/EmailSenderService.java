@@ -67,7 +67,9 @@ public class EmailSenderService implements EmailService {
         for (BookingResponse bookingResponse: list) {
             for (RoomPrice roPrice : bookingResponse.getRoomType().getRoomPrices()) {
                 if(roPrice.getDate().equals(currentDate)){
-                    price += roPrice.getPrice();
+                    price = roPrice.getPrice();
+                }else {
+                    price = 0;
                 }
             }
             if(price == 0){

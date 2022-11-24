@@ -10,7 +10,8 @@ import fiveman.hotelservice.entities.*;
 import fiveman.hotelservice.repository.*;
 import fiveman.hotelservice.request.*;
 import fiveman.hotelservice.response.*;
-import lombok.extern.slf4j.Slf4j;
+//import lombok.extern.slf4j.Slf4j;
+import fiveman.hotelservice.service.EmailService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -66,7 +67,11 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     private PaymentMethodRepository paymentMethodRepository;
 
-    @Autowired OrderPaymentRepository orderPaymentRepository;
+    @Autowired
+    private OrderPaymentRepository orderPaymentRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     @Override
     public ResponseEntity<MomoResponse> getPaymentMomo(MomoClientRequest request) {
@@ -364,6 +369,7 @@ public class PaymentServiceImpl implements PaymentService {
             bookingResponse.setHotel(hotel);
             listBooking.add(bookingResponse);
         }
+        emailService.sendMail(listBooking);
         return listBooking;
     }
 

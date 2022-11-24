@@ -11,6 +11,8 @@ public interface RoomAlarmService {
       
       RoomAlarmResponse getRoomAlarmById(long id);
       
+      List<RoomAlarmResponse> getRoomAlarmByBookingId(long booking_id);
+
       RoomAlarmResponse saveRoomAlarm(RoomAlarm roomAlarm);
       
       CustomResponseObject updateRoomAlarm(RoomAlarm roomAlarm);

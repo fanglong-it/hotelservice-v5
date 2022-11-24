@@ -33,6 +33,23 @@ public class RoomAlarmServiceImpl implements RoomAlarmService{
             return roomAlarmResponse;
       }
 
+
+      
+      @Override
+      public List<RoomAlarmResponse> getRoomAlarmByBookingId(long booking_id) {
+            List<RoomAlarm> roomAlarms = roomAlarmRepository.getAllRoomAlarmByBooking_Id(booking_id);
+            List<RoomAlarmResponse> roomAlarmResponses = new ArrayList<>();
+            for (RoomAlarm roomAlarm : roomAlarms) {
+                  RoomAlarmResponse roomAlarmResponse = mapRoomAlarmToResponse(roomAlarm);
+                  roomAlarmResponses.add(roomAlarmResponse);
+            }
+
+            // return mapRoomAlarmToResponse(roomAlarmRepository.getRoomAlarmByBooking_Id(booking_id));
+            return roomAlarmResponses;
+      }
+
+
+
       @Override
       public List<RoomAlarmResponse> getAllRoomAlarm() {
             log.info("GET ALL ROOM ALARMS");

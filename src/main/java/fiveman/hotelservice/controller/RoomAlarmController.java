@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fiveman.hotelservice.entities.RoomAlarm;
@@ -58,6 +59,12 @@ public class RoomAlarmController {
             return new ResponseEntity<RoomAlarmResponse>(roomAlarmService.getRoomAlarmById(id), HttpStatus.OK);
       }
 
+      @GetMapping("/roomAlarmByBooking")
+      public ResponseEntity<List<RoomAlarmResponse>> getRoomAlarmByBookingId(@RequestParam("booking_Id") long booking_Id){
+            return new ResponseEntity<>(roomAlarmService.getRoomAlarmByBookingId(booking_Id), HttpStatus.OK);
+      }
+
+
       @PostMapping("/roomAlarm")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
@@ -68,6 +75,8 @@ public class RoomAlarmController {
             RoomAlarm roomAlarm = modelMapper.map(request, RoomAlarm.class);
             return new ResponseEntity<>(roomAlarmService.saveRoomAlarm(roomAlarm), HttpStatus.OK);
       }
+
+
 
       @PutMapping("/roomAlarm")
       @PreAuthorize("isAnonymous() or isAuthenticated()")

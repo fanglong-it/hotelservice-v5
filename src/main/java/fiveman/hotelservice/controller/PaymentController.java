@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 // import fiveman.hotelservice.entities.Order;
 
 import fiveman.hotelservice.exception.AppException;
+import fiveman.hotelservice.repository.OrderPaymentRepository;
 import fiveman.hotelservice.request.MomoClientRequest;
 import fiveman.hotelservice.request.VNPayRequest;
 import fiveman.hotelservice.service.OrderPaymentService;
@@ -22,8 +23,10 @@ import fiveman.hotelservice.service.OrderService;
 import fiveman.hotelservice.service.PaymentMethodService;
 import fiveman.hotelservice.service.PaymentService;
 import fiveman.hotelservice.utils.Common;
+import fiveman.hotelservice.utils.Utilities;
 import io.swagger.annotations.Api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -62,13 +65,17 @@ public class PaymentController {
       OrderPaymentService orderPaymentService;
 
       @Autowired
+      OrderPaymentRepository orderPaymentRepository;
+
+
+      @Autowired
       PaymentMethodService paymentMethodService;
 
       @GetMapping("/MomoConfirm")
       @PreAuthorize("isAuthenticated() or isAnonymous()")
       public ResponseEntity<MomoConfirmResultResponse> momoConfirm(
                   @RequestParam("partnerCode") String partnerCode,
-                  @RequestParam("orderId") long orderId,
+                  @RequestParam("orderId") String orderId,
                   @RequestParam("requestId") long requestId,
                   @RequestParam("amount") long amount,
                   @RequestParam("orderInfo") String orderInfo,
@@ -103,26 +110,23 @@ public class PaymentController {
             } else if (resultCode == 9000) {
                   msg = "giao dich duoc xac nhan, giao dich thang cong!";
 
-                  // Order order = orderService.getBillById(orderId);
-                  // if (!orderPaymentService.existOrderPaymentByOrderId(orderId)) {
-                  //       order.setStatus("1");
-                  //       orderService.updateBill(order);
-                  //       OrderPayment orderPayment = new OrderPayment();
-                  //       orderPayment.setId(0);
-                  //       // orderPayment.setOrder(order);
-                  //       PaymentMethod pay = paymentMethodService.getPaymentMethodById(1);
-                  //       orderPayment.setPaymentMethod(pay);
-                  //       orderPayment.setPaymentAmount(order.getTotalAmount());
-                  //       orderPayment.setDateTime(
-                  //                   fiveman.hotelservice.utils.Utilities.getCurrentDateByFormat("dd/MM/yyyy"));
-                  //       orderPaymentService.saveOrderPayment(orderPayment);
-                  // }
+                  OrderPayment orderPayment = new OrderPayment(0, amount, Utilities.getCurrentDateByFormat("dd/MM/yyyy"), paymentMethodService.getPaymentMethodById(1), null);
+                  orderPayment = orderPaymentRepository.findTopByOrderByIdDesc();
+
+                  String[] listOrderId = orderId.split("-");
+                  List<Order> orders = new ArrayList<>();
+                  for (int i = 0; i < listOrderId.length; i++) {
+                        Order order = orderService.getBillById(Long.parseLong(listOrderId[i]));
+                        orders.add(order);
+                  }
+                  for (Order order : orders) {
+                        order.setOrderPayment(orderPayment);
+                        orderService.updateBill(order);
+                  }
             }
             System.out.println(resultCode);
             System.out.println(msg);
-
             // accessKey=WehkypIRwPP14mHb&orderId=23&partnerCode=MOMODJMX20220717&requestId=48468005-6de1-4140-839f-5f2d8d77a001
-
             return new ResponseEntity<>(momoConfirmResultResponse, HttpStatus.OK);
       }
 

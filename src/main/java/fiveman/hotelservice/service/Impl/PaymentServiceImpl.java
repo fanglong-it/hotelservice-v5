@@ -88,7 +88,10 @@ public class PaymentServiceImpl implements PaymentService {
         MomoRequest momoReq = new MomoRequest();
         // CustomerInfoMomoRequest customerInfo = new CustomerInfoMomoRequest("dat",
         // "0123456789", "dat@gmail.com");
-        Order order = orderRepository.getOrderById(Long.parseLong(request.getOrderId()));
+        List<String> oList = request.getOrderId();
+        String orderId = String.join("-", oList);
+
+        // Order order = orderRepository.getOrderById(Long.parseLong(request.getOrderId()));
 
         // long amount = 200000;
         byte[] array = new byte[10]; // length is bounded by 7
@@ -96,17 +99,17 @@ public class PaymentServiceImpl implements PaymentService {
 
 
         // String requestId = new String(array, Charset.forName("UTF-8"));
-        String requestId = String.valueOf(order.getId());
+        // String requestId = String.valueOf(order.getId());
 
         DecimalFormat df = new DecimalFormat("#");     
 
-        String amount = String.valueOf(df.format(order.getTotalAmount()));
+        String amount = String.valueOf(df.format(request.getAmount()));
 
         String sign = "accessKey=" + Common.ACCESS_KEY + "&amount=" + amount + "&extraData="
-                + "&ipnUrl=" + Common.IPN_URL_MOMO + "&orderId=" + request.getOrderId() + "&orderInfo="
+                + "&ipnUrl=" + Common.IPN_URL_MOMO + "&orderId=" + orderId + "&orderInfo="
                 + "Thanh toan momo"
                 + "&partnerCode=" + Common.PARTNER_CODE + "&redirectUrl=" + Common.REDIRECT_URL_MOMO
-                + "&requestId=" + requestId + "&requestType=captureWallet";
+                + "&requestId=" + orderId + "&requestType=captureWallet";
 
         // accessKey=$accessKey&amount=$amount&extraData=$extraData
         // &ipnUrl=$ipnUrl&orderId=$orderId&orderInfo=$orderInfo
@@ -128,10 +131,10 @@ public class PaymentServiceImpl implements PaymentService {
         momoReq.setExtraData("");
         momoReq.setIpnUrl(Common.IPN_URL_MOMO);
         momoReq.setLang("vi");
-        momoReq.setOrderId(request.getOrderId());
+        momoReq.setOrderId(orderId);
         momoReq.setOrderInfo("Thanh toan momo");
         momoReq.setRedirectUrl(Common.REDIRECT_URL_MOMO);
-        momoReq.setRequestId(requestId);
+        momoReq.setRequestId(orderId);
         momoReq.setRequestType("captureWallet");
 
         HttpEntity<MomoRequest> req = new HttpEntity<>(momoReq, headers);

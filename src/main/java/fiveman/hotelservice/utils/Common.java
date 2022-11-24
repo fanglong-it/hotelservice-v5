@@ -70,11 +70,11 @@ public class Common {
     public static  final String BOOKING_CANCEL = "cancel";
     
     // code for momo payment
-    // public static final String IPN_URL_MOMO = "https://hotelservice-v5.herokuapp.com/api/v1/MomoConfirm";
-    public static final String IPN_URL_MOMO = "http://localhost:8080/api/v1/MomoConfirm";
+    public static final String IPN_URL_MOMO = "https://hotelservice-v5.herokuapp.com/api/v1/MomoConfirm";
+    // public static final String IPN_URL_MOMO = "http://localhost:8080/api/v1/MomoConfirm";
     
-    // public static final String REDIRECT_URL_MOMO = "https://hotelservice-v5.herokuapp.com/api/v1/MomoConfirm";
-    public static final String REDIRECT_URL_MOMO = "http://localhost:8080/api/v1/MomoConfirm";
+    public static final String REDIRECT_URL_MOMO = "https://hotelservice-v5.herokuapp.com/api/v1/MomoConfirm";
+    // public static final String REDIRECT_URL_MOMO = "http://localhost:8080/api/v1/MomoConfirm";
     
     public static final String PARTNER_CODE = "MOMODJMX20220717";
     public static final String ACCESS_KEY = "WehkypIRwPP14mHb";

@@ -3,6 +3,7 @@ package fiveman.hotelservice.service;
 import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.request.CheckInRequest;
 import fiveman.hotelservice.response.BookingObjectResponse;
+import fiveman.hotelservice.response.CheckInResponse;
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ public interface BookingService {
 
     List<BookingObjectResponse> deleteBooking(long id);
 
-    CheckInRequest checkInBooking(CheckInRequest checkInRequest);
+    CheckInResponse checkInBooking(CheckInRequest checkInRequest);
+
+    BookingObjectResponse checkOutBooking(long bookingId);
 
 }

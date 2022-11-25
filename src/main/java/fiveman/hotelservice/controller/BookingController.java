@@ -4,6 +4,7 @@ import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.request.BookingRequest;
 import fiveman.hotelservice.request.CheckInRequest;
 import fiveman.hotelservice.response.BookingObjectResponse;
+import fiveman.hotelservice.response.CheckInResponse;
 import fiveman.hotelservice.service.BookingService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
@@ -65,8 +66,13 @@ public class BookingController {
     }
 
     @PostMapping("/booking/checkIn")
-    public ResponseEntity<CheckInRequest> checkInBooking(@RequestBody CheckInRequest checkInRequest){
-        return new ResponseEntity<CheckInRequest>(bookingService.checkInBooking(checkInRequest), HttpStatus.OK);
+    public ResponseEntity<CheckInResponse> checkInBooking(@RequestBody CheckInRequest checkInRequest){
+        return new ResponseEntity<>(bookingService.checkInBooking(checkInRequest), HttpStatus.OK);
+    }
+
+    @PostMapping("/booking/checkOut")
+    public ResponseEntity<BookingObjectResponse> checkOutBooking(@RequestParam("booking_id") long bookingId){
+        return new ResponseEntity<>(bookingService.checkOutBooking(bookingId), HttpStatus.OK);
     }
 
 }

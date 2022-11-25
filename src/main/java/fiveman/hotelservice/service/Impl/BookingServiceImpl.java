@@ -20,6 +20,8 @@ import fiveman.hotelservice.repository.RoomRepository;
 import fiveman.hotelservice.request.BookingRequest;
 import fiveman.hotelservice.request.CheckInRequest;
 import fiveman.hotelservice.response.BookingObjectResponse;
+import fiveman.hotelservice.response.BookingResponse;
+import fiveman.hotelservice.response.CheckInResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.BookingService;
 import fiveman.hotelservice.utils.Common;
@@ -164,16 +166,16 @@ public class BookingServiceImpl implements BookingService {
     RoomRepository roomRepository;
 
     @Override
-    public CheckInRequest checkInBooking(CheckInRequest checkInRequest) {
+    public CheckInResponse checkInBooking(CheckInRequest checkInRequest) {
 
         BookingRequest bookingRequest = checkInRequest.getBookingRequest();
         Booking booking = modelMapper.map(bookingRequest, Booking.class);
 
         //getCurrent Date time
-        String currentDateTime = Utilities.getCurrentDateByFormat("dd/MM/YYYY HH:ss:mm");
+        String currentDateTime = Utilities.getCurrentDateByFormat("dd/MM/YYYY HH:mm:ss");
         booking.setActualArrivalDate(currentDateTime);
         booking.setUpdateDate(Utilities.getCurrentDateByFormat("dd/MM/YYYY"));
-        booking.setStatus("Check In");
+        booking.setStatus(Common.BOOKING_CHECKIN);
         booking.setCustomer(customerRepository.getCustomerById(booking.getCustomer().getId()));
         booking.setHotel(hotelRepository.getHotelById(booking.getHotel().getId()));
         booking.setRoom(roomRepository.getRoomById(booking.getRoom().getId()));
@@ -197,7 +199,24 @@ public class BookingServiceImpl implements BookingService {
                 customerBookingRepository.save(customerBooking);
             }
         }
-        return checkInRequest;
+
+        CheckInResponse checkInResponse = new CheckInResponse();
+        checkInResponse.setBookingObjectResponse(modelMapper.map(booking, BookingObjectResponse.class));
+        checkInResponse.setCustomers(customers);
+        return checkInResponse;
     }
 
+    @Override
+    public BookingObjectResponse checkOutBooking(long bookingId) {
+        Booking booking = bookingRepository.getBookingById(bookingId);
+        String currentDateTime = Utilities.getCurrentDateByFormat("dd/MM/yyyy HH:mm:ss");
+        booking.setActualDepartureDate(currentDateTime);
+        booking.setStatus(Common.BOOKING_CHECKOUT);
+        if(booking.getRoomPayment().equals("N/A")){ //Booking not Payment
+            throw new AppException(HttpStatus.BAD_REQUEST, new CustomResponseObject(Common.GET_FAIL, "Can't Checkout please Payment!"));
+        }else{
+            bookingRepository.save(booking);
+        }
+        return modelMapper.map(booking, BookingObjectResponse.class);
+    }
 }

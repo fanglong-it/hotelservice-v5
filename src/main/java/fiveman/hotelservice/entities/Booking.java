@@ -2,6 +2,8 @@ package fiveman.hotelservice.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import io.micrometer.core.ipc.http.HttpSender.Request;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import javax.persistence.*;
@@ -50,7 +52,7 @@ public class Booking {
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Customer.class)
     private Customer customer;
 
-    @OneToMany(mappedBy = "booking")
+    @OneToMany(mappedBy = "booking", targetEntity = RequestService.class)
     @JsonManagedReference
     private List<RequestService> requestServices;
 

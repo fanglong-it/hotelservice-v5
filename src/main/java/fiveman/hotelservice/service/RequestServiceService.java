@@ -3,17 +3,18 @@ package fiveman.hotelservice.service;
 import java.util.List;
 
 import fiveman.hotelservice.entities.RequestService;
+import fiveman.hotelservice.response.RequestServiceResponse;
 
 public interface RequestServiceService {
-      List<RequestService> getAllRequestService();
+      List<RequestServiceResponse> getAllRequestService();
       
-      List<RequestService> getRequestServiceByBookingId(long id);
+      List<RequestServiceResponse> getRequestServiceByBookingId(long id);
       
-      RequestService getRequestService(long id);
+      RequestServiceResponse getRequestService(long id);
       
-      List<RequestService> saveRequestService(RequestService requestService);
+      List<RequestServiceResponse> saveRequestService(RequestService requestService);
 
-      List<RequestService> updateRequestService(RequestService requestService);
+      List<RequestServiceResponse> updateRequestService(RequestService requestService);
 
-      List<RequestService> deleteRequestService(long id);
+      List<RequestServiceResponse> deleteRequestService(long id);
 }

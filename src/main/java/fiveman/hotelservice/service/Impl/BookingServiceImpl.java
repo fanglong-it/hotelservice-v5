@@ -216,10 +216,11 @@ public class BookingServiceImpl implements BookingService {
         List<Order> listOrder = booking.getOrders();
         boolean isPayment = true;
         for (Order order : listOrder) {
-            if(order.getOrderPayment() != null){
-                isPayment = true;
+            if(order.getOrderPayment() == null){
+                isPayment = false;
             }
         }
+
         if(booking.getRoomPayment().equals("N/A") || !isPayment){ //Booking not Payment
             throw new AppException(HttpStatus.BAD_REQUEST.value(), new CustomResponseObject(Common.GET_FAIL, "Can't Checkout please Payment!"));
         }else{

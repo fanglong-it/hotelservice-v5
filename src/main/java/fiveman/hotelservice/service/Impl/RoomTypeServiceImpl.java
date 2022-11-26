@@ -1,10 +1,6 @@
 package fiveman.hotelservice.service.Impl;
 
-import fiveman.hotelservice.entities.Image;
-import fiveman.hotelservice.entities.Room;
-import fiveman.hotelservice.entities.RoomType;
-import fiveman.hotelservice.entities.RoomTypeUtilities;
-import fiveman.hotelservice.entities.Utilities;
+import fiveman.hotelservice.entities.*;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.ImageRepository;
 import fiveman.hotelservice.repository.RoomRepository;
@@ -28,127 +24,133 @@ import java.util.List;
 @Slf4j
 public class RoomTypeServiceImpl implements RoomTypeService {
 
-      @Autowired
-      RoomTypeRepository roomTypeRepository;
+    @Autowired
+    RoomTypeRepository roomTypeRepository;
 
-      @Autowired
-      RoomTypeUtilitiesRepository roomTypeUtilitiesRepository;
+    @Autowired
+    RoomTypeUtilitiesRepository roomTypeUtilitiesRepository;
 
-      @Autowired
-      UtilitiesRepository utilitiesRepository;
+    @Autowired
+    UtilitiesRepository utilitiesRepository;
 
-      @Autowired
-      ImageRepository imageRepository;
+    @Autowired
+    ImageRepository imageRepository;
 
-      @Autowired
-      ModelMapper modelMapper;
+    @Autowired
+    ModelMapper modelMapper;
 
-      @Autowired
-      RoomRepository roomRepository;
+    @Autowired
+    RoomRepository roomRepository;
 
-      @Override
-      public List<RoomType> findAllRoomType() {
-            log.info("START OF FIND ALL ROOM TYPE");
-            return roomTypeRepository.findAll();
-      }
+    @Override
+    public List<RoomType> findAllRoomType() {
+        log.info("START OF FIND ALL ROOM TYPE");
+        return roomTypeRepository.findAll();
+    }
 
-      @Override
-      public RoomType getRoomType(long id) {
-            log.info("START OF GET ROOM TYPE BY ID");
-            if (roomTypeRepository.existsById(id)) {
-                  return roomTypeRepository.getRoomTypeById(id);
+    @Override
+    public RoomType getRoomType(long id) {
+        log.info("START OF GET ROOM TYPE BY ID");
+        if (roomTypeRepository.existsById(id)) {
+            return roomTypeRepository.getRoomTypeById(id);
+        }
+        log.info("GET ROOM TYPE FAIL");
+        throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(HttpStatus.NOT_FOUND.toString(), "Not found RoomType Id = " + id));
+    }
+
+    @Override
+    public CustomResponseObject addRoomType(RoomType roomType) {
+        log.info("START OF ADD ROOM TYPE BY ID");
+        if (roomTypeRepository.existsById(roomType.getId())) {
+            throw new AppException(HttpStatus.ALREADY_REPORTED.value(), new CustomResponseObject(Common.ADDING_FAIL, "Exist Id = " + roomType.getId()));
+        }
+        roomTypeRepository.save(roomType);
+        log.info("END OF ADD ROOM TYPE BY ID");
+        return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding success!");
+    }
+
+    @Override
+    public CustomResponseObject updateRoomType(RoomType roomType) {
+        if (!roomTypeRepository.existsById(roomType.getId())) {
+            throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.UPDATE_FAIL, "Not found Id = " + roomType.getId()));
+        }
+        roomTypeRepository.save(roomType);
+        return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success!");
+    }
+
+    @Override
+    public CustomResponseObject deleteRoomType(long id) {
+        log.info("START OF DELETE ROOM TYPE");
+        if (!roomTypeRepository.existsById(id)) {
+            throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.DELETE_FAIL, "Not found Id = " + id));
+        }
+        roomTypeRepository.deleteById(id);
+        return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Success!");
+    }
+
+    @Override
+    public List<RoomAvailabilityResponse> checkAvailability(String dateCheckIn, String dateCheckout, String numberOfPerson) {
+        log.info("START TO CHECK AVAILABILITY ");
+        boolean isDateCheckInValid = fiveman.hotelservice.utils.Utilities.isDateValid(dateCheckIn);
+        boolean isDateCheckoutValid = fiveman.hotelservice.utils.Utilities.isDateValid(dateCheckout);
+        if (!isDateCheckInValid || !isDateCheckoutValid) {
+            throw new AppException(HttpStatus.BAD_REQUEST.value(), new CustomResponseObject(Common.GET_FAIL, "Invalid Date"));
+        }
+        List<RoomType> listRoomType = roomTypeRepository.findAll();
+        List<RoomAvailabilityResponse> listRoomAvailable = new ArrayList<RoomAvailabilityResponse>();
+        if (fiveman.hotelservice.utils.Utilities.isEmptyString(numberOfPerson)) {
+            numberOfPerson = "1";
+        }
+        int numOfPerson = Integer.parseInt(numberOfPerson);
+
+        for (RoomType roomType : listRoomType) {
+
+            List<Room> listRoomAbstract = new ArrayList<Room>();
+            List<Room> listRoom = roomType.getRooms();
+            for (Room room : listRoom) {
+                if (!room.isStatus()) {
+                    listRoomAbstract.add(room);
+                }
             }
-            log.info("GET ROOM TYPE FAIL");
-            throw new AppException(HttpStatus.NOT_FOUND.value(),
-                        new CustomResponseObject(HttpStatus.NOT_FOUND.toString(), "Not found RoomType Id = " + id));
-      }
+            List<Room> listRoomByEndDate = roomRepository.getRoomByBookingEndDate(roomType.getId(), dateCheckIn + " 00:00:00");
 
-      @Override
-      public CustomResponseObject addRoomType(RoomType roomType) {
-            log.info("START OF ADD ROOM TYPE BY ID");
-            if (roomTypeRepository.existsById(roomType.getId())) {
-                  throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
-                              new CustomResponseObject(Common.ADDING_FAIL, "Exist Id = " + roomType.getId()));
+            for (Room room : listRoomByEndDate) {
+                listRoomAbstract.add(room);
             }
-            roomTypeRepository.save(roomType);
-            log.info("END OF ADD ROOM TYPE BY ID");
-            return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding success!");
-      }
 
-      @Override
-      public CustomResponseObject updateRoomType(RoomType roomType) {
-            if (!roomTypeRepository.existsById(roomType.getId())) {
-                  throw new AppException(HttpStatus.NOT_FOUND.value(),
-                              new CustomResponseObject(Common.UPDATE_FAIL, "Not found Id = " + roomType.getId()));
+            if(roomType.getDefaultBookingRoom() > listRoomAvailable.size()){
+                roomType.setDefaultBookingRoom(listRoomAbstract.size());
             }
-            roomTypeRepository.save(roomType);
-            return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success!");
-      }
 
-      @Override
-      public CustomResponseObject deleteRoomType(long id) {
-            log.info("START OF DELETE ROOM TYPE");
-            if (!roomTypeRepository.existsById(id)) {
-                  throw new AppException(HttpStatus.NOT_FOUND.value(),
-                              new CustomResponseObject(Common.DELETE_FAIL, "Not found Id = " + id));
+            List<RoomPrice> listRoomPrice = roomType.getRoomPrices();
+            for (RoomPrice roomPrice : listRoomPrice) {
+                boolean isPriceByDate = fiveman.hotelservice.utils.Utilities.compareTwoDateString(dateCheckIn, roomPrice.getDate());
+                if(isPriceByDate){
+                    if(roomType.getDefaultBookingRoom() > roomPrice.getMaxBookingRoom()){
+                        roomType.setDefaultBookingRoom(roomPrice.getMaxBookingRoom());
+                    }
+                }
             }
-            roomTypeRepository.deleteById(id);
-            return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Success!");
-      }
 
-      @Override
-      public List<RoomAvailabilityResponse> checkAvailability(String dateCheckIn, String dateCheckout,
-                  String numberOfPerson) {
-            log.info("START TO CHECK AVAILABILITY ");
-            boolean isDateCheckInValid = fiveman.hotelservice.utils.Utilities.isDateValid(dateCheckIn);
-            boolean isDateCheckoutValid = fiveman.hotelservice.utils.Utilities.isDateValid(dateCheckout);
-            if (!isDateCheckInValid || !isDateCheckoutValid) {
-                  throw new AppException(HttpStatus.BAD_REQUEST.value(),
-                              new CustomResponseObject(Common.GET_FAIL, "Invalid Date"));
-            }
-            List<RoomType> listRoomType = roomTypeRepository.findAll();
-            List<RoomAvailabilityResponse> listRoomAvailable = new ArrayList<RoomAvailabilityResponse>();
-            if (fiveman.hotelservice.utils.Utilities.isEmptyString(numberOfPerson)) {
-                  numberOfPerson = "1";
-            }
-            int numOfPerson = Integer.parseInt(numberOfPerson);
-            
-            for (RoomType roomType : listRoomType) {
-                  List<Room> listRoomAbstract = new ArrayList<Room>();
-                  List<Room> listRoom = roomType.getRooms();
-                  // for (Room room : listRoom) {
-                  //       if (room.isStatus()) {
-                  //             listRoomAbstract.add(room);
-                  //       }
-                  // }
-
-                  List<Room> listRoomByEndDate = roomRepository.getRoomByBookingEndDate(roomType.getId(), false,
-                              dateCheckIn);
-
-                  for (Room room : listRoomByEndDate) {
-                        listRoomAbstract.add(room);
-                  }
-
-                  if (roomType.getMaxOccupancy() >= numOfPerson) {
-                        if (listRoom.size() > 0) {
-                              List<Utilities> utilities = new ArrayList<Utilities>();
-                              if (roomType.getRoomTypeUtilities().size() > 0) {
-                                    for (RoomTypeUtilities roomTypeUtilities : roomType.getRoomTypeUtilities()) {
-                                          utilities.add(roomTypeUtilities.getUtilities());
-                                    }
-                              }
-                              RoomAvailabilityResponse roomAvailable = modelMapper.map(roomType,
-                                          RoomAvailabilityResponse.class);
-                              List<Image> images = imageRepository
-                                          .getAllByPictureType("img_roomType_" + roomType.getId());
-                              roomAvailable.setUtilities(utilities);
-                              roomAvailable.setRooms(listRoomAbstract);
-                              roomAvailable.setImages(images);
-                              listRoomAvailable.add(roomAvailable);
+            if (roomType.getMaxOccupancy() >= numOfPerson && roomType.getDefaultBookingRoom() > 0) {
+                if (listRoom.size() > 0) {
+                    List<Utilities> utilities = new ArrayList<Utilities>();
+                    if (roomType.getRoomTypeUtilities().size() > 0) {
+                        for (RoomTypeUtilities roomTypeUtilities : roomType.getRoomTypeUtilities()) {
+                            utilities.add(roomTypeUtilities.getUtilities());
                         }
-                  }
+                    }
+                    RoomAvailabilityResponse roomAvailable = modelMapper.map(roomType, RoomAvailabilityResponse.class);
+                    List<Image> images = imageRepository.getAllByPictureType("img_roomType_" + roomType.getId());
+                    roomAvailable.setUtilities(utilities);
+                    roomAvailable.setRooms(listRoomAbstract);
+                    roomAvailable.setImages(images);
+                    listRoomAvailable.add(roomAvailable);
+                }
+                roomTypeRepository.save(roomType);
             }
-            return listRoomAvailable;
-      }
+        }
+        return listRoomAvailable;
+    }
 
 }

@@ -19,12 +19,11 @@ public class Room {
     private String name;
     private String roomNo;
     private String description;
-
     private String createDate;
     private String updateDate;
     private String createBy;
     private String lastModifyBy;
-    private boolean status;
+    private boolean status = false;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
     @JsonBackReference

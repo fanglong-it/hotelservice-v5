@@ -36,6 +36,7 @@ public class RoomType implements Serializable{
       private int defaultOccupancy;
       private boolean isActive;
       private double defaultPrice;
+      private int defaultBookingRoom;
 
       private String bedType;
 

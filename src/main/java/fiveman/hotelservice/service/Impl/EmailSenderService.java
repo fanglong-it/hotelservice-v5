@@ -37,7 +37,7 @@ public class EmailSenderService implements EmailService {
     public void sendMail(List<BookingResponse> list) {
 
         //get price
-        double totalPrice = getTotalPrice(list);
+        String totalPrice = getTotalPrice(list);
         List<PriceObject> listPrice = getPrice(list);
 
         // set context
@@ -59,7 +59,7 @@ public class EmailSenderService implements EmailService {
         javaMailSender.send(mimeMessage);
     }
 
-    public double getTotalPrice(List<BookingResponse> list){
+    public String getTotalPrice(List<BookingResponse> list){
         double totalPrice = 0;
         double price = 0;
         double priceByRoom = 0;
@@ -82,7 +82,8 @@ public class EmailSenderService implements EmailService {
                 totalPrice += price;
             }
         }
-        return totalPrice;
+        String priceInVND = Utilities.parseDoubleToVND(totalPrice);
+        return priceInVND;
     }
 
     public List<PriceObject> getPrice(List<BookingResponse> list){
@@ -106,8 +107,8 @@ public class EmailSenderService implements EmailService {
             }else{
                 priceByRoom = price;
             }
-            priceObject.setPrice(price);
-            priceObject.setPriceByRoom(priceByRoom);
+            priceObject.setPrice(Utilities.parseDoubleToVND(price));
+            priceObject.setPriceByRoom(Utilities.parseDoubleToVND((priceByRoom)));
             priceObjectList.add(priceObject);
         }
         return priceObjectList;
@@ -119,8 +120,8 @@ public class EmailSenderService implements EmailService {
     @NoArgsConstructor
     @AllArgsConstructor
     public class PriceObject{
-        private double price;
-        private double priceByRoom;
+        private String price;
+        private String priceByRoom;
     }
 
 }

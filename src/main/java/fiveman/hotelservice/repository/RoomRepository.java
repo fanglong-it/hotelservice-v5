@@ -15,6 +15,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     
     Room findTopByOrderByIdDesc();
     
-    @Query("select r from Room r inner join Booking b on r.id = b.room.id where r.status = :status and b.departureDate = :departureDate and r.roomType.id = :roomTypeId")
-    List<Room> getRoomByBookingEndDate(@Param("roomTypeId") long roomTypeId, @Param("status") boolean status, @Param("departureDate") String departureDate);
+    @Query("select r from Room r inner join Booking b on r.id = b.room.id where b.departureDate = :departureDate and r.roomType.id = :roomTypeId")
+    List<Room> getRoomByBookingEndDate(@Param("roomTypeId") long roomTypeId, @Param("departureDate") String departureDate);
 }

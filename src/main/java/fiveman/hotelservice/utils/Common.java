@@ -11,7 +11,7 @@ public class Common {
     public static final int PAGE_SIZE = 5; //default size of the product
     public static final int PAGE_INDEX = 0; //default page index
 
-
+    public static final int DEFAULT_BOOKING_ROOM = 5;
 
     // Default value for user
     public static final String USER_NAME = "USER";

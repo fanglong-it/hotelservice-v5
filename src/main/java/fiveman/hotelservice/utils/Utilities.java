@@ -2,18 +2,20 @@ package fiveman.hotelservice.utils;
 
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 public class Utilities {
-
       public static boolean isEmptyString(String result) {
             if (result == null || result.trim().isEmpty() || result.isEmpty()) {
                   return true;
@@ -87,9 +89,30 @@ public class Utilities {
       }
 
       public static String getCurrentDate() {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
             LocalDateTime now = LocalDateTime.now();
             return now.toString();
       }
+      public static boolean compareTwoDateString(String str1, String str2){
+            SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                  Date date1=formatter.parse(str1);
+                  Date date2=formatter.parse(str2);
+                  if(date1 == date2){
+                        return true;
+                  }
+            } catch (ParseException e) {
+                  throw new RuntimeException(e);
+            }
+            return false;
+      }
+
+      public static String parseDoubleToVND(double price){
+            String COUNTRY = "VN";
+            String LANGUAGE = "vi";
+            String str = NumberFormat.getCurrencyInstance(new Locale(LANGUAGE, COUNTRY)).format(price);
+            return str;
+      }
+
 
 }

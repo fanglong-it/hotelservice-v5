@@ -73,6 +73,8 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private RoomPriceRepository roomPriceRepository;
     @Override
     public ResponseEntity<MomoResponse> getPaymentMomo(MomoClientRequest request) {
 
@@ -283,7 +285,7 @@ public class PaymentServiceImpl implements PaymentService {
                 order.setCreateDate(Utilities.getCurrentDate());
                 order.setCreateBy(request.getCustomer().getFirstName() + " " + request.getCustomer().getMiddleName() + " " + request.getCustomer().getLastName());
                 if(request.getPaymentMethod() != 0){
-                    order.setStatus("done");
+                    order.setStatus("DONE");
                     // set payment method
                     PaymentMethod paymentMethod = paymentMethodRepository.getPaymentMethodById(request.getPaymentMethod());
 
@@ -291,13 +293,14 @@ public class PaymentServiceImpl implements PaymentService {
                     OrderPayment orderPayment = new OrderPayment();
                     orderPayment.setPaymentAmount(service.getPrice());
                     orderPayment.setPaymentMethod(paymentMethod);
+                    orderPayment.setDateTime(Utilities.getCurrentDate());
                     orderPaymentRepository.save(orderPayment);
 
                     // set order payment to order
                     OrderPayment orPay = orderPaymentRepository.findTopByOrderByIdDesc();
                     order.setOrderPayment(orPay);
                 }else{
-                    order.setStatus("not yet");
+                    order.setStatus("BOOKED");
                 }
 
                 // order detail
@@ -305,7 +308,7 @@ public class PaymentServiceImpl implements PaymentService {
                 orderDetail.setService(service);
                 orderDetail.setQuantity(1);
                 orderDetail.setPrice(service.getPrice());
-                orderDetail.setAmount(orderDetail.getQuantity() + orderDetail.getPrice());
+                orderDetail.setAmount(orderDetail.getQuantity() * orderDetail.getPrice());
                 orderDetail.setOrderDate(Utilities.getCurrentDate());
 
                 orderDetailRepository.save(orderDetail);
@@ -321,6 +324,20 @@ public class PaymentServiceImpl implements PaymentService {
 
             // set booking
             RoomType roomType = roomTypeRepository.getRoomTypeById(request.getRoomTypes().get(i).getId());
+            roomType.setDefaultBookingRoom(roomType.getDefaultBookingRoom() - 1);
+            // set RoomPrice
+            List<RoomPrice> listRoomPrice = roomType.getRoomPrices();
+            for (RoomPrice roomPrice : listRoomPrice) {
+                boolean isPriceByDate = fiveman.hotelservice.utils.Utilities.compareTwoDateString(request.getBookingDates().getStartDate(), roomPrice.getDate());
+                if(isPriceByDate){
+                    if(roomType.getDefaultBookingRoom() > roomPrice.getMaxBookingRoom()){
+                        roomPrice.setMaxBookingRoom(roomPrice.getMaxBookingRoom() - 1);
+                        roomType.setDefaultBookingRoom(roomPrice.getMaxBookingRoom() - 1);
+                        roomPriceRepository.save(roomPrice);
+                    }
+                }
+            }
+
 //            RoomTypeRequest roomTypeRequest = mapper.map(roomType, RoomTypeRequest.class);
             Booking booking = new Booking();
             Hotel hotel = hotelRepository.getHotelById(request.getHotel_id());
@@ -367,12 +384,26 @@ public class PaymentServiceImpl implements PaymentService {
                     specialRequestRepository.save(specialRequest);
                 }
             }
-            bookingResponse.setBooking(booking);
+
+            Booking bookingLatest = bookingRepository.findTopByOrderByIdDesc();
+            //set booking order
+            for (Order orderSave: orderList) {
+                orderSave.setBooking(bookingLatest);
+                orderRepository.save(orderSave);
+            }
+
+            //set orderDetail
+            for (OrderDetail orDetail: orderDetailList) {
+                orDetail.setOrder(orderList.get(0));
+                orderDetailRepository.save(orDetail);
+            }
+            roomTypeRepository.save(roomType);
+            bookingResponse.setBooking(bookingLatest);
             bookingResponse.setRoomType(roomType);
             bookingResponse.setHotel(hotel);
             listBooking.add(bookingResponse);
         }
-        emailService.sendMail(listBooking);
+//        emailService.sendMail(listBooking);
         return listBooking;
     }
 

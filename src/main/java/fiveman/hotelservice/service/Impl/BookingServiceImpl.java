@@ -3,21 +3,14 @@ package fiveman.hotelservice.service.Impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import fiveman.hotelservice.entities.Order;
+import fiveman.hotelservice.entities.*;
+import fiveman.hotelservice.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import fiveman.hotelservice.entities.Booking;
-import fiveman.hotelservice.entities.Customer;
-import fiveman.hotelservice.entities.CustomerBooking;
 import fiveman.hotelservice.exception.AppException;
-import fiveman.hotelservice.repository.BookingRepository;
-import fiveman.hotelservice.repository.CustomerBookingRepository;
-import fiveman.hotelservice.repository.CustomerRepository;
-import fiveman.hotelservice.repository.HotelRepository;
-import fiveman.hotelservice.repository.RoomRepository;
 import fiveman.hotelservice.request.BookingRequest;
 import fiveman.hotelservice.request.CheckInRequest;
 import fiveman.hotelservice.response.BookingObjectResponse;
@@ -57,6 +50,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    private RoomTypeRepository roomTypeRepository;
 
     public BookingObjectResponse mapBookingToResponse(Booking booking) {
         // BookingResponse bookingResponse = new BookingResponse();
@@ -224,6 +220,9 @@ public class BookingServiceImpl implements BookingService {
         if(booking.getRoomPayment().equals("N/A") || !isPayment){ //Booking not Payment
             throw new AppException(HttpStatus.BAD_REQUEST.value(), new CustomResponseObject(Common.GET_FAIL, "Can't Checkout please Payment!"));
         }else{
+            RoomType roomType = roomTypeRepository.getRoomTypeById(booking.getRoomTypeId());
+            roomType.setDefaultBookingRoom(roomType.getDefaultBookingRoom() + 1);
+            roomTypeRepository.save(roomType);
             bookingRepository.save(booking);
         }
         return modelMapper.map(booking, BookingObjectResponse.class);

@@ -270,6 +270,9 @@ public class PaymentServiceImpl implements PaymentService {
         List<Order> orderList = new ArrayList<>();
 //        List<Order> listOrder = new ArrayList<>();
         for (int i = 0; i < request.getRoomTypes().size(); i++) {
+            RoomType roomType = roomTypeRepository.getRoomTypeById(request.getRoomTypes().get(i).getId());
+            if(roomType.getDefaultBookingRoom() < 1){
+
             BookingResponse bookingResponse = new BookingResponse();
             List<OrderDetail> orderDetailList = new ArrayList<>();
 
@@ -323,7 +326,6 @@ public class PaymentServiceImpl implements PaymentService {
             }
 
             // set booking
-            RoomType roomType = roomTypeRepository.getRoomTypeById(request.getRoomTypes().get(i).getId());
             roomType.setDefaultBookingRoom(roomType.getDefaultBookingRoom() - 1);
             // set RoomPrice
             List<RoomPrice> listRoomPrice = roomType.getRoomPrices();
@@ -403,7 +405,8 @@ public class PaymentServiceImpl implements PaymentService {
             bookingResponse.setHotel(hotel);
             listBooking.add(bookingResponse);
         }
-//        emailService.sendMail(listBooking);
+        emailService.sendMail(listBooking);
+        }
         return listBooking;
     }
 

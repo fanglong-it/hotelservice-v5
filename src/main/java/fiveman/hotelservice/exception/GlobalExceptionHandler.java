@@ -17,7 +17,7 @@ import fiveman.hotelservice.response.CustomResponseObject;
 public class GlobalExceptionHandler {
 	Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-	@ExceptionHandler({ AppException.class })
+	@ExceptionHandler(AppException.class)
 	public ResponseEntity<CustomResponseObject> AppException(AppException e) {
 		return ResponseEntity.status(e.getCode())
 				.body(new CustomResponseObject(String.valueOf(e.getCode()), e.getErr().getMessage()));

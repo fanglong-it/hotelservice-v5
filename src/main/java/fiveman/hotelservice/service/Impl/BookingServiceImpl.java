@@ -3,6 +3,7 @@ package fiveman.hotelservice.service.Impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import fiveman.hotelservice.entities.Order;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -212,8 +213,15 @@ public class BookingServiceImpl implements BookingService {
         String currentDateTime = Utilities.getCurrentDateByFormat("dd/MM/yyyy HH:mm:ss");
         booking.setActualDepartureDate(currentDateTime);
         booking.setStatus(Common.BOOKING_CHECKOUT);
-        if(booking.getRoomPayment().equals("N/A")){ //Booking not Payment
-            throw new AppException(HttpStatus.BAD_REQUEST, new CustomResponseObject(Common.GET_FAIL, "Can't Checkout please Payment!"));
+        List<Order> listOrder = booking.getOrders();
+        boolean isPayment = true;
+        for (Order order : listOrder) {
+            if(order.getOrderPayment() != null){
+                isPayment = true;
+            }
+        }
+        if(booking.getRoomPayment().equals("N/A") || !isPayment){ //Booking not Payment
+            throw new AppException(HttpStatus.BAD_REQUEST.value(), new CustomResponseObject(Common.GET_FAIL, "Can't Checkout please Payment!"));
         }else{
             bookingRepository.save(booking);
         }

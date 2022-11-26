@@ -68,6 +68,12 @@ public class Common {
     public static  final String BOOKING_NOT_SHOW = "not show";
     public static  final String BOOKING_DONE = "done";
     public static  final String BOOKING_CANCEL = "cancel";
+
+    public static final String BOOKING_CHECKIN = "Check In";
+    public static final String BOOKING_CHECKOUT = "Check Out";
+    
+
+    
     
     // code for momo payment
     public static final String IPN_URL_MOMO = "https://hotelservice-v5.herokuapp.com/api/v1/MomoConfirm";

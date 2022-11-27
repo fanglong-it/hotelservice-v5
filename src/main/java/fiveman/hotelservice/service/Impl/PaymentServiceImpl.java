@@ -75,6 +75,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     private RoomPriceRepository roomPriceRepository;
+
     @Override
     public ResponseEntity<MomoResponse> getPaymentMomo(MomoClientRequest request) {
 
@@ -108,7 +109,7 @@ public class PaymentServiceImpl implements PaymentService {
         // String requestId = new String(array, Charset.forName("UTF-8"));
         // String requestId = String.valueOf(order.getId());
 
-        DecimalFormat df = new DecimalFormat("#");     
+        DecimalFormat df = new DecimalFormat("#");
 
         String amount = String.valueOf(df.format(request.getAmount()));
 
@@ -162,7 +163,7 @@ public class PaymentServiceImpl implements PaymentService {
                     new CustomResponseObject(Common.ADDING_FAIL, message));
         }
         return null;
-    
+
     }
 
     @Override
@@ -265,147 +266,150 @@ public class PaymentServiceImpl implements PaymentService {
     public List<BookingResponse> validateVNPay(VnPayConfirmRequest request) {
         Booking lastBooking = bookingRepository.findTopByOrderByIdDesc();
         int confirmation_No = lastBooking.getConfirmationNo() + 1;
-        customerRepository.save(request.getCustomer());
         List<BookingResponse> listBooking = new ArrayList<>();
         List<Order> orderList = new ArrayList<>();
 //        List<Order> listOrder = new ArrayList<>();
         for (int i = 0; i < request.getRoomTypes().size(); i++) {
             RoomType roomType = roomTypeRepository.getRoomTypeById(request.getRoomTypes().get(i).getId());
-            if(roomType.getDefaultBookingRoom() < 1){
+            if (roomType.getDefaultBookingRoom() != 0) {
+                if (i == 0) {
+                    customerRepository.save(request.getCustomer());
+                }
+                BookingResponse bookingResponse = new BookingResponse();
+                List<OrderDetail> orderDetailList = new ArrayList<>();
 
-            BookingResponse bookingResponse = new BookingResponse();
-            List<OrderDetail> orderDetailList = new ArrayList<>();
+                Order order = new Order();
+                OrderDetail orderDetail = new OrderDetail();
 
-            Order order = new Order();
-            OrderDetail orderDetail = new OrderDetail();
+                // set order and order detail if exist
+                if (request.getServiceBooking().getId() > 0) {
+                    fiveman.hotelservice.entities.Service service = serviceRepository.getServiceById(request.getServiceBooking().getId());
+                    //set service into response
+                    bookingResponse.setService(service);
+                    // set Order for booking
+                    order.setCreateDate(Utilities.getCurrentDateByFormat("dd/MM/yyyy"));
+                    order.setCreateBy(request.getCustomer().getFirstName() + " " + request.getCustomer().getMiddleName() + " " + request.getCustomer().getLastName());
+                    if (request.getPaymentMethod() != 0) {
+                        order.setStatus("DONE");
+                        // set payment method
+                        PaymentMethod paymentMethod = paymentMethodRepository.getPaymentMethodById(request.getPaymentMethod());
 
-            // set order and order detail if exist
-            if(request.getServiceBooking().getId() > 0){
-                fiveman.hotelservice.entities.Service service = serviceRepository.getServiceById(request.getServiceBooking().getId());
-                //set service into response
-                bookingResponse.setService(service);
-                // set Order for booking
-                order.setCreateDate(Utilities.getCurrentDate());
-                order.setCreateBy(request.getCustomer().getFirstName() + " " + request.getCustomer().getMiddleName() + " " + request.getCustomer().getLastName());
-                if(request.getPaymentMethod() != 0){
-                    order.setStatus("DONE");
-                    // set payment method
-                    PaymentMethod paymentMethod = paymentMethodRepository.getPaymentMethodById(request.getPaymentMethod());
+                        //set order payment method
+                        OrderPayment orderPayment = new OrderPayment();
+                        orderPayment.setPaymentAmount(service.getPrice());
+                        orderPayment.setPaymentMethod(paymentMethod);
+                        orderPayment.setDateTime(Utilities.getCurrentDateByFormat("dd/MM/yyyy"));
+                        orderPaymentRepository.save(orderPayment);
 
-                    //set order payment method
-                    OrderPayment orderPayment = new OrderPayment();
-                    orderPayment.setPaymentAmount(service.getPrice());
-                    orderPayment.setPaymentMethod(paymentMethod);
-                    orderPayment.setDateTime(Utilities.getCurrentDate());
-                    orderPaymentRepository.save(orderPayment);
+                        // set order payment to order
+                        OrderPayment orPay = orderPaymentRepository.findTopByOrderByIdDesc();
+                        order.setOrderPayment(orPay);
+                    } else {
+                        order.setStatus("BOOKED");
+                    }
 
-                    // set order payment to order
-                    OrderPayment orPay = orderPaymentRepository.findTopByOrderByIdDesc();
-                    order.setOrderPayment(orPay);
-                }else{
-                    order.setStatus("BOOKED");
+                    // order detail
+
+                    orderDetail.setService(service);
+                    orderDetail.setQuantity(1);
+                    orderDetail.setPrice(service.getPrice());
+                    orderDetail.setAmount(orderDetail.getQuantity() * orderDetail.getPrice());
+                    orderDetail.setOrderDate(Utilities.getCurrentDateByFormat("dd/MM/yyyy"));
+
+                    orderDetailRepository.save(orderDetail);
+                    OrderDetail orDetail = orderDetailRepository.findTopByOrderByIdDesc();
+                    orderDetailList.add(orDetail);
+
+                    order.setTotalAmount(orderDetail.getAmount());
+                    order.setOrderDetails(orderDetailList);
+                    orderRepository.save(order);
+                    Order or = orderRepository.findTopByOrderByIdDesc();
+                    orderList.add(or);
                 }
 
-                // order detail
-
-                orderDetail.setService(service);
-                orderDetail.setQuantity(1);
-                orderDetail.setPrice(service.getPrice());
-                orderDetail.setAmount(orderDetail.getQuantity() * orderDetail.getPrice());
-                orderDetail.setOrderDate(Utilities.getCurrentDate());
-
-                orderDetailRepository.save(orderDetail);
-                OrderDetail orDetail = orderDetailRepository.findTopByOrderByIdDesc();
-                orderDetailList.add(orDetail);
-
-                order.setTotalAmount(orderDetail.getAmount());
-                order.setOrderDetails(orderDetailList);
-                orderRepository.save(order);
-                Order or = orderRepository.findTopByOrderByIdDesc();
-                orderList.add(or);
-            }
-
-            // set booking
-            roomType.setDefaultBookingRoom(roomType.getDefaultBookingRoom() - 1);
-            // set RoomPrice
-            List<RoomPrice> listRoomPrice = roomType.getRoomPrices();
-            for (RoomPrice roomPrice : listRoomPrice) {
-                boolean isPriceByDate = fiveman.hotelservice.utils.Utilities.compareTwoDateString(request.getBookingDates().getStartDate(), roomPrice.getDate());
-                if(isPriceByDate){
-                    if(roomType.getDefaultBookingRoom() > roomPrice.getMaxBookingRoom()){
-                        roomPrice.setMaxBookingRoom(roomPrice.getMaxBookingRoom() - 1);
-                        roomType.setDefaultBookingRoom(roomPrice.getMaxBookingRoom() - 1);
-                        roomPriceRepository.save(roomPrice);
+                // set booking
+                roomType.setDefaultBookingRoom(roomType.getDefaultBookingRoom() - 1);
+                // set RoomPrice
+                List<RoomPrice> listRoomPrice = roomType.getRoomPrices();
+                for (RoomPrice roomPrice : listRoomPrice) {
+                    boolean isPriceByDate = fiveman.hotelservice.utils.Utilities.compareTwoDateString(request.getBookingDates().getStartDate(), roomPrice.getDate());
+                    if (isPriceByDate) {
+                        if (roomType.getDefaultBookingRoom() > roomPrice.getMaxBookingRoom()) {
+                            roomPrice.setMaxBookingRoom(roomPrice.getMaxBookingRoom() - 1);
+                            roomType.setDefaultBookingRoom(roomPrice.getMaxBookingRoom() - 1);
+                            roomPriceRepository.save(roomPrice);
+                        }
                     }
                 }
-            }
 
 //            RoomTypeRequest roomTypeRequest = mapper.map(roomType, RoomTypeRequest.class);
-            Booking booking = new Booking();
-            Hotel hotel = hotelRepository.getHotelById(request.getHotel_id());
-            booking.setRoomTypeId(request.getRoomTypes().get(i).getId());
-            booking.setCustomer(request.getCustomer());
-            booking.setHotel(hotel);
-            booking.setArrivalDate(request.getBookingDates().getStartDate());
-            booking.setCreateBy(request.getCustomer().getFirstName() + " " + request.getCustomer().getMiddleName() + " "
-                    + request.getCustomer().getLastName());
-            booking.setCreateDate(Utilities.getCurrentDate());
-            booking.setConfirmationNo(confirmation_No);
-            booking.setStatus(Common.BOOKING_BOOKED);
-            booking.setDepartureDate(request.getBookingDates().getEndDate());
+                Booking booking = new Booking();
+                Hotel hotel = hotelRepository.getHotelById(request.getHotel_id());
+                booking.setRoomTypeId(request.getRoomTypes().get(i).getId());
+                booking.setCustomer(request.getCustomer());
+                booking.setHotel(hotel);
+                booking.setArrivalDate(request.getBookingDates().getStartDate());
+                booking.setCreateBy(request.getCustomer().getFirstName() + " " + request.getCustomer().getMiddleName() + " "
+                        + request.getCustomer().getLastName());
+                booking.setCreateDate(Utilities.getCurrentDateByFormat("dd/MM/yyyy"));
+                booking.setConfirmationNo(confirmation_No);
+                booking.setStatus(Common.BOOKING_BOOKED);
+                booking.setDepartureDate(request.getBookingDates().getEndDate());
 
-            // set booking notes
-            if (!Utilities.isEmptyString(request.getBookingNotes())) {
-                booking.setSpecialNote(request.getBookingNotes());
-            }
-
-            // set booking room payment
-            if (!Utilities.isEmptyString(request.getVnp_Amount())) {
-                booking.setRoomPayment(String.valueOf(request.getRoomTypes().get(i).getPrice()));
-            } else {
-                booking.setRoomPayment("N/A");
-            }
-
-            // set child and adult
-            for (int j = 0; j < request.getPersons().size(); j++) {
-                if (i == j) {
-                    booking.setNumOfAdult(request.getPersons().get(j).getAdult());
-                    booking.setNumOfChildren(request.getPersons().get(j).getChild());
+                // set booking notes
+                if (!Utilities.isEmptyString(request.getBookingNotes())) {
+                    booking.setSpecialNote(request.getBookingNotes());
                 }
-            }
 
-            //set list order
-            booking.setOrders(orderList);
-            bookingRepository.save(booking);
-
-            if (request.getSpecialUtilities().size() > 0) {
-                for (SpecialUtility specialUtility : request.getSpecialUtilities()) {
-                    SpecialRequest specialRequest = new SpecialRequest();
-                    specialRequest.setBooking(booking);
-                    specialRequest.setSpecialUtility(specialUtility);
-                    specialRequestRepository.save(specialRequest);
+                // set booking room payment
+                if (!Utilities.isEmptyString(request.getVnp_Amount())) {
+                    booking.setRoomPayment(String.valueOf(request.getRoomTypes().get(i).getPrice()));
+                } else {
+                    booking.setRoomPayment("N/A");
                 }
-            }
 
-            Booking bookingLatest = bookingRepository.findTopByOrderByIdDesc();
-            //set booking order
-            for (Order orderSave: orderList) {
-                orderSave.setBooking(bookingLatest);
-                orderRepository.save(orderSave);
-            }
+                // set child and adult
+                for (int j = 0; j < request.getPersons().size(); j++) {
+                    if (i == j) {
+                        booking.setNumOfAdult(request.getPersons().get(j).getAdult());
+                        booking.setNumOfChildren(request.getPersons().get(j).getChild());
+                    }
+                }
 
-            //set orderDetail
-            for (OrderDetail orDetail: orderDetailList) {
-                orDetail.setOrder(orderList.get(0));
-                orderDetailRepository.save(orDetail);
+                //set list order
+                booking.setOrders(orderList);
+                bookingRepository.save(booking);
+
+                if (request.getSpecialUtilities().size() > 0) {
+                    for (SpecialUtility specialUtility : request.getSpecialUtilities()) {
+                        SpecialRequest specialRequest = new SpecialRequest();
+                        specialRequest.setBooking(booking);
+                        specialRequest.setSpecialUtility(specialUtility);
+                        specialRequestRepository.save(specialRequest);
+                    }
+                }
+
+                Booking bookingLatest = bookingRepository.findTopByOrderByIdDesc();
+                //set booking order
+                for (Order orderSave : orderList) {
+                    orderSave.setBooking(bookingLatest);
+                    orderRepository.save(orderSave);
+                }
+
+                //set orderDetail
+                for (OrderDetail orDetail : orderDetailList) {
+                    orDetail.setOrder(orderList.get(0));
+                    orderDetailRepository.save(orDetail);
+                }
+                roomTypeRepository.save(roomType);
+                bookingResponse.setBooking(bookingLatest);
+                bookingResponse.setRoomType(roomType);
+                bookingResponse.setHotel(hotel);
+                listBooking.add(bookingResponse);
             }
-            roomTypeRepository.save(roomType);
-            bookingResponse.setBooking(bookingLatest);
-            bookingResponse.setRoomType(roomType);
-            bookingResponse.setHotel(hotel);
-            listBooking.add(bookingResponse);
         }
-        emailService.sendMail(listBooking);
+        if (listBooking.size() > 0) {
+            emailService.sendMail(listBooking);
         }
         return listBooking;
     }

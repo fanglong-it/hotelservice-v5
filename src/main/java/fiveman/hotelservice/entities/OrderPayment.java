@@ -26,7 +26,7 @@ public class OrderPayment {
 
     private String dateTime;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = PaymentMethod.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = PaymentMethod.class)
     private PaymentMethod paymentMethod;
 
     // @OneToMany(mappedBy = "orderPayment", targetEntity = Order.class, fetch = FetchType.LAZY)

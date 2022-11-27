@@ -42,21 +42,25 @@ public class Booking {
     private String createBy;
     private String lastModifyBy;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Hotel.class)
     @JsonBackReference
     private Hotel hotel;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Room.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Room.class)
     private Room room;
     
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Customer.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Customer.class)
     private Customer customer;
 
+<<<<<<< HEAD
+    @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY)
+=======
     @OneToMany(mappedBy = "booking", targetEntity = RequestService.class)
+>>>>>>> main
     @JsonManagedReference
     private List<RequestService> requestServices;
 
-    @OneToMany(mappedBy = "booking")
+    @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Order> orders;
 }

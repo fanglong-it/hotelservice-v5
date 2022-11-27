@@ -37,7 +37,7 @@ public class New {
     private String status;
     private int numberOfView;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Hotel.class)
     private Hotel hotel;
 
 

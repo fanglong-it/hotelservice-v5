@@ -14,6 +14,7 @@ import fiveman.hotelservice.utils.Common;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -96,7 +97,8 @@ public class RoomTypeServiceImpl implements RoomTypeService {
         if (!isDateCheckInValid || !isDateCheckoutValid) {
             throw new AppException(HttpStatus.BAD_REQUEST.value(), new CustomResponseObject(Common.GET_FAIL, "Invalid Date"));
         }
-        List<RoomType> listRoomType = roomTypeRepository.findAll();
+
+        List<RoomType> listRoomType = roomTypeRepository.findAll(Sort.by(Sort.Direction.ASC, "defaultPrice"));
         List<RoomAvailabilityResponse> listRoomAvailable = new ArrayList<RoomAvailabilityResponse>();
         if (fiveman.hotelservice.utils.Utilities.isEmptyString(numberOfPerson)) {
             numberOfPerson = "1";
@@ -112,13 +114,13 @@ public class RoomTypeServiceImpl implements RoomTypeService {
                     listRoomAbstract.add(room);
                 }
             }
-            List<Room> listRoomByEndDate = roomRepository.getRoomByBookingEndDate(roomType.getId(), dateCheckIn + " 00:00:00");
+            List<Room> listRoomByEndDate = roomRepository.getRoomByBookingEndDate(roomType.getId(), dateCheckIn);
 
             for (Room room : listRoomByEndDate) {
                 listRoomAbstract.add(room);
             }
 
-            if(roomType.getDefaultBookingRoom() > listRoomAvailable.size()){
+            if(roomType.getDefaultBookingRoom() > listRoomAbstract.size()){
                 roomType.setDefaultBookingRoom(listRoomAbstract.size());
             }
 

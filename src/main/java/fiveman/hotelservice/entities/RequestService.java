@@ -25,7 +25,11 @@ public class RequestService {
     private String status;
 
     
+<<<<<<< HEAD
     @ManyToOne(fetch = FetchType.LAZY)
+=======
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Booking.class)
+>>>>>>> main
     @JsonBackReference
     private Booking booking;
 

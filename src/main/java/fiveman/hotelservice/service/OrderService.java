@@ -3,6 +3,7 @@ package fiveman.hotelservice.service;
 import fiveman.hotelservice.entities.Order;
 import fiveman.hotelservice.request.OrderRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
+import fiveman.hotelservice.response.OrderResponse;
 
 import java.util.List;
 
@@ -10,6 +11,8 @@ public interface OrderService {
     Order getBillById(long id);
 
     List<Order> getAllBill();
+
+    List<OrderResponse> getAllOrderFandB();
 
     List<Order> getAllOrderByBookingId(long id);
     

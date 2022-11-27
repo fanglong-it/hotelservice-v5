@@ -5,17 +5,21 @@ import fiveman.hotelservice.entities.OrderDetail;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.OrderDetailRepository;
 import fiveman.hotelservice.repository.OrderRepository;
+import fiveman.hotelservice.repository.ServiceRepository;
 import fiveman.hotelservice.request.OrderDetailRequest;
 import fiveman.hotelservice.request.OrderRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
+import fiveman.hotelservice.response.OrderResponse;
 import fiveman.hotelservice.service.OrderService;
 import fiveman.hotelservice.utils.Common;
+import fiveman.hotelservice.utils.Utilities;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,50 +34,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     OrderDetailRepository orderDetailRepository;
-
-    // public class OrderDetailRequest {
-
-    //     @ApiModelProperty(required = true)
-    //     private long id;
-        
-    //     @ApiModelProperty(required = true)
-    //     private long service_Id;
-    
-    //     @ApiModelProperty(required = true)
-    //     private long order_Id;
-    
-    //     @ApiModelProperty(required = true)
-    //     private int quantity;
-    
-    //     @ApiModelProperty(required = true)
-    //     private double price;
-    
-    //     @ApiModelProperty(required = true)
-    //     private double amount;
-    
-    //     private String orderDate;
-    
-    // }
-
-    // OrderDetailResponse mapBillDetailToResponse(OrderDetail billDetail) {
-    //     //        private long id;
-    //     //        private long service_Id;
-    //     //        private long bill_Id;
-    //     //        private int quantity;
-    //     //        private double price;
-    //     //        private double amount;
-    //     //        private int status;
-    //             OrderDetailResponse billDetailResponse
-    //                     = new OrderDetailResponse();
-    //             billDetailResponse.setId(billDetail.getId());
-    //             billDetailResponse.setService(serviceRepository.getServiceById(billDetail.getService().getId()));
-    //             billDetailResponse.setOrder_Id(billDetail.getOrder().getId());
-    //             billDetailResponse.setQuantity(billDetail.getQuantity());
-    //             billDetailResponse.setPrice(billDetail.getPrice());
-    //             billDetailResponse.setAmount(billDetail.getAmount());
-    //             billDetailResponse.setOrderDate(billDetail.getOrderDate());
-    //             return billDetailResponse;
-    //         }
 
     
     @Override
@@ -156,4 +116,37 @@ public class OrderServiceImpl implements OrderService {
         return new CustomResponseObject(Common.DELETE_SUCCESS, "Update Success!");
 
     }
+
+
+    OrderResponse mapOrderToResponse(Order order){
+        OrderResponse orderResponse = modelMapper.map(order, OrderResponse.class);
+        return orderResponse;
+    }
+
+    @Autowired
+    ServiceRepository serviceRepository;
+    @Override
+    public List<OrderResponse> getAllOrderFandB() {
+        // List<Order> orders = orderRepository.getAllOrderByStatus("BOOKED");
+        List<Order> orders = orderRepository.findAll();
+        //BOOKED -> PROCESSING - > DONE
+        List<OrderResponse> orderResponses = new ArrayList<>();
+        // List<OrderResponse> tmpList = new ArrayList<>();
+        for (Order order : orders) {
+            OrderResponse orderResponse = mapOrderToResponse(order);
+            orderResponse.getBooking().setHotel(null);
+            orderResponse.getBooking().setOrders(null);
+            orderResponse.getBooking().setRequestServices(null);
+            // for (OrderDetail orderDetail : orderResponse.getOrderDetails()) {
+            //     orderDetail.setService(serviceRepository.getServiceById(orderDetail.getService().getId()));
+            // }
+            
+            orderResponses.add(orderResponse);
+        }
+        return orderResponses;
+    }
+
+
+    
+
 }

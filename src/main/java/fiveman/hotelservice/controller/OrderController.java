@@ -3,6 +3,7 @@ package fiveman.hotelservice.controller;
 import fiveman.hotelservice.entities.Order;
 import fiveman.hotelservice.request.OrderRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
+import fiveman.hotelservice.response.OrderResponse;
 import fiveman.hotelservice.service.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -66,6 +67,14 @@ public class OrderController {
     public ResponseEntity<Order> submitOrder(@org.springframework.web.bind.annotation.RequestBody OrderRequest orderRequest){
         return new ResponseEntity<>(orderService.submitOrderService(orderRequest), HttpStatus.OK);
     }
+
+
+    @GetMapping("/orderFandB")
+    public ResponseEntity<List<OrderResponse>> getOrderForFandB(){
+        return new ResponseEntity<>(orderService.getAllOrderFandB(), HttpStatus.OK);
+    }
+
+
 
 
 }

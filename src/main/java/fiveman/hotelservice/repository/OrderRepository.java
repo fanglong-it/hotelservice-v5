@@ -11,8 +11,10 @@ import org.springframework.stereotype.Repository;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     Order getOrderById(long id);
 
+
     List<Order> getAllOrderByBooking_Id(long id);
-    
+    List<Order> getAllOrderByStatus(String status);
+
     Order findTopByOrderByIdDesc();
 }
 

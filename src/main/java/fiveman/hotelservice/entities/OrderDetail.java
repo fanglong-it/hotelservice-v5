@@ -20,8 +20,13 @@ public class OrderDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+<<<<<<< HEAD
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
+=======
+    @ManyToOne(fetch = FetchType.EAGER)
+    // @JsonBackReference
+>>>>>>> main
     private Service service;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Order.class)

@@ -21,6 +21,6 @@ public class RoomAlarm {
 
     private boolean status;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Booking.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Booking.class)
     private Booking booking;
 }

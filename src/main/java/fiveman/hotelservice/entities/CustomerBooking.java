@@ -18,10 +18,10 @@ public class CustomerBooking {
     @ApiModelProperty(required = true)
     private long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Customer.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Customer.class)
     private Customer customer;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Booking.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Booking.class)
     private Booking booking;
 
     private String primaryCustomer;

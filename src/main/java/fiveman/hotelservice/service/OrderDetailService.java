@@ -20,6 +20,8 @@ public interface OrderDetailService {
     CustomResponseObject updateBillDetail(OrderDetail billDetail);
 
     ServiceResponse checkExistTaxiServiceInBooking(long booking_id);
+
+    
 }
 
 

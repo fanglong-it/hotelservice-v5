@@ -37,18 +37,19 @@ public class RoomType implements Serializable{
       private boolean isActive;
       private double defaultPrice;
       private int defaultBookingRoom;
-
+      private String code;
       private String bedType;
+      private int numOfRoom;
 
-      @OneToMany(mappedBy = "roomType")
+      @OneToMany(mappedBy = "roomType", fetch = FetchType.LAZY)
       @JsonManagedReference
       private List<RoomPrice> roomPrices;
 
-      @OneToMany(mappedBy = "roomType")
+      @OneToMany(mappedBy = "roomType" , fetch = FetchType.LAZY)
       @JsonManagedReference
       private List<RoomTypeUtilities> roomTypeUtilities;
       
-      @OneToMany(mappedBy = "roomType")
+      @OneToMany(mappedBy = "roomType", fetch = FetchType.LAZY)
       @JsonManagedReference
       private List<Room> rooms;
       

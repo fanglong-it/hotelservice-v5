@@ -2,6 +2,7 @@ package fiveman.hotelservice.service.Impl;
 
 import fiveman.hotelservice.entities.Order;
 import fiveman.hotelservice.entities.OrderDetail;
+import fiveman.hotelservice.entities.ServiceCategory;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.OrderDetailRepository;
 import fiveman.hotelservice.repository.OrderRepository;
@@ -125,22 +126,30 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     ServiceRepository serviceRepository;
+
+
     @Override
     public List<OrderResponse> getAllOrderFandB() {
         // List<Order> orders = orderRepository.getAllOrderByStatus("BOOKED");
         List<Order> orders = orderRepository.findAll();
         //BOOKED -> PROCESSING - > DONE
         List<OrderResponse> orderResponses = new ArrayList<>();
+
         // List<OrderResponse> tmpList = new ArrayList<>();
         for (Order order : orders) {
+            List<OrderDetail> listOrderDetails = new ArrayList<>();
             OrderResponse orderResponse = mapOrderToResponse(order);
             orderResponse.getBooking().setHotel(null);
             orderResponse.getBooking().setOrders(null);
             orderResponse.getBooking().setRequestServices(null);
-            // for (OrderDetail orderDetail : orderResponse.getOrderDetails()) {
-            //     orderDetail.setService(serviceRepository.getServiceById(orderDetail.getService().getId()));
-            // }
-            
+             for (OrderDetail orderDetail : orderResponse.getOrderDetails()) {
+                fiveman.hotelservice.entities.Service service = orderDetail.getService();
+                ServiceCategory serviceCategory = service.getServiceCategory();
+                if(serviceCategory.isFoodAndBeverage()){
+                    listOrderDetails.add(orderDetail);
+                }
+             }
+            order.setOrderDetails(listOrderDetails);
             orderResponses.add(orderResponse);
         }
         return orderResponses;

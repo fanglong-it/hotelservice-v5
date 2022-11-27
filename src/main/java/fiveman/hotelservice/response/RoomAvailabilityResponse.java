@@ -27,6 +27,8 @@ public class RoomAvailabilityResponse{
       private int defaultOccupancy;
       private double defaultPrice;
       private boolean isActive;
+      private String bedType;
+      private int numOfRoom;
       private List<RoomPrice> roomPrices;
       private List<Room> rooms;
       private List<Utilities> utilities;

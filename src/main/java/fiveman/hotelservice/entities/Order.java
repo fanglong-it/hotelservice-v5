@@ -22,14 +22,14 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Booking.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Booking.class)
     @JsonBackReference
     private Booking booking;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = OrderPayment.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = OrderPayment.class)
     private OrderPayment orderPayment;
 
-    @OneToMany(mappedBy = "order", targetEntity = OrderDetail.class)
+    @OneToMany(mappedBy = "order", targetEntity = OrderDetail.class, fetch = FetchType.LAZY)
     private List<OrderDetail> orderDetails;
     
     private double totalAmount;

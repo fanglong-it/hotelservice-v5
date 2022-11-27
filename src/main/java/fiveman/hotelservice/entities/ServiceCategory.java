@@ -30,10 +30,10 @@ public class ServiceCategory {
       boolean ordered;
 
       boolean status;
-      @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
+      @ManyToOne(fetch = FetchType.LAZY, targetEntity = Hotel.class)
       private Hotel hotel;
 
-      @OneToMany(mappedBy = "serviceCategory")
+      @OneToMany(mappedBy = "serviceCategory", fetch = FetchType.LAZY)
       @JsonManagedReference
       List<Service> services;
 

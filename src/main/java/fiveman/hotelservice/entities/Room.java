@@ -25,11 +25,11 @@ public class Room {
     private String lastModifyBy;
     private boolean status = false;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Hotel.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Hotel.class)
     @JsonBackReference
     private Hotel hotel;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = RoomType.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = RoomType.class)
     @JsonBackReference
     private RoomType roomType;
 

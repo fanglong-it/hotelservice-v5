@@ -57,7 +57,8 @@ public class RoomServiceImpl implements RoomService {
             roomResponse.setCreateBy(room.getCreateBy());
             roomResponse.setLastModifyBy(room.getLastModifyBy());
             roomResponse.setHotel_Id(room.getHotel().getId());
-            roomResponse.setRoomType_Id(room.getRoomType().getId());
+            roomResponse.setRoomType(room.getRoomType());
+            roomResponse.getRoomType().setRooms(null);
             return roomResponse;
       }
 

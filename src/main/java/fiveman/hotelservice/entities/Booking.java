@@ -47,16 +47,14 @@ public class Booking {
     private Hotel hotel;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Room.class)
+    @JsonBackReference
     private Room room;
     
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Customer.class)
+    @JsonBackReference
     private Customer customer;
 
-<<<<<<< HEAD
-    @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY)
-=======
-    @OneToMany(mappedBy = "booking", targetEntity = RequestService.class)
->>>>>>> main
+    @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY, targetEntity = RequestService.class)
     @JsonManagedReference
     private List<RequestService> requestServices;
 

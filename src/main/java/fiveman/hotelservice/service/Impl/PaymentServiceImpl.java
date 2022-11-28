@@ -98,12 +98,12 @@ public class PaymentServiceImpl implements PaymentService {
         // "0123456789", "dat@gmail.com");
         List<String> oList = request.getOrderId();
         String orderId = String.join("-", oList);
-
+        // String requestId = 
         // Order order = orderRepository.getOrderById(Long.parseLong(request.getOrderId()));
 
         // long amount = 200000;
-        byte[] array = new byte[10]; // length is bounded by 7
-        new Random().nextBytes(array);
+        // byte[] array = new byte[10]; // length is bounded by 7
+        // new Random().nextBytes(array);
 
 
         // String requestId = new String(array, Charset.forName("UTF-8"));

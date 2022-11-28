@@ -155,4 +155,15 @@ public class RoomTypeServiceImpl implements RoomTypeService {
         return listRoomAvailable;
     }
 
+    @Override
+    public List<RoomAvailabilityResponse> checkAvailabilityByRoomType(String dateCheckIn, String dateCheckout,
+            String numberOfPerson, int roomTypeId) {
+        List<RoomAvailabilityResponse> checkAvailabilityResponses = checkAvailability(dateCheckIn, dateCheckout, numberOfPerson);
+        
+        List<RoomAvailabilityResponse> responses = new ArrayList<>();
+        return null;
+    }
+
+    
+
 }

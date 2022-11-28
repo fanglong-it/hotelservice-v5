@@ -126,6 +126,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     ServiceRepository serviceRepository;
+
+
     @Override
     public List<OrderResponse> getAllOrderFandB() {
         // List<Order> orders = orderRepository.getAllOrderByStatus("BOOKED");
@@ -152,6 +154,64 @@ public class OrderServiceImpl implements OrderService {
         }
         return orderResponses;
     }
+
+    @Override
+    public OrderResponse confirmOrderService(long orderId, String status) {
+        Order order = orderRepository.getOrderById(orderId);
+       
+
+        if(status.equals(Common.ORDER_BOOKED) && order.getStatus().equals(status)){
+            order.setStatus("PROCESSING");
+            // orderRepository.save(order);
+        }else if(status.equals(Common.ORDER_PROCESS) && order.getStatus().equals(status)){
+            order.setStatus("DONE");
+        }
+        order.setTotalAmount(Utilities.calculateTotalAmount(order.getOrderDetails()));
+        orderRepository.save(order);
+        OrderResponse orderResponse = mapOrderToResponse(orderRepository.getOrderById(orderId));
+        orderResponse.getBooking().setHotel(null);
+        orderResponse.getBooking().setOrders(null);
+        orderResponse.getBooking().setRequestServices(null);
+        return orderResponse;
+    }
+
+    @Override
+    public OrderResponse deleteOrderDetailService(long orderId, long orderDetailId) {
+        Order order = orderRepository.getOrderById(orderId);
+        List<OrderDetail> orderDetails = order.getOrderDetails();
+        boolean isChecked = true;
+        if(!order.getStatus().equals(Common.ORDER_BOOKED)){
+            isChecked = false;
+        }
+        if(isChecked){
+            for (OrderDetail orderDetail : orderDetails) {
+                if(orderDetail.getId() == orderDetailId){
+                    orderDetailRepository.deleteById(orderDetailId);
+                    orderDetails.remove(orderDetail);
+                    break;
+                }
+            }
+            if(orderDetails.size() > 0){
+                order.setOrderDetails(orderDetails);
+                order.setTotalAmount(Utilities.calculateTotalAmount(order.getOrderDetails()));
+                orderRepository.save(order);
+                order = orderRepository.getOrderById(orderId);
+            }else{
+                orderRepository.deleteById(order.getId());
+                throw new AppException(HttpStatus.OK.value(), new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Order Success!"));
+            }
+        }
+        OrderResponse orderResponse = mapOrderToResponse(order);
+        orderResponse.getBooking().setHotel(null);
+        orderResponse.getBooking().setOrders(null);
+        orderResponse.getBooking().setRequestServices(null);
+        return orderResponse;
+    }
+
+
+    
+
+    
 
 
     

@@ -33,7 +33,7 @@ public class OrderController {
     }
 
     @GetMapping("/orderByBooking")
-    public ResponseEntity<List<Order>> getAllOrderByBookingId(@RequestParam("booking_id") long id){
+    public ResponseEntity<List<Order>> getAllOrderByBookingId(@RequestParam("booking_id") long id) {
         return new ResponseEntity<List<Order>>(orderService.getAllOrderByBookingId(id), HttpStatus.OK);
     }
 
@@ -45,14 +45,15 @@ public class OrderController {
 
     @PostMapping("/order")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<CustomResponseObject> saveOrder(@org.springframework.web.bind.annotation.RequestBody OrderRequest orderRequest) {
+    public ResponseEntity<CustomResponseObject> saveOrder(
+            @org.springframework.web.bind.annotation.RequestBody OrderRequest orderRequest) {
         Order order = modelMapper.map(orderRequest, Order.class);
         return new ResponseEntity<>(orderService.saveBill(order), HttpStatus.OK);
     }
 
     @PutMapping("/order")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<CustomResponseObject> updateOrder(@RequestBody @Valid OrderRequest billRequest) {
+    public ResponseEntity<CustomResponseObject> updateOrder(@org.springframework.web.bind.annotation.RequestBody @Valid OrderRequest billRequest) {
         Order bill = modelMapper.map(billRequest, Order.class);
         return new ResponseEntity<>(orderService.updateBill(bill), HttpStatus.OK);
     }
@@ -64,17 +65,29 @@ public class OrderController {
     }
 
     @PostMapping("/orderService")
-    public ResponseEntity<Order> submitOrder(@org.springframework.web.bind.annotation.RequestBody OrderRequest orderRequest){
+    public ResponseEntity<Order> submitOrder(
+            @org.springframework.web.bind.annotation.RequestBody OrderRequest orderRequest) {
         return new ResponseEntity<>(orderService.submitOrderService(orderRequest), HttpStatus.OK);
     }
 
-
     @GetMapping("/orderFoodAndBeverage")
-    public ResponseEntity<List<OrderResponse>> getOrderByFoodAndBeverage(){
+    public ResponseEntity<List<OrderResponse>> getOrderByFoodAndBeverage() {
         return new ResponseEntity<>(orderService.getAllOrderFandB(), HttpStatus.OK);
     }
 
+    // Order confirmOrderService(long orderId, String status);
 
+    // Order deleteOrderDetailService(long orderId, long orderDetailId);
 
+    @PostMapping("/confirmOrderService")
+    public ResponseEntity<OrderResponse> confirmOrderService(@RequestParam("orderId") long orderId,
+            @RequestParam("status") String status) {
+        return new ResponseEntity<>(orderService.confirmOrderService(orderId, status), HttpStatus.OK);
+    }
 
+    @DeleteMapping("/deleteOrderDetailService")
+    public ResponseEntity<OrderResponse> deleteOrderDetailService(@RequestParam("orderId") long orderId,
+            @RequestParam("orderDetailId") long orderDetailId) {
+        return new ResponseEntity<>(orderService.deleteOrderDetailService(orderId, orderDetailId), HttpStatus.OK);
+    }
 }

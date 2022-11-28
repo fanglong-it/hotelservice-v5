@@ -1,5 +1,6 @@
 package fiveman.hotelservice.response;
 
+import fiveman.hotelservice.entities.RoomType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,5 +21,5 @@ public class RoomResponse {
     private boolean status;
     private String lastModifyBy;
     private long hotel_Id;
-    private long roomType_Id;
+    private RoomType roomType;
 }

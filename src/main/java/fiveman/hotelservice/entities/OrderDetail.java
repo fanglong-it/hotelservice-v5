@@ -21,7 +21,7 @@ public class OrderDetail {
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
+    // @JsonBackReference
     private Service service;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Order.class)

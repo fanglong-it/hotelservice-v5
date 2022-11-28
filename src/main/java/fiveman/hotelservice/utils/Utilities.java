@@ -9,11 +9,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+
+import fiveman.hotelservice.entities.OrderDetail;
+
 
 public class Utilities {
       public static boolean isEmptyString(String result) {
@@ -112,6 +116,15 @@ public class Utilities {
             String LANGUAGE = "vi";
             String str = NumberFormat.getCurrencyInstance(new Locale(LANGUAGE, COUNTRY)).format(price);
             return str;
+      }
+
+
+      public static double calculateTotalAmount(List<OrderDetail> orderDetails){
+            double totalAmount = 0;
+            for (OrderDetail orderDetail : orderDetails) {
+                  totalAmount += (orderDetail.getQuantity() * orderDetail.getAmount());
+            }
+            return totalAmount;
       }
 
 

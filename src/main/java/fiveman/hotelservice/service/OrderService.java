@@ -23,4 +23,9 @@ public interface OrderService {
     CustomResponseObject updateBill(Order bill);
 
     CustomResponseObject deleteBillById(long id);
+
+    OrderResponse confirmOrderService(long orderId, String status);
+
+    OrderResponse deleteOrderDetailService(long orderId, long orderDetailId);
+
 }

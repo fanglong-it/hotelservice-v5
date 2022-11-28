@@ -47,7 +47,7 @@ public class Booking {
     private Hotel hotel;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Room.class)
-    private Room room;
+    private Room room;;
     
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Customer.class)
     private Customer customer;

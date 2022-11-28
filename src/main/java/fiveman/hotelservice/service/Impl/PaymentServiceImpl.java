@@ -287,7 +287,7 @@ public class PaymentServiceImpl implements PaymentService {
                     //set service into response
                     bookingResponse.setService(service);
                     // set Order for booking
-                    order.setCreateDate(Utilities.getCurrentDateByFormat("dd/MM/yyyy"));
+                    order.setCreateDate(Utilities.getCurrentDateByFormat("dd/MM/yyyy HH:mm:ss"));
                     order.setCreateBy(request.getCustomer().getFirstName() + " " + request.getCustomer().getMiddleName() + " " + request.getCustomer().getLastName());
                     if (request.getPaymentMethod() != 0) {
                         order.setStatus(Common.BOOKING_DONE);
@@ -298,7 +298,7 @@ public class PaymentServiceImpl implements PaymentService {
                         OrderPayment orderPayment = new OrderPayment();
                         orderPayment.setPaymentAmount(service.getPrice());
                         orderPayment.setPaymentMethod(paymentMethod);
-                        orderPayment.setDateTime(Utilities.getCurrentDateByFormat("dd/MM/yyyy"));
+                        orderPayment.setDateTime(Utilities.getCurrentDateByFormat("dd/MM/yyyy HH:mm:ss"));
                         orderPaymentRepository.save(orderPayment);
 
                         // set order payment to order
@@ -351,7 +351,7 @@ public class PaymentServiceImpl implements PaymentService {
                 booking.setArrivalDate(request.getBookingDates().getStartDate());
                 booking.setCreateBy(request.getCustomer().getFirstName() + " " + request.getCustomer().getMiddleName() + " "
                         + request.getCustomer().getLastName());
-                booking.setCreateDate(Utilities.getCurrentDateByFormat("dd/MM/yyyy"));
+                booking.setCreateDate(Utilities.getCurrentDateByFormat("dd/MM/yyyy HH:mm:ss"));
                 booking.setConfirmationNo(confirmation_No);
                 booking.setStatus(Common.BOOKING_BOOKED);
                 booking.setDepartureDate(request.getBookingDates().getEndDate());

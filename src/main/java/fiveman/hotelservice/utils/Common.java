@@ -69,8 +69,8 @@ public class Common {
     public static  final String BOOKING_DONE = "DONE";
     public static  final String BOOKING_CANCEL = "CANCEL";
 
-    public static final String BOOKING_CHECKIN = "Check In";
-    public static final String BOOKING_CHECKOUT = "Check Out";
+    public static final String BOOKING_CHECKIN = "CHECK IN";
+    public static final String BOOKING_CHECKOUT = "CHECK OUT";
     
     public static final String ORDER_BOOKED = "BOOKED";
     public static final String ORDER_PROCESS = "PROCESSING";
@@ -96,7 +96,7 @@ public class Common {
     public static final String VNP_HASHSCRET = "RAOFLVMYIXMFIPSSRIFYIAWLBOSIJTPQ";
     public static final String VNP_URI = "http://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
     public static final String VNP_ORDER_TYPE_HOTEL = "170000";
-    public static final String VNP_RETURNURL = "http://localhost:3000/RoomValidate";
+    public static final String VNP_RETURNURL = "http://localhost:3000/bookingConfirm";
     public static final String VNP_RETURN_URL_APP = "";
 
 

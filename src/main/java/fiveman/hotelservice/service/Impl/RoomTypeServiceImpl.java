@@ -114,7 +114,7 @@ public class RoomTypeServiceImpl implements RoomTypeService {
                     listRoomAbstract.add(room);
                 }
             }
-            List<Room> listRoomByEndDate = roomRepository.getRoomByBookingEndDate(roomType.getId(), dateCheckIn);
+            List<Room> listRoomByEndDate = roomRepository.getRoomByBookingEndDate(roomType.getId(), dateCheckIn + " 00:00:00");
 
             for (Room room : listRoomByEndDate) {
                 listRoomAbstract.add(room);

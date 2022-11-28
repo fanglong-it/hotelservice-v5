@@ -166,64 +166,73 @@ public class BookingServiceImpl implements BookingService {
     public CheckInResponse checkInBooking(CheckInRequest checkInRequest) {
 
         BookingRequest bookingRequest = checkInRequest.getBookingRequest();
-        Booking booking = modelMapper.map(bookingRequest, Booking.class);
 
-        //getCurrent Date time
-        String currentDateTime = Utilities.getCurrentDateByFormat("dd/MM/YYYY HH:mm:ss");
-        booking.setActualArrivalDate(currentDateTime);
-        booking.setUpdateDate(Utilities.getCurrentDateByFormat("dd/MM/YYYY"));
-        booking.setStatus(Common.BOOKING_CHECKIN);
-        booking.setCustomer(customerRepository.getCustomerById(booking.getCustomer().getId()));
-        booking.setHotel(hotelRepository.getHotelById(booking.getHotel().getId()));
-        booking.setRoom(roomRepository.getRoomById(booking.getRoom().getId()));
-        bookingRepository.save(booking);
-        booking = bookingRepository.getBookingById(booking.getId());
+        Booking booking = modelMapper.map(bookingRequest, Booking.class);
         List<Customer> customers = checkInRequest.getCustomer();
-        boolean checkOccur = true;
-        int occurpancy = booking.getRoom().getRoomType().getMaxOccupancy();
-        int roomOccurpancy = customers.size();
-        if (occurpancy < roomOccurpancy) {
-            checkOccur = false;
-        }
-        if (checkOccur) {
-            for (Customer customer : customers) {
-                customer.setId(0);
-                customerRepository.save(customer);
-                Customer newCustomer = customerRepository.findTopByOrderByIdDesc();
-                customer = newCustomer;
-                CustomerBooking customerBooking = new CustomerBooking(0, newCustomer, booking,
-                        booking.getCustomer().getLastName());
-                customerBookingRepository.save(customerBooking);
+        if (booking.getStatus().equals(Common.BOOKING_BOOKED)) {
+            // getCurrent Date time
+            String currentDateTime = Utilities.getCurrentDateByFormat("dd/MM/YYYY HH:mm:ss");
+            booking.setActualArrivalDate(currentDateTime);
+            booking.setUpdateDate(Utilities.getCurrentDateByFormat("dd/MM/YYYY HH:mm:ss"));
+            booking.setStatus(Common.BOOKING_CHECKIN);
+            booking.setCustomer(customerRepository.getCustomerById(bookingRequest.getCustomer_Id()));
+            booking.setHotel(hotelRepository.getHotelById(bookingRequest.getHotel_Id()));
+            booking.setRoom(roomRepository.getRoomById(bookingRequest.getRoom_Id()));
+            booking.setRoomPayment(bookingRequest.getRoomPayment());
+            bookingRepository.save(booking);
+            booking = bookingRepository.getBookingById(bookingRequest.getId());
+
+            if (booking.getRoom().getRoomType().getMaxOccupancy() > customers.size()) {
+                for (Customer customer : customers) {
+                    customer.setId(0);
+                    customerRepository.save(customer);
+                    Customer newCustomer = customerRepository.findTopByOrderByIdDesc();
+                    customer = newCustomer;
+                    CustomerBooking customerBooking = new CustomerBooking(0, newCustomer, booking,
+                            booking.getCustomer().getLastName());
+                    customerBookingRepository.save(customerBooking);
+                }
             }
         }
-
         CheckInResponse checkInResponse = new CheckInResponse();
-        checkInResponse.setBookingObjectResponse(modelMapper.map(booking, BookingObjectResponse.class));
         checkInResponse.setCustomers(customers);
+        checkInResponse.setBookingObjectResponse(modelMapper.map(booking, BookingObjectResponse.class));
         return checkInResponse;
     }
 
     @Override
     public BookingObjectResponse checkOutBooking(long bookingId) {
         Booking booking = bookingRepository.getBookingById(bookingId);
-        String currentDateTime = Utilities.getCurrentDateByFormat("dd/MM/yyyy HH:mm:ss");
-        booking.setActualDepartureDate(currentDateTime);
-        booking.setStatus(Common.BOOKING_CHECKOUT);
-        List<Order> listOrder = booking.getOrders();
-        boolean isPayment = true;
-        for (Order order : listOrder) {
-            if(order.getOrderPayment() == null){
-                isPayment = false;
-            }
-        }
 
-        if(booking.getRoomPayment().equals("N/A") || !isPayment){ //Booking not Payment
-            throw new AppException(HttpStatus.BAD_REQUEST.value(), new CustomResponseObject(Common.GET_FAIL, "Can't Checkout please Payment!"));
-        }else{
-            RoomType roomType = roomTypeRepository.getRoomTypeById(booking.getRoomTypeId());
-            roomType.setDefaultBookingRoom(roomType.getDefaultBookingRoom() + 1);
-            roomTypeRepository.save(roomType);
-            bookingRepository.save(booking);
+        if (booking.getStatus().equals(Common.BOOKING_CHECKIN)) { //Status is Check In
+            String currentDateTime = Utilities.getCurrentDateByFormat("dd/MM/yyyy HH:mm:ss");
+            booking.setActualDepartureDate(currentDateTime);
+            booking.setStatus(Common.BOOKING_CHECKOUT);
+            List<Order> listOrder = booking.getOrders();
+            
+            boolean isPayment = true;
+            for (Order order : listOrder) { //Check if Order is not Payment
+                if (order.getOrderPayment() == null) {
+                    isPayment = false;
+                }
+            }
+
+            if (booking.getRoomPayment().equals("N/A") || !isPayment) { // Booking not Payment
+                throw new AppException(HttpStatus.BAD_REQUEST.value(),
+                        new CustomResponseObject(Common.GET_FAIL, "Can't Checkout please Payment!"));
+            } else {
+
+                Room room = booking.getRoom();
+                room.setStatus(true);
+                roomRepository.save(room); // Turn on status of room
+
+                RoomType roomType = roomTypeRepository.getRoomTypeById(booking.getRoomTypeId());
+                roomType.setDefaultBookingRoom(roomType.getDefaultBookingRoom() + 1); // Set Default of BookingRoom In
+                                                                                      // Room Type
+                roomTypeRepository.save(roomType);
+
+                bookingRepository.save(booking);
+            }
         }
         return modelMapper.map(booking, BookingObjectResponse.class);
     }

@@ -26,7 +26,7 @@ public class NewRequest {
     private String endDate;
     private String startTime;
     private String endTime;
-    private String newType;
+    private String newsType;
     private String status;
     private int numberOfView;
 

@@ -64,10 +64,10 @@ public class Common {
     public static final String HMACSHA512 = "HmacSHA512";
 
     //Booking status
-    public static  final String BOOKING_BOOKED = "booked";
-    public static  final String BOOKING_NOT_SHOW = "not show";
-    public static  final String BOOKING_DONE = "done";
-    public static  final String BOOKING_CANCEL = "cancel";
+    public static  final String BOOKING_BOOKED = "BOOKED";
+    public static  final String BOOKING_NOT_SHOW = "NOT SHOW";
+    public static  final String BOOKING_DONE = "DONE";
+    public static  final String BOOKING_CANCEL = "CANCEL";
 
     public static final String BOOKING_CHECKIN = "Check In";
     public static final String BOOKING_CHECKOUT = "Check Out";

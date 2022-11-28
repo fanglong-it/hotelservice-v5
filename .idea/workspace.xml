@@ -4,11 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64a37eb9-d5fd-4799-9624-8c5c9f4b2b96" name="Changes" comment="push localhost test api">
+    <list default="true" id="64a37eb9-d5fd-4799-9624-8c5c9f4b2b96" name="Changes" comment="update-booking-v7">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/entities/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/entities/Booking.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/entities/OrderDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/entities/OrderDetail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/entities/RequestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/entities/RequestService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/entities/New.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/entities/New.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/request/NewRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/request/NewRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/service/Impl/PaymentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/service/Impl/PaymentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/utils/Common.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/utils/Common.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/Booking.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/Booking.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/New.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/New.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/BookingServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/BookingServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/PaymentServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/PaymentServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RoomTypeServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RoomTypeServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/utils/Common.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/utils/Common.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

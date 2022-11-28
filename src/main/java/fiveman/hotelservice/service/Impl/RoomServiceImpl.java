@@ -9,13 +9,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import fiveman.hotelservice.entities.Image;
 import fiveman.hotelservice.entities.Room;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.RoomRepository;
 import fiveman.hotelservice.repository.RoomTypeRepository;
-import fiveman.hotelservice.request.ImageRequest;
 import fiveman.hotelservice.request.RoomRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.RoomAvailabilityResponse;

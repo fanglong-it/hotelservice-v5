@@ -1,5 +1,4 @@
 package fiveman.hotelservice.service;
-import fiveman.hotelservice.entities.Room;
 import fiveman.hotelservice.entities.RoomType;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.RoomAvailabilityResponse;

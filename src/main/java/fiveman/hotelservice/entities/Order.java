@@ -1,13 +1,7 @@
 package fiveman.hotelservice.entities;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-
-
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import java.util.List;
 
 

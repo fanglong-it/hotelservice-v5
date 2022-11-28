@@ -1,9 +1,6 @@
 package fiveman.hotelservice.service.Impl;
 
-import fiveman.hotelservice.entities.Booking;
-import fiveman.hotelservice.entities.Customer;
 import fiveman.hotelservice.entities.RoomPrice;
-import fiveman.hotelservice.entities.RoomType;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.response.BookingResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
@@ -12,17 +9,12 @@ import fiveman.hotelservice.utils.Utilities;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
-
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 

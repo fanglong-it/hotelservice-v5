@@ -1,18 +1,14 @@
 package fiveman.hotelservice.service.Impl;
 
-import java.awt.print.Book;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.*;
-
 import fiveman.hotelservice.entities.*;
 import fiveman.hotelservice.repository.*;
 import fiveman.hotelservice.request.*;
 import fiveman.hotelservice.response.*;
-//import lombok.extern.slf4j.Slf4j;
 import fiveman.hotelservice.service.EmailService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -22,8 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import fiveman.hotelservice.exception.AppException;
-import fiveman.hotelservice.service.OrderDetailService;
-import fiveman.hotelservice.service.OrderService;
 import fiveman.hotelservice.service.PaymentService;
 import fiveman.hotelservice.utils.Common;
 import fiveman.hotelservice.utils.Utilities;
@@ -31,11 +25,11 @@ import fiveman.hotelservice.utils.Utilities;
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
-    @Autowired
-    private OrderDetailService billDetailService;
+    // @Autowired
+    // private OrderDetailService billDetailService;
 
-    @Autowired
-    private ModelMapper mapper;
+    // @Autowired
+    // private ModelMapper mapper;
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -43,8 +37,8 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     private BookingRepository bookingRepository;
 
-    @Autowired
-    private RequestServiceRepository requestServiceRepository;
+    // @Autowired
+    // private RequestServiceRepository requestServiceRepository;
 
     @Autowired
     private SpecialRequestRepository specialRequestRepository;

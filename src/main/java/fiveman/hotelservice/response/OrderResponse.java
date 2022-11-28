@@ -1,9 +1,6 @@
 package fiveman.hotelservice.response;
-
 import java.util.List;
-
 import fiveman.hotelservice.entities.Booking;
-import fiveman.hotelservice.entities.Customer;
 import fiveman.hotelservice.entities.OrderDetail;
 import fiveman.hotelservice.entities.OrderPayment;
 import lombok.AllArgsConstructor;

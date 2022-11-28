@@ -5,8 +5,6 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -93,9 +91,10 @@ public class Utilities {
       }
 
       public static String getCurrentDate() {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-            LocalDateTime now = LocalDateTime.now();
-            return now.toString();
+            Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            String vnp_CreateDate = formatter.format(cld.getTime());
+            return vnp_CreateDate;
       }
       public static boolean compareTwoDateString(String str1, String str2){
             SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");

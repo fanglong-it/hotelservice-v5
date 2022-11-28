@@ -139,7 +139,6 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     @Override
     public ServiceResponse checkExistTaxiServiceInBooking(long booking_id) {
-        // TODO Auto-generated method stub
         return null;
     }
 }

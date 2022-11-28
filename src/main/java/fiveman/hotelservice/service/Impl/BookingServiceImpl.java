@@ -96,8 +96,12 @@ public class BookingServiceImpl implements BookingService {
         List<Booking> bookings = bookingRepository.findAll();
         List<BookingObjectResponse> bookingResponses = new ArrayList<>();
         for (Booking booking : bookings) {
-            booking.setHotel(hotelRepository.getHotelById(booking.getHotel().getId()));
+            // booking.setHotel(hotelRepository.getHotelById(booking.getHotel().getId()));
             BookingObjectResponse bookingResponse = mapBookingToResponse(booking);
+            bookingResponse.setHotel_Id(booking.getHotel().getId());
+            if(!bookingResponse.getStatus().equals(Common.BOOKING_BOOKED)){
+                bookingResponse.setRoom_Id(booking.getRoom().getId());
+            }
             bookingResponses.add(bookingResponse);
         }
         return bookingResponses;

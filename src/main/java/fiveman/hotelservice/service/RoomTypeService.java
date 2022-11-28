@@ -1,4 +1,5 @@
 package fiveman.hotelservice.service;
+import fiveman.hotelservice.entities.Room;
 import fiveman.hotelservice.entities.RoomType;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.RoomAvailabilityResponse;
@@ -18,6 +19,5 @@ public interface RoomTypeService {
     
     List<RoomAvailabilityResponse> checkAvailability(String dateCheckIn, String dateCheckout, String numberOfPerson);
     
-    List<RoomAvailabilityResponse> checkAvailabilityByRoomType(String dateCheckIn, String dateCheckout, String numberOfPerson, int roomTypeId);
-
+    
 }

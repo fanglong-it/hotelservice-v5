@@ -18,4 +18,7 @@ public interface RoomService {
 
     CustomResponseObject deleteRoom(long id);
     
+    List<Room> checkAvailabilityByRoomType(String dateCheckIn, String dateCheckout, String numberOfPerson, int roomTypeId);
+
+
 }

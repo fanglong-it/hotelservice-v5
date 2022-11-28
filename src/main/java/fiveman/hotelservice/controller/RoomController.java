@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fiveman.hotelservice.entities.Room;
@@ -90,4 +91,12 @@ public class RoomController {
             return new ResponseEntity<>(roomService.deleteRoom(id), HttpStatus.OK);
       }
 
+      @PostMapping("/room/checkAvaiblebilityAndType")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
+      public ResponseEntity<List<Room>> checkAvaiblebilityAndType(@RequestParam("dateCheckIn") String dateCheckIn,
+      @RequestParam("dateCheckOut") String dateCheckOut,
+      @RequestParam("numOfPerson") String numOfPerson,
+      @RequestParam("roomTypeId") int roomTypeId){
+            return new ResponseEntity<>(roomService.checkAvailabilityByRoomType(dateCheckIn, dateCheckOut, numOfPerson, roomTypeId), HttpStatus.OK);
+      }
 }

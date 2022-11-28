@@ -18,7 +18,9 @@ import fiveman.hotelservice.repository.RoomTypeRepository;
 import fiveman.hotelservice.request.ImageRequest;
 import fiveman.hotelservice.request.RoomRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
+import fiveman.hotelservice.response.RoomAvailabilityResponse;
 import fiveman.hotelservice.service.RoomService;
+import fiveman.hotelservice.service.RoomTypeService;
 import fiveman.hotelservice.utils.Common;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,20 +33,20 @@ public class RoomServiceImpl implements RoomService {
 
       @Autowired
       ModelMapper modelMapper;
-      
+
       @Autowired
       RoomTypeRepository roomTypeRepository;
 
-//	private long id;
-//	private String name;
-//	private String roomNo;
-//	private String description;
-//	private String createDate;
-//	private String updateDate;
-//	private String createBy;
-//	private String lastModifyBy;
-//	private long hotel_Id;
-//	private long roomType_Id;
+      // private long id;
+      // private String name;
+      // private String roomNo;
+      // private String description;
+      // private String createDate;
+      // private String updateDate;
+      // private String createBy;
+      // private String lastModifyBy;
+      // private long hotel_Id;
+      // private long roomType_Id;
 
       RoomResponse mapRoomToResponse(Room room) {
             RoomResponse roomResponse = new RoomResponse();
@@ -93,15 +95,15 @@ public class RoomServiceImpl implements RoomService {
                               new CustomResponseObject(Common.ADDING_FAIL, "Exist id =" + room.getId()));
             }
             roomRepository.save(room);
-//            if (roomRequest.getImages().size() > 0) {
-//                  Room latestRoom = roomRepository.findTopByOrderByIdDesc();
-//                  for (ImageRequest img : roomRequest.getImages()) {
-//                        Image image = new Image();
-//                        image.setPictureUrl(img.getPictureUrl());
-//                        image.setPictureDescription(img.getPictureDescription());
-//                        image.setPictureType("img_room_" + latestRoom.getId());
-//                  }
-//            }
+            // if (roomRequest.getImages().size() > 0) {
+            // Room latestRoom = roomRepository.findTopByOrderByIdDesc();
+            // for (ImageRequest img : roomRequest.getImages()) {
+            // Image image = new Image();
+            // image.setPictureUrl(img.getPictureUrl());
+            // image.setPictureDescription(img.getPictureDescription());
+            // image.setPictureType("img_room_" + latestRoom.getId());
+            // }
+            // }
             log.info("END SAVE ROOM");
             return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding Room Success!");
       }
@@ -129,5 +131,24 @@ public class RoomServiceImpl implements RoomService {
                         new CustomResponseObject(Common.DELETE_FAIL, "Not found id = " + id));
       }
 
+      @Autowired
+      RoomTypeService roomTypeService;
+
+      @Override
+      public List<Room> checkAvailabilityByRoomType(String dateCheckIn, String dateCheckout,
+                  String numberOfPerson, int roomTypeId) {
+            List<RoomAvailabilityResponse> checkAvailabilityResponses = roomTypeService.checkAvailability(dateCheckIn, dateCheckout,
+                        numberOfPerson);
+            // List<RoomAvailabilityResponse> responses = new ArrayList<>();
+            List<Room> rooms = new ArrayList<>();
+            for (RoomAvailabilityResponse roomAvailabilityResponse : checkAvailabilityResponses) {
+                  for (Room room : roomAvailabilityResponse.getRooms()) {
+                        if (room.getRoomType().getId() == roomTypeId) {
+                              rooms.add(room);
+                        }
+                  }
+            }
+            return rooms;
+      }
 
 }

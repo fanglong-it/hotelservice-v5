@@ -11,6 +11,7 @@ import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.RoomAvailabilityResponse;
 import fiveman.hotelservice.service.RoomTypeService;
 import fiveman.hotelservice.utils.Common;
+import javassist.expr.NewArray;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -155,14 +156,6 @@ public class RoomTypeServiceImpl implements RoomTypeService {
         return listRoomAvailable;
     }
 
-    @Override
-    public List<RoomAvailabilityResponse> checkAvailabilityByRoomType(String dateCheckIn, String dateCheckout,
-            String numberOfPerson, int roomTypeId) {
-        List<RoomAvailabilityResponse> checkAvailabilityResponses = checkAvailability(dateCheckIn, dateCheckout, numberOfPerson);
-        
-        List<RoomAvailabilityResponse> responses = new ArrayList<>();
-        return null;
-    }
 
     
 

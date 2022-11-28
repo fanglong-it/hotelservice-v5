@@ -105,4 +105,7 @@ public class RoomTypeController {
           return new ResponseEntity<>(roomTypeService.checkAvailability(dateCheckIn, dateCheckOut, numOfPerson), HttpStatus.OK);
     }
 
+
+    
+
 }

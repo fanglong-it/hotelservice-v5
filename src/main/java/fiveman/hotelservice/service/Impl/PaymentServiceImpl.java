@@ -290,7 +290,7 @@ public class PaymentServiceImpl implements PaymentService {
                     order.setCreateDate(Utilities.getCurrentDateByFormat("dd/MM/yyyy HH:mm:ss"));
                     order.setCreateBy(request.getCustomer().getFirstName() + " " + request.getCustomer().getMiddleName() + " " + request.getCustomer().getLastName());
                     if (request.getPaymentMethod() != 0) {
-                        order.setStatus("DONE");
+                        order.setStatus(Common.BOOKING_DONE);
                         // set payment method
                         PaymentMethod paymentMethod = paymentMethodRepository.getPaymentMethodById(request.getPaymentMethod());
 
@@ -305,7 +305,7 @@ public class PaymentServiceImpl implements PaymentService {
                         OrderPayment orPay = orderPaymentRepository.findTopByOrderByIdDesc();
                         order.setOrderPayment(orPay);
                     } else {
-                        order.setStatus("BOOKED");
+                        order.setStatus(Common.BOOKING_BOOKED);
                     }
 
                     // order detail
@@ -314,7 +314,7 @@ public class PaymentServiceImpl implements PaymentService {
                     orderDetail.setQuantity(1);
                     orderDetail.setPrice(service.getPrice());
                     orderDetail.setAmount(orderDetail.getQuantity() * orderDetail.getPrice());
-                    orderDetail.setOrderDate(Utilities.getCurrentDateByFormat("dd/MM/yyyy HH:mm:ss"));
+                    orderDetail.setOrderDate(Utilities.getCurrentDateByFormat("dd/MM/yyyy HH:ss:mm"));
 
                     orderDetailRepository.save(orderDetail);
                     OrderDetail orDetail = orderDetailRepository.findTopByOrderByIdDesc();
@@ -413,13 +413,4 @@ public class PaymentServiceImpl implements PaymentService {
         }
         return listBooking;
     }
-
-    public void payLibs(List<OrderDetailResponse> list) {
-        for (OrderDetailResponse billDetailResponse : list) {
-            OrderDetail billDetail = mapper.map(billDetailResponse, OrderDetail.class);
-            // billDetail.set(1);
-            billDetailService.updateBillDetail(billDetail);
-        }
-    }
-
 }

@@ -10,7 +10,7 @@ import fiveman.hotelservice.entities.New;
 @Repository
 public interface NewRepository extends JpaRepository<New, Long>  {
     New getNewById(long id);
-    List<New> getAllByNewType(String type);
+    List<New> getAllBynewsType(String type);
     
 }
 

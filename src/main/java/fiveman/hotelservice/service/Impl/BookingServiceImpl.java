@@ -166,9 +166,9 @@ public class BookingServiceImpl implements BookingService {
     public CheckInResponse checkInBooking(CheckInRequest checkInRequest) {
 
         BookingRequest bookingRequest = checkInRequest.getBookingRequest();
+        List<Customer> customers = checkInRequest.getCustomer();
 
         Booking booking = modelMapper.map(bookingRequest, Booking.class);
-        List<Customer> customers = checkInRequest.getCustomer();
         if (booking.getStatus().equals(Common.BOOKING_BOOKED)) {
             // getCurrent Date time
             String currentDateTime = Utilities.getCurrentDateByFormat("dd/MM/YYYY HH:mm:ss");

@@ -45,7 +45,7 @@ public class NewServiceImpl implements NewService {
     public List<NewResponse> getNewByType(String type) {
         List<NewResponse> newResponses = new ArrayList<>();
 
-        List<New> news =  newRepository.getAllByNewType(type);
+        List<New> news =  newRepository.getAllBynewsType(type);
         for (New new1 : news) {
             NewResponse newResponse = mapNewToResponse(new1);
             newResponses.add(newResponse);

@@ -33,9 +33,9 @@ public class New {
     private String endDate;
     private String startTime;
     private String endTime;
-    private String newType;
     private String status;
     private int numberOfView;
+    private String newsType;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Hotel.class)
     private Hotel hotel;

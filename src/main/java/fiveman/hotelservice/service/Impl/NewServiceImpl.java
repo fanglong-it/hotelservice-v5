@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import fiveman.hotelservice.entities.New;
 import fiveman.hotelservice.exception.AppException;
+import fiveman.hotelservice.repository.ImageRepository;
 import fiveman.hotelservice.repository.NewRepository;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.NewResponse;
@@ -25,12 +26,14 @@ public class NewServiceImpl implements NewService {
     @Autowired
     ModelMapper modelMapper;
 
+    @Autowired
+    ImageRepository imageRepository;
     public NewResponse mapNewToResponse(New newObject){
         NewResponse newResponse = modelMapper.map(newObject, NewResponse.class);
         newResponse.setHotel_Id(newObject.getHotel().getId());
+        newResponse.setImages(imageRepository.getAllByPictureType("img_new_"+newResponse.getId()));
         return newResponse;
     }
-
 
     @Override
     public NewResponse getNewById(long id) {

@@ -1,8 +1,10 @@
 package fiveman.hotelservice.service.Impl;
 
 import fiveman.hotelservice.entities.Abstraction;
+import fiveman.hotelservice.entities.Image;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.AbstractionRepository;
+import fiveman.hotelservice.repository.ImageRepository;
 import fiveman.hotelservice.response.AbstractionResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.AbstractionService;
@@ -34,6 +36,8 @@ public class AbstractionServiceImpl implements AbstractionService {
 
     // private Long hotel_Id;
 
+    @Autowired
+    ImageRepository imageRepository;
     public AbstractionResponse mapAbstractionToResponse(Abstraction abstraction){
         AbstractionResponse abstractionResponse = new AbstractionResponse();
         abstractionResponse.setId(abstraction.getId());
@@ -45,6 +49,7 @@ public class AbstractionServiceImpl implements AbstractionService {
         abstractionResponse.setAddress(abstraction.getAddress());
         abstractionResponse.setDescription(abstraction.getDescription());
         abstractionResponse.setHotel_Id(abstraction.getHotel().getId());
+        abstractionResponse.setImages(imageRepository.getAllByPictureType("img_abstraction_"+ abstractionResponse.getId()));
         return abstractionResponse;
     }
 

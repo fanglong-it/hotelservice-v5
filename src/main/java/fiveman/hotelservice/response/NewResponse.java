@@ -1,5 +1,8 @@
 package fiveman.hotelservice.response;
 
+import java.util.List;
+
+import fiveman.hotelservice.entities.Image;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +14,6 @@ import lombok.Setter;
 @Setter
 public class NewResponse {
     private long id;
-
     private String newName;
     private String ticketInformation;
     private String detailInformation;
@@ -24,8 +26,7 @@ public class NewResponse {
     private String newType;
     private String status;
     private int numberOfView;
-
     private long hotel_Id;
-
+    private List<Image> images;
 
 }

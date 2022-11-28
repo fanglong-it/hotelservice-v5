@@ -12,7 +12,7 @@ public interface RequestServiceService {
       
       RequestServiceResponse getRequestService(long id);
       
-      List<RequestServiceResponse> saveRequestService(RequestService requestService);
+      RequestServiceResponse saveRequestService(RequestService requestService);
 
       List<RequestServiceResponse> updateRequestService(RequestService requestService);
 

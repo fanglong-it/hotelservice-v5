@@ -10,5 +10,6 @@ import fiveman.hotelservice.entities.RequestService;
 @Repository
 public interface RequestServiceRepository extends JpaRepository<RequestService , Long>{
       RequestService getRequestServiceById(long id);
+      RequestService findTopByOrderByIdDesc();
       List<RequestService> getAllRequestServiceByBooking_Id(long id);
 }

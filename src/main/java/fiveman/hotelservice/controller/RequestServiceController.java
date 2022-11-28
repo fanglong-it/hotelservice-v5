@@ -72,7 +72,7 @@ public class RequestServiceController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<List<RequestServiceResponse>> saveRequestService(@RequestBody @Valid RequestServiceRequest request) {
+      public ResponseEntity<RequestServiceResponse> saveRequestService(@RequestBody @Valid RequestServiceRequest request) {
             RequestService requestService = modelMapper.map(request, RequestService.class);
             return new ResponseEntity<>(requestServiceService.saveRequestService(requestService), HttpStatus.OK);
       }

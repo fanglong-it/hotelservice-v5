@@ -75,6 +75,10 @@ public class Common {
     public static final String ORDER_BOOKED = "BOOKED";
     public static final String ORDER_PROCESS = "PROCESSING";
     public static final String ORDER_DONE = "DONE";
+
+    public static final String REQUESTSERVICE_BOOKED = "BOOKED";
+    public static final String REQUESTSERVICE_PROCESSING = "PROCESSING";
+    public static final String REQUESTSERVICE_DONE = "DONE";
     
     // code for momo payment
     public static final String IPN_URL_MOMO = "https://hotelservice-v5.herokuapp.com/api/v1/MomoConfirm";

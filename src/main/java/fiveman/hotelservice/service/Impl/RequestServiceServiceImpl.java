@@ -8,13 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.entities.RequestService;
 import fiveman.hotelservice.exception.AppException;
+import fiveman.hotelservice.repository.BookingRepository;
 import fiveman.hotelservice.repository.RequestServiceRepository;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.RequestServiceResponse;
 import fiveman.hotelservice.service.RequestServiceService;
 import fiveman.hotelservice.utils.Common;
+import io.micrometer.core.ipc.http.HttpSender.Request;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -30,7 +33,7 @@ public class RequestServiceServiceImpl implements RequestServiceService {
       RequestServiceResponse mapRequestServiceToResponse(RequestService requestService) {
             RequestServiceResponse requestServiceResponse = modelMapper.map(requestService,
                         RequestServiceResponse.class);
-                        requestServiceResponse.getBooking().setRequestServices(null);
+            requestServiceResponse.getBooking().setRequestServices(null);
             return requestServiceResponse;
       }
 
@@ -57,19 +60,28 @@ public class RequestServiceServiceImpl implements RequestServiceService {
             return mapRequestServiceToResponse(requestServiceRepository.getRequestServiceById(id));
       }
 
+      @Autowired
+      BookingRepository bookingRepository;
+      
       @Override
-      public List<RequestServiceResponse> saveRequestService(RequestService requestService) {
+      public RequestServiceResponse saveRequestService(RequestService requestService) {
             log.info("START SAVE REQUEST SERVICE");
-            if (requestServiceRepository.existsById(requestService.getId())) {
-                  throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
-                              new CustomResponseObject(Common.ADDING_FAIL, "Exist id =" + requestService.getId()));
+            Booking booking = bookingRepository.getBookingById(requestService.getBooking().getId());
+            boolean isTurnDownDone = true;
+            List<RequestService> requestServices = booking.getRequestServices();
+            for (RequestService rService : requestServices) {
+                  if(rService.getStatus().equals(Common.REQUESTSERVICE_BOOKED) ||
+                   rService.getStatus().equals(Common.REQUESTSERVICE_PROCESSING)){
+                        isTurnDownDone = false;
+                  }
             }
-            requestServiceRepository.save(requestService);
-            log.info("END SAVE REQUEST SERVICE");
-            // return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding REQUEST
-            // SERVICE Success!");
-            return getAllRequestService();
-
+            if(!isTurnDownDone){
+                  throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
+                   new CustomResponseObject(Common.ADDING_FAIL,"You can't request if there is Already Request Service"));
+            }
+             requestServiceRepository.save(requestService);
+             requestService = requestServiceRepository.findTopByOrderByIdDesc();
+             return mapRequestServiceToResponse(requestService);
       }
 
       @Override

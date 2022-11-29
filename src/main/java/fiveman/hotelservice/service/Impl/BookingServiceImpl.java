@@ -176,13 +176,24 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     RoomRepository roomRepository;
 
+
+    
+
     @Override
     public CheckInResponse checkInBooking(CheckInRequest checkInRequest) {
 
         BookingRequest bookingRequest = checkInRequest.getBookingRequest();
-        List<CustomerRequest> customerRequests = checkInRequest.getCustomerRequests();
-
         List<Customer> customers = new ArrayList<>();
+        List<CustomerRequest> customerRequests = checkInRequest.getCustomerRequests();
+        Customer primaryCus = null;
+        for (CustomerRequest customerRequest : customerRequests) {
+            Customer customer = modelMapper.map(customerRequest, Customer.class);
+            if(customerRequest.isPrimary()){
+                primaryCus = modelMapper.map(customerRequest, Customer.class);
+            }
+            customers.add(customer);
+        }
+
         Booking booking = modelMapper.map(bookingRequest, Booking.class);
         if (booking.getStatus().equals(Common.BOOKING_BOOKED)) {
             // getCurrent Date time
@@ -200,7 +211,7 @@ public class BookingServiceImpl implements BookingService {
 
             // Set Status of Room To False
             Room room = booking.getRoom();
-            room.setStatus(false);
+            room.setStatus(true);
             roomRepository.save(room);
 
             // Check if Occupancy is Available for Customer Stay
@@ -211,7 +222,7 @@ public class BookingServiceImpl implements BookingService {
                     Customer newCustomer = customerRepository.findTopByOrderByIdDesc();
                     customer = newCustomer;
                     CustomerBooking customerBooking = new CustomerBooking(0, newCustomer, booking,
-                            booking.getCustomer().getLastName());
+                            primaryCus.getFirstName()+ " " + primaryCus.getLastName());
                     customerBookingRepository.save(customerBooking);
                 }
             }
@@ -245,7 +256,7 @@ public class BookingServiceImpl implements BookingService {
             } else {
 
                 Room room = booking.getRoom();
-                room.setStatus(true);
+                room.setStatus(false);
                 roomRepository.save(room); // Turn on status of room
 
                 RoomType roomType = roomTypeRepository.getRoomTypeById(booking.getRoomTypeId());

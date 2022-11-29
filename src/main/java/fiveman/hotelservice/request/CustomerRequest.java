@@ -27,5 +27,8 @@ public class CustomerRequest {
     private String updateDate;
     private String createBy;
     private String lastModifyBy;
+
+    private boolean isPrimary;
+    
     
 }

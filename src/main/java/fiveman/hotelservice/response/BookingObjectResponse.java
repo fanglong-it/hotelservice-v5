@@ -2,6 +2,7 @@ package fiveman.hotelservice.response;
 import java.util.List;
 import fiveman.hotelservice.entities.Customer;
 import fiveman.hotelservice.entities.RequestService;
+import fiveman.hotelservice.entities.Room;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,5 +34,7 @@ public class BookingObjectResponse {
     private long room_Id;
     private Customer customer;
     private List<RequestService> requestServices;
+    private List<Customer> customerStayBooking;
+    
 
 }

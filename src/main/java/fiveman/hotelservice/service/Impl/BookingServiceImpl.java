@@ -154,11 +154,11 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<BookingObjectResponse> getAllBookingByRoomId(long id) {
         // return bookingRepository.getAllBookingsByRoomId(id);
-
-        List<Booking> bookings = bookingRepository.getAllBookingsByRoomIdAndStatus(id, "Check In");
+        List<Booking> bookings = bookingRepository.getAllBookingsByRoomIdAndStatus(id, Common.BOOKING_CHECKIN);
         List<BookingObjectResponse> bookingResponses = new ArrayList<>();
         for (Booking booking : bookings) {
             BookingObjectResponse bookingResponse = mapBookingToResponse(booking);
+            bookingResponse.setCustomerStayBooking(customerRepository.getCustomerStayBooking(booking.getId()));
             bookingResponses.add(bookingResponse);
         }
         return bookingResponses;
@@ -176,19 +176,17 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     RoomRepository roomRepository;
 
-
-    
-
     @Override
     public CheckInResponse checkInBooking(CheckInRequest checkInRequest) {
 
         BookingRequest bookingRequest = checkInRequest.getBookingRequest();
+
         List<Customer> customers = new ArrayList<>();
         List<CustomerRequest> customerRequests = checkInRequest.getCustomerRequests();
         Customer primaryCus = null;
         for (CustomerRequest customerRequest : customerRequests) {
             Customer customer = modelMapper.map(customerRequest, Customer.class);
-            if(customerRequest.isPrimary()){
+            if (customerRequest.isPrimary()) {
                 primaryCus = modelMapper.map(customerRequest, Customer.class);
             }
             customers.add(customer);
@@ -206,6 +204,8 @@ public class BookingServiceImpl implements BookingService {
             booking.setHotel(hotelRepository.getHotelById(bookingRequest.getHotel_Id()));
             booking.setRoom(roomRepository.getRoomById(bookingRequest.getRoom_Id()));
             booking.setRoomPayment(bookingRequest.getRoomPayment());
+            
+            //Save Booking
             bookingRepository.save(booking);
             booking = bookingRepository.getBookingById(bookingRequest.getId());
 
@@ -215,17 +215,24 @@ public class BookingServiceImpl implements BookingService {
             roomRepository.save(room);
 
             // Check if Occupancy is Available for Customer Stay
-            if (booking.getRoom().getRoomType().getMaxOccupancy() > customers.size()) {
+            RoomType roomType = roomTypeRepository.getRoomTypeById(booking.getRoomTypeId());
+            if (roomType.getMaxOccupancy() >= customers.size()) {
                 for (Customer customer : customers) {
                     customer.setId(0);
                     customerRepository.save(customer);
                     Customer newCustomer = customerRepository.findTopByOrderByIdDesc();
                     customer = newCustomer;
                     CustomerBooking customerBooking = new CustomerBooking(0, newCustomer, booking,
-                            primaryCus.getFirstName()+ " " + primaryCus.getLastName());
+                            primaryCus.getFirstName() + " " + primaryCus.getLastName());
                     customerBookingRepository.save(customerBooking);
                 }
+            } else {
+                throw new AppException(HttpStatus.BAD_REQUEST.value(),
+                        new CustomResponseObject(Common.UPDATE_FAIL, "Can't Check in because of Max Occupancy!"));
             }
+        } else {
+            throw new AppException(HttpStatus.BAD_REQUEST.value(),
+                    new CustomResponseObject(Common.UPDATE_FAIL, "Can't Check in because of Status!"));
         }
         CheckInResponse checkInResponse = new CheckInResponse();
         checkInResponse.setCustomers(customers);

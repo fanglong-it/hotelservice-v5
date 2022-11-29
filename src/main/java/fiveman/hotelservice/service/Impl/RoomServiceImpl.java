@@ -20,6 +20,7 @@ import fiveman.hotelservice.response.RoomAvailabilityResponse;
 import fiveman.hotelservice.service.RoomService;
 import fiveman.hotelservice.service.RoomTypeService;
 import fiveman.hotelservice.utils.Common;
+import fiveman.hotelservice.utils.Utilities;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -66,7 +67,8 @@ public class RoomServiceImpl implements RoomService {
       BookingRepository bookingRepository;
 
       @Override
-      public List<RoomResponse> getRoomWithBookingToday(String today) {
+      public List<RoomResponse> getRoomWithBookingToday() {
+            String today = Utilities.getCurrentDate();
             List<Room> rooms = roomRepository.findAll();
             List<RoomResponse> roomResponses = new ArrayList<>();
             for (Room room : rooms) {

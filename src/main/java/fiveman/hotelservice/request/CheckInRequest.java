@@ -14,6 +14,6 @@ import lombok.Setter;
 @Setter
 public class CheckInRequest {
     private BookingRequest bookingRequest;
-    private List<Customer> customer;
+    private List<CustomerRequest> customerRequests;
 }
 

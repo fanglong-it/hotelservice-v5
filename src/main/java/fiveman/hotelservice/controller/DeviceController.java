@@ -21,7 +21,7 @@ import javax.validation.Valid;
 
 @RestController
 @Api(tags = "Device")
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1")
 public class DeviceController {
 
 

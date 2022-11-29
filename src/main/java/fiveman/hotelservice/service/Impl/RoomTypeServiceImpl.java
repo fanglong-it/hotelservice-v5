@@ -120,21 +120,21 @@ public class RoomTypeServiceImpl implements RoomTypeService {
                 listRoomAbstract.add(room);
             }
 
-            if(roomType.getDefaultBookingRoom() > listRoomAbstract.size()){
-                roomType.setDefaultBookingRoom(listRoomAbstract.size());
+            if(roomType.getMaxBookingRoom() > listRoomAbstract.size()){
+                roomType.setMaxBookingRoom(listRoomAbstract.size());
             }
 
             List<RoomPrice> listRoomPrice = roomType.getRoomPrices();
             for (RoomPrice roomPrice : listRoomPrice) {
                 boolean isPriceByDate = fiveman.hotelservice.utils.Utilities.compareTwoDateString(dateCheckIn, roomPrice.getDate());
                 if(isPriceByDate){
-                    if(roomType.getDefaultBookingRoom() > roomPrice.getMaxBookingRoom()){
-                        roomType.setDefaultBookingRoom(roomPrice.getMaxBookingRoom());
+                    if(roomType.getMaxBookingRoom() > roomPrice.getMaxBookingRoom()){
+                        roomType.setMaxBookingRoom(roomPrice.getMaxBookingRoom());
                     }
                 }
             }
 
-            if (roomType.getMaxOccupancy() >= numOfPerson && roomType.getDefaultBookingRoom() > 0) {
+            if (roomType.getMaxOccupancy() >= numOfPerson && roomType.getMaxBookingRoom() > 0) {
                 if (listRoom.size() > 0) {
                     List<Utilities> utilities = new ArrayList<Utilities>();
                     if (roomType.getRoomTypeUtilities().size() > 0) {

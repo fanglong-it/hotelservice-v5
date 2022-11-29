@@ -101,7 +101,7 @@ public class RoomController {
       }
 
       @PostMapping("/room/getRoomByBookingToday")
-      public ResponseEntity<List<RoomResponse>> getRoomByBookingToday(@RequestParam("today") String today){
-            return new ResponseEntity<>(roomService.getRoomWithBookingToday(today), HttpStatus.OK);
+      public ResponseEntity<List<RoomResponse>> getRoomByBookingToday(){
+            return new ResponseEntity<>(roomService.getRoomWithBookingToday(), HttpStatus.OK);
       }
 }

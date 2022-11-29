@@ -45,4 +45,9 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER)
     private Hotel hotel;
 
+    private String createDate;
+    private String updateDate;
+    private String createBy;
+    private String lastModifyBy;
+
 }

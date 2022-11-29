@@ -18,39 +18,24 @@ import lombok.Setter;
 public class UserRequest {
     @ApiModelProperty(required = true)
     private long id;
-
     @ApiModelProperty(required = true)
     private String username;
-
     @ApiModelProperty(required = true)
     private String password;
-
     private String firstName;
     private String middleName;
     private String lastName;
-
     private boolean gender;
-
     @Min(value = 9, message = "Phone min is 9")
     @Max(value = 11, message = "Phone max is 11")
     private String phoneNumber;
-
     private String dateOfBirth;
-
     private long hotelId;
-    
+    private String role;
+    private String status;
 
-    // private long id;
-    // private String username;
-    // private String password;
-    // private String firstName;
-    // private String middleName;
-    // private String lastName;
-    // private boolean gender;
-    // private String phoneNumber;
-    // private String dateOfBirth;
-    // private String userRole;
-    // private boolean isActive;
-    // private long hotel_Id;
-
+    private String createDate;
+    private String updateDate;
+    private String createBy;
+    private String lastModifyBy;
 }

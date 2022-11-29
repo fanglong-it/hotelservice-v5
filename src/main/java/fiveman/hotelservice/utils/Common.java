@@ -81,7 +81,13 @@ public class Common {
     public static final String REQUESTSERVICE_DONE = "DONE";
 
     public static final String REQUESTSERVICE_TYPE_TURNDOWN = "TURN DOWN";
+
+
+    //Format date
+    public static final String DATE_HOUR = "dd/MM/yyyy HH:mm:ss";
+    public static final String DATE = "dd/MM/yyyy";
     
+
     // code for momo payment
     public static final String IPN_URL_MOMO = "https://hotelservice-v5.herokuapp.com/api/v1/MomoConfirm";
     // public static final String IPN_URL_MOMO = "http://localhost:8080/api/v1/MomoConfirm";
@@ -102,10 +108,8 @@ public class Common {
     public static final String VNP_HASHSCRET = "RAOFLVMYIXMFIPSSRIFYIAWLBOSIJTPQ";
     public static final String VNP_URI = "http://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
     public static final String VNP_ORDER_TYPE_HOTEL = "170000";
-    public static final String VNP_RETURNURL = "http://localhost:3000/bookingConfirm";
+    public static final String VNP_RETURNURL = "https://5men.netlify.app/bookingConfirm";
     public static final String VNP_RETURN_URL_APP = "";
-
-
     
 }
 

@@ -4,8 +4,11 @@ import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.request.CheckInRequest;
 import fiveman.hotelservice.response.BookingObjectResponse;
 import fiveman.hotelservice.response.CheckInResponse;
+import fiveman.hotelservice.response.CustomResponseObject;
 
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 public interface BookingService {
     BookingObjectResponse getBookingById(long id);
@@ -22,6 +25,8 @@ public interface BookingService {
 
     CheckInResponse checkInBooking(CheckInRequest checkInRequest);
 
-    BookingObjectResponse checkOutBooking(long bookingId);
+    BookingObjectResponse checkOutBooking(long bookingId, HttpServletRequest request);
+
+    CustomResponseObject customerNotShow(long bookingId, HttpServletRequest request);
 
 }

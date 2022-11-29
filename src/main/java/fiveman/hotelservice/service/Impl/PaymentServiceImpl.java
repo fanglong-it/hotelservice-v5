@@ -265,7 +265,7 @@ public class PaymentServiceImpl implements PaymentService {
 //        List<Order> listOrder = new ArrayList<>();
         for (int i = 0; i < request.getRoomTypes().size(); i++) {
             RoomType roomType = roomTypeRepository.getRoomTypeById(request.getRoomTypes().get(i).getId());
-            if (roomType.getDefaultBookingRoom() != 0) {
+            if (roomType.getMaxBookingRoom() != 0) {
                 if (i == 0) {
                     customerRepository.save(request.getCustomer());
                 }
@@ -322,15 +322,15 @@ public class PaymentServiceImpl implements PaymentService {
                 }
 
                 // set booking
-                roomType.setDefaultBookingRoom(roomType.getDefaultBookingRoom() - 1);
+                roomType.setMaxBookingRoom(roomType.getMaxBookingRoom() - 1);
                 // set RoomPrice
                 List<RoomPrice> listRoomPrice = roomType.getRoomPrices();
                 for (RoomPrice roomPrice : listRoomPrice) {
                     boolean isPriceByDate = fiveman.hotelservice.utils.Utilities.compareTwoDateString(request.getBookingDates().getStartDate(), roomPrice.getDate());
                     if (isPriceByDate) {
-                        if (roomType.getDefaultBookingRoom() > roomPrice.getMaxBookingRoom()) {
+                        if (roomType.getMaxBookingRoom() > roomPrice.getMaxBookingRoom()) {
                             roomPrice.setMaxBookingRoom(roomPrice.getMaxBookingRoom() - 1);
-                            roomType.setDefaultBookingRoom(roomPrice.getMaxBookingRoom() - 1);
+                            roomType.setMaxBookingRoom(roomPrice.getMaxBookingRoom() - 1);
                             roomPriceRepository.save(roomPrice);
                         }
                     }

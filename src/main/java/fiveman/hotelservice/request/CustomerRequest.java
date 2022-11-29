@@ -1,32 +1,31 @@
-package fiveman.hotelservice.response;
+package fiveman.hotelservice.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import lombok.*;
-
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserResponse {
+public class CustomerRequest {
 
     private long id;
-    private String username;
-    private String password;
     private String firstName;
     private String middleName;
     private String lastName;
-    private boolean gender;
+    private int gender;
     private String phoneNumber;
-    private String dateOfBirth;
-    private String userRole;
-    private String status;
+    private String email;
+    private int idNo;
+    private int passportNo;
     
-    private long hotel_Id;
+    private String birthDate;
 
     private String createDate;
     private String updateDate;
     private String createBy;
     private String lastModifyBy;
-
+    
 }

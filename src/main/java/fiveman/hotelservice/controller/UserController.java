@@ -60,10 +60,8 @@ public class UserController {
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //
             @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public ResponseEntity<CustomResponseObject> signup(@RequestBody UserRequest userRequest){
-        User user = modelMapper.map(userRequest, User.class);
-    	userService.signup(user);
-        return new ResponseEntity<CustomResponseObject>(new CustomResponseObject(Common.ADDING_SUCCESS, "Add user success: " + user.getLastName()), HttpStatus.OK);
+    public ResponseEntity<User> signup(@RequestBody UserRequest userRequest){
+        return new ResponseEntity<User>(userService.signup(userRequest), HttpStatus.OK);
     }
 
 
@@ -76,6 +74,11 @@ public class UserController {
             @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
     public ResponseEntity<UserResponse> whoami(HttpServletRequest req) {
         return new ResponseEntity<>(userService.whoami(req), HttpStatus.OK);
+    }
+
+    @GetMapping("/roles")
+    public ResponseEntity<List<String>> getRoles(){
+        return new ResponseEntity<>(userService.getRoles(), HttpStatus.OK);
     }
 
 

@@ -16,4 +16,9 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     @Query(value = "Select * from booking b where b.room_id = :roomId and status like :status", nativeQuery = true)
     List<Booking> getAllBookingsByRoomIdAndStatus(long roomId, String status);
+
+
+    @Query(value = "Select * from booking b where b.room_id = :roomId and b.status != 'CHECK OUT' and (STR_TO_DATE(:today, '%d/%m/%Y %T') between STR_TO_DATE(b.actual_arrival_date, '%d/%m/%Y %T') and STR_TO_DATE(b.actual_departure_date, '%d/%m/%Y %T'));", nativeQuery = true)
+    Booking getBookingByRoomIdToday(long roomId, String today);
+
 }

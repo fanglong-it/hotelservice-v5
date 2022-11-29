@@ -99,4 +99,9 @@ public class RoomController {
       @RequestParam("roomTypeId") int roomTypeId){
             return new ResponseEntity<>(roomService.checkAvailabilityByRoomType(dateCheckIn, dateCheckOut, numOfPerson, roomTypeId), HttpStatus.OK);
       }
+
+      @PostMapping("/room/getRoomByBookingToday")
+      public ResponseEntity<List<RoomResponse>> getRoomByBookingToday(@RequestParam("today") String today){
+            return new ResponseEntity<>(roomService.getRoomWithBookingToday(today), HttpStatus.OK);
+      }
 }

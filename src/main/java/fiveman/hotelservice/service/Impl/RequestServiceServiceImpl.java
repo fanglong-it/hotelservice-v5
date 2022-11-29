@@ -75,7 +75,7 @@ public class RequestServiceServiceImpl implements RequestServiceService {
                         isTurnDownDone = false;
                   }
             }
-            if(!isTurnDownDone){
+            if(!isTurnDownDone || !requestService.getRequestServiceType().equals(Common.REQUESTSERVICE_TYPE_TURNDOWN)){
                   throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
                    new CustomResponseObject(Common.ADDING_FAIL,"You can't request if there is Already Request Service"));
             }

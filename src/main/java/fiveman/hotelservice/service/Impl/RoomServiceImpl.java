@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import fiveman.hotelservice.entities.Room;
 import fiveman.hotelservice.exception.AppException;
+import fiveman.hotelservice.repository.BookingRepository;
 import fiveman.hotelservice.repository.RoomRepository;
 import fiveman.hotelservice.repository.RoomTypeRepository;
 import fiveman.hotelservice.request.RoomRequest;
@@ -59,6 +60,21 @@ public class RoomServiceImpl implements RoomService {
             roomResponse.setRoomType(room.getRoomType());
             roomResponse.getRoomType().setRooms(null);
             return roomResponse;
+      }
+
+      @Autowired
+      BookingRepository bookingRepository;
+
+      @Override
+      public List<RoomResponse> getRoomWithBookingToday(String today) {
+            List<Room> rooms = roomRepository.findAll();
+            List<RoomResponse> roomResponses = new ArrayList<>();
+            for (Room room : rooms) {
+                  RoomResponse roomResponse = mapRoomToResponse(room);
+                  roomResponse.setBooking(bookingRepository.getBookingByRoomIdToday(roomResponse.getId(), today));
+                  roomResponses.add(roomResponse);
+            }
+            return roomResponses;
       }
 
       @Override
@@ -134,7 +150,8 @@ public class RoomServiceImpl implements RoomService {
       @Override
       public List<Room> checkAvailabilityByRoomType(String dateCheckIn, String dateCheckout,
                   String numberOfPerson, int roomTypeId) {
-            List<RoomAvailabilityResponse> checkAvailabilityResponses = roomTypeService.checkAvailability(dateCheckIn, dateCheckout,
+            List<RoomAvailabilityResponse> checkAvailabilityResponses = roomTypeService.checkAvailability(dateCheckIn,
+                        dateCheckout,
                         numberOfPerson);
             // List<RoomAvailabilityResponse> responses = new ArrayList<>();
             List<Room> rooms = new ArrayList<>();

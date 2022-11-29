@@ -20,5 +20,6 @@ public interface RoomService {
     
     List<Room> checkAvailabilityByRoomType(String dateCheckIn, String dateCheckout, String numberOfPerson, int roomTypeId);
 
+    List<RoomResponse> getRoomWithBookingToday(String today);
 
 }

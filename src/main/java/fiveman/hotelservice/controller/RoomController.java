@@ -93,11 +93,8 @@ public class RoomController {
 
       @PostMapping("/room/checkAvaiblebilityAndType")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
-      public ResponseEntity<List<Room>> checkAvaiblebilityAndType(@RequestParam("dateCheckIn") String dateCheckIn,
-      @RequestParam("dateCheckOut") String dateCheckOut,
-      @RequestParam("numOfPerson") String numOfPerson,
-      @RequestParam("roomTypeId") int roomTypeId){
-            return new ResponseEntity<>(roomService.checkAvailabilityByRoomType(dateCheckIn, dateCheckOut, numOfPerson, roomTypeId), HttpStatus.OK);
+      public ResponseEntity<List<Room>> checkAvaiblebilityAndType(@RequestParam("booking_id") long booking_id){
+            return new ResponseEntity<>(roomService.checkAvailabilityByRoomType(booking_id), HttpStatus.OK);
       }
 
       @PostMapping("/room/getRoomByBookingToday")

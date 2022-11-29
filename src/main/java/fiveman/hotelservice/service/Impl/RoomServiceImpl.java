@@ -150,20 +150,20 @@ public class RoomServiceImpl implements RoomService {
       RoomTypeService roomTypeService;
 
       @Override
-      public List<Room> checkAvailabilityByRoomType(String dateCheckIn, String dateCheckout,
-                  String numberOfPerson, int roomTypeId) {
-            List<RoomAvailabilityResponse> checkAvailabilityResponses = roomTypeService.checkAvailability(dateCheckIn,
-                        dateCheckout,
-                        numberOfPerson);
-            // List<RoomAvailabilityResponse> responses = new ArrayList<>();
-            List<Room> rooms = new ArrayList<>();
-            for (RoomAvailabilityResponse roomAvailabilityResponse : checkAvailabilityResponses) {
-                  for (Room room : roomAvailabilityResponse.getRooms()) {
-                        if (room.getRoomType().getId() == roomTypeId) {
-                              rooms.add(room);
-                        }
-                  }
-            }
+      public List<Room> checkAvailabilityByRoomType(long Booking_Id) {
+
+            // List<RoomAvailabilityResponse> checkAvailabilityResponses = roomTypeService.checkAvailability(dateCheckIn,
+            //             dateCheckout, numberOfPerson);
+            // // List<RoomAvailabilityResponse> responses = new ArrayList<>();
+            // List<Room> rooms = new ArrayList<>();
+            // for (RoomAvailabilityResponse roomAvailabilityResponse : checkAvailabilityResponses) {
+            //       for (Room room : roomAvailabilityResponse.getRooms()) {
+            //             if (room.getRoomType().getId() == roomTypeId) {
+            //                   rooms.add(room);
+            //             }
+            //       }
+            // }
+            List<Room> rooms = roomRepository.getRoomAvaiByBookingId(Booking_Id);
             return rooms;
       }
 

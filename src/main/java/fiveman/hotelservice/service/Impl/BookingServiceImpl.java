@@ -204,8 +204,8 @@ public class BookingServiceImpl implements BookingService {
             booking.setHotel(hotelRepository.getHotelById(bookingRequest.getHotel_Id()));
             booking.setRoom(roomRepository.getRoomById(bookingRequest.getRoom_Id()));
             booking.setRoomPayment(bookingRequest.getRoomPayment());
-            
-            //Save Booking
+
+            // Save Booking
             bookingRepository.save(booking);
             booking = bookingRepository.getBookingById(bookingRequest.getId());
 
@@ -241,7 +241,9 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingObjectResponse checkOutBooking(long bookingId, HttpServletRequest request) {
+    public BookingObjectResponse checkOutBooking(long bookingId
+    // , HttpServletRequest request
+    ) {
         Booking booking = bookingRepository.getBookingById(bookingId);
 
         if (booking.getStatus().equals(Common.BOOKING_CHECKIN)) { // Status is Check In
@@ -261,7 +263,6 @@ public class BookingServiceImpl implements BookingService {
                 throw new AppException(HttpStatus.BAD_REQUEST.value(),
                         new CustomResponseObject(Common.GET_FAIL, "Can't Checkout please Payment!"));
             } else {
-
                 Room room = booking.getRoom();
                 room.setStatus(false);
                 roomRepository.save(room); // Turn on status of room
@@ -270,11 +271,13 @@ public class BookingServiceImpl implements BookingService {
                 roomType.setMaxBookingRoom(roomType.getMaxBookingRoom() + 1); // Set Default of BookingRoom In
                 roomTypeRepository.save(roomType);
 
-                String username = jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(request));
-                booking.setLastModifyBy(username);
+                // String username =
+                // jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(request));
+                // booking.setLastModifyBy(username);
                 booking.setRoom(null);
                 bookingRepository.save(booking);
-                booking = bookingRepository.findTopByOrderByIdDesc();
+
+                booking = bookingRepository.getBookingById(bookingId);
             }
         }
         return modelMapper.map(booking, BookingObjectResponse.class);
@@ -284,7 +287,9 @@ public class BookingServiceImpl implements BookingService {
     JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public CustomResponseObject customerNotShow(long bookingId, HttpServletRequest request) {
+    public CustomResponseObject customerNotShow(long bookingId
+    // , HttpServletRequest request
+    ) {
         Booking booking = bookingRepository.getBookingById(bookingId);
         if (booking == null || !booking.getStatus().equals(Common.BOOKING_BOOKED)) {
             throw new AppException(HttpStatus.BAD_REQUEST.value(),
@@ -305,8 +310,9 @@ public class BookingServiceImpl implements BookingService {
                     new CustomResponseObject(Common.UPDATE_FAIL, "Can't Set If today is before check in!"));
         }
         booking.setStatus(Common.BOOKING_NOT_SHOW);
-        String username = jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(request));
-        booking.setLastModifyBy(username);
+        // String username =
+        // jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(request));
+        // booking.setLastModifyBy(username);
         booking.setUpdateDate(Utilities.getCurrentDate());
         bookingRepository.save(booking);
 

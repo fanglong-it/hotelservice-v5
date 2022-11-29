@@ -25,8 +25,12 @@ public interface BookingService {
 
     CheckInResponse checkInBooking(CheckInRequest checkInRequest);
 
-    BookingObjectResponse checkOutBooking(long bookingId, HttpServletRequest request);
+    BookingObjectResponse checkOutBooking(long bookingId
+    // , HttpServletRequest request
+    );
 
-    CustomResponseObject customerNotShow(long bookingId, HttpServletRequest request);
+    CustomResponseObject customerNotShow(long bookingId
+    // , HttpServletRequest request
+    );
 
 }

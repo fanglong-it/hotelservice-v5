@@ -272,7 +272,7 @@ public class BookingServiceImpl implements BookingService {
                 throw new AppException(HttpStatus.BAD_REQUEST.value(),
                         new CustomResponseObject(Common.GET_FAIL, "Can't Checkout please Payment!"));
             } else {
-                Room room = booking.getRoom();
+                Room room = roomRepository.getRoomById(booking.getRoom().getId());
                 room.setStatus(false);
                 roomRepository.save(room); // Turn on status of room
 

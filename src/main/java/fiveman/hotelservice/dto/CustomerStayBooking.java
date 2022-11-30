@@ -1,4 +1,4 @@
-package fiveman.hotelservice.request;
+package fiveman.hotelservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CustomerRequest {
+public class CustomerStayBooking {
 
     private long id;
     private String firstName;
@@ -28,7 +28,6 @@ public class CustomerRequest {
     private String createBy;
     private String lastModifyBy;
 
-    private boolean isPrimary;
-    
-    
+    private String isPrimary;
+
 }

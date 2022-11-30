@@ -18,6 +18,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query("select r from Room r inner join Booking b on r.id = b.room.id where b.departureDate = :departureDate and r.roomType.id = :roomTypeId")
     List<Room> getRoomByBookingEndDate(@Param("roomTypeId") long roomTypeId, @Param("departureDate") String departureDate);
 
-    @Query(value = "SELECT r.id, r.create_by, r.description, r.last_modify_by, r.name, r.room_no, r.status,r.create_date ,r.update_date, r.hotel_id, r.room_type_id FROM booking b inner join room r on b.room_type_id = r.room_type_id where b.id = :booking_id and r.status = 1", nativeQuery = true)
+    @Query(value = "SELECT r.id, r.create_by, r.description, r.last_modify_by, r.name, r.room_no, r.status,r.create_date ,r.update_date, r.hotel_id, r.room_type_id FROM booking b inner join room r on b.room_type_id = r.room_type_id where b.id = :booking_id and r.status = 0", nativeQuery = true)
     List<Room> getRoomAvaiByBookingId(long booking_id);
 }

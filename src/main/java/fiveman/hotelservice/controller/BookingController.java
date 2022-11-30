@@ -75,15 +75,13 @@ public class BookingController {
     }
 
     @PostMapping("/booking/checkOut")
-    public ResponseEntity<BookingObjectResponse> checkOutBooking(@RequestParam("booking_id") long bookingId,
-        HttpServletRequest request) {
-        return new ResponseEntity<>(bookingService.checkOutBooking(bookingId, request), HttpStatus.OK);
+    public ResponseEntity<BookingObjectResponse> checkOutBooking(@RequestParam("booking_id") long bookingId) {
+        return new ResponseEntity<>(bookingService.checkOutBooking(bookingId), HttpStatus.OK);
     }
 
     @PostMapping("/booking/customerNotShow")
-    public ResponseEntity<CustomResponseObject> customerNotShow(@RequestParam("booking_id") long bookingId,
-            HttpServletRequest request) {
-        return new ResponseEntity<>(bookingService.customerNotShow(bookingId, request), HttpStatus.OK);
+    public ResponseEntity<CustomResponseObject> customerNotShow(@RequestParam("booking_id") long bookingId) {
+        return new ResponseEntity<>(bookingService.customerNotShow(bookingId), HttpStatus.OK);
     }
 
     @GetMapping("/booking/dashboard")

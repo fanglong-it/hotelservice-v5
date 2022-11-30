@@ -136,7 +136,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderResponse> orderResponses = new ArrayList<>();
 
         // List<OrderResponse> tmpList = new ArrayList<>();
-        for (Order order : orders) {
+        for (Order order : orders) { //Get All Order
             List<OrderDetail> listOrderDetails = new ArrayList<>();
             
             OrderResponse orderResponse = mapOrderToResponse(order);
@@ -150,9 +150,10 @@ public class OrderServiceImpl implements OrderService {
                 if(serviceCategory.isFoodAndBeverage()){
                     listOrderDetails.add(orderDetail);
                     order.setOrderDetails(listOrderDetails);
-                    orderResponses.add(orderResponse);
+                    
                 }
-             }
+            }
+            orderResponses.add(orderResponse);
         }
         return orderResponses;
     }

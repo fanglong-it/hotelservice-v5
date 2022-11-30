@@ -330,13 +330,14 @@ public class BookingServiceImpl implements BookingService {
         data.setBookedToday(bookingRepository.getBookedToday(date));
         data.setAccumulateRevenue(bookingRepository.getRevenueInMonthByCurrentDate(date) != null ? bookingRepository.getRevenueInMonthByCurrentDate(date) : "");
         data.setActualArriveToday(bookingRepository.getActualArriveDay(date));
-        data.setRevenue(bookingRepository.getRevenueInMonthByCurrentDate(date) != null ? bookingRepository.getRevenueInMonthByCurrentDate(date) : "");
+        data.setRevenue(bookingRepository.getRevenueCurrentDate(date) != null ? bookingRepository.getRevenueInMonthByCurrentDate(date) : "");
         data.setCanceledToday(bookingRepository.getCancelToday(date));
-        data.setCancelRevenue(bookingRepository.getCancelRevenueInMonthByCurrentDate(date) != null ? bookingRepository.getCancelRevenueInMonthByCurrentDate(date) : "");
+        data.setCancelRevenue(bookingRepository.getCancelRevenueCurrentDate(date) != null ? bookingRepository.getCancelRevenueInMonthByCurrentDate(date) : "");
         data.setCancelAccumulateRevenue(bookingRepository.getCancelRevenueInMonthByCurrentDate(date) != null ? bookingRepository.getCancelRevenueInMonthByCurrentDate(date) : "");
         data.setRoomBusy(bookingRepository.getCheckInToday(date));
         data.setActualDepartureToday(bookingRepository.getActualDepartureDay(date));
         data.setNumOfStay(bookingRepository.getAllCustomerStay());
+        data.setBookingList(bookingRepository.getRevenueEntireMonth(date));
         return data;
     }
 

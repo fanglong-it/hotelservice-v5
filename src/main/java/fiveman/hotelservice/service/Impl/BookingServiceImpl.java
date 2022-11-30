@@ -246,6 +246,9 @@ public class BookingServiceImpl implements BookingService {
         return checkInResponse;
     }
 
+    @Autowired
+    RoomPriceRepository roomPriceRepository;
+
     @Override
     public BookingObjectResponse checkOutBooking(long bookingId
     // , HttpServletRequest request
@@ -282,15 +285,26 @@ public class BookingServiceImpl implements BookingService {
                 // booking.setLastModifyBy(username);
                 booking.setRoom(null);
 
+                if(booking.getRoomPayment().equals("N/A")){ //Check RoomIsPayment
+                    String today = Utilities.getCurrentDateByFormat("dd/MM/yyyy");
+                    RoomPrice roomPrice = roomPriceRepository.getRoomPriceTodayByRoomType(today, booking.getRoomTypeId());
+                    if(roomPrice == null){
+                        booking.setRoomPayment(String.valueOf(roomType.getDefaultPrice()));
+                    }else{
+                        booking.setRoomPayment(String.valueOf(roomPrice.getPrice()));
+                    }
+                }
 
-                // if(booking.getRoomPayment().equals("N/A")){ //Check RoomIsPayment
-                    
-
-                // }
-
+                //getTotal Amount
+                double totalAmount = 0; //Total Of Booking
+                double orderAmount = 0; //Total Of Order
+                for (Order order : listOrder) {
+                    orderAmount += Utilities.calculateTotalAmount(order.getOrderDetails());
+                }
+                totalAmount = Double.parseDouble(booking.getRoomPayment()) + orderAmount; //Plus Booking Payment Price and Order Amount
+                booking.setTotalAmount(totalAmount);
                 // booking.setTotalAmount();
                 bookingRepository.save(booking);
-
                 booking = bookingRepository.getBookingById(bookingId);
             }
         }

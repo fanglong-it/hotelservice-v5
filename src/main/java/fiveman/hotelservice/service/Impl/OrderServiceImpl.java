@@ -145,7 +145,7 @@ public class OrderServiceImpl implements OrderService {
             orderResponse.getBooking().setRequestServices(null);
 
             for (OrderDetail orderDetail : orderResponse.getOrderDetails()) {
-                fiveman.hotelservice.entities.Service service = orderDetail.getService();
+                fiveman.hotelservice.entities.Service service = serviceRepository.getServiceById(orderDetail.getService().getId());
                 ServiceCategory serviceCategory = service.getServiceCategory();
                 if(serviceCategory.isFoodAndBeverage()){
                     listOrderDetails.add(orderDetail);

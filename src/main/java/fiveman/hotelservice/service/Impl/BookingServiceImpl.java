@@ -285,7 +285,7 @@ public class BookingServiceImpl implements BookingService {
                 // booking.setLastModifyBy(username);
                 booking.setRoom(null);
 
-                if(booking.getRoomPayment().equals("N/A")){ //Check RoomIsPayment
+                if(booking.getRoomPayment().equals("N/A") || Utilities.isEmptyString(booking.getRoomPayment())){ //Check RoomIsPayment
                     String today = Utilities.getCurrentDateByFormat("dd/MM/yyyy");
                     RoomPrice roomPrice = roomPriceRepository.getRoomPriceTodayByRoomType(today, booking.getRoomTypeId());
                     if(roomPrice == null){

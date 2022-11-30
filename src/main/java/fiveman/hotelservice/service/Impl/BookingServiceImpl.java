@@ -197,7 +197,11 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = modelMapper.map(bookingRequest, Booking.class);
         if (booking.getStatus().equals(Common.BOOKING_BOOKED)) {
             // getCurrent Date time
+
+
             String currentDateTime = Utilities.getCurrentDateByFormat("dd/MM/YYYY HH:mm:ss");
+            
+            booking.setActualDepartureDate(bookingRequest.getDepartureDate());
             booking.setActualArrivalDate(currentDateTime);
             booking.setUpdateDate(Utilities.getCurrentDateByFormat("dd/MM/YYYY HH:mm:ss"));
             booking.setLastModifyBy(bookingRequest.getLastModifyBy());
@@ -261,7 +265,7 @@ public class BookingServiceImpl implements BookingService {
                 }
             }
 
-            if (booking.getRoomPayment().equals("N/A") || !isPayment) { // Booking not Payment
+            if (!isPayment) { // Booking not Payment
                 throw new AppException(HttpStatus.BAD_REQUEST.value(),
                         new CustomResponseObject(Common.GET_FAIL, "Can't Checkout please Payment!"));
             } else {
@@ -277,6 +281,14 @@ public class BookingServiceImpl implements BookingService {
                 // jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(request));
                 // booking.setLastModifyBy(username);
                 booking.setRoom(null);
+
+
+                // if(booking.getRoomPayment().equals("N/A")){ //Check RoomIsPayment
+                    
+
+                // }
+
+                // booking.setTotalAmount();
                 bookingRepository.save(booking);
 
                 booking = bookingRepository.getBookingById(bookingId);

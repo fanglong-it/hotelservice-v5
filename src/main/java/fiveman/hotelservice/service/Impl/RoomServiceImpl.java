@@ -73,6 +73,7 @@ public class RoomServiceImpl implements RoomService {
             List<RoomResponse> roomResponses = new ArrayList<>();
             for (Room room : rooms) {
                   RoomResponse roomResponse = mapRoomToResponse(room);
+                  roomResponse.setStatus(room.isStatus());
                   roomResponse.setBooking(bookingRepository.getBookingByRoomIdToday(roomResponse.getId(), today));
                   roomResponses.add(roomResponse);
             }
@@ -164,6 +165,7 @@ public class RoomServiceImpl implements RoomService {
             //       }
             // }
             List<Room> rooms = roomRepository.getRoomAvaiByBookingId(Booking_Id);
+            
             return rooms;
       }
 

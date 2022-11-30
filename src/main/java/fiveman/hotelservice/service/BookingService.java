@@ -5,12 +5,14 @@ import fiveman.hotelservice.request.CheckInRequest;
 import fiveman.hotelservice.response.BookingObjectResponse;
 import fiveman.hotelservice.response.CheckInResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
+import fiveman.hotelservice.response.DashboardResponse;
 
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 public interface BookingService {
+    
     BookingObjectResponse getBookingById(long id);
 
     List<BookingObjectResponse> getAllBooking();
@@ -32,5 +34,7 @@ public interface BookingService {
     CustomResponseObject customerNotShow(long bookingId
     // , HttpServletRequest request
     );
+
+    DashboardResponse getDashBoard(String date);
 
 }

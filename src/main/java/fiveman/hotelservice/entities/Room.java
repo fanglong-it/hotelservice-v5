@@ -23,7 +23,7 @@ public class Room {
     private String updateDate;
     private String createBy;
     private String lastModifyBy;
-    private boolean status = false;
+    private boolean status;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Hotel.class)
     @JsonBackReference

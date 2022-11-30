@@ -23,6 +23,7 @@ public class RoomResponse {
     private String lastModifyBy;
     private long hotel_Id;
     private RoomType roomType;
-
     private Booking booking;
+    private String primaryCustomer;
+    
 }

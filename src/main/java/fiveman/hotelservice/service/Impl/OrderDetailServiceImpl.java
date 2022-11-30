@@ -133,10 +133,6 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success!");
     }
 
-
-
-
-
     @Override
     public ServiceResponse checkExistTaxiServiceInBooking(long booking_id) {
         return null;

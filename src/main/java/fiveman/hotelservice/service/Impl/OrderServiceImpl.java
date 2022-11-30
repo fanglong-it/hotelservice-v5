@@ -138,19 +138,21 @@ public class OrderServiceImpl implements OrderService {
         // List<OrderResponse> tmpList = new ArrayList<>();
         for (Order order : orders) {
             List<OrderDetail> listOrderDetails = new ArrayList<>();
+            
             OrderResponse orderResponse = mapOrderToResponse(order);
             orderResponse.getBooking().setHotel(null);
             orderResponse.getBooking().setOrders(null);
             orderResponse.getBooking().setRequestServices(null);
-             for (OrderDetail orderDetail : orderResponse.getOrderDetails()) {
+
+            for (OrderDetail orderDetail : orderResponse.getOrderDetails()) {
                 fiveman.hotelservice.entities.Service service = orderDetail.getService();
                 ServiceCategory serviceCategory = service.getServiceCategory();
                 if(serviceCategory.isFoodAndBeverage()){
                     listOrderDetails.add(orderDetail);
+                    order.setOrderDetails(listOrderDetails);
+                    orderResponses.add(orderResponse);
                 }
              }
-            order.setOrderDetails(listOrderDetails);
-            orderResponses.add(orderResponse);
         }
         return orderResponses;
     }

@@ -110,7 +110,8 @@ public class BookingServiceImpl implements BookingService {
             BookingObjectResponse bookingResponse = mapBookingToResponse(booking);
 
             bookingResponse.setHotel_Id(booking.getHotel().getId());
-
+            bookingResponse.setRoomPayment(booking.getRoomPayment());
+            
             if (bookingResponse.getStatus().equals(Common.BOOKING_CHECKIN)) {
                 bookingResponse.setRoom_Id(booking.getRoom().getId());
             }
@@ -196,7 +197,11 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = modelMapper.map(bookingRequest, Booking.class);
         if (booking.getStatus().equals(Common.BOOKING_BOOKED)) {
             // getCurrent Date time
+
+
             String currentDateTime = Utilities.getCurrentDateByFormat("dd/MM/YYYY HH:mm:ss");
+            
+            booking.setActualDepartureDate(bookingRequest.getDepartureDate());
             booking.setActualArrivalDate(currentDateTime);
             booking.setUpdateDate(Utilities.getCurrentDateByFormat("dd/MM/YYYY HH:mm:ss"));
             booking.setLastModifyBy(bookingRequest.getLastModifyBy());
@@ -241,6 +246,9 @@ public class BookingServiceImpl implements BookingService {
         return checkInResponse;
     }
 
+    @Autowired
+    RoomPriceRepository roomPriceRepository;
+
     @Override
     public BookingObjectResponse checkOutBooking(long bookingId
     // , HttpServletRequest request
@@ -260,7 +268,7 @@ public class BookingServiceImpl implements BookingService {
                 }
             }
 
-            if (booking.getRoomPayment().equals("N/A") || !isPayment) { // Booking not Payment
+            if (!isPayment) { // Booking not Payment
                 throw new AppException(HttpStatus.BAD_REQUEST.value(),
                         new CustomResponseObject(Common.GET_FAIL, "Can't Checkout please Payment!"));
             } else {
@@ -276,8 +284,27 @@ public class BookingServiceImpl implements BookingService {
                 // jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(request));
                 // booking.setLastModifyBy(username);
                 booking.setRoom(null);
-                bookingRepository.save(booking);
 
+                if(booking.getRoomPayment().equals("N/A")){ //Check RoomIsPayment
+                    String today = Utilities.getCurrentDateByFormat("dd/MM/yyyy");
+                    RoomPrice roomPrice = roomPriceRepository.getRoomPriceTodayByRoomType(today, booking.getRoomTypeId());
+                    if(roomPrice == null){
+                        booking.setRoomPayment(String.valueOf(roomType.getDefaultPrice()));
+                    }else{
+                        booking.setRoomPayment(String.valueOf(roomPrice.getPrice()));
+                    }
+                }
+
+                //getTotal Amount
+                double totalAmount = 0; //Total Of Booking
+                double orderAmount = 0; //Total Of Order
+                for (Order order : listOrder) {
+                    orderAmount += Utilities.calculateTotalAmount(order.getOrderDetails());
+                }
+                totalAmount = Double.parseDouble(booking.getRoomPayment()) + orderAmount; //Plus Booking Payment Price and Order Amount
+                booking.setTotalAmount(totalAmount);
+                // booking.setTotalAmount();
+                bookingRepository.save(booking);
                 booking = bookingRepository.getBookingById(bookingId);
             }
         }

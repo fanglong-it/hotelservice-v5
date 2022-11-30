@@ -9,9 +9,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import fiveman.hotelservice.entities.CustomerBooking;
 import fiveman.hotelservice.entities.Room;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.BookingRepository;
+import fiveman.hotelservice.repository.CustomerBookingRepository;
 import fiveman.hotelservice.repository.RoomRepository;
 import fiveman.hotelservice.repository.RoomTypeRepository;
 import fiveman.hotelservice.request.RoomRequest;
@@ -66,6 +69,8 @@ public class RoomServiceImpl implements RoomService {
       @Autowired
       BookingRepository bookingRepository;
 
+      @Autowired
+      CustomerBookingRepository customerBookingRepository;
       @Override
       public List<RoomResponse> getRoomWithBookingToday() {
             String today = Utilities.getCurrentDate();
@@ -75,6 +80,10 @@ public class RoomServiceImpl implements RoomService {
                   RoomResponse roomResponse = mapRoomToResponse(room);
                   roomResponse.setStatus(room.isStatus());
                   roomResponse.setBooking(bookingRepository.getBookingByRoomIdToday(roomResponse.getId(), today));
+                  if(roomResponse.getBooking() != null){
+                        CustomerBooking customerBooking = customerBookingRepository.selectPrimaryCustomerByBooking(roomResponse.getBooking().getId());
+                        roomResponse.setPrimaryCustomer(customerBooking.getPrimaryCustomer());
+                  }
                   roomResponses.add(roomResponse);
             }
             return roomResponses;

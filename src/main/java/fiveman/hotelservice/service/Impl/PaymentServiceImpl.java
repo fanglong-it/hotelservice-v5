@@ -259,7 +259,13 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public List<BookingResponse> validateVNPay(VnPayConfirmRequest request) {
         Booking lastBooking = bookingRepository.findTopByOrderByIdDesc();
-        int confirmation_No = lastBooking.getConfirmationNo() + 1;
+        int confirmation_No = 0;
+        if(lastBooking != null){
+            confirmation_No = lastBooking.getConfirmationNo() + 1;
+        }else{
+            confirmation_No = 1;
+        }
+
         List<BookingResponse> listBooking = new ArrayList<>();
         List<Order> orderList = new ArrayList<>();
 //        List<Order> listOrder = new ArrayList<>();

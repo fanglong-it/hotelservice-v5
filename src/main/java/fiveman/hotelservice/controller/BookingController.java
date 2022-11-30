@@ -6,6 +6,7 @@ import fiveman.hotelservice.request.CheckInRequest;
 import fiveman.hotelservice.response.BookingObjectResponse;
 import fiveman.hotelservice.response.CheckInResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
+import fiveman.hotelservice.response.DashboardResponse;
 import fiveman.hotelservice.service.BookingService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
@@ -84,5 +85,11 @@ public class BookingController {
             HttpServletRequest request) {
         return new ResponseEntity<>(bookingService.customerNotShow(bookingId, request), HttpStatus.OK);
     }
+
+    @GetMapping("/booking/dashboard")
+    public ResponseEntity<DashboardResponse> getDashBoard(@RequestParam("date") String date){
+        return new ResponseEntity<>(bookingService.getDashBoard(date), HttpStatus.OK);
+    }
+
 
 }

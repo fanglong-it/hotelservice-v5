@@ -23,7 +23,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query(value = "Select * from booking b where b.room_id = :roomId and b.status != 'CHECK OUT' and (STR_TO_DATE(:today, '%d/%m/%Y %T') between STR_TO_DATE(b.actual_arrival_date, '%d/%m/%Y %T') and STR_TO_DATE(b.actual_departure_date, '%d/%m/%Y %T'))", nativeQuery = true)
     Booking getBookingByRoomIdToday(long roomId, String today);
 
-    @Query(value = "select count(b.id) from Booking b where SUBSTRING_INDEX(b.createDate, ' ', 1) = :today and b.status = 'BOOKED'")
+    @Query(value = "select count(b.id) from Booking b where SUBSTRING_INDEX(b.createDate, ' ', 1) = :today")
     long getBookedToday(String today);
 
     @Query(value = "select count(b.id) from Booking b where SUBSTRING_INDEX(b.createDate, ' ', 1) = :today and b.status = 'CHECK IN'")
@@ -32,7 +32,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query(value = "select count(b.id) from Booking b where SUBSTRING_INDEX(b.createDate, ' ', 1) = :today and b.status = 'CANCEL'")
     long getCancelToday(String today);
 
-    @Query(value = "select count(b.id) from Booking b where SUBSTRING_INDEX(b.actualArrivalDate, ' ', 1) = :today and b.status = 'BOOKED'")
+    @Query(value = "select count(b.id) from Booking b where SUBSTRING_INDEX(b.actualArrivalDate, ' ', 1) = :today")
     long getActualArriveDay(String today);
 
     @Query(value = "select count(b.id) from Booking b where SUBSTRING_INDEX(b.actualDepartureDate, ' ', 1) = :today and b.status = 'CHECK OUT'")
@@ -43,15 +43,29 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     @Query(value = "select sum(booking.total_amount)" +
             "from booking " +
-            "where STR_TO_DATE('29/11/2022', '%d/%m/%Y') between " +
+            "where STR_TO_DATE(:today, '%d/%m/%Y') between " +
             "DATE_ADD(STR_TO_DATE(booking.arrival_date, '%d/%m/%Y'), INTERVAL -DAY(STR_TO_DATE(booking.arrival_date, '%d/%m/%Y'))+1 DAY) and " +
-            "LAST_DAY(STR_TO_DATE(booking.arrival_date, '%d/%m/%Y')) and booking.status = 'DONE' GROUP BY booking.total_amount" , nativeQuery = true)
+            "LAST_DAY(STR_TO_DATE(booking.arrival_date, '%d/%m/%Y')) and booking.status = 'CHECK OUT' GROUP BY booking.total_amount" , nativeQuery = true)
     String getRevenueInMonthByCurrentDate(String today);
+
+    @Query(value = "select count(b.id) from Booking b where SUBSTRING_INDEX(b.actualDepartureDate, ' ', 1) = :today and b.status = 'CHECK OUT'")
+    String getRevenueCurrentDate(String today);
+
+    @Query(value = "select sum(b.id) from Booking b where SUBSTRING_INDEX(b.actualDepartureDate, ' ', 1) = :today and b.status = 'CANCEL'")
+    String getCancelRevenueCurrentDate(String today);
 
     @Query(value = "select sum(booking.total_amount)" +
             "from booking " +
-            "where STR_TO_DATE('29/11/2022', '%d/%m/%Y') between " +
+            "where STR_TO_DATE(:today, '%d/%m/%Y') between " +
             "DATE_ADD(STR_TO_DATE(booking.arrival_date, '%d/%m/%Y'), INTERVAL -DAY(STR_TO_DATE(booking.arrival_date, '%d/%m/%Y'))+1 DAY) and " +
             "LAST_DAY(STR_TO_DATE(booking.arrival_date, '%d/%m/%Y')) and booking.status = 'CANCEL' GROUP BY booking.total_amount" , nativeQuery = true)
     String getCancelRevenueInMonthByCurrentDate(String today);
+
+    @Query(value = "select *" +
+            "from booking " +
+            "where booking.status = 'CHECK OUT' and STR_TO_DATE(:today, '%d/%m/%Y') between " +
+            "DATE_ADD(STR_TO_DATE(booking.actual_departure_date, '%d/%m/%Y'), INTERVAL -DAY(STR_TO_DATE(booking.actual_departure_date, '%d/%m/%Y'))+1 DAY) and " +
+            "LAST_DAY(STR_TO_DATE(booking.actual_departure_date, '%d/%m/%Y'))", nativeQuery = true)
+    List<Booking> getRevenueEntireMonth(String today);
+
 }

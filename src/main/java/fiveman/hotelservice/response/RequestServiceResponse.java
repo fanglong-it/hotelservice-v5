@@ -1,3 +1,4 @@
+
 package fiveman.hotelservice.response;
 
 import fiveman.hotelservice.entities.Booking;

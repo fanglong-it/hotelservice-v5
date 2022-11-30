@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import fiveman.hotelservice.entities.*;
 import fiveman.hotelservice.repository.*;
+import fiveman.hotelservice.response.DashboardResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -321,6 +322,22 @@ public class BookingServiceImpl implements BookingService {
         roomType.setMaxBookingRoom(roomType.getMaxBookingRoom() + 1);
         roomTypeRepository.save(roomType);
         return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Status Success!");
+    }
+
+    @Override
+    public DashboardResponse getDashBoard(String date) {
+        DashboardResponse data = new DashboardResponse();
+        data.setBookedToday(bookingRepository.getBookedToday(date));
+        data.setAccumulateRevenue(bookingRepository.getRevenueInMonthByCurrentDate(date) != null ? bookingRepository.getRevenueInMonthByCurrentDate(date) : "");
+        data.setActualArriveToday(bookingRepository.getActualArriveDay(date));
+        data.setRevenue(bookingRepository.getRevenueInMonthByCurrentDate(date) != null ? bookingRepository.getRevenueInMonthByCurrentDate(date) : "");
+        data.setCanceledToday(bookingRepository.getCancelToday(date));
+        data.setCancelRevenue(bookingRepository.getCancelRevenueInMonthByCurrentDate(date) != null ? bookingRepository.getCancelRevenueInMonthByCurrentDate(date) : "");
+        data.setCancelAccumulateRevenue(bookingRepository.getCancelRevenueInMonthByCurrentDate(date) != null ? bookingRepository.getCancelRevenueInMonthByCurrentDate(date) : "");
+        data.setRoomBusy(bookingRepository.getCheckInToday(date));
+        data.setActualDepartureToday(bookingRepository.getActualDepartureDay(date));
+        data.setNumOfStay(bookingRepository.getAllCustomerStay());
+        return data;
     }
 
 }

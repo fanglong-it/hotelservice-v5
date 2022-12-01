@@ -362,7 +362,7 @@ public class PaymentServiceImpl implements PaymentService {
                 }
 
                 // set booking room payment
-                if (!Utilities.isEmptyString(request.getVnp_Amount())) {
+                if (request.getPaymentMethod() != 0) {
                     booking.setRoomPayment(String.valueOf(request.getRoomTypes().get(i).getPrice()));
                 } else {
                     booking.setRoomPayment("N/A");
@@ -408,9 +408,9 @@ public class PaymentServiceImpl implements PaymentService {
                 listBooking.add(bookingResponse);
             }
         }
-        if (listBooking.size() > 0) {
-            emailService.sendMail(listBooking);
-        }
+//        if (listBooking.size() > 0) {
+//            emailService.sendMail(listBooking);
+//        }
         return listBooking;
     }
 }

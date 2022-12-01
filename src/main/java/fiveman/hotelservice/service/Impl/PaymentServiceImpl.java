@@ -268,14 +268,15 @@ public class PaymentServiceImpl implements PaymentService {
 
         List<BookingResponse> listBooking = new ArrayList<>();
         List<Order> orderList = new ArrayList<>();
-//        List<Order> listOrder = new ArrayList<>();
+        List<BookingResponse.BookingFailureRoom> listRoomBusy = new ArrayList<>();
         for (int i = 0; i < request.getRoomTypes().size(); i++) {
             RoomType roomType = roomTypeRepository.getRoomTypeById(request.getRoomTypes().get(i).getId());
+            BookingResponse bookingResponse = new BookingResponse();
             if (roomType.getMaxBookingRoom() != 0) {
                 if (i == 0) {
                     customerRepository.save(request.getCustomer());
                 }
-                BookingResponse bookingResponse = new BookingResponse();
+                bookingResponse = new BookingResponse();
                 List<OrderDetail> orderDetailList = new ArrayList<>();
 
                 Order order = new Order();
@@ -405,12 +406,22 @@ public class PaymentServiceImpl implements PaymentService {
                 bookingResponse.setBooking(bookingLatest);
                 bookingResponse.setRoomType(roomType);
                 bookingResponse.setHotel(hotel);
-                listBooking.add(bookingResponse);
+
+            } else {
+                BookingResponse.BookingFailureRoom bookingFailureRoom = new BookingResponse.BookingFailureRoom();
+                bookingFailureRoom.setStartDate(request.getBookingDates().getStartDate());
+                bookingFailureRoom.setEndDate(request.getBookingDates().getEndDate());
+                bookingFailureRoom.setAdult(request.getPersons().get(i).getAdult());
+                bookingFailureRoom.setChild(request.getPersons().get(i).getChild());
+                bookingFailureRoom.setBookingFailureRoomName(roomType.getName());
+                bookingResponse.setBookingFailureRoom(bookingFailureRoom);
             }
+            listBooking.add(bookingResponse);
         }
-       if (listBooking.size() > 0) {
-           emailService.sendMail(listBooking);
-       }
+
+        if (listBooking.size() > 0) {
+            emailService.sendMail(listBooking);
+        }
         return listBooking;
     }
 }

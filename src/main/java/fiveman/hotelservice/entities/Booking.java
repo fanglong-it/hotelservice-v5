@@ -49,7 +49,7 @@ public class Booking {
     @JsonBackReference
     private Room room;
     
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Customer.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Customer.class, cascade = CascadeType.ALL)
     private Customer customer;
 
     @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY, targetEntity = RequestService.class)

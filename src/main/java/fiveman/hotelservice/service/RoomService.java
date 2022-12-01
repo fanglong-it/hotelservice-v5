@@ -22,6 +22,6 @@ public interface RoomService {
     
     List<Room> checkAvailabilityByRoomType(long Booking_Id);
 
-    Booking getBookingCheckInToday(long room_id);
+    List<Booking> getBookingCheckInToday();
 
 }

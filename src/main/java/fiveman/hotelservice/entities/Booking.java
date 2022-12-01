@@ -46,7 +46,7 @@ public class Booking {
     private Hotel hotel;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Room.class)
-    @JsonBackReference
+    // @JsonBackReference
     private Room room;
     
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Customer.class, cascade = CascadeType.ALL)

@@ -19,6 +19,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query(value = "Select * from booking b where b.room_id = :roomId and status like :status", nativeQuery = true)
     List<Booking> getAllBookingsByRoomIdAndStatus(long roomId, String status);
 
+    @Query(value = "select b.id, b.actual_arrival_date, b.actual_departure_date, b.arrival_date, b.confirmation_no, b.create_by, b.create_date, b.departure_date, b.last_modify_by, b.num_of_adult, b.num_of_children, b.room_payment, b.special_note, b.status, b.total_amount, b.update_date, b.customer_id, b.hotel_id, b.room_id, b.room_type_id from room r inner join booking b on r.id = b.room_id where b.room_id = :room_id and b.status = 'CHECK IN' and (STR_TO_DATE(:today, '%d/%m/%Y %T') between STR_TO_DATE(b.actual_arrival_date, '%d/%m/%Y %T') and STR_TO_DATE(b.actual_departure_date, '%d/%m/%Y %T'));", nativeQuery = true)
+    Booking getBookingByCheckInAndRoomId(String today, long room_id);
 
     @Query(value = "Select * from booking b where b.room_id = :roomId and b.status != 'CHECK OUT' and (STR_TO_DATE(:today, '%d/%m/%Y %T') between STR_TO_DATE(b.actual_arrival_date, '%d/%m/%Y %T') and STR_TO_DATE(b.actual_departure_date, '%d/%m/%Y %T'))", nativeQuery = true)
     Booking getBookingByRoomIdToday(long roomId, String today);

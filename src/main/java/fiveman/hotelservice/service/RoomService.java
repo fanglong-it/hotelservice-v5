@@ -2,6 +2,7 @@ package fiveman.hotelservice.service;
 
 import java.util.List;
 
+import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.entities.Room;
 import fiveman.hotelservice.request.RoomRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
@@ -21,6 +22,6 @@ public interface RoomService {
     
     List<Room> checkAvailabilityByRoomType(long Booking_Id);
 
-    List<Room> getRoomWithBookingToday(long room_id);
+    Booking getBookingCheckInToday(long room_id);
 
 }

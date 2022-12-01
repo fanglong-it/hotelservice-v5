@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.entities.Room;
 import fiveman.hotelservice.request.RoomRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
@@ -98,7 +99,7 @@ public class RoomController {
       }
 
       @PostMapping("/room/getRoomCheckInToday")
-      public ResponseEntity<List<Room>> getRoomCheckInToday(@RequestParam("room_id") long room_id){
-            return new ResponseEntity<>(roomService.getRoomWithBookingToday(room_id), HttpStatus.OK);
+      public ResponseEntity<Booking> getRoomCheckInToday(@RequestParam("room_id") long room_id){
+            return new ResponseEntity<>(roomService.getBookingCheckInToday(room_id), HttpStatus.OK);
       }
 }

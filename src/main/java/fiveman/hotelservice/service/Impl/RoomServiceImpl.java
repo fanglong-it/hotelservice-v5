@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.entities.CustomerBooking;
 import fiveman.hotelservice.entities.Room;
 import fiveman.hotelservice.exception.AppException;
@@ -74,7 +75,7 @@ public class RoomServiceImpl implements RoomService {
 
 
       @Override
-      public List<Room> getRoomWithBookingToday(long room_id) {
+      public Booking getBookingCheckInToday(long room_id) {
             String today = Utilities.getCurrentDate();
 
             // List<Room> rooms = roomRepository.findAll();
@@ -91,7 +92,10 @@ public class RoomServiceImpl implements RoomService {
             // //       }
             // //       roomResponses.add(roomResponse);
             // // }
-            return roomRepository.getRoomCheckInToday(today, room_id);
+            Booking booking = bookingRepository.getBookingByCheckInAndRoomId(today, room_id);
+            return booking;
+
+            // return roomRepository.getRoomCheckInToday(today, room_id);
             // return roomRepository.findAll();
       }
 

@@ -109,8 +109,8 @@ public class Common {
     public static final String VNP_URI = "http://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
     public static final String VNP_ORDER_TYPE_HOTEL = "170000";
 
-//    public static final String VNP_RETURNURL = "https://5men.netlify.app/bookingConfirm";
-    public static final String VNP_RETURNURL = "http://localhost:3000/bookingConfirm";
+    public static final String VNP_RETURNURL = "https://5men.netlify.app/bookingConfirm";
+//    public static final String VNP_RETURNURL = "http://localhost:3000/bookingConfirm";
     public static final String VNP_RETURN_URL_APP = "";
 
 }

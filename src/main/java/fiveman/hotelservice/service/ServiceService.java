@@ -6,10 +6,10 @@ import fiveman.hotelservice.entities.Service;
 import fiveman.hotelservice.response.ServiceResponse;
 
 public interface ServiceService {
+
+
     List<ServiceResponse> getAllServices();
-
     List<ServiceResponse> getAllServicesByServiceCategory(long id);
-
     List<ServiceResponse> saveServices(Service service);
     ServiceResponse getServiceById(Long id);
     List<ServiceResponse> updateService(Service service);

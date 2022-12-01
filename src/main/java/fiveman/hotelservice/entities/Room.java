@@ -2,8 +2,12 @@ package fiveman.hotelservice.entities;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+
+import java.util.List;
+
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @AllArgsConstructor
@@ -32,5 +36,10 @@ public class Room {
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = RoomType.class)
     @JsonBackReference
     private RoomType roomType;
+
+
+    // @OneToMany(fetch = FetchType.LAZY, targetEntity = Booking.class)
+    // @JsonManagedReference
+    // private List<Booking> bookings;
 
 }

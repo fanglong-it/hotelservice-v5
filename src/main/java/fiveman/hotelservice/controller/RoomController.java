@@ -97,8 +97,8 @@ public class RoomController {
             return new ResponseEntity<>(roomService.checkAvailabilityByRoomType(booking_id), HttpStatus.OK);
       }
 
-      @PostMapping("/room/getRoomByBookingToday")
-      public ResponseEntity<List<RoomResponse>> getRoomByBookingToday(){
+      @PostMapping("/room/getRoomCheckInToday")
+      public ResponseEntity<List<Room>> getRoomCheckInToday(){
             return new ResponseEntity<>(roomService.getRoomWithBookingToday(), HttpStatus.OK);
       }
 }

@@ -71,23 +71,30 @@ public class RoomServiceImpl implements RoomService {
 
       @Autowired
       CustomerBookingRepository customerBookingRepository;
+
+
       @Override
-      public List<RoomResponse> getRoomWithBookingToday() {
+      public List<Room> getRoomWithBookingToday() {
             String today = Utilities.getCurrentDate();
-            List<Room> rooms = roomRepository.findAll();
-            List<RoomResponse> roomResponses = new ArrayList<>();
-            for (Room room : rooms) {
-                  RoomResponse roomResponse = mapRoomToResponse(room);
-                  roomResponse.setStatus(room.isStatus());
-                  roomResponse.setBooking(bookingRepository.getBookingByRoomIdToday(roomResponse.getId(), today));
-                  if(roomResponse.getBooking() != null){
-                        CustomerBooking customerBooking = customerBookingRepository.selectPrimaryCustomerByBooking(roomResponse.getBooking().getId());
-                        roomResponse.setPrimaryCustomer(customerBooking.getPrimaryCustomer());
-                  }
-                  roomResponses.add(roomResponse);
-            }
-            return roomResponses;
+
+            // List<Room> rooms = roomRepository.findAll();
+
+            // List<RoomResponse> roomResponses = new ArrayList<>();
+
+            // // for (Room room : rooms) {
+            // //       RoomResponse roomResponse = mapRoomToResponse(room);
+            // //       roomResponse.setStatus(room.isStatus());
+            // //       roomResponse.setBooking(bookingRepository.getBookingByRoomIdToday(roomResponse.getId(), today));
+            // //       if(roomResponse.getBooking() != null){
+            // //             CustomerBooking customerBooking = customerBookingRepository.selectPrimaryCustomerByBooking(roomResponse.getBooking().getId());
+            // //             roomResponse.setPrimaryCustomer(customerBooking.getPrimaryCustomer());
+            // //       }
+            // //       roomResponses.add(roomResponse);
+            // // }
+            return roomRepository.getRoomCheckInToday(today);
+            // return roomRepository.findAll();
       }
+
 
       @Override
       public List<RoomResponse> getRooms() {

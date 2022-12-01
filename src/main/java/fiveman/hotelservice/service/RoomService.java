@@ -20,6 +20,6 @@ public interface RoomService {
     
     List<Room> checkAvailabilityByRoomType(long Booking_Id);
 
-    List<RoomResponse> getRoomWithBookingToday();
+    List<Room> getRoomWithBookingToday();
 
 }

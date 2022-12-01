@@ -93,11 +93,6 @@ public class RoomServiceImpl implements RoomService {
             // //       roomResponses.add(roomResponse);
             // // }
             Booking booking = bookingRepository.getBookingByCheckInAndRoomId(today, room_id);
-            if(booking == null){
-                  throw new AppException(HttpStatus.NOT_FOUND.value(),
-                  new CustomResponseObject(Common.GET_FAIL, "Not have Booked"));
-            }
-
             return booking;
 
             // return roomRepository.getRoomCheckInToday(today, room_id);

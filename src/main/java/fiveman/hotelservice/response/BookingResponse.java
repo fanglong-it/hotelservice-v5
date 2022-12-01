@@ -4,10 +4,9 @@ import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.entities.Hotel;
 import fiveman.hotelservice.entities.RoomType;
 import fiveman.hotelservice.entities.Service;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,4 +17,18 @@ public class BookingResponse {
     private RoomType roomType;
     private Hotel hotel;
     private Service service;
+    private BookingFailureRoom bookingFailureRoom;
+
+    @Data
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BookingFailureRoom{
+        private String bookingFailureRoomName;
+        private String startDate;
+        private String endDate;
+        private int adult;
+        private int child;
+    }
 }

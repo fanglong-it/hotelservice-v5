@@ -45,7 +45,7 @@ public class RoomController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<List<RoomResponse>> getRooms() {
+      public ResponseEntity<List<Room>> getRooms() {
             return new ResponseEntity<>(roomService.getRooms(), HttpStatus.OK);
       }
 
@@ -98,7 +98,7 @@ public class RoomController {
       }
 
       @PostMapping("/room/getRoomCheckInToday")
-      public ResponseEntity<List<Room>> getRoomCheckInToday(){
-            return new ResponseEntity<>(roomService.getRoomWithBookingToday(), HttpStatus.OK);
+      public ResponseEntity<List<Room>> getRoomCheckInToday(@RequestParam("room_id") long room_id){
+            return new ResponseEntity<>(roomService.getRoomWithBookingToday(room_id), HttpStatus.OK);
       }
 }

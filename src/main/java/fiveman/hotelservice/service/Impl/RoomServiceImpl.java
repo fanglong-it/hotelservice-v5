@@ -74,7 +74,7 @@ public class RoomServiceImpl implements RoomService {
 
 
       @Override
-      public List<Room> getRoomWithBookingToday() {
+      public List<Room> getRoomWithBookingToday(long room_id) {
             String today = Utilities.getCurrentDate();
 
             // List<Room> rooms = roomRepository.findAll();
@@ -91,20 +91,20 @@ public class RoomServiceImpl implements RoomService {
             // //       }
             // //       roomResponses.add(roomResponse);
             // // }
-            return roomRepository.getRoomCheckInToday(today);
+            return roomRepository.getRoomCheckInToday(today, room_id);
             // return roomRepository.findAll();
       }
 
 
       @Override
-      public List<RoomResponse> getRooms() {
+      public List<Room> getRooms() {
             log.info("GET ALL ROOMS");
-            List<RoomResponse> roomResponses = new ArrayList<>();
+            // List<RoomResponse> roomResponses = new ArrayList<>();
             List<Room> rooms = roomRepository.findAll();
-            for (Room r : rooms) {
-                  roomResponses.add(mapRoomToResponse(r));
-            }
-            return roomResponses;
+            // for (Room r : rooms) {
+            //       roomResponses.add(mapRoomToResponse(r));
+            // }
+            return rooms;
       }
 
       @Override

@@ -8,7 +8,8 @@ import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.RoomResponse;
 
 public interface RoomService {
-    List<RoomResponse> getRooms();
+    
+    List<Room> getRooms();
 
     RoomResponse getRoom(long id);
 
@@ -20,6 +21,6 @@ public interface RoomService {
     
     List<Room> checkAvailabilityByRoomType(long Booking_Id);
 
-    List<Room> getRoomWithBookingToday();
+    List<Room> getRoomWithBookingToday(long room_id);
 
 }

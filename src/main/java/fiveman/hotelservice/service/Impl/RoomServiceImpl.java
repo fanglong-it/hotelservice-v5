@@ -61,7 +61,7 @@ public class RoomServiceImpl implements RoomService {
             roomResponse.setUpdateDate(room.getUpdateDate());
             roomResponse.setCreateBy(room.getCreateBy());
             roomResponse.setLastModifyBy(room.getLastModifyBy());
-            roomResponse.setHotel_Id(room.getHotel().getId());
+            roomResponse.setHotel(room.getHotel());
             roomResponse.setRoomType(room.getRoomType());
             roomResponse.getRoomType().setRooms(null);
             return roomResponse;
@@ -98,6 +98,16 @@ public class RoomServiceImpl implements RoomService {
             // return roomRepository.getRoomCheckInToday(today, room_id);
             // return roomRepository.findAll();
       }
+
+      
+
+
+      @Override
+      public List<RoomResponse> getRoomWithBooking() {
+            return roomRepository.getRoomWithBooking();
+      }
+
+
 
 
       @Override

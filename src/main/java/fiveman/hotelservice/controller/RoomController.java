@@ -102,4 +102,8 @@ public class RoomController {
       public ResponseEntity<List<Booking>> getRoomCheckInToday(){
             return new ResponseEntity<>(roomService.getBookingCheckInToday(), HttpStatus.OK);
       }
+      @GetMapping("/room/getRoomWithBooking")
+      public ResponseEntity<List<RoomResponse>> getRoomWithBooking(){
+            return new ResponseEntity<>(roomService.getRoomWithBooking(), HttpStatus.OK);
+      }
 }

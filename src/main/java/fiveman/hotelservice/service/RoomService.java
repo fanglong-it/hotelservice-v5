@@ -24,4 +24,8 @@ public interface RoomService {
 
     List<Booking> getBookingCheckInToday();
 
+
+    List<RoomResponse> getRoomWithBooking();
+    
+
 }

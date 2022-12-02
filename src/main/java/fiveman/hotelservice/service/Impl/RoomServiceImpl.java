@@ -104,7 +104,8 @@ public class RoomServiceImpl implements RoomService {
 
       @Override
       public List<RoomResponse> getRoomWithBooking() {
-            return roomRepository.getRoomWithBooking();
+            // return roomRepository.getRoomWithBooking();
+            return null;
       }
 
 

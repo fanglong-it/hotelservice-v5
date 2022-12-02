@@ -52,11 +52,11 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     
 
-    @NamedNativeQuery(
-        name = "RoomResponse",
-        query = "select * , (select b.id from booking b where b.room_id = r.id) as 'booking' from room r;",
-        resultSetMapping = "RoomResponseMapping")
-    List<RoomResponse> getRoomWithBooking();
+    // @NamedNativeQuery(
+    //     name = "RoomResponse",
+    //     query = "select * , (select b.id from booking b where b.room_id = r.id) as 'booking' from room r;",
+    //     resultSetMapping = "RoomResponseMapping")
+    // List<RoomResponse> getRoomWithBooking();
 
     // @Query("SELECT " +
     // "    new com.path.to.SurveyAnswerStatistics(v.answer, COUNT(v)) " +

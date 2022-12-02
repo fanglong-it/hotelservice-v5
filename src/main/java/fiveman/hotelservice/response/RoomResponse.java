@@ -13,8 +13,13 @@ import lombok.Setter;
 
 
 
-@SqlResultSetMapping(name = "RoomResponseMapping",
-        columns = {@ColumnResult(name = "id")})
+// @SqlResultSetMapping(name = "RoomResponseMapping",
+//         columns = {@ColumnResult(name = "id")})
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class RoomResponse {
 
     private long id;
@@ -30,23 +35,5 @@ public class RoomResponse {
     private RoomType roomType;
     private Booking booking;
     
-    public RoomResponse(long id, String name, String roomNo, String description, String createDate, String updateDate,
-            String createBy, boolean status, String lastModifyBy, Hotel hotel, RoomType roomType, Booking booking) {
-        this.id = id;
-        this.name = name;
-        this.roomNo = roomNo;
-        this.description = description;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-        this.createBy = createBy;
-        this.status = status;
-        this.lastModifyBy = lastModifyBy;
-        this.hotel = hotel;
-        this.roomType = roomType;
-        this.booking = booking;
-    }
-
-    
-    // private String primaryCustomer;
     
 }

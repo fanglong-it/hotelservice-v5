@@ -30,8 +30,8 @@ public class ServiceController {
 
     @GetMapping("/services")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<List<ServiceResponse>> getAllServices() {
-        return new ResponseEntity<List<ServiceResponse>>(service.getAllServices(), HttpStatus.OK);
+    public ResponseEntity<List<Service>> getAllServices() {
+        return new ResponseEntity<>(service.getAllServicesTest(), HttpStatus.OK);
     }
 
     @GetMapping("/service/{id}")
@@ -42,8 +42,8 @@ public class ServiceController {
 
     @GetMapping("/service")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<List<ServiceResponse>> getAllServicesByServiceCategories(@RequestParam("cate_id") long id) {
-        return new ResponseEntity<>(service.getAllServicesByServiceCategory(id), HttpStatus.OK);
+    public ResponseEntity<List<Service>> getAllServicesByServiceCategories(@RequestParam("cate_id") long id) {
+        return new ResponseEntity<>(service.getAllServicesByServiceCategoryTest(id), HttpStatus.OK);
     }
 
 

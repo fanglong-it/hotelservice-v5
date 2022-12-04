@@ -77,6 +77,15 @@ public class ServiceServiceImpl implements ServiceService {
         return serviceResponses;
     }
 
+    
+
+    @Override
+    public List<Service> getAllServicesByServiceCategoryTest(long id) {
+        return serviceRepository.getAllByServiceCategory_Id(id);
+    }
+
+
+
     @Autowired
     ServiceRepository serviceRepository;
 
@@ -89,6 +98,13 @@ public class ServiceServiceImpl implements ServiceService {
             serviceResponses.add(mapServiceToResponse(service));
         }
         return serviceResponses;
+    }
+
+    
+
+    @Override
+    public List<Service> getAllServicesTest() {
+        return serviceRepository.findAll();
     }
 
     @Override

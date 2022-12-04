@@ -9,7 +9,10 @@ public interface ServiceService {
 
 
     List<ServiceResponse> getAllServices();
+    List<Service> getAllServicesTest();
+
     List<ServiceResponse> getAllServicesByServiceCategory(long id);
+    List<Service> getAllServicesByServiceCategoryTest(long id);
     List<ServiceResponse> saveServices(Service service);
     ServiceResponse getServiceById(Long id);
     List<ServiceResponse> updateService(Service service);

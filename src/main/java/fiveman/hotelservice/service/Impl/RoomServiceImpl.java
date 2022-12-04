@@ -78,20 +78,20 @@ public class RoomServiceImpl implements RoomService {
       public List<Booking> getBookingCheckInToday() {
             String today = Utilities.getCurrentDate();
 
-            // List<Room> rooms = roomRepository.findAll();
+            List<Room> rooms = roomRepository.findAll();
 
-            // List<RoomResponse> roomResponses = new ArrayList<>();
+            List<RoomResponse> roomResponses = new ArrayList<>();
 
-            // // for (Room room : rooms) {
-            // //       RoomResponse roomResponse = mapRoomToResponse(room);
-            // //       roomResponse.setStatus(room.isStatus());
-            // //       roomResponse.setBooking(bookingRepository.getBookingByRoomIdToday(roomResponse.getId(), today));
-            // //       if(roomResponse.getBooking() != null){
-            // //             CustomerBooking customerBooking = customerBookingRepository.selectPrimaryCustomerByBooking(roomResponse.getBooking().getId());
-            // //             roomResponse.setPrimaryCustomer(customerBooking.getPrimaryCustomer());
-            // //       }
-            // //       roomResponses.add(roomResponse);
-            // // }
+            for (Room room : rooms) {
+                  RoomResponse roomResponse = mapRoomToResponse(room);
+                  roomResponse.setStatus(room.isStatus());
+                  roomResponse.setBooking(bookingRepository.getBookingByRoomIdToday(roomResponse.getId(), today));
+                  if(roomResponse.getBooking() != null){
+                        CustomerBooking customerBooking = customerBookingRepository.selectPrimaryCustomerByBooking(roomResponse.getBooking().getId());
+                        roomResponse.setPrimaryCustomer(customerBooking.getPrimaryCustomer());
+                  }
+                  roomResponses.add(roomResponse);
+            }
             List<Booking> bookings = bookingRepository.getBookingByCheckInAndRoomId(today);
             return bookings;
 

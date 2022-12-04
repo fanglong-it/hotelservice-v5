@@ -34,6 +34,6 @@ public class RoomResponse {
     private Hotel hotel;
     private RoomType roomType;
     private Booking booking;
-    
+    private String primaryCustomer;
     
 }

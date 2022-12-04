@@ -11,6 +11,9 @@ public interface ImageService {
 
     List<Image> getImageByImageType(String type);
 
+    
+    List<Image> getImageByImageTypeContain(String type);
+
     CustomResponseObject saveImage(Image image);
 
     Image getImageById(Long id);

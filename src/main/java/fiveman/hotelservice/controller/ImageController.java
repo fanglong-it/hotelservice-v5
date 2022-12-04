@@ -37,6 +37,11 @@ public class ImageController {
     public ResponseEntity<List<Image>> getImageByType(@RequestParam("type") String type) {
         return new ResponseEntity<>(imageService.getImageByImageType(type), HttpStatus.OK);
     }
+   @GetMapping("/getImageByImageTypeContain")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
+    public ResponseEntity<List<Image>> getImageByImageTypeContain(@RequestParam("type") String type) {
+        return new ResponseEntity<>(imageService.getImageByImageTypeContain(type), HttpStatus.OK);
+    }
 
     @GetMapping("/image/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")

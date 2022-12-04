@@ -33,6 +33,13 @@ public class ImageServiceImpl implements ImageService {
         return imageRepository.getAllByPictureType(type);
     }
 
+    
+
+    @Override
+    public List<Image> getImageByImageTypeContain(String type) {
+        return imageRepository.getAllByPictureTypeContains(type);
+    }
+
     @Override
     public CustomResponseObject saveImage(Image image) {
         if (!imageRepository.existsById(image.getId())) {

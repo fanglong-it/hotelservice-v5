@@ -419,9 +419,9 @@ public class PaymentServiceImpl implements PaymentService {
             listBooking.add(bookingResponse);
         }
 
-        if (listBooking.size() > 0) {
-            emailService.sendMail(listBooking);
-        }
+//        if (listBooking.size() > 0) {
+//            emailService.sendMail(listBooking);
+//        }
         return listBooking;
     }
 }

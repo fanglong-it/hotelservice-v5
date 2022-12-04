@@ -25,14 +25,14 @@ public class AbstractionController {
 
     @GetMapping("/abstraction/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<AbstractionResponse> getAbstractionById(@PathVariable("id") long id) {
+    public ResponseEntity<Abstraction> getAbstractionById(@PathVariable("id") long id) {
         return new ResponseEntity<>(abstractionService.getAbstractionById(id), HttpStatus.OK);
     }
 
 
     @GetMapping("/abstractions")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<AbstractionResponse>> getAbstractions() {
+    public ResponseEntity<List<Abstraction>> getAbstractions() {
         return new ResponseEntity<>(abstractionService.getAbstractions(), HttpStatus.OK);
     }
 
@@ -41,21 +41,21 @@ public class AbstractionController {
 
     @PostMapping("/abstraction")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<AbstractionResponse>> saveAbstraction(@RequestBody @Valid AbstractionRequest abstractionRequest) {
+    public ResponseEntity<List<Abstraction>> saveAbstraction(@RequestBody @Valid AbstractionRequest abstractionRequest) {
         Abstraction abstraction = modelMapper.map(abstractionRequest, Abstraction.class);
         return new ResponseEntity<>(abstractionService.saveAbstraction(abstraction), HttpStatus.OK);
     }
 
     @PutMapping("/abstraction")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<AbstractionResponse>> updateAbstraction(@RequestBody @Valid AbstractionRequest abstractionRequest) {
+    public ResponseEntity<List<Abstraction>> updateAbstraction(@RequestBody @Valid AbstractionRequest abstractionRequest) {
         Abstraction abstraction = modelMapper.map(abstractionRequest, Abstraction.class);
         return new ResponseEntity<>(abstractionService.updateAbstraction(abstraction), HttpStatus.OK);
     }
 
     @DeleteMapping("/abstraction/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<AbstractionResponse>> deleteAbstraction(@PathVariable("id") long id) {
+    public ResponseEntity<List<Abstraction>> deleteAbstraction(@PathVariable("id") long id) {
         return new ResponseEntity<>(abstractionService.deleteAbstractionById(id), HttpStatus.OK);
     }
 

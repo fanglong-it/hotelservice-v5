@@ -10,6 +10,7 @@ import java.util.List;
 public interface ImageRepository extends JpaRepository<Image, Long> {
       Image getPictureById(Long id);
 
+      // findByPictureTypeContaining
       List<Image> getAllByPictureType(String type);
 //    List<Image> getAllByPictureTypeContains(String type);
 }

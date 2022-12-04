@@ -7,13 +7,14 @@ import fiveman.hotelservice.response.AbstractionResponse;
 import java.util.List;
 
 public interface AbstractionService {
-    AbstractionResponse getAbstractionById(long id);
+    Abstraction getAbstractionById(long id);
 
-    List<AbstractionResponse> getAbstractions();
+    List<Abstraction> getAbstractions();
+    // List<Abstraction> getAbstractions();
 
-    List<AbstractionResponse> saveAbstraction(Abstraction abstraction);
+    List<Abstraction> saveAbstraction(Abstraction abstraction);
 
-    List<AbstractionResponse> updateAbstraction(Abstraction abstraction);
+    List<Abstraction> updateAbstraction(Abstraction abstraction);
 
-    List<AbstractionResponse> deleteAbstractionById(long id);
+    List<Abstraction> deleteAbstractionById(long id);
 }

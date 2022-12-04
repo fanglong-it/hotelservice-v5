@@ -34,6 +34,12 @@ public class ServiceController {
         return new ResponseEntity<>(service.getAllServicesTest(), HttpStatus.OK);
     }
 
+    @GetMapping("/servicesTest")
+    @PreAuthorize("isAuthenticated() or isAnonymous()")
+    public ResponseEntity<List<ServiceResponse>> getAllServicesTest() {
+        return new ResponseEntity<>(service.getAllServices(), HttpStatus.OK);
+    }
+
     @GetMapping("/service/{id}")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
     public ResponseEntity<ServiceResponse> getServicesById(@PathVariable("id") Long id) {

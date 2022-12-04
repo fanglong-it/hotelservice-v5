@@ -78,7 +78,7 @@ public class AbstractionServiceImpl implements AbstractionService {
     @Override
     public List<Abstraction> getAbstractions() {
         // TODO Auto-generated method stub
-        return abstractionRepository.findAll();
+        return abstractionRepository.findAbstractions();
     }
     
     @Override

@@ -30,7 +30,9 @@ public class Abstraction {
     private String address;
     private String description;
 
+
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Hotel.class)
+    
     private Hotel hotel;
 
 }

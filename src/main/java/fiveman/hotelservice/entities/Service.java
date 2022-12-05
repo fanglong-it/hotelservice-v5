@@ -39,8 +39,8 @@ public class Service {
     private String createBy;
     private String lastModifyBy;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = ServiceCategory.class)
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = ServiceCategory.class)
+    // @JsonBackReference
     private ServiceCategory serviceCategory;
 
 }

@@ -65,24 +65,24 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public List<ServiceResponse> getAllServicesByServiceCategory(long id) {
+    public List<Service> getAllServicesByServiceCategory(long id) {
         List<Service> services = serviceRepository.getAllByServiceCategory_Id(id);
-        List<ServiceResponse> serviceResponses = new ArrayList<>();
-        for (Service service : services) {
-            ServiceResponse response = mapServiceToResponse(service);
-            List<Image> images = imageRepository.getAllByPictureType("img_service_" + service.getId());
-            response.setImage(images);
-            serviceResponses.add(response);
-        }
-        return serviceResponses;
+        // List<ServiceResponse> serviceResponses = new ArrayList<>();
+        // for (Service service : services) {
+        //     ServiceResponse response = mapServiceToResponse(service);
+        //     List<Image> images = imageRepository.getAllByPictureType("img_service_" + service.getId());
+        //     response.setImage(images);
+        //     serviceResponses.add(response);
+        // }
+        return services;
     }
 
     
 
-    @Override
-    public List<Service> getAllServicesByServiceCategoryTest(long id) {
-        return serviceRepository.getAllByServiceCategory_Id(id);
-    }
+    // @Override
+    // public List<Service> getAllServicesByServiceCategoryTest(long id) {
+    //     return serviceRepository.getAllByServiceCategory_Id(id);
+    // }
 
 
 
@@ -90,22 +90,22 @@ public class ServiceServiceImpl implements ServiceService {
     ServiceRepository serviceRepository;
 
     @Override
-    public List<ServiceResponse> getAllServices() {
+    public List<Service> getAllServices() {
         log.info("START OF GET ALL SERVICES!!!");
         List<Service> services = serviceRepository.findAll();
-        List<ServiceResponse> serviceResponses = new ArrayList<>();
-        for (Service service : services) {
-            serviceResponses.add(mapServiceToResponse(service));
-        }
-        return serviceResponses;
+        // List<ServiceResponse> serviceResponses = new ArrayList<>();
+        // for (Service service : services) {
+        //     serviceResponses.add(mapServiceToResponse(service));
+        // }
+        return services;
     }
 
     
 
-    @Override
-    public List<Service> getAllServicesTest() {
-        return serviceRepository.findAll();
-    }
+    // @Override
+    // public List<Service> getAllServicesTest() {
+    //     return serviceRepository.findAll();
+    // }
 
     @Override
     public ServiceResponse getServiceById(Long id) {
@@ -119,7 +119,7 @@ public class ServiceServiceImpl implements ServiceService {
 
 
     @Override
-    public List<ServiceResponse> updateService(fiveman.hotelservice.entities.Service service) {
+    public List<Service> updateService(fiveman.hotelservice.entities.Service service) {
         log.info("CHECKING ID FOR UPDATE SERVICE");
         if (serviceRepository.existsById(service.getId())) {
             log.info("ID IS EXIST START OF UPDATE SERVICE");
@@ -139,7 +139,7 @@ public class ServiceServiceImpl implements ServiceService {
     ServiceCategoryRepository serviceCategoryRepository;
 
     @Override
-    public List<ServiceResponse> deleteService(Long id) {
+    public List<Service> deleteService(Long id) {
         log.info("CHECKING ID FOR DELETE SERVICE");
         if (serviceRepository.existsById(id)) {
             log.info("START OF DELETE SERVICE BY ID");
@@ -156,7 +156,7 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public List<ServiceResponse> saveServices(fiveman.hotelservice.entities.Service service) {
+    public List<Service> saveServices(fiveman.hotelservice.entities.Service service) {
         if (!serviceRepository.existsById(service.getId())) {
             service.setServiceCategory(serviceCategoryRepository.getServiceCategoryById(service.getServiceCategory().getId()));
             service.setCreateDate(Utilities.getCurrentDateByFormat("dd/MM/yyyy"));

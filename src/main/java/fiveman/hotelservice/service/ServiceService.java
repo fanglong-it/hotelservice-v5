@@ -8,14 +8,11 @@ import fiveman.hotelservice.response.ServiceResponse;
 public interface ServiceService {
 
 
-    List<ServiceResponse> getAllServices();
-    List<Service> getAllServicesTest();
-
-    List<ServiceResponse> getAllServicesByServiceCategory(long id);
-    List<Service> getAllServicesByServiceCategoryTest(long id);
-    List<ServiceResponse> saveServices(Service service);
+    List<Service> getAllServices();
+    List<Service> getAllServicesByServiceCategory(long id);
+    List<Service> saveServices(Service service);
     ServiceResponse getServiceById(Long id);
-    List<ServiceResponse> updateService(Service service);
-    List<ServiceResponse> deleteService(Long id);
+    List<Service> updateService(Service service);
+    List<Service> deleteService(Long id);
     
 }

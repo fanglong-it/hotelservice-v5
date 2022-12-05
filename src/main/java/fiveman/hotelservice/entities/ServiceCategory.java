@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -31,10 +32,11 @@ public class ServiceCategory {
 
       boolean status;
       @ManyToOne(fetch = FetchType.LAZY, targetEntity = Hotel.class)
+      @JsonBackReference
       private Hotel hotel;
 
       @OneToMany(mappedBy = "serviceCategory", fetch = FetchType.LAZY)
-      @JsonManagedReference
+      @JsonBackReference
       List<Service> services;
 
 }

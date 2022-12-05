@@ -31,14 +31,14 @@ public class ServiceController {
     @GetMapping("/services")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
     public ResponseEntity<List<Service>> getAllServices() {
-        return new ResponseEntity<>(service.getAllServicesTest(), HttpStatus.OK);
-    }
-
-    @GetMapping("/servicesTest")
-    @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<List<ServiceResponse>> getAllServicesTest() {
         return new ResponseEntity<>(service.getAllServices(), HttpStatus.OK);
     }
+
+    // @GetMapping("/servicesTest")
+    // @PreAuthorize("isAuthenticated() or isAnonymous()")
+    // public ResponseEntity<List<Service>> getAllServicesTest() {
+    //     return new ResponseEntity<>(service.getAllServices(), HttpStatus.OK);
+    // }
 
     @GetMapping("/service/{id}")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
@@ -49,20 +49,20 @@ public class ServiceController {
     @GetMapping("/service")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
     public ResponseEntity<List<Service>> getAllServicesByServiceCategories(@RequestParam("cate_id") long id) {
-        return new ResponseEntity<>(service.getAllServicesByServiceCategoryTest(id), HttpStatus.OK);
+        return new ResponseEntity<>(service.getAllServicesByServiceCategory(id), HttpStatus.OK);
     }
 
 
     @PutMapping("/service")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<List<ServiceResponse>> updateService(@RequestBody ServiceRequest serviceRequest) {
+    public ResponseEntity<List<Service>> updateService(@RequestBody ServiceRequest serviceRequest) {
         Service serviceEntity = modelMapper.map(serviceRequest, Service.class);
         return new ResponseEntity<>(service.updateService(serviceEntity), HttpStatus.OK);
     }
 
     @PostMapping("/service")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<List<ServiceResponse>> saveService(@RequestBody @Valid ServiceRequest serviceRequest){
+    public ResponseEntity<List<Service>> saveService(@RequestBody @Valid ServiceRequest serviceRequest){
         Service serviceEntity = modelMapper.map(serviceRequest, Service.class);
         return new ResponseEntity<>(service.saveServices(serviceEntity),HttpStatus.OK);
     }
@@ -71,7 +71,7 @@ public class ServiceController {
 
 
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<List<ServiceResponse>> deleteServiceById(@PathVariable("id") Long id){
+    public ResponseEntity<List<Service>> deleteServiceById(@PathVariable("id") Long id){
         return new ResponseEntity<>(service.deleteService(id), HttpStatus.OK);
     }
 

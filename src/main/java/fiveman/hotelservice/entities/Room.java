@@ -37,9 +37,8 @@ public class Room {
     @JsonBackReference
     private RoomType roomType;
 
-
-    // @OneToMany(fetch = FetchType.LAZY, targetEntity = Booking.class)
-    // @JsonManagedReference
-    // private List<Booking> bookings;
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Booking.class, mappedBy = "room")
+    @JsonManagedReference
+    private List<Booking> bookings;
 
 }

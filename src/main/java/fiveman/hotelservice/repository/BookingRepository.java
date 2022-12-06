@@ -47,7 +47,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "from booking " +
             "where STR_TO_DATE(:today, '%d/%m/%Y') between " +
             "DATE_ADD(STR_TO_DATE(booking.arrival_date, '%d/%m/%Y'), INTERVAL -DAY(STR_TO_DATE(booking.arrival_date, '%d/%m/%Y'))+1 DAY) and " +
-            "LAST_DAY(STR_TO_DATE(booking.arrival_date, '%d/%m/%Y')) and booking.status = 'CHECK OUT' GROUP BY booking.total_amount" , nativeQuery = true)
+            "LAST_DAY(STR_TO_DATE(booking.arrival_date, '%d/%m/%Y')) and booking.status = 'CHECK OUT'" , nativeQuery = true)
     String getRevenueInMonthByCurrentDate(String today);
 
     @Query(value = "select count(b.id) from Booking b where SUBSTRING_INDEX(b.actualDepartureDate, ' ', 1) = :today and b.status = 'CHECK OUT'")

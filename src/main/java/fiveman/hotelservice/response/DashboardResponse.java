@@ -12,11 +12,11 @@ import java.util.List;
 @Setter
 public class DashboardResponse {
     private long bookedToday;
-    private String revenue;
-    private String accumulateRevenue;
+    private double revenue;
+    private double accumulateRevenue;
     private long canceledToday;
-    private String cancelRevenue;
-    private String cancelAccumulateRevenue;
+    private double cancelRevenue;
+    private double cancelAccumulateRevenue;
     private long actualArriveToday;
     private long actualDepartureToday;
     private long roomBusy;

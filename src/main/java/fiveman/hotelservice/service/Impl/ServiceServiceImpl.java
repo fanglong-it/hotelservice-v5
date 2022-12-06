@@ -167,4 +167,12 @@ public class ServiceServiceImpl implements ServiceService {
                 new CustomResponseObject(Common.ADDING_FAIL, "Is exist service id =" + service.getId()));
     }
 
+    @Override
+    public List<String> getTop3Services() {
+        // TODO Auto-generated method stub
+        return serviceRepository.getTop3ItemsBooked();
+    }
+
+    
+
 }

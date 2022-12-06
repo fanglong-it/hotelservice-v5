@@ -14,5 +14,7 @@ public interface ServiceService {
     ServiceResponse getServiceById(Long id);
     List<Service> updateService(Service service);
     List<Service> deleteService(Long id);
+
+    List<String> getTop3Services();
     
 }

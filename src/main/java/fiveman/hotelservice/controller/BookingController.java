@@ -35,7 +35,7 @@ public class BookingController {
 
     @GetMapping("/booking")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<BookingObjectResponse>> getBookingByRoomId(@RequestParam("room_id") long room_id) {
+    public ResponseEntity<List<BookingObjectResponse>> getAllBookingByRoomId(@RequestParam("room_id") long room_id) {
         return new ResponseEntity<List<BookingObjectResponse>>(bookingService.getAllBookingByRoomId(room_id),
                 HttpStatus.OK);
     }
@@ -87,6 +87,12 @@ public class BookingController {
     @GetMapping("/booking/dashboard")
     public ResponseEntity<DashboardResponse> getDashBoard(@RequestParam("date") String date){
         return new ResponseEntity<>(bookingService.getDashBoard(date), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/bookingByRoomId")
+    public ResponseEntity<Booking> getBookingByRoomId(@RequestParam("room_id") long room_id){
+        return new ResponseEntity<>(bookingService.getBookingByRoomId(room_id), HttpStatus.OK);
     }
 
 

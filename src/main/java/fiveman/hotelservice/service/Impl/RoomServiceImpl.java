@@ -120,7 +120,9 @@ public class RoomServiceImpl implements RoomService {
             //       roomResponses.add(mapRoomToResponse(r));
             // }
             return rooms;
+            // return roomRepository.getRoomByBooking();
       }
+
 
       @Override
       public RoomResponse getRoom(long id) {

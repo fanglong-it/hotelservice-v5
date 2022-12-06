@@ -283,7 +283,7 @@ public class BookingServiceImpl implements BookingService {
                 // String username =
                 // jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(request));
                 // booking.setLastModifyBy(username);
-                booking.setRoom(null);
+                // booking.setRoom(null);
 
                 if(booking.getRoomPayment().equals("N/A") || Utilities.isEmptyString(booking.getRoomPayment())){ //Check RoomIsPayment
                     String today = Utilities.getCurrentDateByFormat("dd/MM/yyyy");
@@ -367,5 +367,12 @@ public class BookingServiceImpl implements BookingService {
         data.setBookingList(bookingRepository.getRevenueEntireMonth(date));
         return data;
     }
+
+    @Override
+    public Booking getBookingByRoomId(long room_id) {
+        return bookingRepository.getBookingByRoomId(room_id);
+    }
+
+    
 
 }

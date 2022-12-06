@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,6 +40,7 @@ public class New {
     private String newsType;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Hotel.class)
+    @JsonBackReference
     private Hotel hotel;
 
 

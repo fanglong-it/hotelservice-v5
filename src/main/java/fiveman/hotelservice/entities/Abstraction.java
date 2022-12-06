@@ -8,6 +8,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,6 +34,7 @@ public class Abstraction {
 
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Hotel.class)
+    @JsonBackReference
     private Hotel hotel;
 
 }

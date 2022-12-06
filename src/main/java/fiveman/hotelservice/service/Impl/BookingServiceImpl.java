@@ -370,7 +370,12 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Booking getBookingByRoomId(long room_id) {
-        return bookingRepository.getBookingByRoomId(room_id);
+        Booking booking = bookingRepository.getBookingByRoomId(room_id);
+        if(booking == null){
+            throw new AppException(HttpStatus.NOT_FOUND.value(),
+             new CustomResponseObject(Common.GET_FAIL, "Not exist Booking with room_id = " + room_id));
+        }
+        return booking;
     }
 
     

@@ -63,16 +63,16 @@ public class AbstractionServiceImpl implements AbstractionService {
     }
 
     @Override
-    public List<AbstractionResponse> getAbstractions() {
+    public List<Abstraction> getAbstractions() {
 
         List<Abstraction> abstractions = abstractionRepository.findAll();
-        List<AbstractionResponse> abstractionResponses = new ArrayList<>();
+        // List<AbstractionResponse> abstractionResponses = new ArrayList<>();
 
-        for (Abstraction abstraction : abstractions) {
-            abstractionResponses.add(mapAbstractionToResponse(abstraction));
-        }
+        // for (Abstraction abstraction : abstractions) {
+        //     abstractionResponses.add(mapAbstractionToResponse(abstraction));
+        // }
 
-        return abstractionResponses;
+        return abstractions;
     }
     
     
@@ -83,7 +83,7 @@ public class AbstractionServiceImpl implements AbstractionService {
     }
 
     @Override
-    public List<AbstractionResponse> saveAbstraction(Abstraction abstraction) {
+    public List<Abstraction> saveAbstraction(Abstraction abstraction) {
         if (abstractionRepository.existsById(abstraction.getId())) {
             throw new AppException(HttpStatus.ALREADY_REPORTED.value(), new CustomResponseObject(Common.ADDING_FAIL, "Exist id =" + abstraction.getId()));
         }
@@ -95,7 +95,7 @@ public class AbstractionServiceImpl implements AbstractionService {
   
 
     @Override
-    public List<AbstractionResponse> updateAbstraction(Abstraction abstraction) {
+    public List<Abstraction> updateAbstraction(Abstraction abstraction) {
         if (!abstractionRepository.existsById(abstraction.getId())) {
             throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.UPDATE_FAIL, "Not found id =" + abstraction.getId()));
         }
@@ -105,7 +105,7 @@ public class AbstractionServiceImpl implements AbstractionService {
     }
 
     @Override
-    public List<AbstractionResponse> deleteAbstractionById(long id) {
+    public List<Abstraction> deleteAbstractionById(long id) {
         if (!abstractionRepository.existsById(id)) {
             throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.DELETE_FAIL, "Not found id =" + id));
         }

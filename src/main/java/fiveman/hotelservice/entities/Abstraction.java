@@ -32,7 +32,6 @@ public class Abstraction {
 
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Hotel.class)
-    
     private Hotel hotel;
 
 }

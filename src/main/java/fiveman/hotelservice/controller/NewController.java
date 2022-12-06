@@ -42,30 +42,30 @@ public class NewController {
     }
 
     @GetMapping("/new")
-    public ResponseEntity<List<NewResponse>> getNewByType(@RequestParam("type") String type){
+    public ResponseEntity<List<New>> getNewByType(@RequestParam("type") String type){
         return new ResponseEntity<>(newService.getNewByType(type), HttpStatus.OK);
     }
 
     
     @GetMapping("/news")
-    public ResponseEntity<List<NewResponse>> getAllNew(){
+    public ResponseEntity<List<New>> getAllNew(){
         return new ResponseEntity<>(newService.getAllNew(), HttpStatus.OK);
     }
 
     @PostMapping("/new")
-    public ResponseEntity<List<NewResponse>> saveNewEntity(@RequestBody @Valid NewRequest newRequest){
+    public ResponseEntity<List<New>> saveNewEntity(@RequestBody @Valid NewRequest newRequest){
         New oNew = modelMapper.map(newRequest, New.class);
         return new ResponseEntity<>(newService.saveNew(oNew), HttpStatus.OK);
     }
 
     @PutMapping("/new")
-    public ResponseEntity<List<NewResponse>> updateNew(@RequestBody @Valid NewRequest newRequest){
+    public ResponseEntity<List<New>> updateNew(@RequestBody @Valid NewRequest newRequest){
         New oNew = modelMapper.map(newRequest, New.class);
         return new ResponseEntity<>(newService.updateNew(oNew), HttpStatus.OK);
     }
 
     @DeleteMapping("/new")
-    public ResponseEntity<List<NewResponse>> deleteNew(@RequestParam long id){
+    public ResponseEntity<List<New>> deleteNew(@RequestParam long id){
         return new ResponseEntity<>(newService.deleteNew(id), HttpStatus.OK);
     }
 

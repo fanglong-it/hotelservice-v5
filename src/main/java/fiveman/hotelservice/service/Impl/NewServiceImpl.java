@@ -45,32 +45,31 @@ public class NewServiceImpl implements NewService {
 
     
     @Override
-    public List<NewResponse> getNewByType(String type) {
-        List<NewResponse> newResponses = new ArrayList<>();
-
+    public List<New> getNewByType(String type) {
+        // List<NewResponse> newResponses = new ArrayList<>();
         List<New> news =  newRepository.getAllBynewsType(type);
-        for (New new1 : news) {
-            NewResponse newResponse = mapNewToResponse(new1);
-            newResponses.add(newResponse);
-        }
-        return newResponses;
+        // for (New new1 : news) {
+        //     NewResponse newResponse = mapNewToResponse(new1);
+        //     newResponses.add(newResponse);
+        // }
+        return news;
     }
 
 
     @Override
-    public List<NewResponse> getAllNew() {
+    public List<New> getAllNew() {
         // return newRepository.findAll();
-        List<NewResponse> newResponses = new ArrayList<>();
+        // List<NewResponse> newResponses = new ArrayList<>();
         List<New> news =  newRepository.findAll();
-        for (New new1 : news) {
-            NewResponse newResponse = mapNewToResponse(new1);
-            newResponses.add(newResponse);
-        }
-        return newResponses;
+        // for (New new1 : news) {
+        //     NewResponse newResponse = mapNewToResponse(new1);
+        //     newResponses.add(newResponse);
+        // }
+        return news;
     }
 
     @Override
-    public List<NewResponse> saveNew(New oNew) {
+    public List<New> saveNew(New oNew) {
         if(newRepository.existsById(oNew.getId())){
             throw new AppException(HttpStatus.ALREADY_REPORTED, new CustomResponseObject(Common.ADDING_FAIL, "Exist id =" + oNew.getId()));
         }
@@ -80,7 +79,7 @@ public class NewServiceImpl implements NewService {
     }
 
     @Override
-    public List<NewResponse> updateNew(New oNew) {
+    public List<New> updateNew(New oNew) {
         
         if(!newRepository.existsById(oNew.getId())){
             throw new AppException(HttpStatus.NOT_FOUND, new CustomResponseObject(Common.UPDATE_FAIL, "Not found id =" + oNew.getId()));
@@ -92,7 +91,7 @@ public class NewServiceImpl implements NewService {
     
 
     @Override
-    public List<NewResponse> deleteNew(long id) {
+    public List<New> deleteNew(long id) {
         if(!newRepository.existsById(id)){
             throw new AppException(HttpStatus.NOT_FOUND, new CustomResponseObject(Common.DELETE_FAIL, "Not found id =" + id));
         }

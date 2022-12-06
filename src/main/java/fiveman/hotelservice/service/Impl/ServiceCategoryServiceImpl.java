@@ -50,7 +50,7 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
 
 
     @Override
-    public List<ServiceCategoryResponse> updateServiceCategory(ServiceCategory serviceCategory) {
+    public List<ServiceCategory> updateServiceCategory(ServiceCategory serviceCategory) {
         if (!serviceCategoryRepository.existsById(serviceCategory.getId())) {
             throw new AppException(HttpStatus.NOT_FOUND,new CustomResponseObject(Common.UPDATE_FAIL, "Update fail!"));
         }
@@ -60,7 +60,7 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
     }
 
     @Override
-    public List<ServiceCategoryResponse> deleteServiceCategory(long id) {
+    public List<ServiceCategory> deleteServiceCategory(long id) {
         if (!serviceCategoryRepository.existsById(id)) {
             throw new AppException(HttpStatus.NOT_FOUND,new CustomResponseObject(Common.DELETE_FAIL, "delete fail!"));
         }
@@ -76,7 +76,7 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
     }
 
     @Override
-    public List<ServiceCategoryResponse> saveServiceCategory(ServiceCategory serviceCategory) {
+    public List<ServiceCategory> saveServiceCategory(ServiceCategory serviceCategory) {
         if (!serviceCategoryRepository.existsById(serviceCategory.getId())) {
             log.info("START SAVING SERVICE_CATEGORY");
             serviceCategoryRepository.save(serviceCategory);
@@ -90,14 +90,14 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
 
 
     @Override
-    public List<ServiceCategoryResponse> getServiceCategories() {
+    public List<ServiceCategory> getServiceCategories() {
         log.info("START GET ALL SERVICE_CATEGORY");
         List<ServiceCategory> serviceCategories = serviceCategoryRepository.findAll();
-        List<ServiceCategoryResponse> serviceCategoryResponses = new ArrayList<>();
-        for (ServiceCategory serviceCategory : serviceCategories) {
-            serviceCategoryResponses.add(mapServiceCategoryToResponse(serviceCategory));
-        }
-        return serviceCategoryResponses;
+        // List<ServiceCategoryResponse> serviceCategoryResponses = new ArrayList<>();
+        // for (ServiceCategory serviceCategory : serviceCategories) {
+        //     serviceCategoryResponses.add(mapServiceCategoryToResponse(serviceCategory));
+        // }
+        return serviceCategories;
     }
 
 }

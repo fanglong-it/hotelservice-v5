@@ -27,7 +27,7 @@ public class ServiceCategoryController {
 
     @GetMapping("/serviceCategories")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<ServiceCategoryResponse>> getServiceCategories(){
+    public ResponseEntity<List<ServiceCategory>> getServiceCategories(){
         return new ResponseEntity<>(serviceCategoryService.getServiceCategories(), HttpStatus.OK);
     }
 
@@ -39,7 +39,7 @@ public class ServiceCategoryController {
 
     @PostMapping("/serviceCategory")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<ServiceCategoryResponse>> saveServiceCategory(@RequestBody @Valid ServiceCategoryRequest serviceCategoryRequest){
+    public ResponseEntity<List<ServiceCategory>> saveServiceCategory(@RequestBody @Valid ServiceCategoryRequest serviceCategoryRequest){
        ServiceCategory serviceCategory = modelMapper.map(serviceCategoryRequest, ServiceCategory.class);
         return new ResponseEntity<>(serviceCategoryService.saveServiceCategory(serviceCategory), HttpStatus.OK);
     }
@@ -47,14 +47,14 @@ public class ServiceCategoryController {
 
     @PutMapping("/serviceCategory")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<ServiceCategoryResponse>> updateServiceCategory(@RequestBody ServiceCategoryRequest serviceCategoryRequest){
+    public ResponseEntity<List<ServiceCategory>> updateServiceCategory(@RequestBody ServiceCategoryRequest serviceCategoryRequest){
         ServiceCategory serviceCategory = modelMapper.map(serviceCategoryRequest, ServiceCategory.class);
         return new ResponseEntity<>(serviceCategoryService.updateServiceCategory(serviceCategory), HttpStatus.OK);
     }
 
     @DeleteMapping("/serviceCategory/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<ServiceCategoryResponse>> deleteServiceCategory(@PathVariable("id") long id){
+    public ResponseEntity<List<ServiceCategory>> deleteServiceCategory(@PathVariable("id") long id){
         return new ResponseEntity<>(serviceCategoryService.deleteServiceCategory(id), HttpStatus.OK);
     }
 }

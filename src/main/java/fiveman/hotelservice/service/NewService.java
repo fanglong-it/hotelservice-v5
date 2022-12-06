@@ -7,10 +7,10 @@ import fiveman.hotelservice.response.NewResponse;
 
 public interface NewService {
     NewResponse getNewById(long id);
-    List<NewResponse> getAllNew();
-    List<NewResponse> getNewByType(String type);
-    List<NewResponse> saveNew(New oNew);
-    List<NewResponse> updateNew(New oNew);
-    List<NewResponse> deleteNew(long id);
+    List<New> getAllNew();
+    List<New> getNewByType(String type);
+    List<New> saveNew(New oNew);
+    List<New> updateNew(New oNew);
+    List<New> deleteNew(long id);
     
 }

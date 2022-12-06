@@ -6,15 +6,10 @@ import fiveman.hotelservice.response.ServiceCategoryResponse;
 import java.util.List;
 
 public interface ServiceCategoryService {
-
-    List<ServiceCategoryResponse> getServiceCategories();
-
+    List<ServiceCategory> getServiceCategories();
     ServiceCategoryResponse getServiceCategoryById(Long id);
-
-    List<ServiceCategoryResponse> saveServiceCategory(ServiceCategory serviceCategory);
-
-    List<ServiceCategoryResponse> updateServiceCategory(ServiceCategory serviceCategory);
-
-    List<ServiceCategoryResponse> deleteServiceCategory(long id);
+    List<ServiceCategory> saveServiceCategory(ServiceCategory serviceCategory);
+    List<ServiceCategory> updateServiceCategory(ServiceCategory serviceCategory);
+    List<ServiceCategory> deleteServiceCategory(long id);
 
 }

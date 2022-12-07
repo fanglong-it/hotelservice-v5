@@ -47,8 +47,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "from booking " +
             "where STR_TO_DATE(:today, '%d/%m/%Y') between " +
             "DATE_ADD(STR_TO_DATE(booking.arrival_date, '%d/%m/%Y'), INTERVAL -DAY(STR_TO_DATE(booking.arrival_date, '%d/%m/%Y'))+1 DAY) and " +
-            "LAST_DAY(STR_TO_DATE(booking.arrival_date, '%d/%m/%Y')) and booking.status = 'CHECK OUT' GROUP BY booking.total_amount" , nativeQuery = true)
-    String getRevenueInMonthByCurrentDate(String today);
+            "LAST_DAY(STR_TO_DATE(booking.arrival_date, '%d/%m/%Y')) and booking.status = 'CHECK OUT'" , nativeQuery = true)
+    Double getRevenueInMonthByCurrentDate(String today);
 
     @Query(value = "select count(b.id) from Booking b where SUBSTRING_INDEX(b.actualDepartureDate, ' ', 1) = :today and b.status = 'CHECK OUT'")
     String getRevenueCurrentDate(String today);
@@ -61,7 +61,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "where STR_TO_DATE(:today, '%d/%m/%Y') between " +
             "DATE_ADD(STR_TO_DATE(booking.arrival_date, '%d/%m/%Y'), INTERVAL -DAY(STR_TO_DATE(booking.arrival_date, '%d/%m/%Y'))+1 DAY) and " +
             "LAST_DAY(STR_TO_DATE(booking.arrival_date, '%d/%m/%Y')) and booking.status = 'CANCEL' GROUP BY booking.total_amount" , nativeQuery = true)
-    String getCancelRevenueInMonthByCurrentDate(String today);
+    Double getCancelRevenueInMonthByCurrentDate(String today);
 
     @Query(value = "select *" +
             "from booking " +
@@ -69,5 +69,9 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "DATE_ADD(STR_TO_DATE(booking.actual_departure_date, '%d/%m/%Y'), INTERVAL -DAY(STR_TO_DATE(booking.actual_departure_date, '%d/%m/%Y'))+1 DAY) and " +
             "LAST_DAY(STR_TO_DATE(booking.actual_departure_date, '%d/%m/%Y'))", nativeQuery = true)
     List<Booking> getRevenueEntireMonth(String today);
+
+
+    @Query(value = "select b.id, b.actual_arrival_date, b.actual_departure_date, b.arrival_date, b.confirmation_no, b.create_by, b.create_date, b.departure_date, b.last_modify_by, b.num_of_adult, b.num_of_children, b.room_payment, b.special_note, b.status, b.total_amount, b.update_date, b.customer_id, b.hotel_id, b.room_id, b.room_type_id from booking b where b.room_id = :room_id and b.status = 'CHECK IN'", nativeQuery = true)
+    Booking getBookingByRoomId(long room_id);
 
 }

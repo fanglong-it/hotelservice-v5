@@ -81,4 +81,9 @@ public class ServiceController {
         return new ResponseEntity<>(service.deleteService(id), HttpStatus.OK);
     }
 
+    @GetMapping("/serviceTop")
+    public ResponseEntity<List<String>> getTop3Services(){
+        return new ResponseEntity<>(service.getTop3Services(), HttpStatus.OK);
+    }
+
 }

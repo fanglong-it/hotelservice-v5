@@ -283,7 +283,7 @@ public class BookingServiceImpl implements BookingService {
                 // String username =
                 // jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(request));
                 // booking.setLastModifyBy(username);
-                booking.setRoom(null);
+                // booking.setRoom(null);
 
                 if(booking.getRoomPayment().equals("N/A") || Utilities.isEmptyString(booking.getRoomPayment())){ //Check RoomIsPayment
                     String today = Utilities.getCurrentDateByFormat("dd/MM/yyyy");
@@ -355,17 +355,29 @@ public class BookingServiceImpl implements BookingService {
     public DashboardResponse getDashBoard(String date) {
         DashboardResponse data = new DashboardResponse();
         data.setBookedToday(bookingRepository.getBookedToday(date));
-        data.setAccumulateRevenue(bookingRepository.getRevenueInMonthByCurrentDate(date) != null ? bookingRepository.getRevenueInMonthByCurrentDate(date) : "");
+        data.setAccumulateRevenue(bookingRepository.getRevenueInMonthByCurrentDate(date) != null ? bookingRepository.getRevenueInMonthByCurrentDate(date): 0);
         data.setActualArriveToday(bookingRepository.getActualArriveDay(date));
-        data.setRevenue(bookingRepository.getRevenueCurrentDate(date) != null ? bookingRepository.getRevenueInMonthByCurrentDate(date) : "");
+        data.setRevenue(bookingRepository.getRevenueCurrentDate(date) != null ? bookingRepository.getRevenueInMonthByCurrentDate(date) :0);
         data.setCanceledToday(bookingRepository.getCancelToday(date));
-        data.setCancelRevenue(bookingRepository.getCancelRevenueCurrentDate(date) != null ? bookingRepository.getCancelRevenueInMonthByCurrentDate(date) : "");
-        data.setCancelAccumulateRevenue(bookingRepository.getCancelRevenueInMonthByCurrentDate(date) != null ? bookingRepository.getCancelRevenueInMonthByCurrentDate(date) : "");
+        data.setCancelRevenue(bookingRepository.getCancelRevenueCurrentDate(date) != null ? bookingRepository.getCancelRevenueInMonthByCurrentDate(date) : 0);
+        data.setCancelAccumulateRevenue(bookingRepository.getCancelRevenueInMonthByCurrentDate(date) != null ? bookingRepository.getCancelRevenueInMonthByCurrentDate(date) : 0);
         data.setRoomBusy(bookingRepository.getCheckInToday(date));
         data.setActualDepartureToday(bookingRepository.getActualDepartureDay(date));
         data.setNumOfStay(bookingRepository.getAllCustomerStay());
         data.setBookingList(bookingRepository.getRevenueEntireMonth(date));
         return data;
     }
+
+    @Override
+    public Booking getBookingByRoomId(long room_id) {
+        Booking booking = bookingRepository.getBookingByRoomId(room_id);
+        if(booking == null){
+            throw new AppException(HttpStatus.NOT_FOUND.value(),
+             new CustomResponseObject(Common.GET_FAIL, "Not exist Booking with room_id = " + room_id));
+        }
+        return booking;
+    }
+
+    
 
 }

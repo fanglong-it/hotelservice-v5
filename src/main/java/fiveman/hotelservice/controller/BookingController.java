@@ -95,5 +95,11 @@ public class BookingController {
         return new ResponseEntity<>(bookingService.getBookingByRoomId(room_id), HttpStatus.OK);
     }
 
+    @GetMapping("/bookingByCustomerId")
+    public ResponseEntity<Booking> getBookingByCustomerId(@RequestParam("customer_id") long customer_id){
+        return new ResponseEntity<>(bookingService.getBookingByCustomerId(customer_id), HttpStatus.OK);
+    }
+
+    
 
 }

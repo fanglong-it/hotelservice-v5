@@ -20,6 +20,7 @@ public interface BookingService {
     List<BookingObjectResponse> getAllBookingByRoomId(long id);
 
     Booking getBookingByRoomId(long room_id);
+    Booking getBookingByCustomerId(long customer_id);
     
 
     List<BookingObjectResponse> saveBooking(Booking booking);

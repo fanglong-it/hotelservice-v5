@@ -31,6 +31,12 @@ public class ServiceCategoryController {
         return new ResponseEntity<>(serviceCategoryService.getServiceCategories(), HttpStatus.OK);
     }
 
+    @GetMapping("/serviceCategoriesWithImage")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
+    public ResponseEntity<List<ServiceCategoryResponse>> getServiceCategoriesWithImage(){
+        return new ResponseEntity<>(serviceCategoryService.getServiceCategoriesWithImage(), HttpStatus.OK);
+    }
+
     @GetMapping("/serviceCategory/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<ServiceCategoryResponse> getServiceCategory(@PathVariable("id") long id){

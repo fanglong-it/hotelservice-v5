@@ -10,6 +10,7 @@ public interface ServiceService {
 
     List<Service> getAllServices();
     List<Service> getAllServicesByServiceCategory(long id);
+    List<ServiceResponse> getAllServiceByCateWithImage(long id);
     List<Service> saveServices(Service service);
     ServiceResponse getServiceById(Long id);
     List<Service> updateService(Service service);

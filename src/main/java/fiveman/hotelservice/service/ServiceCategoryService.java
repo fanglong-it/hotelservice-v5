@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface ServiceCategoryService {
     List<ServiceCategory> getServiceCategories();
+    List<ServiceCategoryResponse> getServiceCategoriesWithImage();
     ServiceCategoryResponse getServiceCategoryById(Long id);
     List<ServiceCategory> saveServiceCategory(ServiceCategory serviceCategory);
     List<ServiceCategory> updateServiceCategory(ServiceCategory serviceCategory);

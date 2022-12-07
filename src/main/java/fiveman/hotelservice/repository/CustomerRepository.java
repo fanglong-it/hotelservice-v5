@@ -22,5 +22,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     @Query(value = "select c.id, c.birth_date, create_by, c.create_date, c.email, c.first_name, c.gender, c.id_no, c.last_modify_by, c.last_name, c.middle_name, c.passport_no, c.phone_number, c.update_date from customer_stay_booking csb inner join customer c on csb.customer_id = c.id where csb.primary_customer is not null", nativeQuery = true)
     List<Customer> getAllPrimaryCustomer();
+    @Query(value = "select c.id, c.birth_date, create_by, c.create_date, c.email, c.first_name, c.gender, c.id_no, c.last_modify_by, c.last_name, c.middle_name, c.passport_no, c.phone_number, c.update_date from customer_stay_booking csb inner join customer c on csb.customer_id = c.id where csb.booking_id = :booking_id", nativeQuery = true)
+    List<Customer> getAllCustomerByBooking(long booking_id);
 }
 

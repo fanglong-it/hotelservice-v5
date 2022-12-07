@@ -25,6 +25,7 @@ public class RoomAvailabilityResponse{
       private int maxAdult;
       private int maxChildren;
       private int defaultOccupancy;
+      private int maxBookingRoom;
       private double defaultPrice;
       private boolean isActive;
       private String bedType;

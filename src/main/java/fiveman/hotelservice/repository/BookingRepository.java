@@ -75,7 +75,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     Booking getBookingByRoomId(long room_id);
 
 
-    @Query(value = "select b.id, b.actual_arrival_date, b.actual_departure_date, b.arrival_date, b.confirmation_no, b.create_by, b.create_date, b.departure_date, b.last_modify_by, b.num_of_adult, b.num_of_children, b.room_payment, b.special_note, b.status, b.total_amount, b.update_date, b.customer_id, b.hotel_id, b.room_id, b.room_type_id from booking b inner join customer_stay_booking csb on b.id = csb.booking_id where csb.customer_id = :customer_id;", nativeQuery = true)
+    @Query(value = "select b.id, b.actual_arrival_date, b.actual_departure_date, b.arrival_date, b.confirmation_no, b.create_by, b.create_date, b.departure_date, b.last_modify_by, b.num_of_adult, b.num_of_children, b.room_payment, b.special_note, b.status, b.total_amount, b.update_date, b.customer_id, b.hotel_id, b.room_id, b.room_type_id from booking b inner join customer_stay_booking csb on b.id = csb.booking_id where csb.customer_id = :customer_id", nativeQuery = true)
     Booking getBookingByCustomerId(long customer_id);
 
 }

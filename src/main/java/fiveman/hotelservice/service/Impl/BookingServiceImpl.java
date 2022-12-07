@@ -178,6 +178,14 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     RoomRepository roomRepository;
 
+
+    
+    @Override
+    public Booking getBookingByCustomerId(long customer_id) {
+
+        return bookingRepository.getBookingByCustomerId(customer_id);
+    }
+
     @Override
     public CheckInResponse checkInBooking(CheckInRequest checkInRequest) {
 

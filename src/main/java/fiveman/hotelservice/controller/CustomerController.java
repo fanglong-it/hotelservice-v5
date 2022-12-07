@@ -20,7 +20,6 @@ public class CustomerController {
     @Autowired
     ModelMapper modelMapper;
 
-
     @Autowired
     CustomerService customerService;
 
@@ -54,5 +53,19 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.deleteCustomer(id), HttpStatus.OK);
     }
 
+    @GetMapping("/getPrimaryCustomerByBookingId")
+    public ResponseEntity<Customer> getPrimaryCustomerByBookingId(@RequestParam("booking_id") long booking_id) {
+        return new ResponseEntity<>(customerService.getPrimaryCustomerByBookingId(booking_id), HttpStatus.OK);
+    }
+    
+    @GetMapping("/getAllCustomerByBookingId")
+    public ResponseEntity<List<Customer>> getAllCustomerByBookingId(@RequestParam("booking_id") long booking_id) {
+        return new ResponseEntity<>(customerService.getAllCustomerByBookingId(booking_id), HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllPrimaryCustomer")
+    public ResponseEntity<List<Customer>> getAllPrimary() {
+        return new ResponseEntity<>(customerService.getAllPrimaryCustomer(), HttpStatus.OK);
+    }
 
 }

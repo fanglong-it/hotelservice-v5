@@ -31,6 +31,8 @@ public class ServiceCategory {
       boolean ordered;
 
       boolean status;
+
+      
       @ManyToOne(fetch = FetchType.LAZY, targetEntity = Hotel.class)
       @JsonBackReference
       private Hotel hotel;

@@ -17,6 +17,36 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     CustomerRepository customerRepository;
 
+
+
+    
+    @Override
+    public Customer getPrimaryCustomerByBookingId(long booking_id) {
+        Customer customer = customerRepository.getPrimaryCustomer(booking_id);
+        if(customer == null){
+            throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.GET_FAIL, "Not found id Customer by booking = " + booking_id));
+        }
+        return customer;
+    }
+
+    
+
+    @Override
+    public List<Customer> getAllPrimaryCustomer() {
+        return customerRepository.getAllPrimaryCustomer();
+    }
+
+    
+
+
+
+    @Override
+    public List<Customer> getAllCustomerByBookingId(long booking_id) {
+        return customerRepository.getAllCustomerByBooking(booking_id);
+    }
+
+
+
     @Override
     public Customer getCustomerById(long id) {
         if (!customerRepository.existsById(id)) {

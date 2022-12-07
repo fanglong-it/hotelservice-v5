@@ -32,7 +32,8 @@ public class UserController {
     ModelMapper modelMapper;
 
     @GetMapping("/users")
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //

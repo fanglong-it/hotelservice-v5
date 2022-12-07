@@ -6,17 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="64a37eb9-d5fd-4799-9624-8c5c9f4b2b96" name="Changes" comment="update-booking-v7">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/service/Impl/PaymentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/service/Impl/PaymentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/RoomController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/controller/RoomController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/Booking.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/Booking.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/New.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/entities/New.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/repository/BookingRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/repository/BookingRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/repository/RoomRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/repository/RoomRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/response/RoomResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/response/RoomResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/PaymentServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/PaymentServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RoomServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/Impl/RoomServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/RoomService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/service/RoomService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/utils/Common.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fiveman/hotelservice/utils/Common.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/utils/Common.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fiveman/hotelservice/utils/Common.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -314,15 +304,6 @@
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/fiveman/hotelservice/service/Impl/PaymentServiceImpl.java</url>
-          <line>272</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="fiveman.hotelservice.entities.Booking" memberName="customer" />

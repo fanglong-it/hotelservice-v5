@@ -52,6 +52,12 @@ public class ServiceController {
         return new ResponseEntity<>(service.getAllServicesByServiceCategory(id), HttpStatus.OK);
     }
 
+    @GetMapping("/serviceByCateWithImage")
+    @PreAuthorize("isAuthenticated() or isAnonymous()")
+    public ResponseEntity<List<ServiceResponse>> getAllServiceByCateWithImage(@RequestParam("cate_id") long id) {
+        return new ResponseEntity<>(service.getAllServiceByCateWithImage(id), HttpStatus.OK);
+    }
+
 
     @PutMapping("/service")
     @PreAuthorize("isAuthenticated() or isAnonymous()")

@@ -23,29 +23,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @org.springframework.stereotype.Service
 public class ServiceServiceImpl implements ServiceService {
-    
-    // private long id;
-    // private String name;
-    // private double price;
-    // private String description;
-    // private boolean status;
-    // private String majorGroup;
-
-    // private String image;
-    // private String createDate;
-    // private String updateDate;
-    // private String createBy;
-    // private String lastModifyBy;
-    // private ServiceCategory serviceCategory;
 
     @Autowired
     ImageRepository imageRepository;
-    
-    @Autowired 
-    ModelMapper modelMapper;
-    
 
-    ServiceResponse mapServiceToResponse(Service service){
+    @Autowired
+    ModelMapper modelMapper;
+
+
+    ServiceResponse mapServiceToResponse(Service service) {
         ServiceResponse serviceResponse = new ServiceResponse();
         serviceResponse.setId(service.getId());
         serviceResponse.setName(service.getName());
@@ -53,7 +39,7 @@ public class ServiceServiceImpl implements ServiceService {
         serviceResponse.setDescription(service.getDescription());
         serviceResponse.setMajorGroup(service.getMajorGroup());
         serviceResponse.setStatus(service.isStatus());
-        serviceResponse.setImage(imageRepository.getAllByPictureType("img_service_"+service.getId()));
+        serviceResponse.setImage(imageRepository.getAllByPictureType("img_service_" + service.getId()));
         serviceResponse.setCreateDate(service.getCreateDate());
         serviceResponse.setUpdateDate(service.getUpdateDate());
         serviceResponse.setCreateBy(service.getCreateBy());
@@ -77,13 +63,25 @@ public class ServiceServiceImpl implements ServiceService {
         return services;
     }
 
-    
+    @Override
+    public List<ServiceResponse> getAllServiceByCateWithImage(long id) {
+        List<Service> services = serviceRepository.getAllByServiceCategory_Id(id);
+        List<ServiceResponse> serviceResponses = new ArrayList<>();
+        for (Service service : services) {
+            ServiceResponse response = mapServiceToResponse(service);
+            List<Image> images = imageRepository.getAllByPictureType("img_service_" + service.getId());
+            response.setImage(images);
+            serviceResponses.add(response);
+        }
+
+        return serviceResponses;
+    }
+
 
     // @Override
     // public List<Service> getAllServicesByServiceCategoryTest(long id) {
     //     return serviceRepository.getAllByServiceCategory_Id(id);
     // }
-
 
 
     @Autowired
@@ -100,7 +98,6 @@ public class ServiceServiceImpl implements ServiceService {
         return services;
     }
 
-    
 
     // @Override
     // public List<Service> getAllServicesTest() {
@@ -132,7 +129,7 @@ public class ServiceServiceImpl implements ServiceService {
         }
         throw new AppException(HttpStatus.NOT_FOUND.value(),
                 new CustomResponseObject(Common.UPDATE_FAIL,
-                "Not found service by id = " + service.getId()));
+                        "Not found service by id = " + service.getId()));
     }
 
     @Autowired
@@ -144,7 +141,7 @@ public class ServiceServiceImpl implements ServiceService {
         if (serviceRepository.existsById(id)) {
             log.info("START OF DELETE SERVICE BY ID");
 //            serviceRepository.delete(serviceRepository.getServiceById(id));
-            Service service  = serviceRepository.getServiceById(id);
+            Service service = serviceRepository.getServiceById(id);
             service.setStatus(false);
             service.setUpdateDate(Utilities.getCurrentDateByFormat("dd/MM/yyyy"));
             serviceRepository.save(service);

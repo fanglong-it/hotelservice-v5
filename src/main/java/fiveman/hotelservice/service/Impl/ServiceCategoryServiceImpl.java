@@ -9,6 +9,7 @@ import fiveman.hotelservice.response.ServiceCategoryResponse;
 import fiveman.hotelservice.service.ServiceCategoryService;
 import fiveman.hotelservice.utils.Common;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,14 +27,8 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
     @Autowired
     ImageRepository imageRepository;
 
-//     private long id;
-//    private String name;
-//    private String description;
-//    boolean foodAndBeverage;
-//    boolean ordered;
-//    boolean status;
-//     private List<Image> images;
-//    private Hotel hotel;
+    @Autowired
+    private ModelMapper modelMapper;
 
     ServiceCategoryResponse mapServiceCategoryToResponse(ServiceCategory serviceCategory){
         ServiceCategoryResponse serviceCategoryResponse = new ServiceCategoryResponse();
@@ -44,7 +39,7 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
         serviceCategoryResponse.setOrdered(serviceCategory.isOrdered());
         serviceCategoryResponse.setStatus(serviceCategory.isStatus());
         serviceCategoryResponse.setImages(imageRepository.getAllByPictureType("img_serviceCategory_"+ serviceCategory.getId()));
-        serviceCategoryResponse.setHotel_Id(serviceCategory.getHotel().getId());
+//        serviceCategoryResponse.setHotel_Id(serviceCategory.getHotel().getId());
         return serviceCategoryResponse;
     }
 
@@ -55,7 +50,6 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
             throw new AppException(HttpStatus.NOT_FOUND,new CustomResponseObject(Common.UPDATE_FAIL, "Update fail!"));
         }
         serviceCategoryRepository.save(serviceCategory);
-        // return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success!");
         return getServiceCategories();
     }
 
@@ -93,11 +87,20 @@ public class ServiceCategoryServiceImpl implements ServiceCategoryService {
     public List<ServiceCategory> getServiceCategories() {
         log.info("START GET ALL SERVICE_CATEGORY");
         List<ServiceCategory> serviceCategories = serviceCategoryRepository.findAll();
-        // List<ServiceCategoryResponse> serviceCategoryResponses = new ArrayList<>();
-        // for (ServiceCategory serviceCategory : serviceCategories) {
-        //     serviceCategoryResponses.add(mapServiceCategoryToResponse(serviceCategory));
-        // }
         return serviceCategories;
+    }
+
+    @Override
+    public List<ServiceCategoryResponse> getServiceCategoriesWithImage() {
+        log.info("START GET ALL SERVICE_CATEGORY");
+        List<ServiceCategory> serviceCategories = serviceCategoryRepository.findAll();
+         List<ServiceCategoryResponse> serviceCategoryResponses = new ArrayList<>();
+         for (ServiceCategory serviceCategory : serviceCategories) {
+             ServiceCategoryResponse response = modelMapper.map(serviceCategory, ServiceCategoryResponse.class);
+             response.setImages(imageRepository.getAllByPictureType("img_serviceCategory_"+ serviceCategory.getId()));
+             serviceCategoryResponses.add(response);
+         }
+        return serviceCategoryResponses;
     }
 
 }

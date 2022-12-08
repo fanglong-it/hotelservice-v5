@@ -63,13 +63,13 @@ public class OrderController {
         return new ResponseEntity<>(orderService.deleteBillById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/orderService")
+    @PostMapping("/order/orderService")
     public ResponseEntity<Order> submitOrder(
             @org.springframework.web.bind.annotation.RequestBody OrderRequest orderRequest) {
         return new ResponseEntity<>(orderService.submitOrderService(orderRequest), HttpStatus.OK);
     }
 
-    @GetMapping("/orderFoodAndBeverage")
+    @GetMapping("/order/orderFoodAndBeverage")
     public ResponseEntity<List<OrderResponse>> getOrderByFoodAndBeverage() {
         return new ResponseEntity<>(orderService.getAllOrderFandB(), HttpStatus.OK);
     }
@@ -78,13 +78,13 @@ public class OrderController {
 
     // Order deleteOrderDetailService(long orderId, long orderDetailId);
 
-    @PostMapping("/confirmOrderService")
+    @PostMapping("/order/confirmOrderService")
     public ResponseEntity<OrderResponse> confirmOrderService(@RequestParam("orderId") long orderId,
             @RequestParam("status") String status) {
         return new ResponseEntity<>(orderService.confirmOrderService(orderId, status), HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteOrderDetailService")
+    @DeleteMapping("/order/deleteOrderDetailService")
     public ResponseEntity<OrderResponse> deleteOrderDetailService(@RequestParam("orderId") long orderId,
             @RequestParam("orderDetailId") long orderDetailId) {
         return new ResponseEntity<>(orderService.deleteOrderDetailService(orderId, orderDetailId), HttpStatus.OK);

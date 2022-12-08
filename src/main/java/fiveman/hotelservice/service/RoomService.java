@@ -12,6 +12,8 @@ public interface RoomService {
     
     List<Room> getRooms();
 
+    Room getRoomByBookingIdAndStatusCheckIn(long booking_id);
+
     RoomResponse getRoom(long id);
 
     CustomResponseObject saveRoom(RoomRequest roomRequest);

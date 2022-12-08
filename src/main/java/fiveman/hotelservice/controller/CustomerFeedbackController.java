@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fiveman.hotelservice.entities.CustomerFeedback;
@@ -89,6 +90,11 @@ public class CustomerFeedbackController {
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
       public ResponseEntity<CustomResponseObject> deletecustomerFeedBack(@PathVariable long id) {
             return new ResponseEntity<>(customerFeedbackService.deleteCustomerFeedback(id), HttpStatus.OK);
+      }
+
+      @GetMapping("/customerFeedbackByBooking")
+      public ResponseEntity<List<CustomerFeedback>> getAllCustomerFeedbackByBooking(@RequestParam("booking_id") long booking_id){
+            return new ResponseEntity<>(customerFeedbackService.getCustomerFeedBackByBookingId(booking_id), HttpStatus.OK);
       }
 
 }

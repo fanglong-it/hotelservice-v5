@@ -8,7 +8,9 @@ import fiveman.hotelservice.response.CustomerFeedbackResponse;
 
 public interface CustomerFeedbackService {
       List<CustomerFeedbackResponse> getAllCustomerFeedback();
-      
+
+      List<CustomerFeedback> getCustomerFeedBackByBookingId(long booking_id);
+            
       CustomerFeedbackResponse getCustomerFeedback(long id);
       
       CustomResponseObject saveCustomerFeedback(CustomerFeedback customerFeedback);

@@ -32,6 +32,14 @@ public class CustomerFeedbackServiceImpl implements CustomerFeedbackService {
             customerFeedbackResponse.setBooking_Id(customerFeedback.getBooking().getId());
             return customerFeedbackResponse;
       }
+
+      
+      @Override
+      public List<CustomerFeedback> getCustomerFeedBackByBookingId(long booking_id) {
+            return customerFeedbackRepository.getCustomerFeedbackByBookingId(booking_id);
+      }
+
+
       @Override
       public List<CustomerFeedbackResponse> getAllCustomerFeedback() {
             log.info("START GET ALL CUSTOMER FEEDBACK");

@@ -72,7 +72,6 @@ public class RoomServiceImpl implements RoomService {
       @Autowired
       CustomerBookingRepository customerBookingRepository;
 
-
       @Override
       public List<Booking> getBookingCheckInToday() {
             String today = Utilities.getCurrentDate();
@@ -85,8 +84,9 @@ public class RoomServiceImpl implements RoomService {
                   RoomResponse roomResponse = mapRoomToResponse(room);
                   roomResponse.setStatus(room.isStatus());
                   roomResponse.setBooking(bookingRepository.getBookingByRoomIdToday(roomResponse.getId(), today));
-                  if(roomResponse.getBooking() != null){
-                        CustomerBooking customerBooking = customerBookingRepository.selectPrimaryCustomerByBooking(roomResponse.getBooking().getId());
+                  if (roomResponse.getBooking() != null) {
+                        CustomerBooking customerBooking = customerBookingRepository
+                                    .selectPrimaryCustomerByBooking(roomResponse.getBooking().getId());
                         roomResponse.setPrimaryCustomer(customerBooking.getPrimaryCustomer());
                   }
                   roomResponses.add(roomResponse);
@@ -98,17 +98,21 @@ public class RoomServiceImpl implements RoomService {
             // return roomRepository.findAll();
       }
 
-      
-
-
       @Override
       public List<RoomResponse> getRoomWithBooking() {
             // return roomRepository.getRoomWithBooking();
             return null;
       }
 
-
-
+      @Override
+      public Room getRoomByBookingIdAndStatusCheckIn(long booking_id) {
+            Room room = roomRepository.getRoomByBookingAndStatusCheckIn(booking_id);
+            if (room == null) {
+                  throw new AppException(HttpStatus.NOT_FOUND.value(),
+                              new CustomResponseObject(Common.GET_FAIL, "Cant found Room By BookingId = " + booking_id));
+            }
+            return room;
+      }
 
       @Override
       public List<Room> getRooms() {
@@ -116,12 +120,11 @@ public class RoomServiceImpl implements RoomService {
             // List<RoomResponse> roomResponses = new ArrayList<>();
             List<Room> rooms = roomRepository.findAll();
             // for (Room r : rooms) {
-            //       roomResponses.add(mapRoomToResponse(r));
+            // roomResponses.add(mapRoomToResponse(r));
             // }
             return rooms;
             // return roomRepository.getRoomByBooking();
       }
-
 
       @Override
       public RoomResponse getRoom(long id) {
@@ -185,19 +188,21 @@ public class RoomServiceImpl implements RoomService {
       @Override
       public List<Room> checkAvailabilityByRoomType(long Booking_Id) {
 
-            // List<RoomAvailabilityResponse> checkAvailabilityResponses = roomTypeService.checkAvailability(dateCheckIn,
-            //             dateCheckout, numberOfPerson);
+            // List<RoomAvailabilityResponse> checkAvailabilityResponses =
+            // roomTypeService.checkAvailability(dateCheckIn,
+            // dateCheckout, numberOfPerson);
             // // List<RoomAvailabilityResponse> responses = new ArrayList<>();
             // List<Room> rooms = new ArrayList<>();
-            // for (RoomAvailabilityResponse roomAvailabilityResponse : checkAvailabilityResponses) {
-            //       for (Room room : roomAvailabilityResponse.getRooms()) {
-            //             if (room.getRoomType().getId() == roomTypeId) {
-            //                   rooms.add(room);
-            //             }
-            //       }
+            // for (RoomAvailabilityResponse roomAvailabilityResponse :
+            // checkAvailabilityResponses) {
+            // for (Room room : roomAvailabilityResponse.getRooms()) {
+            // if (room.getRoomType().getId() == roomTypeId) {
+            // rooms.add(room);
+            // }
+            // }
             // }
             List<Room> rooms = roomRepository.getRoomAvaiByBookingId(Booking_Id);
-            
+
             return rooms;
       }
 

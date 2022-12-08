@@ -3,13 +3,10 @@ package fiveman.hotelservice.service;
 import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.request.CheckInRequest;
 import fiveman.hotelservice.response.BookingObjectResponse;
-import fiveman.hotelservice.response.CheckInResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.DashboardResponse;
-
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 
 public interface BookingService {
     
@@ -20,6 +17,7 @@ public interface BookingService {
     List<BookingObjectResponse> getAllBookingByRoomId(long id);
 
     Booking getBookingByRoomId(long room_id);
+
     Booking getBookingByCustomerId(long customer_id);
     
 
@@ -29,13 +27,13 @@ public interface BookingService {
 
     List<BookingObjectResponse> deleteBooking(long id);
 
-    CheckInResponse checkInBooking(CheckInRequest checkInRequest);
+    CustomResponseObject checkInBooking(CheckInRequest checkInRequest);
 
-    BookingObjectResponse checkOutBooking(long bookingId
+    CustomResponseObject checkOutBooking(long bookingId
     // , HttpServletRequest request
     );
 
-    CustomResponseObject customerNotShow(long bookingId
+    CustomResponseObject customerNoShow(long bookingId
     // , HttpServletRequest request
     );
 

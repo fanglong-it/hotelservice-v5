@@ -268,7 +268,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         List<BookingResponse> listBooking = new ArrayList<>();
 
-        List<BookingResponse.BookingFailureRoom> listRoomBusy = new ArrayList<>();
+        // List<BookingResponse.BookingFailureRoom> listRoomBusy = new ArrayList<>();
         for (int i = 0; i < request.getRoomTypes().size(); i++) {
             RoomType roomType = roomTypeRepository.getRoomTypeById(request.getRoomTypes().get(i).getId());
             BookingResponse bookingResponse = new BookingResponse();

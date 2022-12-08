@@ -1,7 +1,6 @@
 package fiveman.hotelservice.service.Impl;
 
 import fiveman.hotelservice.entities.Abstraction;
-import fiveman.hotelservice.entities.Image;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.AbstractionRepository;
 import fiveman.hotelservice.repository.ImageRepository;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -78,7 +76,6 @@ public class AbstractionServiceImpl implements AbstractionService {
     
     @Override
     public List<Abstraction> getAbstractionsNotCustom() {
-        // TODO Auto-generated method stub
         return abstractionRepository.findAbstractions();
     }
 

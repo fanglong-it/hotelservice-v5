@@ -166,7 +166,6 @@ public class ServiceServiceImpl implements ServiceService {
 
     @Override
     public List<String> getTop3Services() {
-        // TODO Auto-generated method stub
         return serviceRepository.getTop3ItemsBooked();
     }
 

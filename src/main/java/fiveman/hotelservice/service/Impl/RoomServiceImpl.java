@@ -20,7 +20,6 @@ import fiveman.hotelservice.repository.RoomRepository;
 import fiveman.hotelservice.repository.RoomTypeRepository;
 import fiveman.hotelservice.request.RoomRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
-import fiveman.hotelservice.response.RoomAvailabilityResponse;
 import fiveman.hotelservice.service.RoomService;
 import fiveman.hotelservice.service.RoomTypeService;
 import fiveman.hotelservice.utils.Common;

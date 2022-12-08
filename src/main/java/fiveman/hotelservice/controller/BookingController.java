@@ -4,7 +4,6 @@ import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.request.BookingRequest;
 import fiveman.hotelservice.request.CheckInRequest;
 import fiveman.hotelservice.response.BookingObjectResponse;
-import fiveman.hotelservice.response.CheckInResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.DashboardResponse;
 import fiveman.hotelservice.service.BookingService;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @Api(tags = "Booking")
@@ -70,18 +68,18 @@ public class BookingController {
     }
 
     @PostMapping("/booking/checkIn")
-    public ResponseEntity<CheckInResponse> checkInBooking(@RequestBody CheckInRequest checkInRequest) {
+    public ResponseEntity<CustomResponseObject> checkInBooking(@RequestBody CheckInRequest checkInRequest) {
         return new ResponseEntity<>(bookingService.checkInBooking(checkInRequest), HttpStatus.OK);
     }
 
     @PostMapping("/booking/checkOut")
-    public ResponseEntity<BookingObjectResponse> checkOutBooking(@RequestParam("booking_id") long bookingId) {
+    public ResponseEntity<CustomResponseObject> checkOutBooking(@RequestParam("booking_id") long bookingId) {
         return new ResponseEntity<>(bookingService.checkOutBooking(bookingId), HttpStatus.OK);
     }
 
-    @PostMapping("/booking/customerNotShow")
-    public ResponseEntity<CustomResponseObject> customerNotShow(@RequestParam("booking_id") long bookingId) {
-        return new ResponseEntity<>(bookingService.customerNotShow(bookingId), HttpStatus.OK);
+    @PostMapping("/booking/customerNoShow")
+    public ResponseEntity<CustomResponseObject> customerNoShow(@RequestParam("booking_id") long bookingId) {
+        return new ResponseEntity<>(bookingService.customerNoShow(bookingId), HttpStatus.OK);
     }
 
     @GetMapping("/booking/dashboard")

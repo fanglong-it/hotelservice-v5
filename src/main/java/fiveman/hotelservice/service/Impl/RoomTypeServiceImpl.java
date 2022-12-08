@@ -143,10 +143,10 @@ public class RoomTypeServiceImpl implements RoomTypeService {
                         }
                     }
                     RoomAvailabilityResponse roomAvailable = modelMapper.map(roomType, RoomAvailabilityResponse.class);
-                    List<Image> images = imageRepository.getAllByPictureType("img_roomType_" + roomType.getId());
+//                    List<Image> images = imageRepository.getAllByPictureType("img_roomType_" + roomType.getId());
                     roomAvailable.setUtilities(utilities);
                     roomAvailable.setRooms(listRoomAbstract);
-                    roomAvailable.setImages(images);
+//                    roomAvailable.setImages(images);
                     listRoomAvailable.add(roomAvailable);
                 }
                 roomTypeRepository.save(roomType);

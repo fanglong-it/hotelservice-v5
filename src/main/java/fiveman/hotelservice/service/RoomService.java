@@ -9,8 +9,10 @@ import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.RoomResponse;
 
 public interface RoomService {
-    
+
     List<Room> getRooms();
+
+    Room getRoomByBookingIdAndStatusCheckIn(long booking_id);
 
     RoomResponse getRoom(long id);
 
@@ -19,7 +21,7 @@ public interface RoomService {
     CustomResponseObject updateRoom(Room room);
 
     CustomResponseObject deleteRoom(long id);
-    
+
     List<Room> checkAvailabilityByRoomType(long Booking_Id);
 
     List<Booking> getBookingCheckInToday();

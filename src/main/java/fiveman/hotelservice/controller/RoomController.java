@@ -60,7 +60,6 @@ public class RoomController {
             return new ResponseEntity<>(roomService.getRoom(id), HttpStatus.OK);
       }
 
-
       @PostMapping("/room")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
@@ -82,28 +81,34 @@ public class RoomController {
             return new ResponseEntity<>(roomService.updateRoom(room), HttpStatus.OK);
       }
 
-      @DeleteMapping("/room/{id}")
-      @PreAuthorize("isAnonymous() or isAuthenticated()")
-      @ApiResponses(value = { //
-                  @ApiResponse(code = 400, message = "Something went wrong"), //
-                  @ApiResponse(code = 403, message = "Access denied"), //
-                  @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> deleteRoom(@PathVariable long id) {
-            return new ResponseEntity<>(roomService.deleteRoom(id), HttpStatus.OK);
-      }
+    @DeleteMapping("/room/{id}")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
+    @ApiResponses(value = { //
+            @ApiResponse(code = 400, message = "Something went wrong"), //
+            @ApiResponse(code = 403, message = "Access denied"), //
+            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
+    public ResponseEntity<CustomResponseObject> deleteRoom(@PathVariable long id) {
+        return new ResponseEntity<>(roomService.deleteRoom(id), HttpStatus.OK);
+    }
 
-      @PostMapping("/room/checkAvaiblebilityAndType")
-      @PreAuthorize("isAnonymous() or isAuthenticated()")
-      public ResponseEntity<List<Room>> checkAvaiblebilityAndType(@RequestParam("booking_id") long booking_id){
-            return new ResponseEntity<>(roomService.checkAvailabilityByRoomType(booking_id), HttpStatus.OK);
-      }
+    @PostMapping("/room/checkAvaiblebilityAndType")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
+    public ResponseEntity<List<Room>> checkAvaiblebilityAndType(@RequestParam("booking_id") long booking_id) {
+        return new ResponseEntity<>(roomService.checkAvailabilityByRoomType(booking_id), HttpStatus.OK);
+    }
 
-      @GetMapping("/room/getRoomCheckInToday")
-      public ResponseEntity<List<Booking>> getRoomCheckInToday(){
-            return new ResponseEntity<>(roomService.getBookingCheckInToday(), HttpStatus.OK);
-      }
-      @GetMapping("/room/getRoomWithBooking")
-      public ResponseEntity<List<RoomResponse>> getRoomWithBooking(){
-            return new ResponseEntity<>(roomService.getRoomWithBooking(), HttpStatus.OK);
-      }
+    @GetMapping("/room/getRoomCheckInToday")
+    public ResponseEntity<List<Booking>> getRoomCheckInToday() {
+        return new ResponseEntity<>(roomService.getBookingCheckInToday(), HttpStatus.OK);
+    }
+
+    // @GetMapping("/room/getRoomWithBooking")
+    // public ResponseEntity<List<RoomResponse>> getRoomWithBooking() {
+    //       return new ResponseEntity<>(roomService.getRoomWithBooking(), HttpStatus.OK);
+    // }
+
+    @GetMapping("/room/getRoomWithBookingId")
+    public ResponseEntity<Room> getRoomByBookingId(@RequestParam("booking_id") long booking_id) {
+        return new ResponseEntity<>(roomService.getRoomByBookingIdAndStatusCheckIn(booking_id), HttpStatus.OK);
+    }
 }

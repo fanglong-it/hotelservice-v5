@@ -31,12 +31,12 @@ public class BookingController {
         return new ResponseEntity<>(bookingService.getBookingById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/booking")
-    @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<BookingObjectResponse>> getAllBookingByRoomId(@RequestParam("room_id") long room_id) {
-        return new ResponseEntity<List<BookingObjectResponse>>(bookingService.getAllBookingByRoomId(room_id),
-                HttpStatus.OK);
-    }
+    // @GetMapping("/booking")
+    // @PreAuthorize("isAnonymous() or isAuthenticated()")
+    // public ResponseEntity<List<BookingObjectResponse>> getAllBookingByRoomId(@RequestParam("room_id") long room_id) {
+    //     return new ResponseEntity<List<BookingObjectResponse>>(bookingService.getAllBookingByRoomId(room_id),
+    //             HttpStatus.OK);
+    // }
 
     @GetMapping("/bookings")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
@@ -88,12 +88,12 @@ public class BookingController {
     }
 
 
-    @GetMapping("/bookingByRoomId")
+    @GetMapping("/booking/bookingByRoomId")
     public ResponseEntity<Booking> getBookingByRoomId(@RequestParam("room_id") long room_id){
         return new ResponseEntity<>(bookingService.getBookingByRoomId(room_id), HttpStatus.OK);
     }
 
-    @GetMapping("/bookingByCustomerId")
+    @GetMapping("/booking/bookingByCustomerId")
     public ResponseEntity<Booking> getBookingByCustomerId(@RequestParam("customer_id") long customer_id){
         return new ResponseEntity<>(bookingService.getBookingByCustomerId(customer_id), HttpStatus.OK);
     }

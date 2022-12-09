@@ -155,7 +155,15 @@ public class RoomTypeServiceImpl implements RoomTypeService {
         return listRoomAvailable;
     }
 
+    @Override
+    public RoomType getRoomTypeByRoomId(long room_id) {
+        RoomType roomType = roomTypeRepository.getRoomTypeByRoomId(room_id);
+        if(roomType == null){
+            throw new AppException(HttpStatus.NOT_FOUND.value(),
+             new CustomResponseObject(Common.GET_FAIL, "Can't find room type by roomId = " + room_id));
+        }
+        return roomType;
+    }
 
-    
 
 }

@@ -12,7 +12,7 @@ public interface OrderService {
 
     List<Order> getAllBill();
 
-    List<OrderResponse> getAllOrderFandB();
+    List<Order> getAllOrderFandB();
 
     List<Order> getAllOrderByBookingId(long id);
     

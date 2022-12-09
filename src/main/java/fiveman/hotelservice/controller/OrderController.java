@@ -70,7 +70,7 @@ public class OrderController {
     }
 
     @GetMapping("/order/orderFoodAndBeverage")
-    public ResponseEntity<List<OrderResponse>> getOrderByFoodAndBeverage() {
+    public ResponseEntity<List<Order>> getOrderByFoodAndBeverage() {
         return new ResponseEntity<>(orderService.getAllOrderFandB(), HttpStatus.OK);
     }
 

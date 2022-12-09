@@ -3,6 +3,8 @@ package fiveman.hotelservice.service;
 import java.util.List;
 
 import fiveman.hotelservice.entities.New;
+import fiveman.hotelservice.request.NewRequest;
+import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.NewResponse;
 
 public interface NewService {
@@ -12,5 +14,5 @@ public interface NewService {
     List<New> saveNew(New oNew);
     List<New> updateNew(New oNew);
     List<New> deleteNew(long id);
-    
+    CustomResponseObject updateNewsEvent(List<NewRequest> newRequests);
 }

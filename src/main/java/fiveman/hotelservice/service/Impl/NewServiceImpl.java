@@ -2,6 +2,7 @@ package fiveman.hotelservice.service.Impl;
 
 import java.util.List;
 
+import fiveman.hotelservice.request.NewRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -99,6 +100,18 @@ public class NewServiceImpl implements NewService {
         return getAllNew();
     }
 
+    @Override
+    public CustomResponseObject updateNewsEvent(List<NewRequest> newRequests) {
+        for (NewRequest req : newRequests
+             ) {
+            New news = modelMapper.map(req, New.class);
+            if(!newRepository.existsById(news.getId())){
+                throw new AppException(HttpStatus.NOT_FOUND, new CustomResponseObject(Common.UPDATE_FAIL, "Not found id =" + news.getId()));
+            }
+            newRepository.save(news);
+        }
+        // return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success!");
+        return new CustomResponseObject("200", "Adding success");
+    }
 
-    
 }

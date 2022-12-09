@@ -114,6 +114,19 @@ public class RoomServiceImpl implements RoomService {
         return room;
     }
 
+
+
+    
+    @Override
+    public Room getRoomByOrderId(long order_id) {
+        Room room = roomRepository.getRoomByOrderId(order_id);
+        if(room == null){
+            throw new AppException(HttpStatus.NOT_FOUND.value(),
+            new CustomResponseObject(Common.GET_FAIL, "Cant found Room By order_id = " + order_id));
+        }
+        return room;
+    }
+
     @Override
     public List<Room> getRooms() {
         log.info("GET ALL ROOMS");

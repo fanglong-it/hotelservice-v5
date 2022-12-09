@@ -111,4 +111,8 @@ public class RoomController {
     public ResponseEntity<Room> getRoomByBookingId(@RequestParam("booking_id") long booking_id) {
         return new ResponseEntity<>(roomService.getRoomByBookingIdAndStatusCheckIn(booking_id), HttpStatus.OK);
     }
+    @GetMapping("/room/getRoomWithOrderId")
+    public ResponseEntity<Room> getRoomByOrderId(@RequestParam("order_id") long order_id) {
+        return new ResponseEntity<>(roomService.getRoomByOrderId(order_id), HttpStatus.OK);
+    }
 }

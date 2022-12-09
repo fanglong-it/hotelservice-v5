@@ -2,7 +2,6 @@ package fiveman.hotelservice.controller;
 
 import fiveman.hotelservice.entities.Abstraction;
 import fiveman.hotelservice.request.AbstractionRequest;
-import fiveman.hotelservice.response.AbstractionResponse;
 import fiveman.hotelservice.service.AbstractionService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;

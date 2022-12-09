@@ -29,7 +29,4 @@ public class NewRequest {
     private String newsType;
     private String status;
     private int numberOfView;
-
-    @ApiModelProperty(required = true)
-    private long hotel_Id;
 }

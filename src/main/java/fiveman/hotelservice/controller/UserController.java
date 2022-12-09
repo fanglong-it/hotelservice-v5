@@ -3,10 +3,8 @@ package fiveman.hotelservice.controller;
 
 import fiveman.hotelservice.entities.User;
 import fiveman.hotelservice.request.UserRequest;
-import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.UserResponse;
 import fiveman.hotelservice.service.UserService;
-import fiveman.hotelservice.utils.Common;
 import io.swagger.annotations.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

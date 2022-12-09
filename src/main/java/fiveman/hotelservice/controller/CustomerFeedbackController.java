@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fiveman.hotelservice.entities.CustomerFeedback;
@@ -73,22 +74,27 @@ public class CustomerFeedbackController {
       @PutMapping("/customerFeedBack")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
-                  @ApiResponse(code = 400, message = "Something went wrong"), //
-                  @ApiResponse(code = 403, message = "Access denied"), //
-                  @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+              @ApiResponse(code = 400, message = "Something went wrong"), //
+              @ApiResponse(code = 403, message = "Access denied"), //
+              @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
       public ResponseEntity<CustomResponseObject> updatecustomerFeedBack(@RequestBody @Valid CustomerFeedbackRequest request) {
-            CustomerFeedback customerFeedBack = modelMapper.map(request, CustomerFeedback.class);
-            return new ResponseEntity<>(customerFeedbackService.updateCustomerFeedback(customerFeedBack), HttpStatus.OK);
+          CustomerFeedback customerFeedBack = modelMapper.map(request, CustomerFeedback.class);
+          return new ResponseEntity<>(customerFeedbackService.updateCustomerFeedback(customerFeedBack), HttpStatus.OK);
       }
 
-      @DeleteMapping("/customerFeedBack/{id}")
-      @PreAuthorize("isAnonymous() or isAuthenticated()")
-      @ApiResponses(value = { //
-                  @ApiResponse(code = 400, message = "Something went wrong"), //
-                  @ApiResponse(code = 403, message = "Access denied"), //
-                  @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> deletecustomerFeedBack(@PathVariable long id) {
-            return new ResponseEntity<>(customerFeedbackService.deleteCustomerFeedback(id), HttpStatus.OK);
-      }
+    @DeleteMapping("/customerFeedBack/{id}")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
+    @ApiResponses(value = { //
+            @ApiResponse(code = 400, message = "Something went wrong"), //
+            @ApiResponse(code = 403, message = "Access denied"), //
+            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
+    public ResponseEntity<CustomResponseObject> deletecustomerFeedBack(@PathVariable long id) {
+        return new ResponseEntity<>(customerFeedbackService.deleteCustomerFeedback(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/customerFeedbackByBooking")
+    public ResponseEntity<List<CustomerFeedback>> getAllCustomerFeedbackByBooking(@RequestParam("booking_id") long booking_id) {
+        return new ResponseEntity<>(customerFeedbackService.getCustomerFeedBackByBookingId(booking_id), HttpStatus.OK);
+    }
 
 }

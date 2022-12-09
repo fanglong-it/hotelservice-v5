@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import fiveman.hotelservice.response.CustomResponseObject;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,7 +47,6 @@ public class NewController {
         return new ResponseEntity<>(newService.getNewByType(type), HttpStatus.OK);
     }
 
-    
     @GetMapping("/news")
     public ResponseEntity<List<New>> getAllNew(){
         return new ResponseEntity<>(newService.getAllNew(), HttpStatus.OK);
@@ -62,6 +62,11 @@ public class NewController {
     public ResponseEntity<List<New>> updateNew(@RequestBody @Valid NewRequest newRequest){
         New oNew = modelMapper.map(newRequest, New.class);
         return new ResponseEntity<>(newService.updateNew(oNew), HttpStatus.OK);
+    }
+
+    @PutMapping("/news")
+    public ResponseEntity<CustomResponseObject> updateNewsEvent(@RequestBody @Valid List<NewRequest> newRequest){
+        return new ResponseEntity<>(newService.updateNewsEvent(newRequest), HttpStatus.OK);
     }
 
     @DeleteMapping("/new")

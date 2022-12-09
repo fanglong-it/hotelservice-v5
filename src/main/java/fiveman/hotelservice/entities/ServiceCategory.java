@@ -10,7 +10,6 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @AllArgsConstructor
@@ -31,6 +30,8 @@ public class ServiceCategory {
       boolean ordered;
 
       boolean status;
+
+      
       @ManyToOne(fetch = FetchType.LAZY, targetEntity = Hotel.class)
       @JsonBackReference
       private Hotel hotel;

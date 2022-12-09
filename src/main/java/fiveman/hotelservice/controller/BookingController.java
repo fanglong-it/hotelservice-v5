@@ -4,7 +4,6 @@ import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.request.BookingRequest;
 import fiveman.hotelservice.request.CheckInRequest;
 import fiveman.hotelservice.response.BookingObjectResponse;
-import fiveman.hotelservice.response.CheckInResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.DashboardResponse;
 import fiveman.hotelservice.service.BookingService;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @Api(tags = "Booking")
@@ -33,12 +31,12 @@ public class BookingController {
         return new ResponseEntity<>(bookingService.getBookingById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/booking")
-    @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<BookingObjectResponse>> getAllBookingByRoomId(@RequestParam("room_id") long room_id) {
-        return new ResponseEntity<List<BookingObjectResponse>>(bookingService.getAllBookingByRoomId(room_id),
-                HttpStatus.OK);
-    }
+    // @GetMapping("/booking")
+    // @PreAuthorize("isAnonymous() or isAuthenticated()")
+    // public ResponseEntity<List<BookingObjectResponse>> getAllBookingByRoomId(@RequestParam("room_id") long room_id) {
+    //     return new ResponseEntity<List<BookingObjectResponse>>(bookingService.getAllBookingByRoomId(room_id),
+    //             HttpStatus.OK);
+    // }
 
     @GetMapping("/bookings")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
@@ -70,18 +68,18 @@ public class BookingController {
     }
 
     @PostMapping("/booking/checkIn")
-    public ResponseEntity<CheckInResponse> checkInBooking(@RequestBody CheckInRequest checkInRequest) {
+    public ResponseEntity<CustomResponseObject> checkInBooking(@RequestBody CheckInRequest checkInRequest) {
         return new ResponseEntity<>(bookingService.checkInBooking(checkInRequest), HttpStatus.OK);
     }
 
     @PostMapping("/booking/checkOut")
-    public ResponseEntity<BookingObjectResponse> checkOutBooking(@RequestParam("booking_id") long bookingId) {
+    public ResponseEntity<CustomResponseObject> checkOutBooking(@RequestParam("booking_id") long bookingId) {
         return new ResponseEntity<>(bookingService.checkOutBooking(bookingId), HttpStatus.OK);
     }
 
-    @PostMapping("/booking/customerNotShow")
-    public ResponseEntity<CustomResponseObject> customerNotShow(@RequestParam("booking_id") long bookingId) {
-        return new ResponseEntity<>(bookingService.customerNotShow(bookingId), HttpStatus.OK);
+    @PostMapping("/booking/customerNoShow")
+    public ResponseEntity<CustomResponseObject> customerNoShow(@RequestParam("booking_id") long bookingId) {
+        return new ResponseEntity<>(bookingService.customerNoShow(bookingId), HttpStatus.OK);
     }
 
     @GetMapping("/booking/dashboard")
@@ -90,10 +88,16 @@ public class BookingController {
     }
 
 
-    @GetMapping("/bookingByRoomId")
+    @GetMapping("/booking/bookingByRoomId")
     public ResponseEntity<Booking> getBookingByRoomId(@RequestParam("room_id") long room_id){
         return new ResponseEntity<>(bookingService.getBookingByRoomId(room_id), HttpStatus.OK);
     }
 
+    @GetMapping("/booking/bookingByCustomerId")
+    public ResponseEntity<Booking> getBookingByCustomerId(@RequestParam("customer_id") long customer_id){
+        return new ResponseEntity<>(bookingService.getBookingByCustomerId(customer_id), HttpStatus.OK);
+    }
+
+    
 
 }

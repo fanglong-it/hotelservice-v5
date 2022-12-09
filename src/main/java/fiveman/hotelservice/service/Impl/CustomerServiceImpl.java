@@ -36,6 +36,15 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.getAllPrimaryCustomer();
     }
 
+    
+
+
+
+    @Override
+    public List<Customer> getAllCustomerByBookingId(long booking_id) {
+        return customerRepository.getAllCustomerByBooking(booking_id);
+    }
+
 
 
     @Override

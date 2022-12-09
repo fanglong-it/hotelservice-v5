@@ -104,8 +104,15 @@ public class RoomTypeController {
           
           return new ResponseEntity<>(roomTypeService.checkAvailability(dateCheckIn, dateCheckOut, numOfPerson), HttpStatus.OK);
     }
-
-
     
+    @GetMapping("/roomType/getRoomTypeByRoom")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
+    @ApiResponses(value = { //
+                @ApiResponse(code = 400, message = "Something went wrong"), //
+                @ApiResponse(code = 403, message = "Access denied"), //
+                @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+    public ResponseEntity<RoomType> getRoomTypeByRoomId(@RequestParam("room_id") long room_id) {
+          return new ResponseEntity<>(roomTypeService.getRoomTypeByRoomId(room_id), HttpStatus.OK);
+    }
 
 }

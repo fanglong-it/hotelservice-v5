@@ -1,8 +1,5 @@
 package fiveman.hotelservice.response;
 
-import javax.persistence.ColumnResult;
-import javax.persistence.SqlResultSetMapping;
-
 import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.entities.Hotel;
 import fiveman.hotelservice.entities.RoomType;

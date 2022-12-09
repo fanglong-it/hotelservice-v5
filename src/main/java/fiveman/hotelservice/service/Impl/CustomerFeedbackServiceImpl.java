@@ -21,29 +21,38 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CustomerFeedbackServiceImpl implements CustomerFeedbackService {
 
-      @Autowired
-      private CustomerFeedbackRepository customerFeedbackRepository;
+    @Autowired
+    private CustomerFeedbackRepository customerFeedbackRepository;
 
 
-      @Autowired
-      ModelMapper modelMapper;
-      public CustomerFeedbackResponse mapCustomerFeedBackToResponse(CustomerFeedback customerFeedback){
-            CustomerFeedbackResponse customerFeedbackResponse = modelMapper.map(customerFeedback, CustomerFeedbackResponse.class);
-            customerFeedbackResponse.setBooking_Id(customerFeedback.getBooking().getId());
-            return customerFeedbackResponse;
-      }
-      @Override
-      public List<CustomerFeedbackResponse> getAllCustomerFeedback() {
-            log.info("START GET ALL CUSTOMER FEEDBACK");
+    @Autowired
+    ModelMapper modelMapper;
 
-            List<CustomerFeedback> customerFeedbacks = customerFeedbackRepository.findAll();
-            List<CustomerFeedbackResponse> customerFeedbackResponses = new ArrayList<>();
-            for (CustomerFeedback customerFeedback : customerFeedbacks) {
-                  CustomerFeedbackResponse customerFeedbackResponse = mapCustomerFeedBackToResponse(customerFeedback);
-                  customerFeedbackResponses.add(customerFeedbackResponse);
-            }
-            return customerFeedbackResponses;
-      }
+    public CustomerFeedbackResponse mapCustomerFeedBackToResponse(CustomerFeedback customerFeedback) {
+        CustomerFeedbackResponse customerFeedbackResponse = modelMapper.map(customerFeedback, CustomerFeedbackResponse.class);
+        customerFeedbackResponse.setBooking_Id(customerFeedback.getBooking().getId());
+        return customerFeedbackResponse;
+    }
+
+
+    @Override
+    public List<CustomerFeedback> getCustomerFeedBackByBookingId(long booking_id) {
+        return customerFeedbackRepository.getCustomerFeedbackByBookingId(booking_id);
+    }
+
+
+    @Override
+    public List<CustomerFeedbackResponse> getAllCustomerFeedback() {
+        log.info("START GET ALL CUSTOMER FEEDBACK");
+
+        List<CustomerFeedback> customerFeedbacks = customerFeedbackRepository.findAll();
+        List<CustomerFeedbackResponse> customerFeedbackResponses = new ArrayList<>();
+        for (CustomerFeedback customerFeedback : customerFeedbacks) {
+            CustomerFeedbackResponse customerFeedbackResponse = mapCustomerFeedBackToResponse(customerFeedback);
+            customerFeedbackResponses.add(customerFeedbackResponse);
+        }
+        return customerFeedbackResponses;
+    }
 
       @Override
       public CustomerFeedbackResponse getCustomerFeedback(long id) {

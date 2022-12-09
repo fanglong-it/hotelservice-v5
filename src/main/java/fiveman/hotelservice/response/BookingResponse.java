@@ -6,7 +6,6 @@ import fiveman.hotelservice.entities.RoomType;
 import fiveman.hotelservice.entities.Service;
 import lombok.*;
 
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor

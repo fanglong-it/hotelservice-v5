@@ -2,7 +2,6 @@ package fiveman.hotelservice.request;
 
 import java.util.List;
 
-import fiveman.hotelservice.entities.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,4 +15,3 @@ public class CheckInRequest {
     private BookingRequest bookingRequest;
     private List<CustomerRequest> customerRequests;
 }
-

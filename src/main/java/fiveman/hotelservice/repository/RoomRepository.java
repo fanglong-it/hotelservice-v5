@@ -28,6 +28,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query(value = "SELECT r.id, r.create_by, r.description, r.last_modify_by, r.name, r.room_no, r.status,r.create_date ,r.update_date, r.hotel_id, r.room_type_id FROM booking b inner join room r on b.room_type_id = r.room_type_id where b.id = :booking_id and r.status = 0", nativeQuery = true)
     List<Room> getRoomAvaiByBookingId(long booking_id);
 
+    @Query(value = "select r.id, r.create_by, r.description, r.last_modify_by, r.name, r.room_no, r.status,r.create_date ,r.update_date, r.hotel_id, r.room_type_id from room r inner join booking b on r.id = b.room_id inner join orders ord on ord.booking_id = b.id where ord.id = :order_id", nativeQuery = true)
+    Room getRoomByOrderId(long order_id);
     // @SqlResultSetMapping(name="OrderResults",
     // entities={
     // @EntityResult(entityClass=com.acme.Order.class, fields={

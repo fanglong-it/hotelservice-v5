@@ -1,6 +1,10 @@
 package fiveman.hotelservice.controller;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import fiveman.hotelservice.entities.RoomPrice;
 import fiveman.hotelservice.entities.RoomType;
+import fiveman.hotelservice.request.RoomPriceRequest;
 import fiveman.hotelservice.request.RoomTypeRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.RoomAvailabilityResponse;
@@ -104,7 +108,7 @@ public class RoomTypeController {
           
           return new ResponseEntity<>(roomTypeService.checkAvailability(dateCheckIn, dateCheckOut, numOfPerson), HttpStatus.OK);
     }
-    
+
     @GetMapping("/roomType/getRoomTypeByRoom")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
     @ApiResponses(value = { //
@@ -114,5 +118,6 @@ public class RoomTypeController {
     public ResponseEntity<RoomType> getRoomTypeByRoomId(@RequestParam("room_id") long room_id) {
           return new ResponseEntity<>(roomTypeService.getRoomTypeByRoomId(room_id), HttpStatus.OK);
     }
+
 
 }

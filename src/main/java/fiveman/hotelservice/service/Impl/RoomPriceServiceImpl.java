@@ -1,7 +1,12 @@
 package fiveman.hotelservice.service.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import fiveman.hotelservice.entities.RoomType;
+import fiveman.hotelservice.repository.RoomTypeRepository;
+import fiveman.hotelservice.request.RoomPriceRequest;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,6 +25,12 @@ public class RoomPriceServiceImpl implements RoomPriceService {
       
       @Autowired
       private RoomPriceRepository roomPriceRepository;
+
+      @Autowired
+      private ModelMapper modelMapper;
+
+      @Autowired
+      private RoomTypeRepository repository;
       
       @Override
       public List<RoomPrice> getRoomPrices() {
@@ -67,6 +78,17 @@ public class RoomPriceServiceImpl implements RoomPriceService {
                   return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete success!");
               }
               throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.DELETE_FAIL, "Not found id = " + id));
+      }
+
+      @Override
+      public CustomResponseObject setRoomPriceByDate(RoomPriceRequest roomPrice) {
+            List<RoomPrice> roomPrices = new ArrayList<>();
+            RoomPrice roomPrice1 = modelMapper.map(roomPrice, RoomPrice.class);
+            RoomType roomType = repository.getRoomTypeById(roomPrice.getRoomType_Id());
+            roomPrice1.setRoomType(roomType);
+            roomPriceRepository.save(roomPrice1);
+            roomPrices.add(roomPrice1);
+            return new CustomResponseObject("200", "Update success");
       }
 
 }

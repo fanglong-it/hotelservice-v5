@@ -86,4 +86,16 @@ public class RoomPriceController {
       public ResponseEntity<CustomResponseObject> deleteRoomPrice(@PathVariable("id") long id) {
             return new ResponseEntity<>(roomPriceService.deleteRoomPrice(id), HttpStatus.OK);
       }
+
+      @PostMapping("/roomPrice/setRoomPriceByDate")
+      @PreAuthorize("isAnonymous() or isAuthenticated()")
+      @ApiResponses(value = { //
+              @ApiResponse(code = 400, message = "Something went wrong"), //
+              @ApiResponse(code = 403, message = "Access denied"), //
+              @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+      public ResponseEntity<CustomResponseObject> setRoomPriceByDate(@RequestBody RoomPriceRequest roomPriceRequest) {
+            CustomResponseObject result = roomPriceService.setRoomPriceByDate(roomPriceRequest);
+            return new ResponseEntity<CustomResponseObject>(result, HttpStatus.OK);
+      }
+
 }

@@ -23,7 +23,7 @@ public class RoomPrice {
     private String date;
     private int maxBookingRoom;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = RoomType.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = RoomType.class, cascade=CascadeType.ALL)
     @JsonBackReference
     private RoomType roomType;
 }

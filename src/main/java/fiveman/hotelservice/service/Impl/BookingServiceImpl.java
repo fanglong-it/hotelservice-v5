@@ -350,18 +350,18 @@ public class BookingServiceImpl implements BookingService {
         data.setBookedToday(bookingRepository.getBookedToday(date));
         data.setAccumulateRevenue(bookingRepository.getRevenueInMonthByCurrentDate(date) != null
                 ? bookingRepository.getRevenueInMonthByCurrentDate(date)
-                : 0);
+                : "");
         data.setActualArriveToday(bookingRepository.getActualArriveDay(date));
         data.setRevenue(bookingRepository.getRevenueCurrentDate(date) != null
                 ? bookingRepository.getRevenueInMonthByCurrentDate(date)
-                : 0);
+                : "");
         data.setCanceledToday(bookingRepository.getCancelToday(date));
         data.setCancelRevenue(bookingRepository.getCancelRevenueCurrentDate(date) != null
                 ? bookingRepository.getCancelRevenueInMonthByCurrentDate(date)
-                : 0);
+                : "");
         data.setCancelAccumulateRevenue(bookingRepository.getCancelRevenueInMonthByCurrentDate(date) != null
                 ? bookingRepository.getCancelRevenueInMonthByCurrentDate(date)
-                : 0);
+                : "");
         data.setRoomBusy(bookingRepository.getCheckInToday(date));
         data.setActualDepartureToday(bookingRepository.getActualDepartureDay(date));
         data.setNumOfStay(bookingRepository.getAllCustomerStay());

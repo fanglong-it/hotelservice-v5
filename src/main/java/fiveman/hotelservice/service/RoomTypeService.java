@@ -11,6 +11,7 @@ public interface RoomTypeService {
     List<RoomType> findAllRoomType();
 
     RoomType getRoomType(long id);
+    RoomType getRoomTypeByRoomId(long room_id);
 
     CustomResponseObject addRoomType(RoomType roomType);
 

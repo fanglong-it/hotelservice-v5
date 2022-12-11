@@ -1,6 +1,7 @@
 package fiveman.hotelservice.service.Impl;
 
 import java.io.File;
+import java.io.InputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -32,10 +33,14 @@ public class SettingServiceImpl implements SettingService {
 
             // ClassPathResource res = new ClassPathResource("file/settings.xml");
             // File file = new File(res.getPath());
-            File file = ResourceUtils.getFile("classpath:file/settings.xml");
-            System.out.println("" + file.getPath());
+
+            File file = new ClassPathResource("file/settings.xml").getFile();
+
+            System.out.println(file.getPath());
+            // File file = ResourceUtils.getFile("classpath:file/settings.xml");
+            // System.out.println("" + file.getPath());
             s = settingsDAO.getSettingFromUnmarshaller(file.getPath());
-            System.out.println(file.getAbsolutePath());
+            // System.out.println(file.getAbsolutePath());
         } catch (Exception e) {
             throw new AppException(HttpStatus.NOT_FOUND.value(),
                     new CustomResponseObject(Common.GET_FAIL, "Can't get the content! msg = " + e.getMessage()));

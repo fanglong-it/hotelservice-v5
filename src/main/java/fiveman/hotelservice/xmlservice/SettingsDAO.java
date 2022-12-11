@@ -1,6 +1,8 @@
 package fiveman.hotelservice.xmlservice;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

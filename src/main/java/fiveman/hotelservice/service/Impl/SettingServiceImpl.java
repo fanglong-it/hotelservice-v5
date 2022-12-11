@@ -2,6 +2,7 @@ package fiveman.hotelservice.service.Impl;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -34,12 +35,12 @@ public class SettingServiceImpl implements SettingService {
             // ClassPathResource res = new ClassPathResource("file/settings.xml");
             // File file = new File(res.getPath());
 
-            File file = new ClassPathResource("file/settings.xml").getFile();
+            // File file = new ClassPathResource("file/settings.xml").getFile();
 
-            System.out.println(file.getPath());
-            // File file = ResourceUtils.getFile("classpath:file/settings.xml");
-            // System.out.println("" + file.getPath());
-            s = settingsDAO.getSettingFromUnmarshaller(file.getPath());
+            InputStream is = new ClassPathResource("file/settings.xml").getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(is, "UTF8");
+
+            s = settingsDAO.getSettingFromUnmarshaller(inputStreamReader);
             // System.out.println(file.getAbsolutePath());
         } catch (Exception e) {
             throw new AppException(HttpStatus.NOT_FOUND.value(),

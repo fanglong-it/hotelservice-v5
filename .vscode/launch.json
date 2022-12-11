@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch unmarshaller",
+            "request": "launch",
+            "mainClass": "fiveman.hotelservice.xmlservice.unmarshaller",
+            "projectName": "hotelservice"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-HotelserviceApplication<hotelservice>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

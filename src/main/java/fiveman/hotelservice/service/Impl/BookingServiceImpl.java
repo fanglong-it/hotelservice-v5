@@ -164,23 +164,9 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional
     public CustomResponseObject checkInBooking(CheckInRequest checkInRequest) {
-
         BookingRequest bookingRequest = checkInRequest.getBookingRequest();
-
-        // List<Customer> customers = new ArrayList<>();
         List<CustomerRequest> customerRequests = checkInRequest.getCustomerRequests();
-        // Customer primaryCus = null;
-
-        // for (CustomerRequest customerRequest : customerRequests) {
-        // Customer customer = modelMapper.map(customerRequest, Customer.class);
-        // if (customerRequest.isPrimary()) {
-        // primaryCus = modelMapper.map(customerRequest, Customer.class);
-        // }
-        // customers.add(customer);
-        // }
-
         Booking booking = modelMapper.map(bookingRequest, Booking.class);
-
         if (booking.getStatus().equals(Common.BOOKING_BOOKED)) {
             // getCurrent Date time
             String currentDateTime = Utilities.getCurrentDateByFormat("dd/MM/YYYY HH:mm:ss");
@@ -226,7 +212,6 @@ public class BookingServiceImpl implements BookingService {
                 throw new AppException(HttpStatus.BAD_REQUEST.value(),
                         new CustomResponseObject(Common.UPDATE_FAIL, "Can't Check in because of Max Occupancy!"));
             }
-
         } else {
             throw new AppException(HttpStatus.BAD_REQUEST.value(),
                     new CustomResponseObject(Common.UPDATE_FAIL, "Can't Check in because of Status!"));
@@ -265,13 +250,7 @@ public class BookingServiceImpl implements BookingService {
                 roomType.setMaxBookingRoom(roomType.getMaxBookingRoom() + 1); // Set Default of BookingRoom In
                 roomTypeRepository.save(roomType);
 
-                // String username =
-                // jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(request));
-                // booking.setLastModifyBy(username);
-                // booking.setRoom(null);
-
                 if (booking.getRoomPayment().equals("N/A") || Utilities.isEmptyString(booking.getRoomPayment())) { // Check
-                                                                                                                   // RoomIsPayment
                     String today = Utilities.getCurrentDateByFormat("dd/MM/yyyy");
                     RoomPrice roomPrice = roomPriceRepository.getRoomPriceTodayByRoomType(today,
                             booking.getRoomTypeId());
@@ -291,13 +270,11 @@ public class BookingServiceImpl implements BookingService {
                 totalAmount = Double.parseDouble(booking.getRoomPayment()) + orderAmount; // Plus Booking Payment Price
                                                                                           // and Order Amount
                 booking.setTotalAmount(totalAmount);
-                // booking.setTotalAmount();
                 bookingRepository.save(booking);
                 booking = bookingRepository.getBookingById(bookingId);
             } else {
                 throw new AppException(HttpStatus.BAD_REQUEST.value(),
                         new CustomResponseObject(Common.GET_FAIL, "Can't Checkout please Payment!"));
-
             }
         }
         return new CustomResponseObject(Common.UPDATE_SUCCESS, "Check Out Success!");

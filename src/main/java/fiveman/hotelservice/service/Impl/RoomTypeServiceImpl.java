@@ -2,11 +2,8 @@ package fiveman.hotelservice.service.Impl;
 
 import fiveman.hotelservice.entities.*;
 import fiveman.hotelservice.exception.AppException;
-import fiveman.hotelservice.repository.ImageRepository;
-import fiveman.hotelservice.repository.RoomRepository;
-import fiveman.hotelservice.repository.RoomTypeRepository;
-import fiveman.hotelservice.repository.RoomTypeUtilitiesRepository;
-import fiveman.hotelservice.repository.UtilitiesRepository;
+import fiveman.hotelservice.repository.*;
+import fiveman.hotelservice.request.RoomPriceRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.RoomAvailabilityResponse;
 import fiveman.hotelservice.service.RoomTypeService;
@@ -42,6 +39,9 @@ public class RoomTypeServiceImpl implements RoomTypeService {
 
     @Autowired
     RoomRepository roomRepository;
+
+    @Autowired
+    private RoomPriceRepository roomPriceRepository;
 
     @Override
     public List<RoomType> findAllRoomType() {
@@ -120,15 +120,15 @@ public class RoomTypeServiceImpl implements RoomTypeService {
                 listRoomAbstract.add(room);
             }
 
-            if(roomType.getMaxBookingRoom() > listRoomAbstract.size()){
+            if (roomType.getMaxBookingRoom() > listRoomAbstract.size()) {
                 roomType.setMaxBookingRoom(listRoomAbstract.size());
             }
 
             List<RoomPrice> listRoomPrice = roomType.getRoomPrices();
             for (RoomPrice roomPrice : listRoomPrice) {
                 boolean isPriceByDate = fiveman.hotelservice.utils.Utilities.compareTwoDateString(dateCheckIn, roomPrice.getDate());
-                if(isPriceByDate){
-                    if(roomType.getMaxBookingRoom() > roomPrice.getMaxBookingRoom()){
+                if (isPriceByDate) {
+                    if (roomType.getMaxBookingRoom() > roomPrice.getMaxBookingRoom()) {
                         roomType.setMaxBookingRoom(roomPrice.getMaxBookingRoom());
                     }
                 }
@@ -164,6 +164,5 @@ public class RoomTypeServiceImpl implements RoomTypeService {
         }
         return roomType;
     }
-
 
 }

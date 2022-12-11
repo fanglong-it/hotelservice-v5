@@ -6,15 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class RoomPriceRequest {
-      private long id;
-      private double price;
-      private String date;
-      private int maxBookingRoom;
-      private long roomTypeId;
+    private long id;
+    private long price;
+    private String date;
+    private int maxBookingRoom;
+    private long roomType_Id;
 }

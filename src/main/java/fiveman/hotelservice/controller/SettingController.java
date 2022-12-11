@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.SettingService;
 import fiveman.hotelservice.xmlservice.Setting;
-import io.micrometer.core.ipc.http.HttpSender.Response;
 import io.swagger.annotations.Api;
 
 @RestController
-@Api(tags = {"Settings"})
+@Api(tags = {"Setting"})
 @RequestMapping("/api/v1")
 public class SettingController {
     
@@ -33,7 +32,7 @@ public class SettingController {
     @PostMapping("/setting")
     public ResponseEntity<CustomResponseObject> updateSetting(@RequestBody Setting setting){
         return new ResponseEntity<CustomResponseObject>(settingService.updateSetting(setting), HttpStatus.OK);
-        
+
     }
 
 

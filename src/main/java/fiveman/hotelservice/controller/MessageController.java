@@ -49,7 +49,7 @@ public class MessageController {
       }
 
 
-      @GetMapping("/messagesByBooking")
+      @GetMapping("/message/messagesByBooking")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
       public ResponseEntity<List<MessageResponse>> getMessageByBookingId(@RequestParam("booking_id") long id){
             return new ResponseEntity<>(messageService.getAllMessageByBooking_Id(id), HttpStatus.OK);

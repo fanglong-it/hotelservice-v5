@@ -39,7 +39,7 @@ public class RequestServiceController {
       private ModelMapper modelMapper;
       
       
-      @GetMapping("/requestrequestServiceServices")
+      @GetMapping("/requestServices")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //

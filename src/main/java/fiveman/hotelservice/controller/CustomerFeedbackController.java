@@ -92,7 +92,7 @@ public class CustomerFeedbackController {
         return new ResponseEntity<>(customerFeedbackService.deleteCustomerFeedback(id), HttpStatus.OK);
     }
 
-    @GetMapping("/customerFeedbackByBooking")
+    @GetMapping("/customerFeedBack/customerFeedbackByBooking")
     public ResponseEntity<List<CustomerFeedback>> getAllCustomerFeedbackByBooking(@RequestParam("booking_id") long booking_id) {
         return new ResponseEntity<>(customerFeedbackService.getCustomerFeedBackByBookingId(booking_id), HttpStatus.OK);
     }

@@ -3,6 +3,7 @@ package fiveman.hotelservice.service.Impl;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -30,16 +31,9 @@ public class SettingServiceImpl implements SettingService {
     public Setting getSettings() {
         Setting s = null;
         try {
-            // getClass().getResource("jsonschema.json").getFile()
-
-            // ClassPathResource res = new ClassPathResource("file/settings.xml");
-            // File file = new File(res.getPath());
-
-            // File file = new ClassPathResource("file/settings.xml").getFile();
-
+            
             InputStream is = new ClassPathResource("file/settings.xml").getInputStream();
             InputStreamReader inputStreamReader = new InputStreamReader(is, "UTF8");
-
             s = settingsDAO.getSettingFromUnmarshaller(inputStreamReader);
             // System.out.println(file.getAbsolutePath());
         } catch (Exception e) {
@@ -51,13 +45,11 @@ public class SettingServiceImpl implements SettingService {
 
     @Override
     public CustomResponseObject updateSetting(Setting setting) {
-
         try {
-            File file = ResourceUtils.getFile("classpath:file/settings.xml");
-            settingsDAO.updateSettingFromMarshaller(file.toPath().toString(), setting);
+            settingsDAO.updateSettingFromMarshaller(setting);
         } catch (Exception e) {
             throw new AppException(HttpStatus.BAD_REQUEST.value(),
-                    new CustomResponseObject(Common.UPDATE_FAIL, "Can't update the content!"));
+                    new CustomResponseObject(Common.UPDATE_FAIL, "Can't update the content!" + e.getMessage()));
         }
         return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update success!");
     }

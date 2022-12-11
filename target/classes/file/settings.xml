@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <settings>
-    <wellcome_content>Chào mừng bạn</wellcome_content>
     <birthday_content>Chúc mừng Sinh nhật</birthday_content>
-    <wish_content>wish cái gì</wish_content>
     <mp3_content>nhạc.mp3</mp3_content>
+    <wellcome_content>Chào mừng bạn nhe</wellcome_content>
+    <wish_content>wish cái gì</wish_content>
 </settings>

@@ -29,7 +29,7 @@ public class SettingServiceImpl implements SettingService {
         Setting s = null;
         try {
             File file = ResourceUtils.getFile("classpath:file/settings.xml");
-            s = settingsDAO.getSettingFromUnmarshaller(file.getAbsolutePath());
+            s = settingsDAO.getSettingFromUnmarshaller(file.toPath().toString());
             System.out.println(file.getAbsolutePath());
         } catch (Exception e) {
             throw new AppException(HttpStatus.NOT_FOUND.value(),
@@ -43,7 +43,7 @@ public class SettingServiceImpl implements SettingService {
 
         try {
             File file = ResourceUtils.getFile("classpath:file/settings.xml");
-            settingsDAO.updateSettingFromMarshaller(file.getAbsolutePath(), setting);
+            settingsDAO.updateSettingFromMarshaller(file.toPath().toString(), setting);
         } catch (Exception e) {
             throw new AppException(HttpStatus.BAD_REQUEST.value(),
                     new CustomResponseObject(Common.UPDATE_FAIL, "Can't update the content!"));

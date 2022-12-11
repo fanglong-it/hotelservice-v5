@@ -2,7 +2,6 @@ package fiveman.hotelservice.service.Impl;
 
 import fiveman.hotelservice.entities.Order;
 import fiveman.hotelservice.entities.OrderDetail;
-import fiveman.hotelservice.entities.ServiceCategory;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.OrderDetailRepository;
 import fiveman.hotelservice.repository.OrderRepository;
@@ -20,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

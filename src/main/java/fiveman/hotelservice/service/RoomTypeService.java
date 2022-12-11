@@ -1,7 +1,5 @@
 package fiveman.hotelservice.service;
-import fiveman.hotelservice.entities.RoomPrice;
 import fiveman.hotelservice.entities.RoomType;
-import fiveman.hotelservice.request.RoomPriceRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.RoomAvailabilityResponse;
 

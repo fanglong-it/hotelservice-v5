@@ -2,8 +2,8 @@ package fiveman.hotelservice.service.Impl;
 
 import java.io.File;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,8 +28,13 @@ public class SettingServiceImpl implements SettingService {
     public Setting getSettings() {
         Setting s = null;
         try {
+            // getClass().getResource("jsonschema.json").getFile()
+
+            // ClassPathResource res = new ClassPathResource("file/settings.xml");
+            // File file = new File(res.getPath());
             File file = ResourceUtils.getFile("classpath:file/settings.xml");
-            s = settingsDAO.getSettingFromUnmarshaller(file.toPath().toString());
+            System.out.println("" + file.getPath());
+            s = settingsDAO.getSettingFromUnmarshaller(file.getPath());
             System.out.println(file.getAbsolutePath());
         } catch (Exception e) {
             throw new AppException(HttpStatus.NOT_FOUND.value(),

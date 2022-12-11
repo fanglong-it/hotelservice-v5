@@ -33,7 +33,7 @@ public class SettingServiceImpl implements SettingService {
             System.out.println(file.getAbsolutePath());
         } catch (Exception e) {
             throw new AppException(HttpStatus.NOT_FOUND.value(),
-                    new CustomResponseObject(Common.GET_FAIL, "Can't get the content!"));
+                    new CustomResponseObject(Common.GET_FAIL, "Can't get the content! msg = " + e.getMessage()));
         }
         return s;
     }

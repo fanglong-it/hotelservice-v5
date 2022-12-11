@@ -28,7 +28,7 @@ public class SettingServiceImpl implements SettingService {
     public Setting getSettings() {
         Setting s = null;
         try {
-            File file = ResourceUtils.getFile("classpath:settings.xml");
+            File file = ResourceUtils.getFile("classpath:file/settings.xml");
             s = settingsDAO.getSettingFromUnmarshaller(file.getAbsolutePath());
             System.out.println(file.getAbsolutePath());
         } catch (Exception e) {
@@ -42,7 +42,7 @@ public class SettingServiceImpl implements SettingService {
     public CustomResponseObject updateSetting(Setting setting) {
 
         try {
-            File file = ResourceUtils.getFile("classpath:settings.xml");
+            File file = ResourceUtils.getFile("classpath:file/settings.xml");
             settingsDAO.updateSettingFromMarshaller(file.getAbsolutePath(), setting);
         } catch (Exception e) {
             throw new AppException(HttpStatus.BAD_REQUEST.value(),

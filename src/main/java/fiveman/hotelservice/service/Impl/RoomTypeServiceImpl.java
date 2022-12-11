@@ -3,7 +3,6 @@ package fiveman.hotelservice.service.Impl;
 import fiveman.hotelservice.entities.*;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.*;
-import fiveman.hotelservice.request.RoomPriceRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.RoomAvailabilityResponse;
 import fiveman.hotelservice.service.RoomTypeService;
@@ -40,8 +39,8 @@ public class RoomTypeServiceImpl implements RoomTypeService {
     @Autowired
     RoomRepository roomRepository;
 
-    @Autowired
-    private RoomPriceRepository roomPriceRepository;
+    // @Autowired
+    // private RoomPriceRepository roomPriceRepository;
 
     @Override
     public List<RoomType> findAllRoomType() {

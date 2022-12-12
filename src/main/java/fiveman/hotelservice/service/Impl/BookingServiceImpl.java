@@ -219,6 +219,59 @@ public class BookingServiceImpl implements BookingService {
         return new CustomResponseObject(Common.ADDING_SUCCESS, "Check In Success!");
     }
 
+    @Override
+    public CustomResponseObject checkInAtHotel(CheckInRequest checkInRequest) {
+        BookingRequest bookingRequest = checkInRequest.getBookingRequest();
+        List<CustomerRequest> customerRequests = checkInRequest.getCustomerRequests();
+        Booking booking = modelMapper.map(bookingRequest, Booking.class);
+        // getCurrent Date time
+        booking.setId(0);
+        String currentDateTime = Utilities.getCurrentDateByFormat("dd/MM/YYYY HH:mm:ss");
+        booking.setActualDepartureDate(null);
+        booking.setActualArrivalDate(currentDateTime);
+        booking.setUpdateDate(Utilities.getCurrentDateByFormat("dd/MM/YYYY HH:mm:ss"));
+        booking.setLastModifyBy(bookingRequest.getLastModifyBy());
+        booking.setStatus(Common.BOOKING_CHECKIN);
+        booking.setCustomer(customerRepository.getCustomerById(bookingRequest.getCustomer_Id()));
+        booking.setHotel(hotelRepository.getHotelById(bookingRequest.getHotel_Id()));
+        booking.setRoom(roomRepository.getRoomById(bookingRequest.getRoom_Id()));
+        booking.setRoomPayment(bookingRequest.getRoomPayment());
+
+        // Check if Occupancy is Available for Customer Stay
+        RoomType roomType = roomTypeRepository.getRoomTypeById(booking.getRoomTypeId());
+        if (roomType.getMaxOccupancy() >= customerRequests.size()) {
+
+            // Save Booking
+            bookingRepository.save(booking);
+            booking = bookingRepository.findTopByOrderByIdDesc();
+
+            // Set Status of Room To False
+            Room room = booking.getRoom();
+            room.setStatus(true);
+            roomRepository.save(room);
+
+            List<Customer> customers = new ArrayList<>();
+            for (CustomerRequest customerRequest : customerRequests) {
+                Customer customer = modelMapper.map(customerRequest, Customer.class);
+                customers.add(customer);
+                customerRepository.save(customer);
+                customer = customerRepository.findTopByOrderByIdDesc();
+                CustomerBooking customerBooking = new CustomerBooking(0, customer, booking,
+                        null);
+                if (customerRequest.isPrimary()) {
+                    customerBooking.setPrimaryCustomer(String.valueOf(customer.getId()));
+                } else {
+                    customerBooking.setPrimaryCustomer(null);
+                }
+                customerBookingRepository.save(customerBooking);
+            }
+        } else {
+            throw new AppException(HttpStatus.BAD_REQUEST.value(),
+                    new CustomResponseObject(Common.UPDATE_FAIL, "Can't Check in because of Max Occupancy!"));
+        }
+        return new CustomResponseObject(Common.ADDING_SUCCESS, "Check In Success!");
+    }
+
     @Autowired
     RoomPriceRepository roomPriceRepository;
 
@@ -284,6 +337,7 @@ public class BookingServiceImpl implements BookingService {
     JwtTokenProvider jwtTokenProvider;
 
     @Override
+    @Transactional
     public CustomResponseObject customerNoShow(long bookingId
     // , HttpServletRequest request
     ) {
@@ -313,6 +367,16 @@ public class BookingServiceImpl implements BookingService {
         // jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(request));
         // booking.setLastModifyBy(username);
         booking.setUpdateDate(Utilities.getCurrentDate());
+
+        // getTotal Amount
+        double totalAmount = 0; // Total Of Booking
+        double orderAmount = 0; // Total Of Order
+        for (Order order : booking.getOrders()) {
+            orderAmount += Utilities.calculateTotalAmount(order.getOrderDetails());
+        }
+        totalAmount = Double.parseDouble(booking.getRoomPayment()) + orderAmount;
+        booking.setTotalAmount(totalAmount);
+
         bookingRepository.save(booking);
 
         // Set again RoomType

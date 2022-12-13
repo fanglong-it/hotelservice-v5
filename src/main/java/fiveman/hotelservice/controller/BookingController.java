@@ -74,7 +74,7 @@ public class BookingController {
     
     @PostMapping("/booking/checkInAtHotel")
     public ResponseEntity<CustomResponseObject> checkInAtHotel(@RequestBody CheckInRequest checkInRequest) {
-        return new ResponseEntity<>(bookingService.checkInBooking(checkInRequest), HttpStatus.OK);
+        return new ResponseEntity<>(bookingService.checkInAtHotel(checkInRequest), HttpStatus.OK);
     }
 
     @PostMapping("/booking/checkOut")

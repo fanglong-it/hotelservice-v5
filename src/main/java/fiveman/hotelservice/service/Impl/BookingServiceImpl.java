@@ -2,7 +2,10 @@ package fiveman.hotelservice.service.Impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +15,7 @@ import fiveman.hotelservice.response.DashboardResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.jca.support.LocalConnectionFactoryBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -251,20 +255,31 @@ public class BookingServiceImpl implements BookingService {
             roomRepository.save(room);
 
             List<Customer> customers = new ArrayList<>();
+            Customer primaryCus = null;
             for (CustomerRequest customerRequest : customerRequests) {
+
                 Customer customer = modelMapper.map(customerRequest, Customer.class);
                 customers.add(customer);
                 customerRepository.save(customer);
                 customer = customerRepository.findTopByOrderByIdDesc();
+
+                // Customer_Booking
                 CustomerBooking customerBooking = new CustomerBooking(0, customer, booking,
                         null);
                 if (customerRequest.isPrimary()) {
                     customerBooking.setPrimaryCustomer(String.valueOf(customer.getId()));
+                    primaryCus = customer;
                 } else {
                     customerBooking.setPrimaryCustomer(null);
                 }
+
                 customerBookingRepository.save(customerBooking);
             }
+
+            // Update bookingPrimary Customer
+            booking.setCustomer(primaryCus);
+            bookingRepository.save(booking);
+
         } else {
             throw new AppException(HttpStatus.BAD_REQUEST.value(),
                     new CustomResponseObject(Common.UPDATE_FAIL, "Can't Check in because of Max Occupancy!"));
@@ -276,12 +291,14 @@ public class BookingServiceImpl implements BookingService {
     RoomPriceRepository roomPriceRepository;
 
     @Override
+    @Transactional
     public CustomResponseObject checkOutBooking(long bookingId
     // , HttpServletRequest request
     ) {
         Booking booking = bookingRepository.getBookingById(bookingId);
 
         if (booking.getStatus().equals(Common.BOOKING_CHECKIN)) { // Status is Check In
+
             String currentDateTime = Utilities.getCurrentDateByFormat("dd/MM/yyyy HH:mm:ss");
             booking.setActualDepartureDate(currentDateTime);
             booking.setStatus(Common.BOOKING_CHECKOUT);
@@ -295,36 +312,32 @@ public class BookingServiceImpl implements BookingService {
             }
 
             if (isPayment) { // Booking not Payment
-                Room room = roomRepository.getRoomById(booking.getRoom().getId());
-                room.setStatus(false);
-                roomRepository.save(room); // Turn on status of room
-
-                RoomType roomType = roomTypeRepository.getRoomTypeById(booking.getRoomTypeId());
-                roomType.setMaxBookingRoom(roomType.getMaxBookingRoom() + 1); // Set Default of BookingRoom In
-                roomTypeRepository.save(roomType);
-
                 if (booking.getRoomPayment().equals("N/A") || Utilities.isEmptyString(booking.getRoomPayment())) { // Check
-                    String today = Utilities.getCurrentDateByFormat("dd/MM/yyyy");
-                    RoomPrice roomPrice = roomPriceRepository.getRoomPriceTodayByRoomType(today,
-                            booking.getRoomTypeId());
-                    if (roomPrice == null) {
-                        booking.setRoomPayment(String.valueOf(roomType.getDefaultPrice()));
-                    } else {
-                        booking.setRoomPayment(String.valueOf(roomPrice.getPrice()));
-                    }
-                }
+                    // After check All Room Payment
+                    Room room = roomRepository.getRoomById(booking.getRoom().getId());
+                    room.setStatus(false);
+                    roomRepository.save(room); // Turn on status of room
 
-                // getTotal Amount
-                double totalAmount = 0; // Total Of Booking
-                double orderAmount = 0; // Total Of Order
-                for (Order order : listOrder) {
-                    orderAmount += Utilities.calculateTotalAmount(order.getOrderDetails());
+                    RoomType roomType = roomTypeRepository.getRoomTypeById(booking.getRoomTypeId());
+                    roomType.setMaxBookingRoom(roomType.getMaxBookingRoom() + 1); // Set Default of BookingRoom In
+                    roomTypeRepository.save(roomType);
+
+                    booking.setRoomPayment(String.valueOf(
+                            Utilities.calculateRoomPayment(booking.getActualArrivalDate(), currentDateTime, booking)));
+
+                    // getTotal Amount
+                    double totalAmount = 0; // Total Of Booking
+                    double orderAmount = 0; // Total Of Order
+                    for (Order order : listOrder) {
+                        orderAmount += Utilities.calculateTotalAmount(order.getOrderDetails());
+                    }
+                    totalAmount = Double.parseDouble(booking.getRoomPayment()) + orderAmount; // Plus Booking Payment
+                                                                                              // Price
+                    // and Order Amount
+                    booking.setTotalAmount(totalAmount);
+                    bookingRepository.save(booking);
+                    booking = bookingRepository.getBookingById(bookingId);
                 }
-                totalAmount = Double.parseDouble(booking.getRoomPayment()) + orderAmount; // Plus Booking Payment Price
-                                                                                          // and Order Amount
-                booking.setTotalAmount(totalAmount);
-                bookingRepository.save(booking);
-                booking = bookingRepository.getBookingById(bookingId);
             } else {
                 throw new AppException(HttpStatus.BAD_REQUEST.value(),
                         new CustomResponseObject(Common.GET_FAIL, "Can't Checkout please Payment!"));

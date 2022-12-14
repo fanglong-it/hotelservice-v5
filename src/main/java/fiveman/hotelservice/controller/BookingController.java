@@ -16,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -103,6 +104,10 @@ public class BookingController {
         return new ResponseEntity<>(bookingService.getBookingByCustomerId(customer_id), HttpStatus.OK);
     }
 
-    
+    @GetMapping("/booking/revenuesEntire")
+    public Map<String , Double> getRevenuesEntire(@RequestParam("dateStart") String dateStart, @RequestParam("dateEnd") String dateEnd){
+        return bookingService.getRevenuesEntireDate(dateStart, dateEnd);
+    }
+
 
 }

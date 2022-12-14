@@ -419,8 +419,14 @@ public class PaymentServiceImpl implements PaymentService {
             }
             listBooking.add(bookingResponse);
         }
-
-        if (listBooking.size() > 0) {
+        boolean isPaymentSuccess = false;
+        for (BookingResponse res: listBooking
+             ) {
+            if(res.getBooking() != null){
+                isPaymentSuccess = true;
+            }
+        }
+        if (isPaymentSuccess) {
             emailService.sendMail(listBooking);
         }
         return listBooking;

@@ -2,20 +2,18 @@ package fiveman.hotelservice.service.Impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import fiveman.hotelservice.entities.*;
 import fiveman.hotelservice.repository.*;
+import fiveman.hotelservice.request.Statistic;
 import fiveman.hotelservice.response.DashboardResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.jca.support.LocalConnectionFactoryBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +27,8 @@ import fiveman.hotelservice.security.JwtTokenProvider;
 import fiveman.hotelservice.service.BookingService;
 import fiveman.hotelservice.utils.Common;
 import fiveman.hotelservice.utils.Utilities;
+import fiveman.hotelservice.request.Statistic;
+
 
 @Service
 @Transactional
@@ -41,6 +41,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Autowired
     private RoomTypeRepository roomTypeRepository;
+
+    @Autowired
+    private StatisticRepository statisticRepository;
 
     public BookingObjectResponse mapBookingToResponse(Booking booking) {
         // BookingResponse bookingResponse = new BookingResponse();
@@ -422,6 +425,11 @@ public class BookingServiceImpl implements BookingService {
         data.setNumOfStay(bookingRepository.getAllCustomerStay());
         data.setBookingList(bookingRepository.getRevenueEntireMonth(date));
         return data;
+    }
+
+    @Override
+    public Map<String, Double> getRevenuesEntireDate(String dateStart, String dateEnd) {
+        return bookingRepository.getRevenueByBetweenDate(dateStart, dateEnd);
     }
 
     @Override

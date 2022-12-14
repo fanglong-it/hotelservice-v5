@@ -2,6 +2,8 @@ package fiveman.hotelservice.service.Impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +30,6 @@ import fiveman.hotelservice.service.BookingService;
 import fiveman.hotelservice.utils.Common;
 import fiveman.hotelservice.utils.Utilities;
 import fiveman.hotelservice.request.Statistic;
-
 
 @Service
 @Transactional
@@ -325,8 +326,23 @@ public class BookingServiceImpl implements BookingService {
                     roomType.setMaxBookingRoom(roomType.getMaxBookingRoom() + 1); // Set Default of BookingRoom In
                     roomTypeRepository.save(roomType);
 
-                    booking.setRoomPayment(String.valueOf(
-                            Utilities.calculateRoomPayment(booking.getActualArrivalDate(), currentDateTime, booking)));
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                    double roomPrice = 0;
+                    LocalDateTime startDate = LocalDateTime.parse(booking.getActualArrivalDate(), dtf);
+                    LocalDateTime endDate = LocalDateTime.parse(currentDateTime, dtf);
+                    for (LocalDateTime date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+                        String dateString = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(date);
+                        System.out.println("Date = " + dateString);
+                        RoomPrice rPrice = roomPriceRepository.getRoomPriceTodayByRoomType(dateString,
+                                booking.getRoomTypeId());
+                        if (rPrice != null) {
+                            roomPrice += rPrice.getPrice();
+                        } else {
+                            RoomType rType = roomTypeRepository.getRoomTypeById(booking.getRoomTypeId());
+                            roomPrice += rType.getDefaultPrice();
+                        }
+                    }
+                    booking.setRoomPayment(String.valueOf(roomPrice));
 
                     // getTotal Amount
                     double totalAmount = 0; // Total Of Booking

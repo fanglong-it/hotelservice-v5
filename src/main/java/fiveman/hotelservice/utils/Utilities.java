@@ -134,30 +134,4 @@ public class Utilities {
             return totalAmount;
       }
 
-      private static RoomPriceRepository roomPriceRepository;
-      private static RoomTypeRepository roomTypeRepository;
-
-      public static double calculateRoomPayment(String actualArrivalDate, String currentDate, Booking booking) {
-
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-            double roomPrice = 0;
-            LocalDateTime startDate = LocalDateTime.parse(actualArrivalDate, dtf);
-            LocalDateTime endDate = LocalDateTime.parse(currentDate, dtf);
-            for (LocalDateTime date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
-                  String dateString = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(date);
-                  System.out.println("Date = " + dateString);
-                  RoomPrice rPrice = roomPriceRepository.getRoomPriceTodayByRoomType(dateString,
-                              booking.getRoomTypeId());
-                  if (rPrice != null) {
-                        roomPrice += rPrice.getPrice();
-                  } else {
-                        RoomType rType = roomTypeRepository.getRoomTypeById(booking.getRoomTypeId());
-                        roomPrice += rType.getDefaultPrice();
-                  }
-            }
-            return roomPrice;
-      }
-
-      
-
 }

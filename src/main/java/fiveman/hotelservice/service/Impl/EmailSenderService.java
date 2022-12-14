@@ -57,21 +57,23 @@ public class EmailSenderService implements EmailService {
         double priceByRoom = 0;
         String currentDate = Utilities.getCurrentDate().split(" ")[0];
         for (BookingResponse bookingResponse: list) {
-            for (RoomPrice roPrice : bookingResponse.getRoomType().getRoomPrices()) {
-                if(roPrice.getDate().equals(currentDate)){
-                    price = roPrice.getPrice();
-                }else {
-                    price = 0;
+            if(bookingResponse.getBooking() != null){
+                for (RoomPrice roPrice : bookingResponse.getRoomType().getRoomPrices()) {
+                    if(roPrice.getDate().equals(currentDate)){
+                        price = roPrice.getPrice();
+                    }else {
+                        price = 0;
+                    }
                 }
-            }
-            if(price == 0){
-                price = bookingResponse.getRoomType().getDefaultPrice();
-            }
-            if(bookingResponse.getService() != null){
-                priceByRoom = (price + bookingResponse.getService().getPrice());
-                totalPrice += priceByRoom;
-            }else{
-                totalPrice += price;
+                if(price == 0){
+                    price = bookingResponse.getRoomType().getDefaultPrice();
+                }
+                if(bookingResponse.getService() != null){
+                    priceByRoom = (price + bookingResponse.getService().getPrice());
+                    totalPrice += priceByRoom;
+                }else{
+                    totalPrice += price;
+                }
             }
         }
         String priceInVND = Utilities.parseDoubleToVND(totalPrice);
@@ -83,25 +85,27 @@ public class EmailSenderService implements EmailService {
 
         String currentDate = Utilities.getCurrentDate().split(" ")[0];
         for (BookingResponse bookingResponse: list) {
-            PriceObject priceObject = new PriceObject();
-            double price = 0;
-            double priceByRoom = 0;
-            for (RoomPrice roPrice : bookingResponse.getRoomType().getRoomPrices()) {
-                if(roPrice.getDate().equals(currentDate)){
-                    price = roPrice.getPrice();
-                }
-            }
-            if(price == 0){
-                price = bookingResponse.getRoomType().getDefaultPrice();
-            }
-            if(bookingResponse.getService() != null){
-                priceByRoom = (price + bookingResponse.getService().getPrice());
-            }else{
-                priceByRoom = price;
-            }
-            priceObject.setPrice(Utilities.parseDoubleToVND(price));
-            priceObject.setPriceByRoom(Utilities.parseDoubleToVND((priceByRoom)));
-            priceObjectList.add(priceObject);
+           if(bookingResponse.getBooking() != null){
+               PriceObject priceObject = new PriceObject();
+               double price = 0;
+               double priceByRoom = 0;
+               for (RoomPrice roPrice : bookingResponse.getRoomType().getRoomPrices()) {
+                   if(roPrice.getDate().equals(currentDate)){
+                       price = roPrice.getPrice();
+                   }
+               }
+               if(price == 0){
+                   price = bookingResponse.getRoomType().getDefaultPrice();
+               }
+               if(bookingResponse.getService() != null){
+                   priceByRoom = (price + bookingResponse.getService().getPrice());
+               }else{
+                   priceByRoom = price;
+               }
+               priceObject.setPrice(Utilities.parseDoubleToVND(price));
+               priceObject.setPriceByRoom(Utilities.parseDoubleToVND((priceByRoom)));
+               priceObjectList.add(priceObject);
+           }
         }
         return priceObjectList;
     }

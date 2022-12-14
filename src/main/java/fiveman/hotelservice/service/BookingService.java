@@ -6,6 +6,7 @@ import fiveman.hotelservice.response.BookingObjectResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.DashboardResponse;
 import java.util.List;
+import java.util.Map;
 
 
 public interface BookingService {
@@ -39,5 +40,6 @@ public interface BookingService {
 
     DashboardResponse getDashBoard(String date);
 
+    Map<String , Double> getRevenuesEntireDate(String dateStart, String dateEnd);
 
 }

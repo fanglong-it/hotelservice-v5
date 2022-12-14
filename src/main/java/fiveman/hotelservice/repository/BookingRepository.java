@@ -3,9 +3,11 @@ package fiveman.hotelservice.repository;
 import fiveman.hotelservice.entities.Booking;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 
@@ -13,7 +15,7 @@ import org.springframework.stereotype.Repository;
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     Booking getBookingById(long id);
 
-    
+
     Booking findTopByOrderByIdDesc();
 
     @Query(value = "Select * from booking b where b.room_id = :roomId and status like :status", nativeQuery = true)
@@ -26,22 +28,22 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     Booking getBookingByRoomIdToday(long roomId, String today);
 
     @Query(value = "select count(b.id) from Booking b where SUBSTRING_INDEX(b.createDate, ' ', 1) = :today")
-    long getBookedToday(String today);
+    String getBookedToday(String today);
 
     @Query(value = "select count(b.id) from Booking b where SUBSTRING_INDEX(b.createDate, ' ', 1) = :today and b.status = 'CHECK IN'")
-    long getCheckInToday(String today);
+    String getCheckInToday(String today);
 
     @Query(value = "select count(b.id) from Booking b where SUBSTRING_INDEX(b.createDate, ' ', 1) = :today and b.status = 'CANCEL'")
-    long getCancelToday(String today);
+    String getCancelToday(String today);
 
     @Query(value = "select count(b.id) from Booking b where SUBSTRING_INDEX(b.actualArrivalDate, ' ', 1) = :today")
-    long getActualArriveDay(String today);
+    String getActualArriveDay(String today);
 
     @Query(value = "select count(b.id) from Booking b where SUBSTRING_INDEX(b.actualDepartureDate, ' ', 1) = :today and b.status = 'CHECK OUT'")
-    long getActualDepartureDay(String today);
+    String getActualDepartureDay(String today);
 
     @Query(value = "select count(c.id) from Booking b inner join CustomerBooking c on b.id = c.booking.id where b.status = 'CHECK IN'")
-    long getAllCustomerStay();
+    String getAllCustomerStay();
 
     @Query(value = "select sum(booking.total_amount)" +
             "from booking " +
@@ -77,5 +79,11 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     @Query(value = "select b.id, b.actual_arrival_date, b.actual_departure_date, b.arrival_date, b.confirmation_no, b.create_by, b.create_date, b.departure_date, b.last_modify_by, b.num_of_adult, b.num_of_children, b.room_payment, b.special_note, b.status, b.total_amount, b.update_date, b.customer_id, b.hotel_id, b.room_id, b.room_type_id from booking b inner join customer_stay_booking csb on b.id = csb.booking_id where csb.customer_id = :customer_id", nativeQuery = true)
     Booking getBookingByCustomerId(long customer_id);
+
+    @Query(value = "select b.actualDepartureDate, sum(b.totalAmount) " +
+            "from Booking b " +
+            "where b.status = 'CHECK OUT' and b.actualDepartureDate between :dateStart and :dateEnd " +
+            "group by b.actualDepartureDate ")
+    Map<String, Double> getRevenueByBetweenDate(@Param(("dateStart")) String dateStart, @Param(("dateEnd")) String dateEnd);
 
 }

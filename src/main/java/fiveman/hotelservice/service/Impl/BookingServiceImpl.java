@@ -228,6 +228,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Transactional
     public CustomResponseObject checkInAtHotel(CheckInRequest checkInRequest) {
         BookingRequest bookingRequest = checkInRequest.getBookingRequest();
         List<CustomerRequest> customerRequests = checkInRequest.getCustomerRequests();
@@ -361,6 +362,9 @@ public class BookingServiceImpl implements BookingService {
                 throw new AppException(HttpStatus.BAD_REQUEST.value(),
                         new CustomResponseObject(Common.GET_FAIL, "Can't Checkout please Payment!"));
             }
+        } else {
+            throw new AppException(HttpStatus.BAD_REQUEST.value(),
+                    new CustomResponseObject(Common.GET_FAIL, "Can't Checkout Because of Status!"));
         }
         return new CustomResponseObject(Common.UPDATE_SUCCESS, "Check Out Success!");
     }

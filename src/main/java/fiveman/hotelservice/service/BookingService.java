@@ -30,6 +30,9 @@ public interface BookingService {
 
     CustomResponseObject checkInBooking(CheckInRequest checkInRequest);
 
+    CustomResponseObject checkInAtHotel(CheckInRequest checkInRequest);
+    
+
     CustomResponseObject checkOutBooking(long bookingId
     // , HttpServletRequest request
     );

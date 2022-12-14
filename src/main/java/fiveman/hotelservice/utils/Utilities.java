@@ -5,6 +5,8 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -14,8 +16,14 @@ import java.util.TimeZone;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import fiveman.hotelservice.entities.OrderDetail;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import fiveman.hotelservice.entities.Booking;
+import fiveman.hotelservice.entities.OrderDetail;
+import fiveman.hotelservice.entities.RoomPrice;
+import fiveman.hotelservice.entities.RoomType;
+import fiveman.hotelservice.repository.RoomPriceRepository;
+import fiveman.hotelservice.repository.RoomTypeRepository;
 
 public class Utilities {
       public static boolean isEmptyString(String result) {
@@ -96,12 +104,13 @@ public class Utilities {
             String vnp_CreateDate = formatter.format(cld.getTime());
             return vnp_CreateDate;
       }
-      public static boolean compareTwoDateString(String str1, String str2){
-            SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
+
+      public static boolean compareTwoDateString(String str1, String str2) {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             try {
-                  Date date1=formatter.parse(str1);
-                  Date date2=formatter.parse(str2);
-                  if(date1 == date2){
+                  Date date1 = formatter.parse(str1);
+                  Date date2 = formatter.parse(str2);
+                  if (date1 == date2) {
                         return true;
                   }
             } catch (ParseException e) {
@@ -110,15 +119,14 @@ public class Utilities {
             return false;
       }
 
-      public static String parseDoubleToVND(double price){
+      public static String parseDoubleToVND(double price) {
             String COUNTRY = "VN";
             String LANGUAGE = "vi";
             String str = NumberFormat.getCurrencyInstance(new Locale(LANGUAGE, COUNTRY)).format(price);
             return str;
       }
 
-
-      public static double calculateTotalAmount(List<OrderDetail> orderDetails){
+      public static double calculateTotalAmount(List<OrderDetail> orderDetails) {
             double totalAmount = 0;
             for (OrderDetail orderDetail : orderDetails) {
                   totalAmount += (orderDetail.getQuantity() * orderDetail.getAmount());
@@ -126,5 +134,30 @@ public class Utilities {
             return totalAmount;
       }
 
+      private static RoomPriceRepository roomPriceRepository;
+      private static RoomTypeRepository roomTypeRepository;
+
+      public static double calculateRoomPayment(String actualArrivalDate, String currentDate, Booking booking) {
+
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            double roomPrice = 0;
+            LocalDateTime startDate = LocalDateTime.parse(actualArrivalDate, dtf);
+            LocalDateTime endDate = LocalDateTime.parse(currentDate, dtf);
+            for (LocalDateTime date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+                  String dateString = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(date);
+                  System.out.println("Date = " + dateString);
+                  RoomPrice rPrice = roomPriceRepository.getRoomPriceTodayByRoomType(dateString,
+                              booking.getRoomTypeId());
+                  if (rPrice != null) {
+                        roomPrice += rPrice.getPrice();
+                  } else {
+                        RoomType rType = roomTypeRepository.getRoomTypeById(booking.getRoomTypeId());
+                        roomPrice += rType.getDefaultPrice();
+                  }
+            }
+            return roomPrice;
+      }
+
+      
 
 }

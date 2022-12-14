@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.persistence.Tuple;
 
 import fiveman.hotelservice.entities.*;
 import fiveman.hotelservice.repository.*;
@@ -448,8 +451,15 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Map<String, Double> getRevenuesEntireDate(String dateStart, String dateEnd) {
-        return bookingRepository.getRevenueByBetweenDate(dateStart, dateEnd);
+    public List<Statistic> getRevenuesEntireDate(String dateStart, String dateEnd) {
+
+        List<Tuple> renenues = bookingRepository.getRevenueByBetweenDate(dateStart, dateEnd);
+        List<Statistic> statistics = renenues.stream()
+                .map(t -> new Statistic(
+                        t.get(0, String.class),
+                        t.get(1, Double.class)))
+                .collect(Collectors.toList());
+        return statistics;
     }
 
     @Override

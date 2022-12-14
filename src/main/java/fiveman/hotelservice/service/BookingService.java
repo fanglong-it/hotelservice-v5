@@ -2,11 +2,14 @@ package fiveman.hotelservice.service;
 
 import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.request.CheckInRequest;
+import fiveman.hotelservice.request.Statistic;
 import fiveman.hotelservice.response.BookingObjectResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.DashboardResponse;
 import java.util.List;
 import java.util.Map;
+
+import javax.persistence.Tuple;
 
 
 public interface BookingService {
@@ -43,6 +46,6 @@ public interface BookingService {
 
     DashboardResponse getDashBoard(String date);
 
-    Map<String , Double> getRevenuesEntireDate(String dateStart, String dateEnd);
+    List<Statistic> getRevenuesEntireDate(String dateStart, String dateEnd);
 
 }

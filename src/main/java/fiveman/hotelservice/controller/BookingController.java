@@ -3,10 +3,12 @@ package fiveman.hotelservice.controller;
 import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.request.BookingRequest;
 import fiveman.hotelservice.request.CheckInRequest;
+import fiveman.hotelservice.request.Statistic;
 import fiveman.hotelservice.response.BookingObjectResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.DashboardResponse;
 import fiveman.hotelservice.service.BookingService;
+import groovy.lang.Tuple;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-
 
 @RestController
 @Api(tags = "Booking")
@@ -34,9 +35,11 @@ public class BookingController {
 
     // @GetMapping("/booking")
     // @PreAuthorize("isAnonymous() or isAuthenticated()")
-    // public ResponseEntity<List<BookingObjectResponse>> getAllBookingByRoomId(@RequestParam("room_id") long room_id) {
-    //     return new ResponseEntity<List<BookingObjectResponse>>(bookingService.getAllBookingByRoomId(room_id),
-    //             HttpStatus.OK);
+    // public ResponseEntity<List<BookingObjectResponse>>
+    // getAllBookingByRoomId(@RequestParam("room_id") long room_id) {
+    // return new
+    // ResponseEntity<List<BookingObjectResponse>>(bookingService.getAllBookingByRoomId(room_id),
+    // HttpStatus.OK);
     // }
 
     @GetMapping("/bookings")
@@ -72,7 +75,7 @@ public class BookingController {
     public ResponseEntity<CustomResponseObject> checkInBooking(@RequestBody CheckInRequest checkInRequest) {
         return new ResponseEntity<>(bookingService.checkInBooking(checkInRequest), HttpStatus.OK);
     }
-    
+
     @PostMapping("/booking/checkInAtHotel")
     public ResponseEntity<CustomResponseObject> checkInAtHotel(@RequestBody CheckInRequest checkInRequest) {
         return new ResponseEntity<>(bookingService.checkInAtHotel(checkInRequest), HttpStatus.OK);
@@ -89,25 +92,24 @@ public class BookingController {
     }
 
     @GetMapping("/booking/dashboard")
-    public ResponseEntity<DashboardResponse> getDashBoard(@RequestParam("date") String date){
+    public ResponseEntity<DashboardResponse> getDashBoard(@RequestParam("date") String date) {
         return new ResponseEntity<>(bookingService.getDashBoard(date), HttpStatus.OK);
     }
 
-
     @GetMapping("/booking/bookingByRoomId")
-    public ResponseEntity<Booking> getBookingByRoomId(@RequestParam("room_id") long room_id){
+    public ResponseEntity<Booking> getBookingByRoomId(@RequestParam("room_id") long room_id) {
         return new ResponseEntity<>(bookingService.getBookingByRoomId(room_id), HttpStatus.OK);
     }
 
     @GetMapping("/booking/bookingByCustomerId")
-    public ResponseEntity<Booking> getBookingByCustomerId(@RequestParam("customer_id") long customer_id){
+    public ResponseEntity<Booking> getBookingByCustomerId(@RequestParam("customer_id") long customer_id) {
         return new ResponseEntity<>(bookingService.getBookingByCustomerId(customer_id), HttpStatus.OK);
     }
 
     @GetMapping("/booking/revenuesEntire")
-    public Map<String , Double> getRevenuesEntire(@RequestParam("dateStart") String dateStart, @RequestParam("dateEnd") String dateEnd){
-        return bookingService.getRevenuesEntireDate(dateStart, dateEnd);
+    public ResponseEntity<List<Statistic>> getRevenuesEntire(@RequestParam("dateStart") String dateStart,
+            @RequestParam("dateEnd") String dateEnd) {
+        return new ResponseEntity<>(bookingService.getRevenuesEntireDate(dateStart, dateEnd), HttpStatus.OK);
     }
-
 
 }

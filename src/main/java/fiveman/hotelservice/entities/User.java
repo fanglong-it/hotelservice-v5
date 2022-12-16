@@ -1,12 +1,13 @@
 package fiveman.hotelservice.entities;
 
-
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Data
@@ -42,7 +43,8 @@ public class User {
 
     private boolean isActive;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Hotel.class)
+    @JsonBackReference
     private Hotel hotel;
 
     private String createDate;

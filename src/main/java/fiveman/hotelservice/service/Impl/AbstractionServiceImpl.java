@@ -25,7 +25,7 @@ public class AbstractionServiceImpl implements AbstractionService {
     // private String name;
 
     // private double longtitude;
-    // private double latidute; 
+    // private double latidute;
 
     // private String openTime;
     // private String closeTime;
@@ -36,7 +36,8 @@ public class AbstractionServiceImpl implements AbstractionService {
 
     @Autowired
     ImageRepository imageRepository;
-    public AbstractionResponse mapAbstractionToResponse(Abstraction abstraction){
+
+    public AbstractionResponse mapAbstractionToResponse(Abstraction abstraction) {
         AbstractionResponse abstractionResponse = new AbstractionResponse();
         abstractionResponse.setId(abstraction.getId());
         abstractionResponse.setName(abstraction.getName());
@@ -47,16 +48,19 @@ public class AbstractionServiceImpl implements AbstractionService {
         abstractionResponse.setAddress(abstraction.getAddress());
         abstractionResponse.setDescription(abstraction.getDescription());
         abstractionResponse.setHotel_Id(abstraction.getHotel().getId());
-        abstractionResponse.setImages(imageRepository.getAllByPictureType("img_abstraction_"+ abstractionResponse.getId()));
+        abstractionResponse
+                .setImages(imageRepository.getAllByPictureType("img_abstraction_" + abstractionResponse.getId()));
         return abstractionResponse;
     }
 
     @Override
     public Abstraction getAbstractionById(long id) {
         if (!abstractionRepository.existsById(id)) {
-            throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.GET_FAIL, "Not found id =" + id));
+            throw new AppException(HttpStatus.NOT_FOUND.value(),
+                    new CustomResponseObject(Common.GET_FAIL, "Not found id =" + id));
         }
-        // return mapAbstractionToResponse(abstractionRepository.getAbstractionById(id));
+        // return
+        // mapAbstractionToResponse(abstractionRepository.getAbstractionById(id));
         return abstractionRepository.getAbstractionById(id);
     }
 
@@ -67,47 +71,47 @@ public class AbstractionServiceImpl implements AbstractionService {
         // List<AbstractionResponse> abstractionResponses = new ArrayList<>();
 
         // for (Abstraction abstraction : abstractions) {
-        //     abstractionResponses.add(mapAbstractionToResponse(abstraction));
+        // abstractionResponses.add(mapAbstractionToResponse(abstraction));
         // }
 
         return abstractions;
     }
-    
-    
+
     @Override
     public List<Abstraction> getAbstractionsNotCustom() {
         return abstractionRepository.findAbstractions();
     }
 
     @Override
-    public List<Abstraction> saveAbstraction(Abstraction abstraction) {
+    public Abstraction saveAbstraction(Abstraction abstraction) {
         if (abstractionRepository.existsById(abstraction.getId())) {
-            throw new AppException(HttpStatus.ALREADY_REPORTED.value(), new CustomResponseObject(Common.ADDING_FAIL, "Exist id =" + abstraction.getId()));
+            throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
+                    new CustomResponseObject(Common.ADDING_FAIL, "Exist id =" + abstraction.getId()));
         }
         abstractionRepository.save(abstraction);
         // return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding Success!");
-        return getAbstractions();
+        return abstractionRepository.findTopByOrderByIdDesc();
     }
 
-  
-
     @Override
-    public List<Abstraction> updateAbstraction(Abstraction abstraction) {
+    public Abstraction updateAbstraction(Abstraction abstraction) {
         if (!abstractionRepository.existsById(abstraction.getId())) {
-            throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.UPDATE_FAIL, "Not found id =" + abstraction.getId()));
+            throw new AppException(HttpStatus.NOT_FOUND.value(),
+                    new CustomResponseObject(Common.UPDATE_FAIL, "Not found id =" + abstraction.getId()));
         }
         abstractionRepository.save(abstraction);
         // return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success!");
-        return getAbstractions();
+        return abstractionRepository.getAbstractionById(abstraction.getId());
     }
 
     @Override
-    public List<Abstraction> deleteAbstractionById(long id) {
+    public CustomResponseObject deleteAbstractionById(long id) {
         if (!abstractionRepository.existsById(id)) {
-            throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.DELETE_FAIL, "Not found id =" + id));
+            throw new AppException(HttpStatus.NOT_FOUND.value(),
+                    new CustomResponseObject(Common.DELETE_FAIL, "Not found id =" + id));
         }
         abstractionRepository.deleteById(id);
-        // return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Success!");
-        return getAbstractions();
+        return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Success!");
+        // return getAbstractions();
     }
 }

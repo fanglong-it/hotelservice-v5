@@ -12,17 +12,17 @@ public interface RoomService {
 
     List<Room> getRooms();
 
-    Room getRoomByBookingIdAndStatusCheckIn(long booking_id);
+    Room getRoomByBooking(long booking_id);
 
     Room getRoomByOrderId(long order_id);
 
     RoomResponse getRoom(long id);
 
-    CustomResponseObject saveRoom(RoomRequest roomRequest);
+    Room saveRoom(RoomRequest roomRequest);
 
-    CustomResponseObject updateRoom(Room room);
+    Room updateRoom(Room room);
 
-    CustomResponseObject deleteRoom(long id);
+    Room deleteRoom(long id);
 
     List<Room> checkAvailabilityByRoomType(long Booking_Id);
 

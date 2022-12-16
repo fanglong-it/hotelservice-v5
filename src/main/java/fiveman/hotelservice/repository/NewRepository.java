@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 import fiveman.hotelservice.entities.New;
 
 @Repository
-public interface NewRepository extends JpaRepository<New, Long>  {
+public interface NewRepository extends JpaRepository<New, Long> {
     New getNewById(long id);
+
     List<New> getAllBynewsType(String type);
-    
+
+    New findTopByOrderByIdDesc();
+
 }
-
-
-

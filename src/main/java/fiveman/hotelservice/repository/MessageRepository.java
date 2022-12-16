@@ -8,7 +8,10 @@ import org.springframework.stereotype.Repository;
 import fiveman.hotelservice.entities.Message;
 
 @Repository
-public interface MessageRepository extends JpaRepository<Message, Long>{
+public interface MessageRepository extends JpaRepository<Message, Long> {
       Message getMessageById(long id);
+
       List<Message> getAllMessageByBooking_Id(long id);
+
+      Message findTopByOrderByIdDesc();
 }

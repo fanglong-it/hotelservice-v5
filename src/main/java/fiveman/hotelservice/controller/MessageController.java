@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fiveman.hotelservice.entities.Message;
 import fiveman.hotelservice.request.MessageRequest;
+import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.MessageResponse;
 import fiveman.hotelservice.service.MessageService;
 import io.swagger.annotations.Api;
@@ -31,10 +32,10 @@ import io.swagger.annotations.ApiResponses;
 @Api(tags = "Message")
 @RequestMapping("/api/v1/")
 public class MessageController {
-      
+
       @Autowired
       private MessageService messageService;
-      
+
       @Autowired
       private ModelMapper modelMapper;
 
@@ -44,17 +45,15 @@ public class MessageController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<List<MessageResponse>> getmessages() {
-            return new ResponseEntity<List<MessageResponse>>(messageService.getAllMessage(), HttpStatus.OK);
+      public ResponseEntity<List<Message>> getAllMessages() {
+            return new ResponseEntity<>(messageService.getAllMessage(), HttpStatus.OK);
       }
-
 
       @GetMapping("/message/messagesByBooking")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
-      public ResponseEntity<List<MessageResponse>> getMessageByBookingId(@RequestParam("booking_id") long id){
+      public ResponseEntity<List<Message>> getMessageByBookingId(@RequestParam("booking_id") long id) {
             return new ResponseEntity<>(messageService.getAllMessageByBooking_Id(id), HttpStatus.OK);
       }
-
 
       @GetMapping("/message/{id}")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
@@ -62,8 +61,8 @@ public class MessageController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<MessageResponse> getmessage(@PathVariable("id") long id) {
-            return new ResponseEntity<MessageResponse>(messageService.getMessageById(id), HttpStatus.OK);
+      public ResponseEntity<Message> getMessageById(@PathVariable("id") long id) {
+            return new ResponseEntity<>(messageService.getMessageById(id), HttpStatus.OK);
       }
 
       @PostMapping("/message")
@@ -72,7 +71,7 @@ public class MessageController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<List<MessageResponse>> savemessage(@RequestBody @Valid MessageRequest request) {
+      public ResponseEntity<Message> saveMessage(@RequestBody @Valid MessageRequest request) {
             Message message = modelMapper.map(request, Message.class);
             return new ResponseEntity<>(messageService.addMessage(message), HttpStatus.OK);
       }
@@ -83,7 +82,7 @@ public class MessageController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<List<MessageResponse>> updatemessage(@RequestBody @Valid MessageRequest request) {
+      public ResponseEntity<Message> updateMessage(@RequestBody @Valid MessageRequest request) {
             Message message = modelMapper.map(request, Message.class);
             return new ResponseEntity<>(messageService.updateMessage(message), HttpStatus.OK);
       }
@@ -94,7 +93,7 @@ public class MessageController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<List<MessageResponse>> deletemessage(@PathVariable long id) {
+      public ResponseEntity<CustomResponseObject> deleteMessage(@PathVariable long id) {
             return new ResponseEntity<>(messageService.deleteMessage(id), HttpStatus.OK);
       }
 

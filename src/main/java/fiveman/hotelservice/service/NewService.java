@@ -9,10 +9,16 @@ import fiveman.hotelservice.response.NewResponse;
 
 public interface NewService {
     NewResponse getNewById(long id);
+
     List<New> getAllNew();
+
     List<New> getNewByType(String type);
-    List<New> saveNew(New oNew);
-    List<New> updateNew(New oNew);
-    List<New> deleteNew(long id);
+
+    New saveNew(New oNew);
+
+    New updateNew(New oNew);
+
+    New deleteNew(long id);
+
     CustomResponseObject updateNewsEvent(List<NewRequest> newRequests);
 }

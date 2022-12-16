@@ -37,7 +37,8 @@ public class ImageController {
     public ResponseEntity<List<Image>> getImageByType(@RequestParam("type") String type) {
         return new ResponseEntity<>(imageService.getImageByImageType(type), HttpStatus.OK);
     }
-   @GetMapping("/image/getImageByImageTypeContain")
+
+    @GetMapping("/image/getImageByImageTypeContain")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<List<Image>> getImageByImageTypeContain(@RequestParam("type") String type) {
         return new ResponseEntity<>(imageService.getImageByImageTypeContain(type), HttpStatus.OK);
@@ -52,14 +53,14 @@ public class ImageController {
 
     @PostMapping("/image")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<CustomResponseObject> saveImage(@RequestBody ImageRequest request) {
+    public ResponseEntity<Image> saveImage(@RequestBody ImageRequest request) {
         Image image = mapper.map(request, Image.class);
         return new ResponseEntity<>(imageService.saveImage(image), HttpStatus.OK);
     }
 
     @PutMapping("/image")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<CustomResponseObject> updateImage(@Valid @RequestBody Image image) {
+    public ResponseEntity<Image> updateImage(@Valid @RequestBody Image image) {
         return new ResponseEntity<>(imageService.updateImage(image), HttpStatus.OK);
     }
 
@@ -68,10 +69,5 @@ public class ImageController {
     public ResponseEntity<CustomResponseObject> deleteImage(@PathVariable("id") Long id) {
         return new ResponseEntity<>(imageService.deleteImage(id), HttpStatus.OK);
     }
-
-
-
-
-
 
 }

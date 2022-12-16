@@ -33,12 +33,11 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public CustomResponseObject saveHotel(Hotel hotel) {
+    public Hotel saveHotel(Hotel hotel) {
         if(!hotelRepository.existsById(hotel.getId())){
             log.info("START SAVING HOTEL");
             hotelRepository.save(hotel);
-            return new CustomResponseObject(Common.ADDING_SUCCESS,
-                    "Create success!");
+            return hotelRepository.findTopByOrderByIdDesc();
         }
         throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
                 new CustomResponseObject(Common.ADDING_FAIL,
@@ -46,12 +45,11 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public CustomResponseObject updateHotel(Hotel hotel) {
+    public Hotel updateHotel(Hotel hotel) {
         if(hotelRepository.existsById(hotel.getId())){
             log.info("START UPDATE HOTEL");
             hotelRepository.save(hotel);
-            return new CustomResponseObject(Common.UPDATE_SUCCESS,
-                    "Update success!");
+            return hotelRepository.getHotelById(hotel.getId());
         }
         throw new AppException(HttpStatus.NOT_FOUND.value(),
                 new CustomResponseObject(Common.UPDATE_FAIL,
@@ -60,12 +58,13 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public CustomResponseObject deleteHotel(Long id) {
+    public Hotel deleteHotel(Long id) {
         if(hotelRepository.existsById(id)){
             log.info("START DELETE HOTEL");
-            hotelRepository.deleteById(id);
-            return new CustomResponseObject(Common.DELETE_SUCCESS,
-                    "Delete success!");
+            Hotel hotel = hotelRepository.getHotelById(id);
+            hotel.setStatus(false);
+            hotelRepository.save(hotel);
+            return hotel;
         }
         throw new AppException(HttpStatus.NOT_FOUND.value(),
                 new CustomResponseObject(Common.DELETE_FAIL,

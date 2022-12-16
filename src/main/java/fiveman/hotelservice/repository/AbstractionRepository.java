@@ -15,4 +15,7 @@ public interface AbstractionRepository extends JpaRepository<Abstraction, Long> 
 
     @Query(value = "SELECT * FROM abstraction", nativeQuery = true)
     List<Abstraction> findAbstractions();
+
+    Abstraction findTopByOrderByIdDesc();
+    
 }

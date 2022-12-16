@@ -30,73 +30,73 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RoomServiceImpl implements RoomService {
 
-      @Autowired
-      RoomRepository roomRepository;
+    @Autowired
+    RoomRepository roomRepository;
 
-      @Autowired
-      ModelMapper modelMapper;
+    @Autowired
+    ModelMapper modelMapper;
 
-      @Autowired
-      RoomTypeRepository roomTypeRepository;
+    @Autowired
+    RoomTypeRepository roomTypeRepository;
 
-      // private long id;
-      // private String name;
-      // private String roomNo;
-      // private String description;
-      // private String createDate;
-      // private String updateDate;
-      // private String createBy;
-      // private String lastModifyBy;
-      // private long hotel_Id;
-      // private long roomType_Id;
+    // private long id;
+    // private String name;
+    // private String roomNo;
+    // private String description;
+    // private String createDate;
+    // private String updateDate;
+    // private String createBy;
+    // private String lastModifyBy;
+    // private long hotel_Id;
+    // private long roomType_Id;
 
-      RoomResponse mapRoomToResponse(Room room) {
-            RoomResponse roomResponse = new RoomResponse();
-            roomResponse.setId(room.getId());
-            roomResponse.setName(room.getName());
-            roomResponse.setRoomNo(room.getRoomNo());
-            roomResponse.setDescription(room.getDescription());
-            roomResponse.setCreateDate(room.getCreateDate());
-            roomResponse.setUpdateDate(room.getUpdateDate());
-            roomResponse.setCreateBy(room.getCreateBy());
-            roomResponse.setLastModifyBy(room.getLastModifyBy());
-            roomResponse.setHotel(room.getHotel());
-            roomResponse.setRoomType(room.getRoomType());
-            roomResponse.getRoomType().setRooms(null);
-            return roomResponse;
-      }
+    RoomResponse mapRoomToResponse(Room room) {
+        RoomResponse roomResponse = new RoomResponse();
+        roomResponse.setId(room.getId());
+        roomResponse.setName(room.getName());
+        roomResponse.setRoomNo(room.getRoomNo());
+        roomResponse.setDescription(room.getDescription());
+        roomResponse.setCreateDate(room.getCreateDate());
+        roomResponse.setUpdateDate(room.getUpdateDate());
+        roomResponse.setCreateBy(room.getCreateBy());
+        roomResponse.setLastModifyBy(room.getLastModifyBy());
+        roomResponse.setHotel(room.getHotel());
+        roomResponse.setRoomType(room.getRoomType());
+        roomResponse.getRoomType().setRooms(null);
+        return roomResponse;
+    }
 
-      @Autowired
-      BookingRepository bookingRepository;
+    @Autowired
+    BookingRepository bookingRepository;
 
-      @Autowired
-      CustomerBookingRepository customerBookingRepository;
+    @Autowired
+    CustomerBookingRepository customerBookingRepository;
 
-      @Override
-      public List<Booking> getBookingCheckInToday() {
-            String today = Utilities.getCurrentDate();
+    @Override
+    public List<Booking> getBookingCheckInToday() {
+        String today = Utilities.getCurrentDate();
 
-            List<Room> rooms = roomRepository.findAll();
+        List<Room> rooms = roomRepository.findAll();
 
-            List<RoomResponse> roomResponses = new ArrayList<>();
+        List<RoomResponse> roomResponses = new ArrayList<>();
 
-            for (Room room : rooms) {
-                RoomResponse roomResponse = mapRoomToResponse(room);
-                roomResponse.setStatus(room.isStatus());
-                roomResponse.setBooking(bookingRepository.getBookingByRoomIdToday(roomResponse.getId(), today));
-                if (roomResponse.getBooking() != null) {
-                    CustomerBooking customerBooking = customerBookingRepository
-                            .selectPrimaryCustomerByBooking(roomResponse.getBooking().getId());
-                    roomResponse.setPrimaryCustomer(customerBooking.getPrimaryCustomer());
-                }
-                roomResponses.add(roomResponse);
+        for (Room room : rooms) {
+            RoomResponse roomResponse = mapRoomToResponse(room);
+            roomResponse.setStatus(room.isStatus());
+            roomResponse.setBooking(bookingRepository.getBookingByRoomIdToday(roomResponse.getId(), today));
+            if (roomResponse.getBooking() != null) {
+                CustomerBooking customerBooking = customerBookingRepository
+                        .selectPrimaryCustomerByBooking(roomResponse.getBooking().getId());
+                roomResponse.setPrimaryCustomer(customerBooking.getPrimaryCustomer());
             }
-          List<Booking> bookings = bookingRepository.getBookingByCheckInAndRoomId(today);
-          return bookings;
+            roomResponses.add(roomResponse);
+        }
+        List<Booking> bookings = bookingRepository.getBookingByCheckInAndRoomId(today);
+        return bookings;
 
-          // return roomRepository.getRoomCheckInToday(today, room_id);
-          // return roomRepository.findAll();
-      }
+        // return roomRepository.getRoomCheckInToday(today, room_id);
+        // return roomRepository.findAll();
+    }
 
     @Override
     public List<RoomResponse> getRoomWithBooking() {
@@ -105,8 +105,8 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room getRoomByBookingIdAndStatusCheckIn(long booking_id) {
-        Room room = roomRepository.getRoomByBookingAndStatusCheckIn(booking_id);
+    public Room getRoomByBooking(long booking_id) {
+        Room room = roomRepository.getRoomByBooking(booking_id);
         if (room == null) {
             throw new AppException(HttpStatus.NOT_FOUND.value(),
                     new CustomResponseObject(Common.GET_FAIL, "Cant found Room By BookingId = " + booking_id));
@@ -114,15 +114,12 @@ public class RoomServiceImpl implements RoomService {
         return room;
     }
 
-
-
-    
     @Override
     public Room getRoomByOrderId(long order_id) {
         Room room = roomRepository.getRoomByOrderId(order_id);
-        if(room == null){
+        if (room == null) {
             throw new AppException(HttpStatus.NOT_FOUND.value(),
-            new CustomResponseObject(Common.GET_FAIL, "Cant found Room By order_id = " + order_id));
+                    new CustomResponseObject(Common.GET_FAIL, "Cant found Room By order_id = " + order_id));
         }
         return room;
     }
@@ -146,77 +143,82 @@ public class RoomServiceImpl implements RoomService {
             throw new AppException(HttpStatus.NOT_FOUND.value(),
                     new CustomResponseObject(Common.GET_FAIL, "Cant found ID =" + id));
         }
-            log.info("END GET ROOM BY ID");
-            return mapRoomToResponse(roomRepository.getRoomById(id));
-      }
+        log.info("END GET ROOM BY ID");
+        return mapRoomToResponse(roomRepository.getRoomById(id));
+    }
 
-      @Override
-      public CustomResponseObject saveRoom(RoomRequest roomRequest) {
-            log.info("START SAVE ROOM");
-            Room room = modelMapper.map(roomRequest, Room.class);
-            if (roomRepository.existsById(room.getId())) {
-                  throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
-                              new CustomResponseObject(Common.ADDING_FAIL, "Exist id =" + room.getId()));
-            }
+    @Override
+    public Room saveRoom(RoomRequest roomRequest) {
+        log.info("START SAVE ROOM");
+        Room room = modelMapper.map(roomRequest, Room.class);
+        if (roomRepository.existsById(room.getId())) {
+            throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
+                    new CustomResponseObject(Common.ADDING_FAIL, "Exist id =" + room.getId()));
+        }
+        roomRepository.save(room);
+        // if (roomRequest.getImages().size() > 0) {
+        // Room latestRoom = roomRepository.findTopByOrderByIdDesc();
+        // for (ImageRequest img : roomRequest.getImages()) {
+        // Image image = new Image();
+        // image.setPictureUrl(img.getPictureUrl());
+        // image.setPictureDescription(img.getPictureDescription());
+        // image.setPictureType("img_room_" + latestRoom.getId());
+        // }
+        // }
+        log.info("END SAVE ROOM");
+        return roomRepository.findTopByOrderByIdDesc();
+    }
+
+    @Override
+    public Room updateRoom(Room room) {
+        log.info("START UPDATE ROOM");
+        if (roomRepository.existsById(room.getId())) {
             roomRepository.save(room);
-            // if (roomRequest.getImages().size() > 0) {
-            // Room latestRoom = roomRepository.findTopByOrderByIdDesc();
-            // for (ImageRequest img : roomRequest.getImages()) {
-            // Image image = new Image();
-            // image.setPictureUrl(img.getPictureUrl());
-            // image.setPictureDescription(img.getPictureDescription());
-            // image.setPictureType("img_room_" + latestRoom.getId());
-            // }
-            // }
-            log.info("END SAVE ROOM");
-            return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding Room Success!");
-      }
+            log.info("END UPDATE ROOM");
+            // return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update success!");
+            return roomRepository.getRoomById(room.getId());
+        }
+        throw new AppException(HttpStatus.NOT_FOUND.value(),
+                new CustomResponseObject(Common.UPDATE_FAIL, "Not found id = " + room.getId()));
+    }
 
-      @Override
-      public CustomResponseObject updateRoom(Room room) {
-            log.info("START UPDATE ROOM");
-            if (roomRepository.existsById(room.getId())) {
-                  roomRepository.save(room);
-                  log.info("END UPDATE ROOM");
-                  return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update success!");
-            }
-            throw new AppException(HttpStatus.NOT_FOUND.value(),
-                        new CustomResponseObject(Common.UPDATE_FAIL, "Not found id = " + room.getId()));
-      }
+    @Override
+    public Room deleteRoom(long id) {
+        if (roomRepository.existsById(id)) {
+            log.info("DELETE ROOM");
+            // roomRepository.deleteById(id);
+            Room room = roomRepository.getRoomById(id);
+            room.setStatus(false);
+            roomRepository.save(room);
+            // return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete success!");
+            return room;
+        }
+        throw new AppException(HttpStatus.NOT_FOUND.value(),
+                new CustomResponseObject(Common.DELETE_FAIL, "Not found id = " + id));
+    }
 
-      @Override
-      public CustomResponseObject deleteRoom(long id) {
-            if (roomRepository.existsById(id)) {
-                  log.info("DELETE ROOM");
-                  roomRepository.deleteById(id);
-                  return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete success!");
-            }
-            throw new AppException(HttpStatus.NOT_FOUND.value(),
-                        new CustomResponseObject(Common.DELETE_FAIL, "Not found id = " + id));
-      }
+    @Autowired
+    RoomTypeService roomTypeService;
 
-      @Autowired
-      RoomTypeService roomTypeService;
+    @Override
+    public List<Room> checkAvailabilityByRoomType(long Booking_Id) {
 
-      @Override
-      public List<Room> checkAvailabilityByRoomType(long Booking_Id) {
+        // List<RoomAvailabilityResponse> checkAvailabilityResponses =
+        // roomTypeService.checkAvailability(dateCheckIn,
+        // dateCheckout, numberOfPerson);
+        // // List<RoomAvailabilityResponse> responses = new ArrayList<>();
+        // List<Room> rooms = new ArrayList<>();
+        // for (RoomAvailabilityResponse roomAvailabilityResponse :
+        // checkAvailabilityResponses) {
+        // for (Room room : roomAvailabilityResponse.getRooms()) {
+        // if (room.getRoomType().getId() == roomTypeId) {
+        // rooms.add(room);
+        // }
+        // }
+        // }
+        List<Room> rooms = roomRepository.getRoomAvaiByBookingId(Booking_Id);
 
-          // List<RoomAvailabilityResponse> checkAvailabilityResponses =
-          // roomTypeService.checkAvailability(dateCheckIn,
-          // dateCheckout, numberOfPerson);
-          // // List<RoomAvailabilityResponse> responses = new ArrayList<>();
-          // List<Room> rooms = new ArrayList<>();
-          // for (RoomAvailabilityResponse roomAvailabilityResponse :
-          // checkAvailabilityResponses) {
-          // for (Room room : roomAvailabilityResponse.getRooms()) {
-          // if (room.getRoomType().getId() == roomTypeId) {
-          // rooms.add(room);
-          // }
-          // }
-          // }
-          List<Room> rooms = roomRepository.getRoomAvaiByBookingId(Booking_Id);
-
-          return rooms;
-      }
+        return rooms;
+    }
 
 }

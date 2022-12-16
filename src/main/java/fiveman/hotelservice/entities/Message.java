@@ -21,6 +21,6 @@ public class Message {
 
     private String messageContent;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Booking.class)
     private Booking booking;
 }

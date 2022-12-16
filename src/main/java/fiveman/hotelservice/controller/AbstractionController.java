@@ -2,6 +2,7 @@ package fiveman.hotelservice.controller;
 
 import fiveman.hotelservice.entities.Abstraction;
 import fiveman.hotelservice.request.AbstractionRequest;
+import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.AbstractionService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
@@ -28,7 +29,6 @@ public class AbstractionController {
         return new ResponseEntity<>(abstractionService.getAbstractionById(id), HttpStatus.OK);
     }
 
-
     @GetMapping("/abstractions")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
     public ResponseEntity<List<Abstraction>> getAbstractions() {
@@ -40,21 +40,21 @@ public class AbstractionController {
 
     @PostMapping("/abstraction")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<Abstraction>> saveAbstraction(@RequestBody @Valid AbstractionRequest abstractionRequest) {
+    public ResponseEntity<Abstraction> saveAbstraction(@RequestBody @Valid AbstractionRequest abstractionRequest) {
         Abstraction abstraction = modelMapper.map(abstractionRequest, Abstraction.class);
         return new ResponseEntity<>(abstractionService.saveAbstraction(abstraction), HttpStatus.OK);
     }
 
     @PutMapping("/abstraction")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<Abstraction>> updateAbstraction(@RequestBody @Valid AbstractionRequest abstractionRequest) {
+    public ResponseEntity<Abstraction> updateAbstraction(@RequestBody @Valid AbstractionRequest abstractionRequest) {
         Abstraction abstraction = modelMapper.map(abstractionRequest, Abstraction.class);
         return new ResponseEntity<>(abstractionService.updateAbstraction(abstraction), HttpStatus.OK);
     }
 
     @DeleteMapping("/abstraction/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<Abstraction>> deleteAbstraction(@PathVariable("id") long id) {
+    public ResponseEntity<CustomResponseObject> deleteAbstraction(@PathVariable("id") long id) {
         return new ResponseEntity<>(abstractionService.deleteAbstractionById(id), HttpStatus.OK);
     }
 

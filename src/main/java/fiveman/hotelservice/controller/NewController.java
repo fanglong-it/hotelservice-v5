@@ -29,48 +29,47 @@ import io.swagger.annotations.Api;
 @RestController
 @RequestMapping("/api/v1")
 public class NewController {
-    
+
     @Autowired
     NewService newService;
 
     @Autowired
     ModelMapper modelMapper;
 
-
     @GetMapping("/new/{id}")
-    public ResponseEntity<NewResponse> getNewById(@PathVariable("id") long id){
+    public ResponseEntity<NewResponse> getNewById(@PathVariable("id") long id) {
         return new ResponseEntity<>(newService.getNewById(id), HttpStatus.OK);
     }
 
     @GetMapping("/new")
-    public ResponseEntity<List<New>> getNewByType(@RequestParam("type") String type){
+    public ResponseEntity<List<New>> getNewByType(@RequestParam("type") String type) {
         return new ResponseEntity<>(newService.getNewByType(type), HttpStatus.OK);
     }
 
     @GetMapping("/news")
-    public ResponseEntity<List<New>> getAllNew(){
+    public ResponseEntity<List<New>> getAllNew() {
         return new ResponseEntity<>(newService.getAllNew(), HttpStatus.OK);
     }
 
     @PostMapping("/new")
-    public ResponseEntity<List<New>> saveNewEntity(@RequestBody @Valid NewRequest newRequest){
+    public ResponseEntity<New> saveNewEntity(@RequestBody @Valid NewRequest newRequest) {
         New oNew = modelMapper.map(newRequest, New.class);
         return new ResponseEntity<>(newService.saveNew(oNew), HttpStatus.OK);
     }
 
     @PutMapping("/new")
-    public ResponseEntity<List<New>> updateNew(@RequestBody @Valid NewRequest newRequest){
+    public ResponseEntity<New> updateNew(@RequestBody @Valid NewRequest newRequest) {
         New oNew = modelMapper.map(newRequest, New.class);
         return new ResponseEntity<>(newService.updateNew(oNew), HttpStatus.OK);
     }
 
     @PutMapping("/news")
-    public ResponseEntity<CustomResponseObject> updateNewsEvent(@RequestBody @Valid List<NewRequest> newRequest){
+    public ResponseEntity<CustomResponseObject> updateNewsEvent(@RequestBody @Valid List<NewRequest> newRequest) {
         return new ResponseEntity<>(newService.updateNewsEvent(newRequest), HttpStatus.OK);
     }
 
     @DeleteMapping("/new")
-    public ResponseEntity<List<New>> deleteNew(@RequestParam long id){
+    public ResponseEntity<New> deleteNew(@RequestParam long id) {
         return new ResponseEntity<>(newService.deleteNew(id), HttpStatus.OK);
     }
 

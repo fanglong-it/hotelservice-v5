@@ -92,17 +92,12 @@ public class UserServiceImpl implements UserService {
     // }
 
     @Override
-    public List<UserResponse> getUsers() {
+    public List<User> getUsers() {
         logger.info("START GET ALL USER");
         List<User> users = userRepository.findAll();
-        List<UserResponse> userResponses = new ArrayList<>();
-        for (int i = 0; i < users.size(); i++) {
-            UserResponse userResponse = modelMapper.map(users.get(i), UserResponse.class);
-            userResponses.add(userResponse);
-        }
 
         logger.info("END GET ALL USER");
-        return userResponses;
+        return users;
     }
 
     public UserResponse mapUserToUserResponse(User user) {
@@ -123,16 +118,15 @@ public class UserServiceImpl implements UserService {
         UserResponse userResponse = modelMapper.map(user, UserResponse.class);
         userResponse.setHotel_Id(user.getHotel().getId());
         userResponse.setStatus(String.valueOf(user.isActive()));
-        
+
         return userResponse;
     }
 
     @Override
-    public UserResponse whoami(HttpServletRequest request) {
+    public User whoami(HttpServletRequest request) {
         String username = jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(request));
         User user = userRepository.findUserByUsername(username);
-        UserResponse userResponse = mapUserToUserResponse(user);
-        return userResponse;
+        return user;
     }
 
     public String signin(String username, String password) {
@@ -174,6 +168,7 @@ public class UserServiceImpl implements UserService {
         user.setActive(true);
         user.setCreateBy(userRequest.getCreateBy());
         user.setCreateDate(Utilities.getCurrentDate());
+        user.setUpdateDate(null);
         user.setLastModifyBy(userRequest.getLastModifyBy());
         // user.setUpdateDate();
         userRepository.save(user);
@@ -183,11 +178,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public CustomResponseObject updateUser(UserRequest userRequest) {
+    public User updateUser(UserRequest userRequest) {
         logger.info("START CHECK REGISTRATION");
         User user = modelMapper.map(userRequest, User.class);
         if (!userRepository.existsByUsername(user.getUsername())) {
-            throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.UPDATE_FAIL, "Can't find user"));
+            throw new AppException(HttpStatus.NOT_FOUND.value(),
+                    new CustomResponseObject(Common.UPDATE_FAIL, "Can't find user"));
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setUsername(user.getUsername());
@@ -197,7 +193,7 @@ public class UserServiceImpl implements UserService {
         user.setLastModifyBy(userRequest.getLastModifyBy());
         userRepository.save(user);
         logger.info("END CHECK REGISTRATION");
-        return new CustomResponseObject(Common.UPDATE_FAIL, "Update Success!");
+        return userRepository.getUserById(userRequest.getId());
     }
 
     @Override

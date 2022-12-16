@@ -33,21 +33,21 @@ public class ImageServiceImpl implements ImageService {
         return imageRepository.getAllByPictureType(type);
     }
 
-    
-
     @Override
     public List<Image> getImageByImageTypeContain(String type) {
         return imageRepository.getAllByPictureTypeContains(type);
     }
 
     @Override
-    public CustomResponseObject saveImage(Image image) {
+    public Image saveImage(Image image) {
         if (!imageRepository.existsById(image.getId())) {
             imageRepository.save(image);
             log.info("CREATE SUCCESS IMAGE");
-            return new CustomResponseObject(Common.ADDING_SUCCESS, "Create Success");
+            // return new CustomResponseObject(Common.ADDING_SUCCESS, "Create Success");
+            return imageRepository.findTopByOrderByIdDesc();
         }
-        throw new AppException(HttpStatus.ALREADY_REPORTED.value(), new CustomResponseObject(HttpStatus.ALREADY_REPORTED.toString(), "Existed id = " + image.getId()));
+        throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
+                new CustomResponseObject(HttpStatus.ALREADY_REPORTED.toString(), "Existed id = " + image.getId()));
     }
 
     @Override
@@ -57,11 +57,11 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public CustomResponseObject updateImage(Image image) {
+    public Image updateImage(Image image) {
         Image img = mapImageDtoToImage(image);
         imageRepository.save(img);
         log.info("UPDATED IMAGE");
-        return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success");
+        return imageRepository.getPictureById(image.getId());
     }
 
     @Override
@@ -72,20 +72,24 @@ public class ImageServiceImpl implements ImageService {
             imageRepository.deleteById(id);
             return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Success");
         }
-        throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(HttpStatus.NOT_FOUND.toString(), "Not found id = " + id));
+        throw new AppException(HttpStatus.NOT_FOUND.value(),
+                new CustomResponseObject(HttpStatus.NOT_FOUND.toString(), "Not found id = " + id));
     }
-    
+
     public Image mapImageDtoToImage(Image image) {
         Image tmp = imageRepository.getById(image.getId());
-        if(tmp == null) {
-              throw new AppException(HttpStatus.ALREADY_REPORTED.value(), new CustomResponseObject(HttpStatus.ALREADY_REPORTED.toString(), "Existed id = " + image.getId()));
+        if (tmp == null) {
+            throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
+                    new CustomResponseObject(HttpStatus.ALREADY_REPORTED.toString(), "Existed id = " + image.getId()));
         }
         Image img = new Image();
         img.setId(tmp.getId());
-        img.setPictureType(Utilities.isEmptyString(image.getPictureType()) ? tmp.getPictureType() : image.getPictureType());
+        img.setPictureType(
+                Utilities.isEmptyString(image.getPictureType()) ? tmp.getPictureType() : image.getPictureType());
         img.setPictureUrl(Utilities.isEmptyString(image.getPictureUrl()) ? tmp.getPictureUrl() : image.getPictureUrl());
-        img.setPictureDescription(Utilities.isEmptyString(image.getPictureDescription()) ? tmp.getPictureDescription() : image.getPictureDescription());
-        
+        img.setPictureDescription(Utilities.isEmptyString(image.getPictureDescription()) ? tmp.getPictureDescription()
+                : image.getPictureDescription());
+
         return img;
     }
 }

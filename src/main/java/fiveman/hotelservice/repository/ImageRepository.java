@@ -14,4 +14,7 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
       List<Image> getAllByPictureType(String type);
 
       List<Image> getAllByPictureTypeContains(String type);
+
+      Image findTopByOrderByIdDesc();
+
 }

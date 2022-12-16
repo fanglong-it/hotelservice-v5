@@ -59,6 +59,16 @@ public class UserController {
         return new ResponseEntity<User>(userService.signup(userRequest), HttpStatus.OK);
     }
 
+    @PostMapping("/user/update")
+    @ApiOperation(value = "Registration")
+    @ApiResponses(value = { //
+            @ApiResponse(code = 400, message = "Something went wrong"), //
+            @ApiResponse(code = 403, message = "Access denied"), //
+            @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+    public ResponseEntity<User> update(@RequestBody UserRequest userRequest) {
+        return new ResponseEntity<User>(userService.updateUser(userRequest), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/me")
     @PreAuthorize("isAuthenticated()")
     @ApiOperation(value = "Get Current User", response = UserResponse.class, authorizations = {

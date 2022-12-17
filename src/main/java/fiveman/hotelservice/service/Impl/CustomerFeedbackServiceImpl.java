@@ -102,4 +102,10 @@ public class CustomerFeedbackServiceImpl implements CustomerFeedbackService {
             return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Success!");
       }
 
+    @Override
+    public List<CustomerFeedback> getCustomerFeedbackByBetween(String startDate, String endDate) {
+        log.info("START DELETE ALL CUSTOMER FEEDBACK By START-DATE AND END-DATE");
+        return customerFeedbackRepository.getCustomerFeedbackByBetween(startDate,endDate);
+    }
+
 }

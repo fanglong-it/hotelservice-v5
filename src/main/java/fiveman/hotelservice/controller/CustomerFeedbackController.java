@@ -97,4 +97,9 @@ public class CustomerFeedbackController {
         return new ResponseEntity<>(customerFeedbackService.getCustomerFeedBackByBookingId(booking_id), HttpStatus.OK);
     }
 
+    @GetMapping("/customerFeedBack/customerFeedbackByBetween")
+    public ResponseEntity<List<CustomerFeedback>> getAllCustomerFeedbackByBetween(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
+        return new ResponseEntity<>(customerFeedbackService.getCustomerFeedbackByBetween(startDate,endDate), HttpStatus.OK);
+    }
+
 }

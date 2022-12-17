@@ -91,9 +91,9 @@ public class BookingController {
         return new ResponseEntity<>(bookingService.customerNoShow(bookingId), HttpStatus.OK);
     }
 
-    @GetMapping("/booking/dashboard")
-    public ResponseEntity<DashboardResponse> getDashBoard(@RequestParam("date") String date) {
-        return new ResponseEntity<>(bookingService.getDashBoard(date), HttpStatus.OK);
+    @GetMapping("/booking/dashboardBetween")
+    public ResponseEntity<DashboardResponse> getDashBoard(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
+        return new ResponseEntity<>(bookingService.getDashBoard(startDate, endDate), HttpStatus.OK);
     }
 
     @GetMapping("/booking/bookingByRoomId")
@@ -108,8 +108,14 @@ public class BookingController {
 
     @GetMapping("/booking/revenuesEntire")
     public ResponseEntity<List<Statistic>> getRevenuesEntire(@RequestParam("dateStart") String dateStart,
-            @RequestParam("dateEnd") String dateEnd) {
+                                                             @RequestParam("dateEnd") String dateEnd) {
         return new ResponseEntity<>(bookingService.getRevenuesEntireDate(dateStart, dateEnd), HttpStatus.OK);
+    }
+
+    @GetMapping("/booking/revenuesCancelEntire")
+    public ResponseEntity<List<Statistic>> getRevenuesCancelEntire(@RequestParam("dateStart") String dateStart,
+                                                                   @RequestParam("dateEnd") String dateEnd) {
+        return new ResponseEntity<>(bookingService.getRevenuesCancelEntireDate(dateStart, dateEnd), HttpStatus.OK);
     }
 
 }

@@ -44,8 +44,8 @@ public interface BookingService {
     // , HttpServletRequest request
     );
 
-    DashboardResponse getDashBoard(String date);
+    DashboardResponse getDashBoard(String startDate, String endDate);
 
     List<Statistic> getRevenuesEntireDate(String dateStart, String dateEnd);
-
+    List<Statistic> getRevenuesCancelEntireDate(String dateStart, String dateEnd);
 }

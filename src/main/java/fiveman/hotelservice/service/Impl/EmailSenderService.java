@@ -32,6 +32,9 @@ public class EmailSenderService implements EmailService {
         String totalPrice = getTotalPrice(list);
         List<PriceObject> listPrice = getPrice(list);
 
+        //get email
+        String email = getEmail(list);
+
         // set context
         Context context = new Context();
         context.setVariable("list", list);
@@ -44,25 +47,35 @@ public class EmailSenderService implements EmailService {
         try {
             helper.setSubject("Five Men Hotel - Booking Information");
             helper.setText(process, true);
-            helper.setTo(list.get(0).getBooking().getCustomer().getEmail());
+            helper.setTo(email);
         } catch (MessagingException e) {
             throw new AppException(HttpStatus.INTERNAL_SERVER_ERROR, new CustomResponseObject("500", e.getMessage()));
         }
         javaMailSender.send(mimeMessage);
     }
 
+    public String getEmail(List<BookingResponse> list){
+        String email = "";
+        for (BookingResponse bookingResponse : list) {
+            if(bookingResponse.getBooking() != null){
+                email = bookingResponse.getBooking().getCustomer().getEmail();
+            }
+        }
+        return email;
+    }
+
+
     public String getTotalPrice(List<BookingResponse> list){
         double totalPrice = 0;
-        double price = 0;
+
         double priceByRoom = 0;
         String currentDate = Utilities.getCurrentDate().split(" ")[0];
         for (BookingResponse bookingResponse: list) {
             if(bookingResponse.getBooking() != null){
+                double price = 0;
                 for (RoomPrice roPrice : bookingResponse.getRoomType().getRoomPrices()) {
                     if(roPrice.getDate().equals(currentDate)){
                         price = roPrice.getPrice();
-                    }else {
-                        price = 0;
                     }
                 }
                 if(price == 0){

@@ -4,11 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.persistence.Tuple;
 
@@ -447,6 +445,15 @@ public class BookingServiceImpl implements BookingService {
         return data;
     }
 
+    public int findIndex(List<Statistic> list, String date)
+    {
+        int len = list.size();
+        return IntStream.range(0, len)
+                .filter(i -> date.equals(list.get(i).getDate()))
+                .findFirst() // first occurrence
+                .orElse(-1); // No element found
+    }
+
     @Override
     public List<Statistic> getRevenuesEntireDate(String dateStart, String dateEnd) {
         List<Tuple> revenues = bookingRepository.getRevenueByBetweenDate(dateStart, dateEnd);
@@ -455,7 +462,20 @@ public class BookingServiceImpl implements BookingService {
                         t.get(0, String.class).split(" ")[0],
                         t.get(1, Double.class)))
                 .collect(Collectors.toList());
-        return statistics;
+        List<Statistic> result = new ArrayList<>();
+        for (Statistic statistic : statistics) {
+            if(result.size() == 0){
+                result.add(statistic);
+            }else{
+                int duplicateIndex = findIndex(result, statistic.getDate());
+                if(duplicateIndex != -1){
+                    result.get(duplicateIndex).setTotalPrice(result.get(duplicateIndex).getTotalPrice() + statistic.getTotalPrice());
+                }else{
+                    result.add(statistic);
+                }
+            }
+        }
+        return result;
     }
 
     @Override
@@ -466,7 +486,20 @@ public class BookingServiceImpl implements BookingService {
                         t.get(0, String.class).split(" ")[0],
                         t.get(1, Double.class)))
                 .collect(Collectors.toList());
-        return statistics;
+        List<Statistic> result = new ArrayList<>();
+        for (Statistic statistic : statistics) {
+            if(result.size() == 0){
+                result.add(statistic);
+            }else{
+                int duplicateIndex = findIndex(result, statistic.getDate());
+                if(duplicateIndex != -1){
+                    result.get(duplicateIndex).setTotalPrice(result.get(duplicateIndex).getTotalPrice() + statistic.getTotalPrice());
+                }else{
+                    result.add(statistic);
+                }
+            }
+        }
+        return result;
     }
 
     @Override

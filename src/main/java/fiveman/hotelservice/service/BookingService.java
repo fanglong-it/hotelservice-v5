@@ -7,9 +7,7 @@ import fiveman.hotelservice.response.BookingObjectResponse;
 import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.DashboardResponse;
 import java.util.List;
-import java.util.Map;
 
-import javax.persistence.Tuple;
 
 
 public interface BookingService {

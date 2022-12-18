@@ -37,7 +37,7 @@ public class ServiceController {
     // @GetMapping("/servicesTest")
     // @PreAuthorize("isAuthenticated() or isAnonymous()")
     // public ResponseEntity<List<Service>> getAllServicesTest() {
-    //     return new ResponseEntity<>(service.getAllServices(), HttpStatus.OK);
+    // return new ResponseEntity<>(service.getAllServices(), HttpStatus.OK);
     // }
 
     @GetMapping("/service/{id}")
@@ -58,31 +58,29 @@ public class ServiceController {
         return new ResponseEntity<>(service.getAllServiceByCateWithImage(id), HttpStatus.OK);
     }
 
-
     @PutMapping("/service")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<List<Service>> updateService(@RequestBody ServiceRequest serviceRequest) {
+    public ResponseEntity<Service> updateService(@RequestBody ServiceRequest serviceRequest) {
         Service serviceEntity = modelMapper.map(serviceRequest, Service.class);
         return new ResponseEntity<>(service.updateService(serviceEntity), HttpStatus.OK);
     }
 
     @PostMapping("/service")
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<List<Service>> saveService(@RequestBody @Valid ServiceRequest serviceRequest){
+    public ResponseEntity<Service> saveService(@RequestBody @Valid ServiceRequest serviceRequest) {
         Service serviceEntity = modelMapper.map(serviceRequest, Service.class);
-        return new ResponseEntity<>(service.saveServices(serviceEntity),HttpStatus.OK);
+        return new ResponseEntity<>(service.saveServices(serviceEntity), HttpStatus.OK);
     }
 
     @DeleteMapping("/service/{id}")
 
-
     @PreAuthorize("isAuthenticated() or isAnonymous()")
-    public ResponseEntity<List<Service>> deleteServiceById(@PathVariable("id") Long id){
+    public ResponseEntity<Service> deleteServiceById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(service.deleteService(id), HttpStatus.OK);
     }
 
     @GetMapping("/serviceTop")
-    public ResponseEntity<List<String>> getTop3Services(){
+    public ResponseEntity<List<String>> getTop3Services() {
         return new ResponseEntity<>(service.getTop3Services(), HttpStatus.OK);
     }
 

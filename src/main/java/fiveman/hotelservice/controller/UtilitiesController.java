@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/v1")
 @Api(tags = "Utilities")
 public class UtilitiesController {
-      
+
       @Autowired
       private UtilitiesService utilitiesService;
 
@@ -56,7 +56,7 @@ public class UtilitiesController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> updateUtilties(@RequestBody Utilities utilities) {
+      public ResponseEntity<Utilities> updateUtilties(@RequestBody Utilities utilities) {
             return new ResponseEntity<>(utilitiesService.updateUtilities(utilities),
                         HttpStatus.OK);
       }
@@ -67,7 +67,7 @@ public class UtilitiesController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> addUtilities(@RequestBody Utilities utilities) {
+      public ResponseEntity<Utilities> addUtilities(@RequestBody Utilities utilities) {
             return new ResponseEntity<>(utilitiesService.saveUtilities(utilities),
                         HttpStatus.OK);
       }

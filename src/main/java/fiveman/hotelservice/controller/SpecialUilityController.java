@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fiveman.hotelservice.entities.SpecialUtility;
-import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.SpecialUtilityService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;
@@ -32,7 +31,6 @@ public class SpecialUilityController {
       @Autowired
       private SpecialUtilityService specialUtilityService;
 
-
       @GetMapping("/specialUtilitys")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
@@ -40,7 +38,8 @@ public class SpecialUilityController {
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
       public ResponseEntity<List<SpecialUtility>> getSpecialUtilitys() {
-            return new ResponseEntity<List<SpecialUtility>>(specialUtilityService.getAllSpecialUtility(), HttpStatus.OK);
+            return new ResponseEntity<List<SpecialUtility>>(specialUtilityService.getAllSpecialUtility(),
+                        HttpStatus.OK);
       }
 
       @GetMapping("/specialUtility/{id}")
@@ -59,7 +58,7 @@ public class SpecialUilityController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> saveSpecialUtility(@RequestBody @Valid SpecialUtility specialUtility) {
+      public ResponseEntity<SpecialUtility> saveSpecialUtility(@RequestBody @Valid SpecialUtility specialUtility) {
             return new ResponseEntity<>(specialUtilityService.saveSpecialUtility(specialUtility), HttpStatus.OK);
       }
 
@@ -69,7 +68,7 @@ public class SpecialUilityController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> updateSpecialUtility(@RequestBody @Valid SpecialUtility specialUtility) {
+      public ResponseEntity<SpecialUtility> updateSpecialUtility(@RequestBody @Valid SpecialUtility specialUtility) {
             return new ResponseEntity<>(specialUtilityService.updateSpecialUtility(specialUtility), HttpStatus.OK);
       }
 
@@ -79,7 +78,7 @@ public class SpecialUilityController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> deleteSpecialUtility(@PathVariable long id) {
+      public ResponseEntity<SpecialUtility> deleteSpecialUtility(@PathVariable long id) {
             return new ResponseEntity<>(specialUtilityService.deleteSpecialUtility(id), HttpStatus.OK);
       }
 }

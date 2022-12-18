@@ -1,9 +1,7 @@
 package fiveman.hotelservice.response;
 
-import fiveman.hotelservice.entities.Booking;
 import lombok.*;
 
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor

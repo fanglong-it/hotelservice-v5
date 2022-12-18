@@ -2,12 +2,10 @@ package fiveman.hotelservice.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import javax.persistence.*;
 import java.util.List;
-
 
 @Entity
 @AllArgsConstructor
@@ -15,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "booking")
+// @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Booking {
 
     @Id
@@ -48,7 +47,7 @@ public class Booking {
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Room.class)
     @JsonBackReference
     private Room room;
-    
+
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Customer.class, cascade = CascadeType.ALL)
     private Customer customer;
 

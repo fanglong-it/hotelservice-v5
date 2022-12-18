@@ -5,7 +5,6 @@ import java.util.List;
 import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.entities.Room;
 import fiveman.hotelservice.request.RoomRequest;
-import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.RoomResponse;
 
 public interface RoomService {

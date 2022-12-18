@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import fiveman.hotelservice.entities.Message;
 import fiveman.hotelservice.request.MessageRequest;
 import fiveman.hotelservice.response.CustomResponseObject;
-import fiveman.hotelservice.response.MessageResponse;
 import fiveman.hotelservice.service.MessageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;

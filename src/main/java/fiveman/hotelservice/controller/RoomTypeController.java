@@ -2,7 +2,6 @@ package fiveman.hotelservice.controller;
 
 import fiveman.hotelservice.entities.RoomType;
 import fiveman.hotelservice.request.RoomTypeRequest;
-import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.RoomAvailabilityResponse;
 import fiveman.hotelservice.service.RoomTypeService;
 import io.swagger.annotations.Api;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/api/v1")
 @Api(tags = "Room_Type")
@@ -34,86 +32,85 @@ public class RoomTypeController {
 
     @Autowired
     RoomTypeService roomTypeService;
-    
+
     @Autowired
     ModelMapper modelMapper;
 
     @GetMapping("/roomTypes")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    @ApiResponses(value = {//
+    @ApiResponses(value = { //
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //
-            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
+            @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
     public ResponseEntity<List<RoomType>> getRoomTypes() {
         return new ResponseEntity<>(roomTypeService.findAllRoomType(), HttpStatus.OK);
     }
 
     @GetMapping("/roomType/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    @ApiResponses(value = {//
+    @ApiResponses(value = { //
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //
-            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
+            @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
     public ResponseEntity<RoomType> getRoomType(@PathVariable("id") long id) {
         return new ResponseEntity<>(roomTypeService.getRoomType(id), HttpStatus.OK);
     }
 
     @PutMapping("/roomType")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    @ApiResponses(value = {//
+    @ApiResponses(value = { //
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //
-            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public ResponseEntity<CustomResponseObject> updateRoomType(@RequestBody RoomTypeRequest roomTypeRequest) {
-          RoomType roomType = modelMapper.map(roomTypeRequest, RoomType.class);
+            @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+    public ResponseEntity<RoomType> updateRoomType(@RequestBody RoomTypeRequest roomTypeRequest) {
+        RoomType roomType = modelMapper.map(roomTypeRequest, RoomType.class);
         return new ResponseEntity<>(roomTypeService.updateRoomType(roomType), HttpStatus.OK);
     }
 
     @PostMapping("/roomType")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    @ApiResponses(value = {//
+    @ApiResponses(value = { //
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //
-            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public ResponseEntity<CustomResponseObject> addRoomType(@RequestBody RoomTypeRequest roomTypeRequest) {
-          RoomType roomType = modelMapper.map(roomTypeRequest, RoomType.class);
+            @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+    public ResponseEntity<RoomType> addRoomType(@RequestBody RoomTypeRequest roomTypeRequest) {
+        RoomType roomType = modelMapper.map(roomTypeRequest, RoomType.class);
         return new ResponseEntity<>(roomTypeService.addRoomType(roomType), HttpStatus.OK);
     }
 
-
     @DeleteMapping("/roomType/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    @ApiResponses(value = {//
+    @ApiResponses(value = { //
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //
-            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public ResponseEntity<CustomResponseObject> deleteRoomType(@PathVariable("id") long id) {
+            @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+    public ResponseEntity<RoomType> deleteRoomType(@PathVariable("id") long id) {
         return new ResponseEntity<>(roomTypeService.deleteRoomType(id), HttpStatus.OK);
     }
 
     @GetMapping("/roomType/checkAvailability")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
     @ApiResponses(value = { //
-                @ApiResponse(code = 400, message = "Something went wrong"), //
-                @ApiResponse(code = 403, message = "Access denied"), //
-                @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+            @ApiResponse(code = 400, message = "Something went wrong"), //
+            @ApiResponse(code = 403, message = "Access denied"), //
+            @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
     public ResponseEntity<List<RoomAvailabilityResponse>> checkAvailability(
-                @RequestParam("dateCheckIn") String dateCheckIn,
-                @RequestParam("dateCheckOut") String dateCheckOut,
-                @RequestParam("numOfPerson") String numOfPerson) {
-          
-          return new ResponseEntity<>(roomTypeService.checkAvailability(dateCheckIn, dateCheckOut, numOfPerson), HttpStatus.OK);
+            @RequestParam("dateCheckIn") String dateCheckIn,
+            @RequestParam("dateCheckOut") String dateCheckOut,
+            @RequestParam("numOfPerson") String numOfPerson) {
+
+        return new ResponseEntity<>(roomTypeService.checkAvailability(dateCheckIn, dateCheckOut, numOfPerson),
+                HttpStatus.OK);
     }
 
     @GetMapping("/roomType/getRoomTypeByRoom")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
     @ApiResponses(value = { //
-                @ApiResponse(code = 400, message = "Something went wrong"), //
-                @ApiResponse(code = 403, message = "Access denied"), //
-                @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+            @ApiResponse(code = 400, message = "Something went wrong"), //
+            @ApiResponse(code = 403, message = "Access denied"), //
+            @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
     public ResponseEntity<RoomType> getRoomTypeByRoomId(@RequestParam("room_id") long room_id) {
-          return new ResponseEntity<>(roomTypeService.getRoomTypeByRoomId(room_id), HttpStatus.OK);
+        return new ResponseEntity<>(roomTypeService.getRoomTypeByRoomId(room_id), HttpStatus.OK);
     }
-
 
 }

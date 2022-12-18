@@ -113,7 +113,7 @@ public class EmailSenderService implements EmailService {
     public List<PriceObject> getPrice(List<BookingResponse> list) {
         List<PriceObject> priceObjectList = new ArrayList<>();
 
-        String currentDate = Utilities.getCurrentDate().split(" ")[0];
+        // String currentDate = Utilities.getCurrentDate().split(" ")[0];
         for (BookingResponse bookingResponse : list) {
             if (bookingResponse.getBooking() != null) {
                 PriceObject priceObject = new PriceObject();

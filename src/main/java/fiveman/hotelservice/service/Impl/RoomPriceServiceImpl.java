@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class RoomPriceServiceImpl implements RoomPriceService {
-      
+
       @Autowired
       private RoomPriceRepository roomPriceRepository;
 
@@ -31,7 +31,7 @@ public class RoomPriceServiceImpl implements RoomPriceService {
 
       @Autowired
       private RoomTypeRepository repository;
-      
+
       @Override
       public List<RoomPrice> getRoomPrices() {
             log.info("GET ALL ROOM PRICE");
@@ -42,32 +42,38 @@ public class RoomPriceServiceImpl implements RoomPriceService {
       public RoomPrice getRoomPrice(long id) {
             log.info("START GET ROOM PRICE BY ID");
             if (!roomPriceRepository.existsById(id)) {
-                throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.GET_FAIL, "Cant found ID =" + id));
+                  throw new AppException(HttpStatus.NOT_FOUND.value(),
+                              new CustomResponseObject(Common.GET_FAIL, "Cant found ID =" + id));
             }
             log.info("END GET ROOM PRICE BY ID");
             return roomPriceRepository.getRoomPriceById(id);
       }
 
       @Override
-      public CustomResponseObject saveRoomPrice(RoomPrice roomPrice) {
+      public RoomPrice saveRoomPrice(RoomPrice roomPrice) {
             log.info("START SAVE ROOM PRICE");
             if (roomPriceRepository.existsById(roomPrice.getId())) {
-                throw new AppException(HttpStatus.ALREADY_REPORTED.value(), new CustomResponseObject(Common.ADDING_FAIL, "Exist id =" + roomPrice.getId()));
+                  throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
+                              new CustomResponseObject(Common.ADDING_FAIL, "Exist id =" + roomPrice.getId()));
             }
             roomPriceRepository.save(roomPrice);
             log.info("END SAVE ROOM PRICE");
-            return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding ROOM PRICE Success!");
+            return roomPriceRepository.findTopByOrderByIdDesc();
+            // return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding ROOM PRICE
+            // Success!");
       }
 
       @Override
-      public CustomResponseObject updateRoomPrice(RoomPrice roomPrice) {
+      public RoomPrice updateRoomPrice(RoomPrice roomPrice) {
             log.info("START UPDATE ROOM PRICE");
             if (roomPriceRepository.existsById(roomPrice.getId())) {
-                roomPriceRepository.save(roomPrice);
-                log.info("END UPDATE ROOM PRICE");
-                return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update success!");
+                  roomPriceRepository.save(roomPrice);
+                  log.info("END UPDATE ROOM PRICE");
+                  // return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update success!");
+                  return roomPriceRepository.getRoomPriceById(roomPrice.getId());
             }
-            throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.UPDATE_FAIL, "Not found id = " + roomPrice.getId()));
+            throw new AppException(HttpStatus.NOT_FOUND.value(),
+                        new CustomResponseObject(Common.UPDATE_FAIL, "Not found id = " + roomPrice.getId()));
       }
 
       @Override
@@ -76,8 +82,9 @@ public class RoomPriceServiceImpl implements RoomPriceService {
                   log.info("DELETE ROOM PRICE");
                   roomPriceRepository.deleteById(id);
                   return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete success!");
-              }
-              throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.DELETE_FAIL, "Not found id = " + id));
+            }
+            throw new AppException(HttpStatus.NOT_FOUND.value(),
+                        new CustomResponseObject(Common.DELETE_FAIL, "Not found id = " + id));
       }
 
       @Override

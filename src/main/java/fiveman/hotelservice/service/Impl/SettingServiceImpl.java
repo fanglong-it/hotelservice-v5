@@ -1,16 +1,13 @@
 package fiveman.hotelservice.service.Impl;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.response.CustomResponseObject;

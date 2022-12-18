@@ -68,19 +68,35 @@ public class EmailSenderService implements EmailService {
 
     public String getTotalPrice(List<BookingResponse> list) {
         double totalPrice = 0;
-
         double priceByRoom = 0;
-        String currentDate = Utilities.getCurrentDate().split(" ")[0];
+        // String currentDate = Utilities.getCurrentDate().split(" ")[0];
         for (BookingResponse bookingResponse : list) {
             if (bookingResponse.getBooking() != null) {
                 double price = 0;
-                for (RoomPrice roPrice : bookingResponse.getRoomType().getRoomPrices()) {
-                    if (roPrice.getDate().equals(currentDate)) {
-                        price = roPrice.getPrice();
+                // for (RoomPrice roPrice : bookingResponse.getRoomType().getRoomPrices()) {
+                // if (roPrice.getDate().equals(currentDate)) {
+                // price = roPrice.getPrice();
+                // }
+                // }
+                // if (price == 0) {
+                // price = bookingResponse.getRoomType().getDefaultPrice();
+                // }
+
+                Booking booking = bookingResponse.getBooking();
+
+                // Get RoomPrice With Booking
+                List<String> dates = Utilities.getStringDateBetweenArrivalAndDeparture(booking.getArrivalDate(),
+                        booking.getDepartureDate());
+                for (String date : dates) {
+                    // RoomPrice rPrice = roomPriceRepository.getRoomPriceTodayByRoomType(date,
+                    // booking.getRoomTypeId());
+                    List<RoomPrice> rPrices = bookingResponse.getRoomType().getRoomPrices();
+                    int result = findIndex(rPrices, date);
+                    if (result != -1) {
+                        price += rPrices.get(result).getPrice();
+                    } else {
+                        price += bookingResponse.getRoomType().getDefaultPrice();
                     }
-                }
-                if (price == 0) {
-                    price = bookingResponse.getRoomType().getDefaultPrice();
                 }
                 if (bookingResponse.getService() != null) {
                     priceByRoom = (price + bookingResponse.getService().getPrice());

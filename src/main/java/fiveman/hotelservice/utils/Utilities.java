@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -133,5 +134,22 @@ public class Utilities {
             }
             return totalAmount;
       }
+
+      public static List<String> getStringDateBetweenArrivalAndDeparture(String startDate,
+                  String endDate) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            LocalDateTime startDateLDT = LocalDateTime.parse(startDate,
+                        dtf);
+            LocalDateTime endDateLDT = LocalDateTime.parse(endDate, dtf);
+            List<String> dates = new ArrayList<>();
+            for (LocalDateTime date = startDateLDT; date.isBefore(endDateLDT); date = date.plusDays(1)) {
+                  String dateString = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(date);
+                  dates.add(dateString);
+            }
+            return dates;
+      }
+
+
+     
 
 }

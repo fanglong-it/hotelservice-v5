@@ -21,6 +21,6 @@ public class DashboardResponse {
     private String actualDepartureToday;
     private String roomBusy;
     private String numOfStay;
-    private List<Booking> bookingList;
+//    private List<Booking> bookingList;
 
 }

@@ -4,11 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.persistence.Tuple;
 
@@ -45,9 +43,6 @@ public class BookingServiceImpl implements BookingService {
 
     @Autowired
     private RoomTypeRepository roomTypeRepository;
-
-    @Autowired
-    private StatisticRepository statisticRepository;
 
     public BookingObjectResponse mapBookingToResponse(Booking booking) {
         // BookingResponse bookingResponse = new BookingResponse();
@@ -426,40 +421,85 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public DashboardResponse getDashBoard(String date) {
+    public DashboardResponse getDashBoard(String startDate, String endDate) {
         DashboardResponse data = new DashboardResponse();
-        data.setBookedToday(bookingRepository.getBookedToday(date));
-        data.setAccumulateRevenue(bookingRepository.getRevenueInMonthByCurrentDate(date) != null
-                ? bookingRepository.getRevenueInMonthByCurrentDate(date)
+        data.setBookedToday(bookingRepository.getBookedBetween(startDate,endDate));
+        data.setAccumulateRevenue(bookingRepository.getRevenueInMonthByCurrentDate(startDate, endDate) != null
+                ? bookingRepository.getRevenueInMonthByCurrentDate(startDate,endDate)
                 : "");
-        data.setActualArriveToday(bookingRepository.getActualArriveDay(date));
-        data.setRevenue(bookingRepository.getRevenueCurrentDate(date) != null
-                ? bookingRepository.getRevenueInMonthByCurrentDate(date)
+        data.setActualArriveToday(bookingRepository.getActualArriveDayBetween(startDate,endDate));
+        data.setRevenue(bookingRepository.getRevenueCurrentDate(startDate,endDate) != null
+                ? bookingRepository.getRevenueInMonthByCurrentDate(startDate,endDate)
                 : "");
-        data.setCanceledToday(bookingRepository.getCancelToday(date));
-        data.setCancelRevenue(bookingRepository.getCancelRevenueCurrentDate(date) != null
-                ? bookingRepository.getCancelRevenueInMonthByCurrentDate(date)
+        data.setCanceledToday(bookingRepository.getCancelBetween(startDate,endDate));
+        data.setCancelRevenue(bookingRepository.getCancelRevenueInMonthByCurrentDate(startDate,endDate) != null
+                ? bookingRepository.getCancelRevenueInMonthByCurrentDate(startDate,endDate)
                 : "");
-        data.setCancelAccumulateRevenue(bookingRepository.getCancelRevenueInMonthByCurrentDate(date) != null
-                ? bookingRepository.getCancelRevenueInMonthByCurrentDate(date)
+        data.setCancelAccumulateRevenue(bookingRepository.getCancelRevenueInMonthByCurrentDate(startDate,endDate) != null
+                ? bookingRepository.getCancelRevenueInMonthByCurrentDate(startDate,endDate)
                 : "");
-        data.setRoomBusy(bookingRepository.getCheckInToday(date));
-        data.setActualDepartureToday(bookingRepository.getActualDepartureDay(date));
-        data.setNumOfStay(bookingRepository.getAllCustomerStay());
-        data.setBookingList(bookingRepository.getRevenueEntireMonth(date));
+        data.setRoomBusy(bookingRepository.getRoomBusyBetween(startDate, endDate));
+        data.setActualDepartureToday(bookingRepository.getActualDepartureDay(startDate,endDate));
+        data.setNumOfStay(bookingRepository.getAllCustomerStay(startDate, endDate));
+//        data.setBookingList(bookingRepository.getRevenueEntireMonth(endDate));
         return data;
+    }
+
+    public int findIndex(List<Statistic> list, String date)
+    {
+        int len = list.size();
+        return IntStream.range(0, len)
+                .filter(i -> date.equals(list.get(i).getDate()))
+                .findFirst() // first occurrence
+                .orElse(-1); // No element found
     }
 
     @Override
     public List<Statistic> getRevenuesEntireDate(String dateStart, String dateEnd) {
-
-        List<Tuple> renenues = bookingRepository.getRevenueByBetweenDate(dateStart, dateEnd);
-        List<Statistic> statistics = renenues.stream()
+        List<Tuple> revenues = bookingRepository.getRevenueByBetweenDate(dateStart, dateEnd);
+        List<Statistic> statistics = revenues.stream()
                 .map(t -> new Statistic(
-                        t.get(0, String.class),
+                        t.get(0, String.class).split(" ")[0],
                         t.get(1, Double.class)))
                 .collect(Collectors.toList());
-        return statistics;
+        List<Statistic> result = new ArrayList<>();
+        for (Statistic statistic : statistics) {
+            if(result.size() == 0){
+                result.add(statistic);
+            }else{
+                int duplicateIndex = findIndex(result, statistic.getDate());
+                if(duplicateIndex != -1){
+                    result.get(duplicateIndex).setTotalPrice(result.get(duplicateIndex).getTotalPrice() + statistic.getTotalPrice());
+                }else{
+                    result.add(statistic);
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<Statistic> getRevenuesCancelEntireDate(String dateStart, String dateEnd) {
+        List<Tuple> revenues = bookingRepository.getRevenueCancelByBetweenDate(dateStart, dateEnd);
+        List<Statistic> statistics = revenues.stream()
+                .map(t -> new Statistic(
+                        t.get(0, String.class).split(" ")[0],
+                        t.get(1, Double.class)))
+                .collect(Collectors.toList());
+        List<Statistic> result = new ArrayList<>();
+        for (Statistic statistic : statistics) {
+            if(result.size() == 0){
+                result.add(statistic);
+            }else{
+                int duplicateIndex = findIndex(result, statistic.getDate());
+                if(duplicateIndex != -1){
+                    result.get(duplicateIndex).setTotalPrice(result.get(duplicateIndex).getTotalPrice() + statistic.getTotalPrice());
+                }else{
+                    result.add(statistic);
+                }
+            }
+        }
+        return result;
     }
 
     @Override

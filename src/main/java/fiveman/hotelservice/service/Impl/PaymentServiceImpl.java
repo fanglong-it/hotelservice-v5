@@ -350,13 +350,13 @@ public class PaymentServiceImpl implements PaymentService {
                 booking.setRoomTypeId(request.getRoomTypes().get(i).getId());
                 booking.setCustomer(request.getCustomer());
                 booking.setHotel(hotel);
-                booking.setArrivalDate(request.getBookingDates().getStartDate());
+                booking.setArrivalDate(request.getBookingDates().getStartDate() + " " + hotel.getCheckInTime());
                 booking.setCreateBy(request.getCustomer().getFirstName() + " " + request.getCustomer().getMiddleName() + " "
                         + request.getCustomer().getLastName());
                 booking.setCreateDate(Utilities.getCurrentDateByFormat("dd/MM/yyyy HH:mm:ss"));
                 booking.setConfirmationNo(confirmation_No);
                 booking.setStatus(Common.BOOKING_BOOKED);
-                booking.setDepartureDate(request.getBookingDates().getEndDate());
+                booking.setDepartureDate(request.getBookingDates().getEndDate() + " " + hotel.getCheckOutTime());
 
                 // set booking notes
                 if (!Utilities.isEmptyString(request.getBookingNotes())) {

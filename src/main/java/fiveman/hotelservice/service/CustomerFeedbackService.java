@@ -18,4 +18,6 @@ public interface CustomerFeedbackService {
     CustomResponseObject updateCustomerFeedback(CustomerFeedback customerFeedback);
 
     CustomResponseObject deleteCustomerFeedback(long id);
+
+    List<CustomerFeedback> getCustomerFeedbackByBetween(String startDate, String endDate);
 }

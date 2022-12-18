@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fiveman.hotelservice.entities.RoomAlarm;
 import fiveman.hotelservice.request.RoomAlarmRequest;
-import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.RoomAlarmResponse;
 import fiveman.hotelservice.service.RoomAlarmService;
 import io.swagger.annotations.Api;
@@ -32,21 +31,21 @@ import io.swagger.annotations.ApiResponses;
 @Api(tags = "Room_Alarm")
 @RequestMapping("/api/v1/")
 public class RoomAlarmController {
-      
+
       @Autowired
       private RoomAlarmService roomAlarmService;
-      
+
       @Autowired
       private ModelMapper modelMapper;
-      
+
       @GetMapping("/roomAlarms")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<List<RoomAlarmResponse>> getRoomAlarms() {
-            return new ResponseEntity<List<RoomAlarmResponse>>(roomAlarmService.getAllRoomAlarm(), HttpStatus.OK);
+      public ResponseEntity<List<RoomAlarm>> getRoomAlarms() {
+            return new ResponseEntity<>(roomAlarmService.getAllRoomAlarm(), HttpStatus.OK);
       }
 
       @GetMapping("/roomAlarm/{id}")
@@ -60,10 +59,9 @@ public class RoomAlarmController {
       }
 
       @GetMapping("/roomAlarmByBooking")
-      public ResponseEntity<List<RoomAlarmResponse>> getRoomAlarmByBookingId(@RequestParam("booking_Id") long booking_Id){
+      public ResponseEntity<List<RoomAlarm>> getRoomAlarmByBookingId(@RequestParam("booking_Id") long booking_Id) {
             return new ResponseEntity<>(roomAlarmService.getRoomAlarmByBookingId(booking_Id), HttpStatus.OK);
       }
-
 
       @PostMapping("/roomAlarm")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
@@ -71,12 +69,10 @@ public class RoomAlarmController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<RoomAlarmResponse> saveRoomAlarm(@RequestBody @Valid RoomAlarmRequest request) {
+      public ResponseEntity<RoomAlarm> saveRoomAlarm(@RequestBody @Valid RoomAlarmRequest request) {
             RoomAlarm roomAlarm = modelMapper.map(request, RoomAlarm.class);
             return new ResponseEntity<>(roomAlarmService.saveRoomAlarm(roomAlarm), HttpStatus.OK);
       }
-
-
 
       @PutMapping("/roomAlarm")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
@@ -84,7 +80,7 @@ public class RoomAlarmController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> updateroomAlarm(@RequestBody @Valid RoomAlarmRequest request) {
+      public ResponseEntity<RoomAlarm> updateroomAlarm(@RequestBody @Valid RoomAlarmRequest request) {
             RoomAlarm roomAlarm = modelMapper.map(request, RoomAlarm.class);
             return new ResponseEntity<>(roomAlarmService.updateRoomAlarm(roomAlarm), HttpStatus.OK);
       }
@@ -95,7 +91,7 @@ public class RoomAlarmController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> deleteroomAlarm(@PathVariable long id) {
+      public ResponseEntity<RoomAlarm> deleteroomAlarm(@PathVariable long id) {
             return new ResponseEntity<>(roomAlarmService.deleteRoomAlarm(id), HttpStatus.OK);
       }
 }

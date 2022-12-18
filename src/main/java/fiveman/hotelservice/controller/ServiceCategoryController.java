@@ -1,6 +1,5 @@
 package fiveman.hotelservice.controller;
 
-
 import fiveman.hotelservice.entities.ServiceCategory;
 import fiveman.hotelservice.request.ServiceCategoryRequest;
 import fiveman.hotelservice.response.ServiceCategoryResponse;
@@ -27,40 +26,41 @@ public class ServiceCategoryController {
 
     @GetMapping("/serviceCategories")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<ServiceCategory>> getServiceCategories(){
+    public ResponseEntity<List<ServiceCategory>> getServiceCategories() {
         return new ResponseEntity<>(serviceCategoryService.getServiceCategories(), HttpStatus.OK);
     }
 
     @GetMapping("/serviceCategoriesWithImage")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<ServiceCategoryResponse>> getServiceCategoriesWithImage(){
+    public ResponseEntity<List<ServiceCategoryResponse>> getServiceCategoriesWithImage() {
         return new ResponseEntity<>(serviceCategoryService.getServiceCategoriesWithImage(), HttpStatus.OK);
     }
 
     @GetMapping("/serviceCategory/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<ServiceCategoryResponse> getServiceCategory(@PathVariable("id") long id){
+    public ResponseEntity<ServiceCategoryResponse> getServiceCategory(@PathVariable("id") long id) {
         return new ResponseEntity<>(serviceCategoryService.getServiceCategoryById(id), HttpStatus.OK);
     }
 
     @PostMapping("/serviceCategory")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<ServiceCategory>> saveServiceCategory(@RequestBody @Valid ServiceCategoryRequest serviceCategoryRequest){
-       ServiceCategory serviceCategory = modelMapper.map(serviceCategoryRequest, ServiceCategory.class);
+    public ResponseEntity<ServiceCategory> saveServiceCategory(
+            @RequestBody @Valid ServiceCategoryRequest serviceCategoryRequest) {
+        ServiceCategory serviceCategory = modelMapper.map(serviceCategoryRequest, ServiceCategory.class);
         return new ResponseEntity<>(serviceCategoryService.saveServiceCategory(serviceCategory), HttpStatus.OK);
     }
 
-
     @PutMapping("/serviceCategory")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<ServiceCategory>> updateServiceCategory(@RequestBody ServiceCategoryRequest serviceCategoryRequest){
+    public ResponseEntity<ServiceCategory> updateServiceCategory(
+            @RequestBody ServiceCategoryRequest serviceCategoryRequest) {
         ServiceCategory serviceCategory = modelMapper.map(serviceCategoryRequest, ServiceCategory.class);
         return new ResponseEntity<>(serviceCategoryService.updateServiceCategory(serviceCategory), HttpStatus.OK);
     }
 
     @DeleteMapping("/serviceCategory/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<ServiceCategory>> deleteServiceCategory(@PathVariable("id") long id){
+    public ResponseEntity<ServiceCategory> deleteServiceCategory(@PathVariable("id") long id) {
         return new ResponseEntity<>(serviceCategoryService.deleteServiceCategory(id), HttpStatus.OK);
     }
 }

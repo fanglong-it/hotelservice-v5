@@ -2,7 +2,6 @@ package fiveman.hotelservice.request;
 
 import lombok.*;
 
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor

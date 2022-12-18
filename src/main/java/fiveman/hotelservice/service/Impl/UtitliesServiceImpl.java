@@ -39,7 +39,7 @@ public class UtitliesServiceImpl implements UtilitiesService {
       }
 
       @Override
-      public CustomResponseObject saveUtilities(Utilities utilities) {
+      public Utilities saveUtilities(Utilities utilities) {
             log.info("START OF SAVE ULTILITIES BY ID");
             if (utilitiesRepository.existsById(utilities.getId())) {
                   throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
@@ -47,11 +47,12 @@ public class UtitliesServiceImpl implements UtilitiesService {
             }
             utilitiesRepository.save(utilities);
             log.info("END OF SAVE ULTILITIES BY ID");
-            return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding success!");
+            // return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding success!");
+            return utilitiesRepository.findTopByOrderByIdDesc();
       }
 
       @Override
-      public CustomResponseObject updateUtilities(Utilities utilities) {
+      public Utilities updateUtilities(Utilities utilities) {
             log.info("START OF UPDATE ULTILITIES BY ID");
             if (!utilitiesRepository.existsById(utilities.getId())) {
                   throw new AppException(HttpStatus.NOT_FOUND.value(),
@@ -59,7 +60,8 @@ public class UtitliesServiceImpl implements UtilitiesService {
             }
             utilitiesRepository.save(utilities);
             log.info("END OF UPDATE ULTILITIES BY ID");
-            return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success!");
+            // return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success!");
+            return utilitiesRepository.getUtilitiesById(utilities.getId());
       }
 
       @Override

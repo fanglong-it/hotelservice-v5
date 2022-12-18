@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.entities.Room;
 import fiveman.hotelservice.request.RoomRequest;
-import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.RoomService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;

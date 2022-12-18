@@ -13,18 +13,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.entities.OrderDetail;
-import fiveman.hotelservice.entities.RoomPrice;
-import fiveman.hotelservice.entities.RoomType;
-import fiveman.hotelservice.repository.RoomPriceRepository;
-import fiveman.hotelservice.repository.RoomTypeRepository;
 
 public class Utilities {
       public static boolean isEmptyString(String result) {
@@ -148,8 +139,5 @@ public class Utilities {
             }
             return dates;
       }
-
-
-     
 
 }

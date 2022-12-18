@@ -37,15 +37,16 @@ public class RequestServiceServiceImpl implements RequestServiceService {
       }
 
       @Override
-      public List<RequestServiceResponse> getAllRequestService() {
+      public List<RequestService> getAllRequestService() {
             log.info("GET ALL REQUEST SERVICES");
             List<RequestService> requestServices = requestServiceRepository.findAll();
-            List<RequestServiceResponse> requestServiceResponses = new ArrayList<>();
-            for (RequestService requestService : requestServices) {
-                  RequestServiceResponse requestServiceResponse = mapRequestServiceToResponse(requestService);
-                  requestServiceResponses.add(requestServiceResponse);
-            }
-            return requestServiceResponses;
+            // List<RequestServiceResponse> requestServiceResponses = new ArrayList<>();
+            // for (RequestService requestService : requestServices) {
+            // RequestServiceResponse requestServiceResponse =
+            // mapRequestServiceToResponse(requestService);
+            // requestServiceResponses.add(requestServiceResponse);
+            // }
+            return requestServices;
       }
 
       @Override
@@ -61,36 +62,39 @@ public class RequestServiceServiceImpl implements RequestServiceService {
 
       @Autowired
       BookingRepository bookingRepository;
-      
+
       @Override
-      public RequestServiceResponse saveRequestService(RequestService requestService) {
+      public RequestService saveRequestService(RequestService requestService) {
             log.info("START SAVE REQUEST SERVICE");
             Booking booking = bookingRepository.getBookingById(requestService.getBooking().getId());
             boolean isTurnDownDone = true;
             List<RequestService> requestServices = booking.getRequestServices();
             for (RequestService rService : requestServices) {
-                  if(rService.getStatus().equals(Common.REQUESTSERVICE_BOOKED) ||
-                   rService.getStatus().equals(Common.REQUESTSERVICE_PROCESSING)){
+                  if (rService.getStatus().equals(Common.REQUESTSERVICE_BOOKED) ||
+                              rService.getStatus().equals(Common.REQUESTSERVICE_PROCESSING)) {
                         isTurnDownDone = false;
                   }
             }
-            if(!isTurnDownDone || !requestService.getRequestServiceType().equals(Common.REQUESTSERVICE_TYPE_TURNDOWN)){
+            if (!isTurnDownDone
+                        || !requestService.getRequestServiceType().equals(Common.REQUESTSERVICE_TYPE_TURNDOWN)) {
                   throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
-                   new CustomResponseObject(Common.ADDING_FAIL,"You can't request if there is Already Request Service"));
+                              new CustomResponseObject(Common.ADDING_FAIL,
+                                          "You can't request if there is Already Request Service"));
             }
-             requestServiceRepository.save(requestService);
-             requestService = requestServiceRepository.findTopByOrderByIdDesc();
-             return mapRequestServiceToResponse(requestService);
+            requestServiceRepository.save(requestService);
+            requestService = requestServiceRepository.findTopByOrderByIdDesc();
+            return requestService;
+            // return mapRequestServiceToResponse(requestService);
       }
 
       @Override
-      public List<RequestServiceResponse> updateRequestService(RequestService requestService) {
+      public RequestService updateRequestService(RequestService requestService) {
             log.info("START UPDATE REQUEST SERVICE");
             if (requestServiceRepository.existsById(requestService.getId())) {
                   requestServiceRepository.save(requestService);
                   log.info("END UPDATE REQUEST SERVICE");
                   // return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update success!");
-                  return getAllRequestService();
+                  return requestServiceRepository.getRequestServiceById(requestService.getId());
 
             }
             throw new AppException(HttpStatus.NOT_FOUND.value(),
@@ -98,12 +102,15 @@ public class RequestServiceServiceImpl implements RequestServiceService {
       }
 
       @Override
-      public List<RequestServiceResponse> deleteRequestService(long id) {
+      public RequestService deleteRequestService(long id) {
             if (requestServiceRepository.existsById(id)) {
                   log.info("DELETE REQUEST SERVICE");
-                  requestServiceRepository.deleteById(id);
+                  RequestService requestService = requestServiceRepository.getRequestServiceById(id);
+                  requestService.setStatus(Common.REQUESTSERVICE_DONE);
+                  requestServiceRepository.save(requestService);
+                  // requestServiceRepository.deleteById(id);
                   // return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete success!");
-                  return getAllRequestService();
+                  return requestService;
             }
             throw new AppException(HttpStatus.NOT_FOUND.value(),
                         new CustomResponseObject(Common.DELETE_FAIL, "Not found id = " + id));

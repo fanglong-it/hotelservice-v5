@@ -8,4 +8,5 @@ import fiveman.hotelservice.entities.SpecialRequest;
 @Repository
 public interface SpecialRequestRepository extends JpaRepository<SpecialRequest, Long>{
       SpecialRequest getSpecialRequestById(long id);
+      SpecialRequest findTopByOrderByIdDesc();
 }

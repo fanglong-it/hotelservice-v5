@@ -2,8 +2,6 @@ package fiveman.hotelservice.service.Impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -30,7 +28,6 @@ import fiveman.hotelservice.security.JwtTokenProvider;
 import fiveman.hotelservice.service.BookingService;
 import fiveman.hotelservice.utils.Common;
 import fiveman.hotelservice.utils.Utilities;
-import fiveman.hotelservice.request.Statistic;
 
 @Service
 @Transactional

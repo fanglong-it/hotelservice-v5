@@ -1,7 +1,6 @@
 package fiveman.hotelservice.service;
 
 import fiveman.hotelservice.entities.Hotel;
-import fiveman.hotelservice.response.CustomResponseObject;
 
 import java.util.List;
 

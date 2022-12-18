@@ -82,6 +82,7 @@ public class Common {
     public static final String REQUESTSERVICE_BOOKED = "BOOKED";
     public static final String REQUESTSERVICE_PROCESSING = "PROCESSING";
     public static final String REQUESTSERVICE_DONE = "DONE";
+    // public static final String REQUESTSERVICE_DONE = "DONE";
 
     public static final String REQUESTSERVICE_TYPE_TURNDOWN = "TURN DOWN";
 

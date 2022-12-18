@@ -2,7 +2,6 @@ package fiveman.hotelservice.controller;
 
 import fiveman.hotelservice.entities.Device;
 import fiveman.hotelservice.request.DeviceRequest;
-import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.DeviceService;
 import io.swagger.annotations.Api;
 

@@ -27,7 +27,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
         @Query(value = "Select * from booking b where b.room_id = :roomId and b.status != 'CHECK OUT' and (STR_TO_DATE(:today, '%d/%m/%Y %T') between STR_TO_DATE(b.actual_arrival_date, '%d/%m/%Y %T') and STR_TO_DATE(b.actual_departure_date, '%d/%m/%Y %T'))", nativeQuery = true)
         Booking getBookingByRoomIdToday(long roomId, String today);
 
-        @Query(value = "select count(b.id) from Booking b where STR_TO_DATE(b.actualDepartureDate, '%d/%m/%Y') between STR_TO_DATE(:startDate, '%d/%m/%Y') and STR_TO_DATE(:endDate, '%d/%m/%Y')")
+        @Query(value = "select count(b.id) from Booking b where STR_TO_DATE(b.createDate, '%d/%m/%Y') between STR_TO_DATE(:startDate, '%d/%m/%Y') and STR_TO_DATE(:endDate, '%d/%m/%Y')")
         String getBookedBetween(String startDate, String endDate);
 
         @Query(value = "select count(booking.id) from booking where booking.room_id > 0 and STR_TO_DATE(booking.actual_departure_date, '%d/%m/%Y') between STR_TO_DATE(:startDate, '%d/%m/%Y') and STR_TO_DATE(:endDate, '%d/%m/%Y')", nativeQuery = true)
@@ -36,13 +36,13 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
         @Query(value = "select count(b.id) from Booking b where (b.status = 'CANCEL' or b.status = 'NOT SHOW') and STR_TO_DATE(b.createDate, '%d/%m/%Y') between STR_TO_DATE(:startDate, '%d/%m/%Y') and STR_TO_DATE(:endDate, '%d/%m/%Y')")
         String getCancelBetween(String startDate, String endDate);
 
-        @Query(value = "select count(b.id) from Booking b where STR_TO_DATE(b.actualDepartureDate, '%d/%m/%Y') between STR_TO_DATE(:startDate, '%d/%m/%Y') and STR_TO_DATE(:endDate, '%d/%m/%Y')")
+        @Query(value = "select count(b.id) from Booking b where STR_TO_DATE(b.actualArrivalDate, '%d/%m/%Y') between STR_TO_DATE(:startDate, '%d/%m/%Y') and STR_TO_DATE(:endDate, '%d/%m/%Y')")
         String getActualArriveDayBetween(String startDate, String endDate);
 
         @Query(value = "select count(b.id) from Booking b where STR_TO_DATE(b.actualDepartureDate, '%d/%m/%Y') between STR_TO_DATE(:startDate, '%d/%m/%Y') and STR_TO_DATE(:endDate, '%d/%m/%Y') and b.status = 'CHECK OUT'")
         String getActualDepartureDay(String startDate, String endDate);
 
-        @Query(value = "select count(c.id) from Booking b inner join CustomerBooking c on b.id = c.booking.id where STR_TO_DATE(b.actualDepartureDate, '%d/%m/%Y') between STR_TO_DATE(:startDate, '%d/%m/%Y') and STR_TO_DATE(:endDate, '%d/%m/%Y')")
+        @Query(value = "select count(c.id) from Booking b inner join CustomerBooking c on b.id = c.booking.id where STR_TO_DATE(b.actualArrivalDate, '%d/%m/%Y') between STR_TO_DATE(:startDate, '%d/%m/%Y') and STR_TO_DATE(:endDate, '%d/%m/%Y')")
         String getAllCustomerStay(String startDate, String endDate);
 
         @Query(value = "select sum(booking.total_amount) " +

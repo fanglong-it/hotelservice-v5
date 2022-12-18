@@ -89,6 +89,8 @@ public class EmailSenderService implements EmailService {
                PriceObject priceObject = new PriceObject();
                double price = 0;
                double priceByRoom = 0;
+               
+               //Get RoomPrice With Booking
                for (RoomPrice roPrice : bookingResponse.getRoomType().getRoomPrices()) {
                    if(roPrice.getDate().equals(currentDate)){
                        price = roPrice.getPrice();

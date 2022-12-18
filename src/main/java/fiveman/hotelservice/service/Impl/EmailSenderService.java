@@ -1,5 +1,6 @@
 package fiveman.hotelservice.service.Impl;
 
+import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.entities.RoomPrice;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.response.BookingResponse;
@@ -17,6 +18,7 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 public class EmailSenderService implements EmailService {
@@ -28,11 +30,11 @@ public class EmailSenderService implements EmailService {
     @Override
     public void sendMail(List<BookingResponse> list) {
 
-        //get price
+        // get price
         String totalPrice = getTotalPrice(list);
         List<PriceObject> listPrice = getPrice(list);
 
-        //get email
+        // get email
         String email = getEmail(list);
 
         // set context
@@ -54,37 +56,36 @@ public class EmailSenderService implements EmailService {
         javaMailSender.send(mimeMessage);
     }
 
-    public String getEmail(List<BookingResponse> list){
+    public String getEmail(List<BookingResponse> list) {
         String email = "";
         for (BookingResponse bookingResponse : list) {
-            if(bookingResponse.getBooking() != null){
+            if (bookingResponse.getBooking() != null) {
                 email = bookingResponse.getBooking().getCustomer().getEmail();
             }
         }
         return email;
     }
 
-
-    public String getTotalPrice(List<BookingResponse> list){
+    public String getTotalPrice(List<BookingResponse> list) {
         double totalPrice = 0;
 
         double priceByRoom = 0;
         String currentDate = Utilities.getCurrentDate().split(" ")[0];
-        for (BookingResponse bookingResponse: list) {
-            if(bookingResponse.getBooking() != null){
+        for (BookingResponse bookingResponse : list) {
+            if (bookingResponse.getBooking() != null) {
                 double price = 0;
                 for (RoomPrice roPrice : bookingResponse.getRoomType().getRoomPrices()) {
-                    if(roPrice.getDate().equals(currentDate)){
+                    if (roPrice.getDate().equals(currentDate)) {
                         price = roPrice.getPrice();
                     }
                 }
-                if(price == 0){
+                if (price == 0) {
                     price = bookingResponse.getRoomType().getDefaultPrice();
                 }
-                if(bookingResponse.getService() != null){
+                if (bookingResponse.getService() != null) {
                     priceByRoom = (price + bookingResponse.getService().getPrice());
                     totalPrice += priceByRoom;
-                }else{
+                } else {
                     totalPrice += price;
                 }
             }
@@ -93,34 +94,50 @@ public class EmailSenderService implements EmailService {
         return priceInVND;
     }
 
-    public List<PriceObject> getPrice(List<BookingResponse> list){
+    public List<PriceObject> getPrice(List<BookingResponse> list) {
         List<PriceObject> priceObjectList = new ArrayList<>();
 
         String currentDate = Utilities.getCurrentDate().split(" ")[0];
-        for (BookingResponse bookingResponse: list) {
-           if(bookingResponse.getBooking() != null){
-               PriceObject priceObject = new PriceObject();
-               double price = 0;
-               double priceByRoom = 0;
-               
-               //Get RoomPrice With Booking
-               for (RoomPrice roPrice : bookingResponse.getRoomType().getRoomPrices()) {
-                   if(roPrice.getDate().equals(currentDate)){
-                       price = roPrice.getPrice();
-                   }
-               }
-               if(price == 0){
-                   price = bookingResponse.getRoomType().getDefaultPrice();
-               }
-               if(bookingResponse.getService() != null){
-                   priceByRoom = (price + bookingResponse.getService().getPrice());
-               }else{
-                   priceByRoom = price;
-               }
-               priceObject.setPrice(Utilities.parseDoubleToVND(price));
-               priceObject.setPriceByRoom(Utilities.parseDoubleToVND((priceByRoom)));
-               priceObjectList.add(priceObject);
-           }
+        for (BookingResponse bookingResponse : list) {
+            if (bookingResponse.getBooking() != null) {
+                PriceObject priceObject = new PriceObject();
+                double price = 0;
+                double priceByRoom = 0;
+
+                Booking booking = bookingResponse.getBooking();
+
+                // Get RoomPrice With Booking
+                List<String> dates = Utilities.getStringDateBetweenArrivalAndDeparture(booking.getArrivalDate(),
+                        booking.getDepartureDate());
+                for (String date : dates) {
+                    // RoomPrice rPrice = roomPriceRepository.getRoomPriceTodayByRoomType(date,
+                    // booking.getRoomTypeId());
+                    List<RoomPrice> rPrices = bookingResponse.getRoomType().getRoomPrices();
+                    int result = findIndex(rPrices, date);
+                    if (result != -1) {
+                        price += rPrices.get(result).getPrice();
+                    } else {
+                        price += bookingResponse.getRoomType().getDefaultPrice();
+                    }
+                }
+
+                // for (RoomPrice roPrice : bookingResponse.getRoomType().getRoomPrices()) {
+                // if (roPrice.getDate().equals(currentDate)) {
+                // price = roPrice.getPrice();
+                // }
+                // }
+                // if (price == 0) {
+                // price = bookingResponse.getRoomType().getDefaultPrice();
+                // }
+                if (bookingResponse.getService() != null) {
+                    priceByRoom = (price + bookingResponse.getService().getPrice());
+                } else {
+                    priceByRoom = price;
+                }
+                priceObject.setPrice(Utilities.parseDoubleToVND(price));
+                priceObject.setPriceByRoom(Utilities.parseDoubleToVND((priceByRoom)));
+                priceObjectList.add(priceObject);
+            }
         }
         return priceObjectList;
     }
@@ -130,9 +147,17 @@ public class EmailSenderService implements EmailService {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    public class PriceObject{
+    public class PriceObject {
         private String price;
         private String priceByRoom;
+    }
+
+    public int findIndex(List<RoomPrice> list, String date) {
+        int len = list.size();
+        return IntStream.range(0, len)
+                .filter(i -> date.equals(list.get(i).getDate()))
+                .findFirst() // first occurrence
+                .orElse(-1); // No element found
     }
 
 }

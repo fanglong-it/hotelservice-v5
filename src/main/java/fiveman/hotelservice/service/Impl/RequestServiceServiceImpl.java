@@ -73,8 +73,8 @@ public class RequestServiceServiceImpl implements RequestServiceService {
       public RequestService saveRequestService(RequestService requestService) {
             log.info("START SAVE REQUEST SERVICE");
             Booking booking = bookingRepository.getBookingById(requestService.getBooking().getId());
-            boolean isTurnDownDone = false;
-            boolean isCheckOutDone = false;
+            boolean isTurnDownDone = true;
+            boolean isCheckOutDone = true;
             List<RequestService> requestServices = booking.getRequestServices();
             for (RequestService rService : requestServices) {
                   if (rService.getRequestServiceType().equals(Common.REQUESTSERVICE_TYPE_TURNDOWN)) {

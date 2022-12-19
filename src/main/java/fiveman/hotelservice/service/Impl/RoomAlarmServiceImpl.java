@@ -99,15 +99,15 @@ public class RoomAlarmServiceImpl implements RoomAlarmService {
       }
 
       @Override
-      public RoomAlarm deleteRoomAlarm(long id) {
+      public CustomResponseObject deleteRoomAlarm(long id) {
             if (roomAlarmRepository.existsById(id)) {
                   log.info("DELETE ROOM ALARM");
-                  // roomAlarmRepository.deleteById(id);
-                  RoomAlarm roomAlarm = roomAlarmRepository.getRoomAlarmById(id);
-                  roomAlarm.setStatus(false);
-                  roomAlarmRepository.save(roomAlarm);
-                  // return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete success!");
-                  return roomAlarm;
+                  roomAlarmRepository.deleteById(id);
+                  // RoomAlarm roomAlarm = roomAlarmRepository.getRoomAlarmById(id);
+                  // roomAlarm.setStatus(false);
+                  // roomAlarmRepository.save(roomAlarm);
+                  return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete success!");
+                  // return roomAlarm;
             }
             throw new AppException(HttpStatus.NOT_FOUND.value(),
                         new CustomResponseObject(Common.DELETE_FAIL, "Not found id = " + id));

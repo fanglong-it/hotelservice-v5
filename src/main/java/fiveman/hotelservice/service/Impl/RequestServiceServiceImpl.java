@@ -39,25 +39,31 @@ public class RequestServiceServiceImpl implements RequestServiceService {
       @Override
       public List<RequestService> getAllRequestService() {
             log.info("GET ALL REQUEST SERVICES");
-            List<RequestService> requestServices = requestServiceRepository.findAll();
+            List<RequestService> requestServices = requestServiceRepository.getAllRequestService();
             // List<RequestServiceResponse> requestServiceResponses = new ArrayList<>();
             // for (RequestService requestService : requestServices) {
             // RequestServiceResponse requestServiceResponse =
             // mapRequestServiceToResponse(requestService);
             // requestServiceResponses.add(requestServiceResponse);
             // }
+
+            for (RequestService requestService : requestServices) {
+                  requestService.getBooking().setRequestServices(null);
+            }
             return requestServices;
       }
 
       @Override
-      public RequestServiceResponse getRequestService(long id) {
+      public RequestService getRequestService(long id) {
             log.info("START GET REQUEST SERVICE BY ID");
             if (!requestServiceRepository.existsById(id)) {
                   throw new AppException(HttpStatus.NOT_FOUND.value(),
                               new CustomResponseObject(Common.GET_FAIL, "Cant found ID =" + id));
             }
             log.info("END GET REQUEST SERVICE BY ID");
-            return mapRequestServiceToResponse(requestServiceRepository.getRequestServiceById(id));
+            RequestService requestService = requestServiceRepository.getRequestServiceById(id);
+            requestService.getBooking().setRequestServices(null);
+            return requestService;
       }
 
       @Autowired
@@ -117,14 +123,16 @@ public class RequestServiceServiceImpl implements RequestServiceService {
       }
 
       @Override
-      public List<RequestServiceResponse> getRequestServiceByBookingId(long id) {
+      public List<RequestService> getRequestServiceByBookingId(long id) {
             List<RequestService> requestServices = requestServiceRepository.getAllRequestServiceByBooking_Id(id);
-            List<RequestServiceResponse> requestServiceResponses = new ArrayList<>();
+            // List<RequestServiceResponse> requestServiceResponses = new ArrayList<>();
             for (RequestService requestService : requestServices) {
-                  RequestServiceResponse requestServiceResponse = mapRequestServiceToResponse(requestService);
-                  requestServiceResponses.add(requestServiceResponse);
+                  // RequestServiceResponse requestServiceResponse =
+                  // mapRequestServiceToResponse(requestService);
+                  // requestServiceResponses.add(requestServiceResponse);
+                  requestService.getBooking().setRequestServices(null);
             }
-            return requestServiceResponses;
+            return requestServices;
       }
 
 }

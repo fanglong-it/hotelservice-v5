@@ -9,15 +9,14 @@ public interface RequestServiceService {
 
       List<RequestService> getAllRequestService();
 
-      List<RequestServiceResponse> getRequestServiceByBookingId(long id);
-      
-      RequestServiceResponse getRequestService(long id);
-      
+      List<RequestService> getRequestServiceByBookingId(long id);
+
+      RequestService getRequestService(long id);
+
       RequestService saveRequestService(RequestService requestService);
 
       RequestService updateRequestService(RequestService requestService);
 
       RequestService deleteRequestService(long id);
 
-      
 }

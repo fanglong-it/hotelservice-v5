@@ -167,7 +167,7 @@ public class OrderServiceImpl implements OrderService {
         }else if(status.equals(Common.ORDER_PROCESS) && order.getStatus().equals(status)){
             order.setStatus("DONE");
         }
-        order.setTotalAmount(Utilities.calculateTotalAmount(order.getOrderDetails()));
+        // order.setTotalAmount(Utilities.calculateTotalAmount(order.getOrderDetails()));
         orderRepository.save(order);
         OrderResponse orderResponse = mapOrderToResponse(orderRepository.getOrderById(orderId));
         orderResponse.getBooking().setHotel(null);

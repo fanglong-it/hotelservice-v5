@@ -298,12 +298,8 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = bookingRepository.getBookingById(bookingId);
 
         if (booking.getStatus().equals(Common.BOOKING_CHECKIN)) { // Status is Check In
-
             String currentDateTime = Utilities.getCurrentDateByFormat("dd/MM/yyyy HH:mm:ss");
-            booking.setActualDepartureDate(currentDateTime);
-            booking.setStatus(Common.BOOKING_CHECKOUT);
             List<Order> listOrder = booking.getOrders();
-
             boolean isPayment = true;
             for (Order order : listOrder) { // Check if Order is not Payment
                 if (order.getOrderPayment() == null) {
@@ -312,17 +308,13 @@ public class BookingServiceImpl implements BookingService {
             }
 
             if (isPayment) { // Booking not Payment
-                if (booking.getRoomPayment().equals("N/A") || Utilities.isEmptyString(booking.getRoomPayment())) { // Check
-                    // After check All Room Payment
-                    Room room = roomRepository.getRoomById(booking.getRoom().getId());
-                    room.setStatus(false);
-                    roomRepository.save(room); // Turn on status of room
 
-                    RoomType roomType = roomTypeRepository.getRoomTypeById(booking.getRoomTypeId());
-                    roomType.setMaxBookingRoom(roomType.getMaxBookingRoom() + 1); // Set Default of BookingRoom In
-                    roomTypeRepository.save(roomType);
+                if (booking.getRoomPayment().equals("N/A") ||
+                        !Utilities.isEmptyString(booking.getRoomPayment())) { // Check
+
                     double roomPrice = 0;
-                    List<String> dates = Utilities.getStringDateBetweenArrivalAndDeparture(booking.getActualArrivalDate(), currentDateTime);
+                    List<String> dates = Utilities
+                            .getStringDateBetweenArrivalAndDeparture(booking.getActualArrivalDate(), currentDateTime);
                     for (String date : dates) {
                         RoomPrice rPrice = roomPriceRepository.getRoomPriceTodayByRoomType(date,
                                 booking.getRoomTypeId());
@@ -334,7 +326,6 @@ public class BookingServiceImpl implements BookingService {
                         }
                     }
                     booking.setRoomPayment(String.valueOf(roomPrice));
-
                     // getTotal Amount
                     double totalAmount = 0; // Total Of Booking
                     double orderAmount = 0; // Total Of Order
@@ -342,12 +333,22 @@ public class BookingServiceImpl implements BookingService {
                         orderAmount += Utilities.calculateTotalAmount(order.getOrderDetails());
                     }
                     totalAmount = Double.parseDouble(booking.getRoomPayment()) + orderAmount; // Plus Booking Payment
-                                                                                              // Price
-                    // and Order Amount
+
+                    RoomType roomType = roomTypeRepository.getRoomTypeById(booking.getRoomTypeId());
+                    roomType.setMaxBookingRoom(roomType.getMaxBookingRoom() + 1); // Set Default of BookingRoom In
+                    roomTypeRepository.save(roomType);
+                    // After check All Room Payment
+                    Room room = roomRepository.getRoomById(booking.getRoom().getId());
+                    room.setStatus(false);
+                    roomRepository.save(room); // Turn on status of room
+
                     booking.setTotalAmount(totalAmount);
+                    booking.setActualDepartureDate(currentDateTime);
+                    booking.setStatus(Common.BOOKING_CHECKOUT);
                     bookingRepository.save(booking);
                     booking = bookingRepository.getBookingById(bookingId);
                 }
+
             } else {
                 throw new AppException(HttpStatus.BAD_REQUEST.value(),
                         new CustomResponseObject(Common.GET_FAIL, "Can't Checkout please Payment!"));

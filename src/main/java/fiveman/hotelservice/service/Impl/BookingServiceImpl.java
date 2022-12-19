@@ -81,56 +81,57 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingObjectResponse> getAllBooking() {
+    public List<Booking> getAllBooking() {
         List<Booking> bookings = bookingRepository.findAll();
-        List<BookingObjectResponse> bookingResponses = new ArrayList<>();
-        for (Booking booking : bookings) {
-            // booking.setHotel(hotelRepository.getHotelById(booking.getHotel().getId()));
-            // booking.setRoom(roomRepository.getById(booking.getRoom().getId()));
-            BookingObjectResponse bookingResponse = mapBookingToResponse(booking);
+        // List<BookingObjectResponse> bookingResponses = new ArrayList<>();
+        // for (Booking booking : bookings) {
+        // //
+        // booking.setHotel(hotelRepository.getHotelById(booking.getHotel().getId()));
+        // // booking.setRoom(roomRepository.getById(booking.getRoom().getId()));
+        // BookingObjectResponse bookingResponse = mapBookingToResponse(booking);
 
-            bookingResponse.setHotel_Id(booking.getHotel().getId());
-            bookingResponse.setRoomPayment(booking.getRoomPayment());
+        // bookingResponse.setHotel_Id(booking.getHotel().getId());
+        // bookingResponse.setRoomPayment(booking.getRoomPayment());
 
-            if (bookingResponse.getStatus().equals(Common.BOOKING_CHECKIN)) {
-                bookingResponse.setRoom_Id(booking.getRoom().getId());
-            }
-            bookingResponses.add(bookingResponse);
-        }
-        return bookingResponses;
+        // if (bookingResponse.getStatus().equals(Common.BOOKING_CHECKIN)) {
+        // bookingResponse.setRoom_Id(booking.getRoom().getId());
+        // }
+        // bookingResponses.add(bookingResponse);
+        // }
+        return bookings;
     }
 
     @Override
-    public List<BookingObjectResponse> saveBooking(Booking booking) {
+    public Booking saveBooking(Booking booking) {
         if (bookingRepository.existsById(booking.getId())) {
             throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
                     new CustomResponseObject(Common.ADDING_FAIL, "Exist id =" + booking.getId()));
         }
         bookingRepository.save(booking);
         // return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding Success!");
-        return getAllBooking();
+        return bookingRepository.findTopByOrderByIdDesc();
     }
 
     @Override
-    public List<BookingObjectResponse> updateBooking(Booking booking) {
+    public Booking updateBooking(Booking booking) {
         if (!bookingRepository.existsById(booking.getId())) {
             throw new AppException(HttpStatus.NOT_FOUND.value(),
                     new CustomResponseObject(Common.UPDATE_FAIL, "Not found id =" + booking.getId()));
         }
         bookingRepository.save(booking);
         // return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success!");
-        return getAllBooking();
+        return bookingRepository.getBookingById(booking.getId());
     }
 
     @Override
-    public List<BookingObjectResponse> deleteBooking(long id) {
+    public CustomResponseObject deleteBooking(long id) {
         if (!bookingRepository.existsById(id)) {
             throw new AppException(HttpStatus.NOT_FOUND.value(),
                     new CustomResponseObject(Common.DELETE_FAIL, "Not found id =" + id));
         }
         bookingRepository.deleteById(id);
-        // return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Success!");
-        return getAllBooking();
+        return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Success!");
+        // return ;
     }
 
     @Override
@@ -347,6 +348,10 @@ public class BookingServiceImpl implements BookingService {
                     booking.setStatus(Common.BOOKING_CHECKOUT);
                     bookingRepository.save(booking);
                     booking = bookingRepository.getBookingById(bookingId);
+                } else {
+                    throw new AppException(HttpStatus.BAD_REQUEST.value(),
+                            new CustomResponseObject(Common.GET_FAIL,
+                                    "Yout can't checkout because payment is INVALID!"));
                 }
 
             } else {
@@ -500,6 +505,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking getBookingByRoomId(long room_id) {
         Booking booking = bookingRepository.getBookingByRoomId(room_id);
+        // booking.setRequestServices(null);
         if (booking == null) {
             throw new AppException(HttpStatus.NOT_FOUND.value(),
                     new CustomResponseObject(Common.GET_FAIL, "Not exist Booking with room_id = " + room_id));

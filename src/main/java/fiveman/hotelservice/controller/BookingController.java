@@ -42,7 +42,7 @@ public class BookingController {
 
     @GetMapping("/bookings")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<BookingObjectResponse>> getAllBooking() {
+    public ResponseEntity<List<Booking>> getAllBooking() {
         return new ResponseEntity<>(bookingService.getAllBooking(), HttpStatus.OK);
     }
 
@@ -51,21 +51,21 @@ public class BookingController {
 
     @PostMapping("/booking")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<BookingObjectResponse>> saveBooking(@RequestBody BookingRequest bookingRequest) {
+    public ResponseEntity<Booking> saveBooking(@RequestBody BookingRequest bookingRequest) {
         Booking booking = modelMapper.map(bookingRequest, Booking.class);
         return new ResponseEntity<>(bookingService.saveBooking(booking), HttpStatus.OK);
     }
 
     @PutMapping("/booking")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<BookingObjectResponse>> updateBooking(@RequestBody BookingRequest bookingRequest) {
+    public ResponseEntity<Booking> updateBooking(@RequestBody BookingRequest bookingRequest) {
         Booking booking = modelMapper.map(bookingRequest, Booking.class);
         return new ResponseEntity<>(bookingService.updateBooking(booking), HttpStatus.OK);
     }
 
     @DeleteMapping("/booking/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
-    public ResponseEntity<List<BookingObjectResponse>> deleteBooking(@PathVariable("id") long id) {
+    public ResponseEntity<CustomResponseObject> deleteBooking(@PathVariable("id") long id) {
         return new ResponseEntity<>(bookingService.deleteBooking(id), HttpStatus.OK);
     }
 
@@ -90,7 +90,8 @@ public class BookingController {
     }
 
     @GetMapping("/booking/dashboardBetween")
-    public ResponseEntity<DashboardResponse> getDashBoard(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
+    public ResponseEntity<DashboardResponse> getDashBoard(@RequestParam("startDate") String startDate,
+            @RequestParam("endDate") String endDate) {
         return new ResponseEntity<>(bookingService.getDashBoard(startDate, endDate), HttpStatus.OK);
     }
 
@@ -106,13 +107,13 @@ public class BookingController {
 
     @GetMapping("/booking/revenuesEntire")
     public ResponseEntity<List<Statistic>> getRevenuesEntire(@RequestParam("dateStart") String dateStart,
-                                                             @RequestParam("dateEnd") String dateEnd) {
+            @RequestParam("dateEnd") String dateEnd) {
         return new ResponseEntity<>(bookingService.getRevenuesEntireDate(dateStart, dateEnd), HttpStatus.OK);
     }
 
     @GetMapping("/booking/revenuesCancelEntire")
     public ResponseEntity<List<Statistic>> getRevenuesCancelEntire(@RequestParam("dateStart") String dateStart,
-                                                                   @RequestParam("dateEnd") String dateEnd) {
+            @RequestParam("dateEnd") String dateEnd) {
         return new ResponseEntity<>(bookingService.getRevenuesCancelEntireDate(dateStart, dateEnd), HttpStatus.OK);
     }
 

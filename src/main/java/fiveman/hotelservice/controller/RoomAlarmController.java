@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fiveman.hotelservice.entities.RoomAlarm;
 import fiveman.hotelservice.request.RoomAlarmRequest;
+import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.RoomAlarmResponse;
 import fiveman.hotelservice.service.RoomAlarmService;
 import io.swagger.annotations.Api;
@@ -91,7 +92,7 @@ public class RoomAlarmController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<RoomAlarm> deleteroomAlarm(@PathVariable long id) {
+      public ResponseEntity<CustomResponseObject> deleteroomAlarm(@PathVariable long id) {
             return new ResponseEntity<>(roomAlarmService.deleteRoomAlarm(id), HttpStatus.OK);
       }
 }

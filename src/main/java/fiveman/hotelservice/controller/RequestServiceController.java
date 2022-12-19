@@ -54,13 +54,13 @@ public class RequestServiceController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<RequestServiceResponse> getRequestService(@PathVariable("id") long id) {
+      public ResponseEntity<RequestService> getRequestService(@PathVariable("id") long id) {
             return new ResponseEntity<>(requestServiceService.getRequestService(id), HttpStatus.OK);
       }
 
       @GetMapping("/requestService")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
-      public ResponseEntity<List<RequestServiceResponse>> getRequestServiceByBookingId(
+      public ResponseEntity<List<RequestService>> getRequestServiceByBookingId(
                   @RequestParam("booking_id") long id) {
             return new ResponseEntity<>(requestServiceService.getRequestServiceByBookingId(id), HttpStatus.OK);
       }

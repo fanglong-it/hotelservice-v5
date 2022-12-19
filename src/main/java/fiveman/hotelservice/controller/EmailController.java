@@ -1,9 +1,7 @@
 package fiveman.hotelservice.controller;
 
 
-import fiveman.hotelservice.service.EmailService;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/")
 public class EmailController {
 
-    @Autowired
-    private EmailService emailService;
+    // @Autowired
+    // private EmailService emailService;
 
 //    @GetMapping("/sendEmail")
 //    @PreAuthorize("isAuthenticated() or isAnonymous()")

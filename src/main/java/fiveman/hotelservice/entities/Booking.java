@@ -1,9 +1,7 @@
 package fiveman.hotelservice.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -16,7 +14,8 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "booking")
-// @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+// @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+// property = "id")
 public class Booking {
 
     @Id
@@ -58,7 +57,7 @@ public class Booking {
     @JsonManagedReference
     private List<RequestService> requestServices;
 
-    @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY, targetEntity = Order.class)
     @JsonManagedReference
     private List<Order> orders;
 }

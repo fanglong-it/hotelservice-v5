@@ -85,6 +85,7 @@ public class Common {
     // public static final String REQUESTSERVICE_DONE = "DONE";
 
     public static final String REQUESTSERVICE_TYPE_TURNDOWN = "TURN DOWN";
+    public static final String REQUESTSERVICE_TYPE_CHECKOUT = "CHECK OUT";
 
     // Format date
     public static final String DATE_HOUR = "dd/MM/yyyy HH:mm:ss";

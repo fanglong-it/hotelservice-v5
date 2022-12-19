@@ -73,21 +73,49 @@ public class RequestServiceServiceImpl implements RequestServiceService {
       public RequestService saveRequestService(RequestService requestService) {
             log.info("START SAVE REQUEST SERVICE");
             Booking booking = bookingRepository.getBookingById(requestService.getBooking().getId());
-            boolean isTurnDownDone = true;
+            boolean isTurnDownDone = false;
+            boolean isCheckOutDone = false;
             List<RequestService> requestServices = booking.getRequestServices();
             for (RequestService rService : requestServices) {
-                  if (rService.getStatus().equals(Common.REQUESTSERVICE_BOOKED) ||
-                              rService.getStatus().equals(Common.REQUESTSERVICE_PROCESSING)) {
-                        isTurnDownDone = false;
+                  if (rService.getRequestServiceType().equals(Common.REQUESTSERVICE_TYPE_TURNDOWN)) {
+                        if (rService.getStatus().equals(Common.REQUESTSERVICE_DONE)) {
+                              isTurnDownDone = true;
+                        } else {
+                              isTurnDownDone = false;
+                        }
+                  }
+                  if (rService.getRequestServiceType().equals(Common.REQUESTSERVICE_TYPE_CHECKOUT)) {
+                        if (rService.getStatus().equals(Common.REQUESTSERVICE_DONE)) {
+                              isCheckOutDone = true;
+                        } else {
+                              isCheckOutDone = false;
+                        }
                   }
             }
-            if (!isTurnDownDone
-                        || !requestService.getRequestServiceType().equals(Common.REQUESTSERVICE_TYPE_TURNDOWN)) {
-                  throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
-                              new CustomResponseObject(Common.ADDING_FAIL,
-                                          "You can't request if there is Already Request Service"));
+            // if (!isCheckOutDone) {
+            // throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
+            // new CustomResponseObject(Common.ADDING_FAIL,
+            // "You can't request if there is Already Request Service"));
+            // }
+
+            if (requestService.getRequestServiceType().equals(Common.REQUESTSERVICE_TYPE_CHECKOUT)) {
+                  if (isCheckOutDone) {
+                        requestServiceRepository.save(requestService);
+                  } else {
+                        throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
+                                    new CustomResponseObject(Common.ADDING_FAIL,
+                                                "You Can't send the CHECK OUT Request if already exist!"));
+                  }
             }
-            requestServiceRepository.save(requestService);
+            if (requestService.getRequestServiceType().equals(Common.REQUESTSERVICE_TYPE_TURNDOWN)) {
+                  if (isTurnDownDone) {
+                        requestServiceRepository.save(requestService);
+                  } else {
+                        throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
+                                    new CustomResponseObject(Common.ADDING_FAIL,
+                                                "You Can't send the TURN DOWN Request if already exist!"));
+                  }
+            }
             requestService = requestServiceRepository.findTopByOrderByIdDesc();
             return requestService;
             // return mapRequestServiceToResponse(requestService);

@@ -17,7 +17,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "RequestService")
-// @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+property = "id")
 public class RequestService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

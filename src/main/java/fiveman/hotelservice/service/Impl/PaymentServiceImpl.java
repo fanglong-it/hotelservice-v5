@@ -265,7 +265,7 @@ public class PaymentServiceImpl implements PaymentService {
         }else{
             confirmation_No = 1;
         }
-
+        Hotel hotel = hotelRepository.getHotelById(request.getHotel_id());
         List<BookingResponse> listBooking = new ArrayList<>();
 
         // List<BookingResponse.BookingFailureRoom> listRoomBusy = new ArrayList<>();
@@ -346,7 +346,6 @@ public class PaymentServiceImpl implements PaymentService {
 
 //            RoomTypeRequest roomTypeRequest = mapper.map(roomType, RoomTypeRequest.class);
                 Booking booking = new Booking();
-                Hotel hotel = hotelRepository.getHotelById(request.getHotel_id());
                 booking.setRoomTypeId(request.getRoomTypes().get(i).getId());
                 booking.setCustomer(request.getCustomer());
                 booking.setHotel(hotel);

@@ -22,7 +22,7 @@
 
 <div th:each="data,iterStat : ${list}">
     <div th:if="${data.booking != null}">
-        <div th:if="${iterStat.first}">
+        <div th:if="${iterStat.index} == ${emailObj.firstIndex}">
             <div style="display: flex">
                 <p style="padding-right: 20px; font-weight: bold">Họ và tên: </p>
                 <p style=""
@@ -40,7 +40,7 @@
         <div style="padding-right: 20px" th:each="priceObj,num : ${listPrice}">
             <div th:if="${num.index} == ${iterStat.index}">
                 <p style="font-size: 35px; font-weight: bold; padding-right: 20px"
-                   th:text="|Thông tin đặt phòng: ${num.index &lt; 0 ? (num.index+1) : ''}|"></p>
+                   th:text="|Thông tin đặt phòng: |"></p>
                 <div style="display: flex">
                     <p style="padding-right: 20px; font-weight: bold">Mã số đặt phòng: </p>
                     <p th:text="${data.booking.id}"></p>
@@ -93,11 +93,11 @@
                 </div>
             </div>
         </div>
-        <div style="display: flex; padding-top: 30px" th:if="${iterStat.last}">
+        <div style="display: flex; padding-top: 30px" th:if="${iterStat.index} == ${emailObj.lastIndex}">
             <p style="padding-right: 20px; font-size: 35px; font-weight: bold">Tổng: </p>
             <p style="font-size: 35px" th:text="${totalPrice}"></p>
         </div>
-        <div style="padding-top: 50px" th:if="${iterStat.last}">
+        <div style="padding-top: 50px" th:if="${iterStat.index} == ${emailObj.lastIndex}">
             Regards,
             <p th:text="${data.hotel.fullName}"></p>
             <p th:text="${data.hotel.address}"></p>

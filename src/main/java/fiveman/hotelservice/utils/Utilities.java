@@ -13,9 +13,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.stream.IntStream;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import fiveman.hotelservice.entities.OrderDetail;
+import fiveman.hotelservice.entities.RoomPrice;
 
 public class Utilities {
       public static boolean isEmptyString(String result) {
@@ -138,6 +140,14 @@ public class Utilities {
                   dates.add(dateString);
             }
             return dates;
+      }
+
+      public static int findIndex(List<RoomPrice> list, String date) {
+            int len = list.size();
+            return IntStream.range(0, len)
+                    .filter(i -> date.equals(list.get(i).getDate()))
+                    .findFirst() // first occurrence
+                    .orElse(-1); // No element found
       }
 
 }

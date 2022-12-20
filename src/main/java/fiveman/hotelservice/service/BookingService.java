@@ -34,6 +34,8 @@ public interface BookingService {
     // , HttpServletRequest request
     );
 
+    CustomResponseObject cancleBooking(long booking_id);
+
     CustomResponseObject customerNoShow(long bookingId
     // , HttpServletRequest request
     );

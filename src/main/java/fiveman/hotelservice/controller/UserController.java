@@ -60,7 +60,7 @@ public class UserController {
     }
 
     @PostMapping("/user/update")
-    @ApiOperation(value = "Registration")
+    @ApiOperation(value = "Update User")
     @ApiResponses(value = { //
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //

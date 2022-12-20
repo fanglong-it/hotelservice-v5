@@ -16,6 +16,8 @@ import java.util.TimeZone;
 import java.util.stream.IntStream;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+
+import fiveman.hotelservice.entities.Order;
 import fiveman.hotelservice.entities.OrderDetail;
 import fiveman.hotelservice.entities.RoomPrice;
 
@@ -128,6 +130,14 @@ public class Utilities {
             return totalAmount;
       }
 
+      public static double calculateTotalOrder(List<Order> orders) {
+            double totalOrder = 0;
+            for (Order order : orders) {
+                  totalOrder += order.getTotalAmount();
+            }
+            return totalOrder;
+      }
+
       public static List<String> getStringDateBetweenArrivalAndDeparture(String startDate,
                   String endDate) {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -145,9 +155,9 @@ public class Utilities {
       public static int findIndex(List<RoomPrice> list, String date) {
             int len = list.size();
             return IntStream.range(0, len)
-                    .filter(i -> date.equals(list.get(i).getDate()))
-                    .findFirst() // first occurrence
-                    .orElse(-1); // No element found
+                        .filter(i -> date.equals(list.get(i).getDate()))
+                        .findFirst() // first occurrence
+                        .orElse(-1); // No element found
       }
 
 }

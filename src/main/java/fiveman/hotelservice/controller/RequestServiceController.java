@@ -44,7 +44,7 @@ public class RequestServiceController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<List<RequestService>> getRequestServices() {
+      public ResponseEntity<List<RequestServiceResponse>> getRequestServices() {
             return new ResponseEntity<>(requestServiceService.getAllRequestService(), HttpStatus.OK);
       }
 
@@ -54,13 +54,13 @@ public class RequestServiceController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<RequestService> getRequestService(@PathVariable("id") long id) {
+      public ResponseEntity<RequestServiceResponse> getRequestService(@PathVariable("id") long id) {
             return new ResponseEntity<>(requestServiceService.getRequestService(id), HttpStatus.OK);
       }
 
       @GetMapping("/requestService")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
-      public ResponseEntity<List<RequestService>> getRequestServiceByBookingId(
+      public ResponseEntity<List<RequestServiceResponse>> getRequestServiceByBookingId(
                   @RequestParam("booking_id") long id) {
             return new ResponseEntity<>(requestServiceService.getRequestServiceByBookingId(id), HttpStatus.OK);
       }
@@ -71,7 +71,7 @@ public class RequestServiceController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<RequestService> saveRequestService(@RequestBody @Valid RequestServiceRequest request) {
+      public ResponseEntity<RequestServiceResponse> saveRequestService(@RequestBody @Valid RequestServiceRequest request) {
             RequestService requestService = modelMapper.map(request, RequestService.class);
             return new ResponseEntity<>(requestServiceService.saveRequestService(requestService), HttpStatus.OK);
       }
@@ -82,7 +82,7 @@ public class RequestServiceController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<RequestService> updateRequestService(@RequestBody @Valid RequestServiceRequest request) {
+      public ResponseEntity<RequestServiceResponse> updateRequestService(@RequestBody @Valid RequestServiceRequest request) {
             RequestService requestService = modelMapper.map(request, RequestService.class);
             return new ResponseEntity<>(requestServiceService.updateRequestService(requestService), HttpStatus.OK);
       }
@@ -93,7 +93,7 @@ public class RequestServiceController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<RequestService> deleteRequestService(@PathVariable long id) {
+      public ResponseEntity<RequestServiceResponse> deleteRequestService(@PathVariable long id) {
             return new ResponseEntity<>(requestServiceService.deleteRequestService(id), HttpStatus.OK);
       }
 

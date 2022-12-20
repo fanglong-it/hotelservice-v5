@@ -14,6 +14,7 @@ import fiveman.hotelservice.request.Statistic;
 import fiveman.hotelservice.response.DashboardResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -363,6 +364,69 @@ public class BookingServiceImpl implements BookingService {
                     new CustomResponseObject(Common.GET_FAIL, "Can't Checkout Because of Status!"));
         }
         return new CustomResponseObject(Common.UPDATE_SUCCESS, "Check Out Success!");
+    }
+
+    @Override
+    @Transactional
+    public CustomResponseObject cancleBooking(long booking_id) {
+        Booking booking = bookingRepository.getBookingById(booking_id);
+        if (booking.getStatus().equals(Common.BOOKING_BOOKED)) { // Status is Booked
+            String currentDateTime = Utilities.getCurrentDate();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+            try {
+                Date currentDate = sdf.parse(currentDateTime);
+                Date bookingDate = sdf.parse(booking.getArrivalDate());
+                if (currentDate.compareTo(bookingDate) < 0) {
+                    if (booking.getRoomPayment().equals("N/A")) {
+                        double roomPrice = 0;
+                        List<String> dates = Utilities
+                                .getStringDateBetweenArrivalAndDeparture(booking.getArrivalDate(),
+                                        booking.getDepartureDate());
+                        for (String date : dates) {
+                            RoomPrice rPrice = roomPriceRepository.getRoomPriceTodayByRoomType(date,
+                                    booking.getRoomTypeId());
+                            if (rPrice != null) {
+                                roomPrice += rPrice.getPrice();
+                            } else {
+                                RoomType rType = roomTypeRepository.getRoomTypeById(booking.getRoomTypeId());
+                                roomPrice += rType.getDefaultPrice();
+                            }
+                        }
+                        booking.setTotalAmount(roomPrice + Utilities.calculateTotalOrder(booking.getOrders()));
+                        booking.setRoomPayment(String.valueOf(roomPrice));
+                        booking.setUpdateDate(currentDateTime);
+                        booking.setStatus(Common.BOOKING_CANCEL);
+                        bookingRepository.save(booking);
+                    } else {
+                        booking.setTotalAmount(
+                                Double.parseDouble(booking.getRoomPayment())
+                                        + Utilities.calculateTotalOrder(booking.getOrders()));
+                        booking.setStatus(Common.BOOKING_CANCEL);
+                        booking.setUpdateDate(currentDateTime);
+                        bookingRepository.save(booking);
+                    }
+
+                } else if (currentDate.compareTo(bookingDate) == 0) {
+                    throw new AppException(HttpStatus.BAD_REQUEST.value(),
+                            new CustomResponseObject(Common.GET_FAIL,
+                                    "Can't Cancle be cause today is your CHECK IN Date!"));
+                } else {
+                    throw new AppException(HttpStatus.BAD_REQUEST.value(),
+                            new CustomResponseObject(Common.GET_FAIL,
+                                    "Can't Cancle be cause today is after CHECK IN Date!"));
+                }
+            } catch (ParseException e) {
+                throw new AppException(HttpStatus.BAD_REQUEST.value(),
+                        new CustomResponseObject(Common.GET_FAIL,
+                                "Can't Parse Date!"));
+            }
+        } else {
+            throw new AppException(HttpStatus.BAD_REQUEST.value(),
+                    new CustomResponseObject(Common.GET_FAIL,
+                            "Can't Cancle because of Status!"));
+        }
+
+        return new CustomResponseObject(Common.UPDATE_SUCCESS, "Cancle Booking Success!");
     }
 
     @Autowired

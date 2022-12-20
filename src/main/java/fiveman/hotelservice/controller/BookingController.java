@@ -89,6 +89,11 @@ public class BookingController {
         return new ResponseEntity<>(bookingService.customerNoShow(bookingId), HttpStatus.OK);
     }
 
+    @PostMapping("/booking/cancleBooking")
+    public ResponseEntity<CustomResponseObject> cancleBooking(@RequestParam("booking_id") long bookingId) {
+        return new ResponseEntity<>(bookingService.cancleBooking(bookingId), HttpStatus.OK);
+    }
+
     @GetMapping("/booking/dashboardBetween")
     public ResponseEntity<DashboardResponse> getDashBoard(@RequestParam("startDate") String startDate,
             @RequestParam("endDate") String endDate) {

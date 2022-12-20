@@ -30,7 +30,7 @@ public class RequestService {
     private String status;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Booking.class)
-    // @JsonBackReference
+    @JsonBackReference
     private Booking booking;
 
 }

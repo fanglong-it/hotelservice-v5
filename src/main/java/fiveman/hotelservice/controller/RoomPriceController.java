@@ -61,7 +61,7 @@ public class RoomPriceController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> updateRoomPrice(@RequestBody RoomPriceRequest roomPriceRequest) {
+      public ResponseEntity<RoomPrice> updateRoomPrice(@RequestBody RoomPriceRequest roomPriceRequest) {
             RoomPrice roomPrice = modelMapper.map(roomPriceRequest, RoomPrice.class);
             return new ResponseEntity<>(roomPriceService.updateRoomPrice(roomPrice), HttpStatus.OK);
       }
@@ -72,7 +72,7 @@ public class RoomPriceController {
                   @ApiResponse(code = 400, message = "Something went wrong"), //
                   @ApiResponse(code = 403, message = "Access denied"), //
                   @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> addRoomPrice(@RequestBody RoomPriceRequest roomPriceRequest) {
+      public ResponseEntity<RoomPrice> addRoomPrice(@RequestBody RoomPriceRequest roomPriceRequest) {
             RoomPrice roomPrice = modelMapper.map(roomPriceRequest, RoomPrice.class);
             return new ResponseEntity<>(roomPriceService.saveRoomPrice(roomPrice), HttpStatus.OK);
       }
@@ -90,9 +90,9 @@ public class RoomPriceController {
       @PostMapping("/roomPrice/setRoomPriceByDate")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
       @ApiResponses(value = { //
-              @ApiResponse(code = 400, message = "Something went wrong"), //
-              @ApiResponse(code = 403, message = "Access denied"), //
-              @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+                  @ApiResponse(code = 400, message = "Something went wrong"), //
+                  @ApiResponse(code = 403, message = "Access denied"), //
+                  @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
       public ResponseEntity<CustomResponseObject> setRoomPriceByDate(@RequestBody RoomPriceRequest roomPriceRequest) {
             CustomResponseObject result = roomPriceService.setRoomPriceByDate(roomPriceRequest);
             return new ResponseEntity<CustomResponseObject>(result, HttpStatus.OK);

@@ -2,33 +2,26 @@ package fiveman.hotelservice.service;
 
 import fiveman.hotelservice.entities.User;
 import fiveman.hotelservice.request.UserRequest;
-import fiveman.hotelservice.response.CustomResponseObject;
-import fiveman.hotelservice.response.UserResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface UserService {
+
     User saveUser(User user);
 
-    //    Role saveRole(Role role);
-//    String addRoleToUser(String username, String roleName);
-//    String setRoleAdmin(String userName, String roleName);
-//    User getUser(String username);
-    List<UserResponse> getUsers();
+    List<User> getUsers();
 
     String signin(String username, String password);
 
     User signup(UserRequest userRequest);
 
-    CustomResponseObject updateUser(UserRequest userRequest);
-    
-    UserResponse whoami(HttpServletRequest request);
+    User updateUser(UserRequest userRequest);
+
+    User whoami(HttpServletRequest request);
 
     String refresh(String username);
 
     List<String> getRoles();
-
-
 
 }

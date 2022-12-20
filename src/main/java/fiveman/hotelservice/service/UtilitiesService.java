@@ -7,12 +7,12 @@ import fiveman.hotelservice.response.CustomResponseObject;
 
 public interface UtilitiesService {
       List<Utilities> getAllUtilities();
-      
+
       Utilities getUtilitiesById(long id);
-      
-      CustomResponseObject saveUtilities(Utilities utilities);
-      
-      CustomResponseObject updateUtilities(Utilities utilities);
-      
+
+      Utilities saveUtilities(Utilities utilities);
+
+      Utilities updateUtilities(Utilities utilities);
+
       CustomResponseObject deleteUtitlies(long id);
 }

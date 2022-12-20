@@ -8,4 +8,5 @@ import fiveman.hotelservice.entities.SpecialUtility;
 @Repository
 public interface SpecialUtilityRepository extends JpaRepository<SpecialUtility, Long>{
       SpecialUtility getSpecialUtilityById(long id);
+      SpecialUtility findTopByOrderByIdDesc();
 }

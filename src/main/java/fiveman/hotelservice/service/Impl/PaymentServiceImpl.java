@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.service.PaymentService;
@@ -257,6 +258,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional
     public List<BookingResponse> validateVNPay(VnPayConfirmRequest request) {
         Booking lastBooking = bookingRepository.findTopByOrderByIdDesc();
         int confirmation_No = 0;
@@ -265,7 +267,7 @@ public class PaymentServiceImpl implements PaymentService {
         }else{
             confirmation_No = 1;
         }
-
+        Hotel hotel = hotelRepository.getHotelById(request.getHotel_id());
         List<BookingResponse> listBooking = new ArrayList<>();
 
         // List<BookingResponse.BookingFailureRoom> listRoomBusy = new ArrayList<>();
@@ -332,31 +334,30 @@ public class PaymentServiceImpl implements PaymentService {
                 // set booking
                 roomType.setMaxBookingRoom(roomType.getMaxBookingRoom() - 1);
                 // set RoomPrice
-                List<RoomPrice> listRoomPrice = roomType.getRoomPrices();
-                for (RoomPrice roomPrice : listRoomPrice) {
-                    boolean isPriceByDate = fiveman.hotelservice.utils.Utilities.compareTwoDateString(request.getBookingDates().getStartDate(), roomPrice.getDate());
-                    if (isPriceByDate) {
-                        if (roomType.getMaxBookingRoom() > roomPrice.getMaxBookingRoom()) {
-                            roomPrice.setMaxBookingRoom(roomPrice.getMaxBookingRoom() - 1);
-                            roomType.setMaxBookingRoom(roomPrice.getMaxBookingRoom() - 1);
-                            roomPriceRepository.save(roomPrice);
-                        }
-                    }
-                }
+//                List<RoomPrice> listRoomPrice = roomType.getRoomPrices();
+//                for (RoomPrice roomPrice : listRoomPrice) {
+//                    boolean isPriceByDate = fiveman.hotelservice.utils.Utilities.compareTwoDateString(request.getBookingDates().getStartDate(), roomPrice.getDate());
+//                    if (isPriceByDate) {
+//                        if (roomType.getMaxBookingRoom() > roomPrice.getMaxBookingRoom()) {
+//                            roomPrice.setMaxBookingRoom(roomPrice.getMaxBookingRoom() - 1);
+//                            roomType.setMaxBookingRoom(roomPrice.getMaxBookingRoom() - 1);
+//                            roomPriceRepository.save(roomPrice);
+//                        }
+//                    }
+//                }
 
 //            RoomTypeRequest roomTypeRequest = mapper.map(roomType, RoomTypeRequest.class);
                 Booking booking = new Booking();
-                Hotel hotel = hotelRepository.getHotelById(request.getHotel_id());
                 booking.setRoomTypeId(request.getRoomTypes().get(i).getId());
                 booking.setCustomer(request.getCustomer());
                 booking.setHotel(hotel);
-                booking.setArrivalDate(request.getBookingDates().getStartDate());
+                booking.setArrivalDate(request.getBookingDates().getStartDate() + " " + hotel.getCheckInTime());
                 booking.setCreateBy(request.getCustomer().getFirstName() + " " + request.getCustomer().getMiddleName() + " "
                         + request.getCustomer().getLastName());
                 booking.setCreateDate(Utilities.getCurrentDateByFormat("dd/MM/yyyy HH:mm:ss"));
                 booking.setConfirmationNo(confirmation_No);
                 booking.setStatus(Common.BOOKING_BOOKED);
-                booking.setDepartureDate(request.getBookingDates().getEndDate());
+                booking.setDepartureDate(request.getBookingDates().getEndDate() + " " + hotel.getCheckOutTime());
 
                 // set booking notes
                 if (!Utilities.isEmptyString(request.getBookingNotes())) {
@@ -365,7 +366,21 @@ public class PaymentServiceImpl implements PaymentService {
 
                 // set booking room payment
                 if (request.getPaymentMethod() != 0) {
-                    booking.setRoomPayment(String.valueOf(request.getRoomTypes().get(i).getPrice()));
+                    double price = 0;
+                    // Get RoomPrice With Booking
+                    List<String> dates = Utilities.getStringDateBetweenArrivalAndDeparture(booking.getArrivalDate(),
+                            booking.getDepartureDate());
+                    for (String date : dates) {
+                        List<RoomPrice> rPrices = roomType.getRoomPrices();
+                        int result = Utilities.findIndex(rPrices, date);
+                        if (result != -1) {
+                            price += rPrices.get(result).getPrice();
+                        } else {
+                            price += roomType.getDefaultPrice();
+                        }
+                    }
+
+                    booking.setRoomPayment(String.valueOf(price));
                 } else {
                     booking.setRoomPayment("N/A");
                 }
@@ -419,8 +434,14 @@ public class PaymentServiceImpl implements PaymentService {
             }
             listBooking.add(bookingResponse);
         }
-
-        if (listBooking.size() > 0) {
+        boolean isPaymentSuccess = false;
+        for (BookingResponse res: listBooking
+             ) {
+            if(res.getBooking() != null){
+                isPaymentSuccess = true;
+            }
+        }
+        if (isPaymentSuccess) {
             emailService.sendMail(listBooking);
         }
         return listBooking;

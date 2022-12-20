@@ -12,6 +12,7 @@ import java.util.List;
 public interface ServiceRepository extends JpaRepository<Service, Long> {
     Service getServiceById(Long id);
 
+    Service findTopByOrderByIdDesc();
     
     List<Service> getAllByServiceCategory_Id(long service_category_id);
 

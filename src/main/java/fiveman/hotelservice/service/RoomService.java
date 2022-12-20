@@ -5,24 +5,23 @@ import java.util.List;
 import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.entities.Room;
 import fiveman.hotelservice.request.RoomRequest;
-import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.RoomResponse;
 
 public interface RoomService {
 
     List<Room> getRooms();
 
-    Room getRoomByBookingIdAndStatusCheckIn(long booking_id);
+    Room getRoomByBooking(long booking_id);
 
     Room getRoomByOrderId(long order_id);
 
     RoomResponse getRoom(long id);
 
-    CustomResponseObject saveRoom(RoomRequest roomRequest);
+    Room saveRoom(RoomRequest roomRequest);
 
-    CustomResponseObject updateRoom(Room room);
+    Room updateRoom(Room room);
 
-    CustomResponseObject deleteRoom(long id);
+    Room deleteRoom(long id);
 
     List<Room> checkAvailabilityByRoomType(long Booking_Id);
 

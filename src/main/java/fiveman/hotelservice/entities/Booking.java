@@ -8,13 +8,14 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Table(name = "booking")
+// @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+// property = "id")
 public class Booking {
 
     @Id
@@ -48,7 +49,7 @@ public class Booking {
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Room.class)
     @JsonBackReference
     private Room room;
-    
+
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Customer.class, cascade = CascadeType.ALL)
     private Customer customer;
 
@@ -56,7 +57,7 @@ public class Booking {
     @JsonManagedReference
     private List<RequestService> requestServices;
 
-    @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "booking", fetch = FetchType.LAZY, targetEntity = Order.class)
     @JsonManagedReference
     private List<Order> orders;
 }

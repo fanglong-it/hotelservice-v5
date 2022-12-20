@@ -1,6 +1,5 @@
 package fiveman.hotelservice.service.Impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -34,45 +33,38 @@ public class MessageServiceImpl implements MessageService {
       }
 
       @Override
-      public List<MessageResponse> getAllMessageByBooking_Id(long id) {
-            List<MessageResponse> messageResponses = new ArrayList<>();
-
-            List<Message> messages = messageRepository.getAllMessageByBooking_Id(id);
-            for (Message message : messages) {
-                  MessageResponse messageResponse = mappMessageToResponse(message);
-                  messageResponses.add(messageResponse);
-            }
-            return messageResponses;
+      public List<Message> getAllMessageByBooking_Id(long id) {
+            return messageRepository.getAllMessageByBooking_Id(id);
       }
 
       @Override
-      public List<MessageResponse> getAllMessage() {
+      public List<Message> getAllMessage() {
             log.info("GET ALL MESSAGES");
-            // return messageRepository.findAll();
+            // // return messageRepository.findAll();
 
-            List<MessageResponse> messageResponses = new ArrayList<>();
+            // List<MessageResponse> messageResponses = new ArrayList<>();
 
-            List<Message> messages = messageRepository.findAll();
-            for (Message message : messages) {
-                  MessageResponse messageResponse = mappMessageToResponse(message);
-                  messageResponses.add(messageResponse);
-            }
-            return messageResponses;
+            // List<Message> messages = messageRepository.findAll();
+            // for (Message message : messages) {
+            // MessageResponse messageResponse = mappMessageToResponse(message);
+            // messageResponses.add(messageResponse);
+            // }
+            return messageRepository.findAll();
       }
 
       @Override
-      public MessageResponse getMessageById(long id) {
+      public Message getMessageById(long id) {
             log.info("START GET MESSAGE BY ID");
             if (!messageRepository.existsById(id)) {
                   throw new AppException(HttpStatus.NOT_FOUND.value(),
                               new CustomResponseObject(Common.GET_FAIL, "Cant found ID =" + id));
             }
             log.info("END GET MESSAGE BY ID");
-            return mappMessageToResponse(messageRepository.getMessageById(id));
+            return messageRepository.getMessageById(id);
       }
 
       @Override
-      public List<MessageResponse> addMessage(Message message) {
+      public Message addMessage(Message message) {
             log.info("START SAVE MESSAGE");
             if (messageRepository.existsById(message.getId())) {
                   throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
@@ -82,17 +74,17 @@ public class MessageServiceImpl implements MessageService {
             log.info("END SAVE MESSAGE");
             // return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding MESSAGE
             // Success!");
-            return getAllMessage();
+            return messageRepository.findTopByOrderByIdDesc();
       }
 
       @Override
-      public List<MessageResponse> updateMessage(Message message) {
+      public Message updateMessage(Message message) {
             log.info("START UPDATE MESSAGE");
             if (messageRepository.existsById(message.getId())) {
                   messageRepository.save(message);
                   log.info("END UPDATE MESSAGE");
                   // return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update success!");
-                  return getAllMessage();
+                  return messageRepository.getMessageById(message.getId());
             }
             throw new AppException(HttpStatus.NOT_FOUND.value(),
                         new CustomResponseObject(Common.UPDATE_FAIL, "Not found id = " + message.getId()));
@@ -100,13 +92,11 @@ public class MessageServiceImpl implements MessageService {
       }
 
       @Override
-      public List<MessageResponse> deleteMessage(long id) {
+      public CustomResponseObject deleteMessage(long id) {
             if (messageRepository.existsById(id)) {
                   log.info("DELETE MESSAGE");
                   messageRepository.deleteById(id);
-                  // return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete success!");
-                  return getAllMessage();
-
+                  return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete success!");
             }
             throw new AppException(HttpStatus.NOT_FOUND.value(),
                         new CustomResponseObject(Common.DELETE_FAIL, "Not found id = " + id));

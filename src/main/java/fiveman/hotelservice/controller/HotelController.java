@@ -2,7 +2,6 @@ package fiveman.hotelservice.controller;
 
 import fiveman.hotelservice.entities.Hotel;
 import fiveman.hotelservice.request.HotelRequest;
-import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.HotelService;
 import io.swagger.annotations.Api;
 
@@ -40,22 +39,22 @@ public class HotelController {
 
       @PostMapping("/hotel")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
-      public ResponseEntity<CustomResponseObject> saveHotel(@RequestBody @Valid HotelRequest request) {
+      public ResponseEntity<Hotel> saveHotel(@RequestBody @Valid HotelRequest request) {
             Hotel hotel = modelMapper.map(request, Hotel.class);
             return new ResponseEntity<>(hotelService.saveHotel(hotel), HttpStatus.OK);
       }
 
       @PutMapping("/hotel")
       @PreAuthorize("isAnonymous() or isAuthenticated")
-      public ResponseEntity<CustomResponseObject> updateHotel(@RequestBody HotelRequest request) {
+      public ResponseEntity<Hotel> updateHotel(@RequestBody HotelRequest request) {
             Hotel hotel = modelMapper.map(request, Hotel.class);
-            return new ResponseEntity<CustomResponseObject>(hotelService.updateHotel(hotel), HttpStatus.OK);
+            return new ResponseEntity<>(hotelService.updateHotel(hotel), HttpStatus.OK);
       }
 
       @DeleteMapping("/hotel/{id}")
       @PreAuthorize("isAnonymous() or isAuthenticated()")
-      public ResponseEntity<CustomResponseObject> deleteHotel(@PathVariable("id") long id) {
-            return new ResponseEntity<CustomResponseObject>(hotelService.deleteHotel(id), HttpStatus.OK);
+      public ResponseEntity<Hotel> deleteHotel(@PathVariable("id") long id) {
+            return new ResponseEntity<>(hotelService.deleteHotel(id), HttpStatus.OK);
       }
 
 }

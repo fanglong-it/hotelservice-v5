@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import fiveman.hotelservice.entities.Booking;
 import fiveman.hotelservice.entities.Room;
 import fiveman.hotelservice.request.RoomRequest;
-import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.service.RoomService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;
@@ -34,60 +33,60 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/v1/")
 public class RoomController {
 
-      @Autowired
-      private RoomService roomService;
+    @Autowired
+    private RoomService roomService;
 
-      @Autowired
-      private ModelMapper modelMapper;
+    @Autowired
+    private ModelMapper modelMapper;
 
-      @GetMapping("/rooms")
-      @PreAuthorize("isAnonymous() or isAuthenticated()")
-      @ApiResponses(value = { //
-                  @ApiResponse(code = 400, message = "Something went wrong"), //
-                  @ApiResponse(code = 403, message = "Access denied"), //
-                  @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<List<Room>> getRooms() {
-            return new ResponseEntity<>(roomService.getRooms(), HttpStatus.OK);
-      }
+    @GetMapping("/rooms")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
+    @ApiResponses(value = { //
+            @ApiResponse(code = 400, message = "Something went wrong"), //
+            @ApiResponse(code = 403, message = "Access denied"), //
+            @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+    public ResponseEntity<List<Room>> getRooms() {
+        return new ResponseEntity<>(roomService.getRooms(), HttpStatus.OK);
+    }
 
-      @GetMapping("/room/{id}")
-      @PreAuthorize("isAnonymous() or isAuthenticated()")
-      @ApiResponses(value = { //
-                  @ApiResponse(code = 400, message = "Something went wrong"), //
-                  @ApiResponse(code = 403, message = "Access denied"), //
-                  @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<RoomResponse> getRoom(@PathVariable("id") long id) {
-            return new ResponseEntity<>(roomService.getRoom(id), HttpStatus.OK);
-      }
+    @GetMapping("/room/{id}")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
+    @ApiResponses(value = { //
+            @ApiResponse(code = 400, message = "Something went wrong"), //
+            @ApiResponse(code = 403, message = "Access denied"), //
+            @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+    public ResponseEntity<RoomResponse> getRoom(@PathVariable("id") long id) {
+        return new ResponseEntity<>(roomService.getRoom(id), HttpStatus.OK);
+    }
 
-      @PostMapping("/room")
-      @PreAuthorize("isAnonymous() or isAuthenticated()")
-      @ApiResponses(value = { //
-                  @ApiResponse(code = 400, message = "Something went wrong"), //
-                  @ApiResponse(code = 403, message = "Access denied"), //
-                  @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> saveRoom(@RequestBody RoomRequest request) {
-            return new ResponseEntity<>(roomService.saveRoom(request), HttpStatus.OK);
-      }
+    @PostMapping("/room")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
+    @ApiResponses(value = { //
+            @ApiResponse(code = 400, message = "Something went wrong"), //
+            @ApiResponse(code = 403, message = "Access denied"), //
+            @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+    public ResponseEntity<Room> saveRoom(@RequestBody RoomRequest request) {
+        return new ResponseEntity<>(roomService.saveRoom(request), HttpStatus.OK);
+    }
 
-      @PutMapping("/room")
-      @PreAuthorize("isAnonymous() or isAuthenticated()")
-      @ApiResponses(value = { //
-                  @ApiResponse(code = 400, message = "Something went wrong"), //
-                  @ApiResponse(code = 403, message = "Access denied"), //
-                  @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
-      public ResponseEntity<CustomResponseObject> updateRoom(@RequestBody @Valid RoomRequest request) {
-            Room room = modelMapper.map(request, Room.class);
-            return new ResponseEntity<>(roomService.updateRoom(room), HttpStatus.OK);
-      }
+    @PutMapping("/room")
+    @PreAuthorize("isAnonymous() or isAuthenticated()")
+    @ApiResponses(value = { //
+            @ApiResponse(code = 400, message = "Something went wrong"), //
+            @ApiResponse(code = 403, message = "Access denied"), //
+            @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+    public ResponseEntity<Room> updateRoom(@RequestBody @Valid RoomRequest request) {
+        Room room = modelMapper.map(request, Room.class);
+        return new ResponseEntity<>(roomService.updateRoom(room), HttpStatus.OK);
+    }
 
     @DeleteMapping("/room/{id}")
     @PreAuthorize("isAnonymous() or isAuthenticated()")
     @ApiResponses(value = { //
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //
-            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public ResponseEntity<CustomResponseObject> deleteRoom(@PathVariable long id) {
+            @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+    public ResponseEntity<Room> deleteRoom(@PathVariable long id) {
         return new ResponseEntity<>(roomService.deleteRoom(id), HttpStatus.OK);
     }
 
@@ -104,13 +103,14 @@ public class RoomController {
 
     // @GetMapping("/room/getRoomWithBooking")
     // public ResponseEntity<List<RoomResponse>> getRoomWithBooking() {
-    //       return new ResponseEntity<>(roomService.getRoomWithBooking(), HttpStatus.OK);
+    // return new ResponseEntity<>(roomService.getRoomWithBooking(), HttpStatus.OK);
     // }
 
     @GetMapping("/room/getRoomWithBookingId")
     public ResponseEntity<Room> getRoomByBookingId(@RequestParam("booking_id") long booking_id) {
-        return new ResponseEntity<>(roomService.getRoomByBookingIdAndStatusCheckIn(booking_id), HttpStatus.OK);
+        return new ResponseEntity<>(roomService.getRoomByBooking(booking_id), HttpStatus.OK);
     }
+
     @GetMapping("/room/getRoomWithOrderId")
     public ResponseEntity<Room> getRoomByOrderId(@RequestParam("order_id") long order_id) {
         return new ResponseEntity<>(roomService.getRoomByOrderId(order_id), HttpStatus.OK);

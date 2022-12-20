@@ -7,15 +7,16 @@ import fiveman.hotelservice.response.CustomResponseObject;
 import fiveman.hotelservice.response.RoomAlarmResponse;
 
 public interface RoomAlarmService {
-      List<RoomAlarmResponse> getAllRoomAlarm();
-      
-      RoomAlarmResponse getRoomAlarmById(long id);
-      
-      List<RoomAlarmResponse> getRoomAlarmByBookingId(long booking_id);
 
-      RoomAlarmResponse saveRoomAlarm(RoomAlarm roomAlarm);
-      
-      CustomResponseObject updateRoomAlarm(RoomAlarm roomAlarm);
-      
+      List<RoomAlarm> getAllRoomAlarm();
+
+      RoomAlarmResponse getRoomAlarmById(long id);
+
+      List<RoomAlarm> getRoomAlarmByBookingId(long booking_id);
+
+      RoomAlarm saveRoomAlarm(RoomAlarm roomAlarm);
+
+      RoomAlarm updateRoomAlarm(RoomAlarm roomAlarm);
+
       CustomResponseObject deleteRoomAlarm(long id);
 }

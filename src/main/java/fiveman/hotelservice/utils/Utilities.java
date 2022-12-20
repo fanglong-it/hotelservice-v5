@@ -5,17 +5,19 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
-
+import java.util.stream.IntStream;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-
 import fiveman.hotelservice.entities.OrderDetail;
-
+import fiveman.hotelservice.entities.RoomPrice;
 
 public class Utilities {
       public static boolean isEmptyString(String result) {
@@ -96,12 +98,13 @@ public class Utilities {
             String vnp_CreateDate = formatter.format(cld.getTime());
             return vnp_CreateDate;
       }
-      public static boolean compareTwoDateString(String str1, String str2){
-            SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
+
+      public static boolean compareTwoDateString(String str1, String str2) {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             try {
-                  Date date1=formatter.parse(str1);
-                  Date date2=formatter.parse(str2);
-                  if(date1 == date2){
+                  Date date1 = formatter.parse(str1);
+                  Date date2 = formatter.parse(str2);
+                  if (date1 == date2) {
                         return true;
                   }
             } catch (ParseException e) {
@@ -110,15 +113,14 @@ public class Utilities {
             return false;
       }
 
-      public static String parseDoubleToVND(double price){
+      public static String parseDoubleToVND(double price) {
             String COUNTRY = "VN";
             String LANGUAGE = "vi";
             String str = NumberFormat.getCurrencyInstance(new Locale(LANGUAGE, COUNTRY)).format(price);
             return str;
       }
 
-
-      public static double calculateTotalAmount(List<OrderDetail> orderDetails){
+      public static double calculateTotalAmount(List<OrderDetail> orderDetails) {
             double totalAmount = 0;
             for (OrderDetail orderDetail : orderDetails) {
                   totalAmount += (orderDetail.getQuantity() * orderDetail.getAmount());
@@ -126,5 +128,26 @@ public class Utilities {
             return totalAmount;
       }
 
+      public static List<String> getStringDateBetweenArrivalAndDeparture(String startDate,
+                  String endDate) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            LocalDateTime startDateLDT = LocalDateTime.parse(startDate,
+                        dtf);
+            LocalDateTime endDateLDT = LocalDateTime.parse(endDate, dtf);
+            List<String> dates = new ArrayList<>();
+            for (LocalDateTime date = startDateLDT; date.isBefore(endDateLDT); date = date.plusDays(1)) {
+                  String dateString = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(date);
+                  dates.add(dateString);
+            }
+            return dates;
+      }
+
+      public static int findIndex(List<RoomPrice> list, String date) {
+            int len = list.size();
+            return IntStream.range(0, len)
+                    .filter(i -> date.equals(list.get(i).getDate()))
+                    .findFirst() // first occurrence
+                    .orElse(-1); // No element found
+      }
 
 }

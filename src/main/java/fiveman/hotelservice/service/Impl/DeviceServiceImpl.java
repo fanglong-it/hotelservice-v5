@@ -16,41 +16,42 @@ import fiveman.hotelservice.utils.Common;
 
 @Service
 public class DeviceServiceImpl implements DeviceService {
-	Logger logger = LoggerFactory.getLogger(DeviceServiceImpl.class);
+    Logger logger = LoggerFactory.getLogger(DeviceServiceImpl.class);
 
-	@Autowired
-	DeviceRepository deviceRepository;
+    @Autowired
+    DeviceRepository deviceRepository;
 
-	@Override
-	public List<Device> getDevices() {
-		logger.info("GET ALL DEVICES");
-		return deviceRepository.findAll();
-	}
+    @Override
+    public List<Device> getDevices() {
+        logger.info("GET ALL DEVICES");
+        return deviceRepository.findAll();
+    }
 
-	@Override
-	public Device getDevice(long id) {
+    @Override
+    public Device getDevice(long id) {
         logger.info("START GET DEVICE BY ID");
         if (!deviceRepository.existsById(id)) {
-            throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.GET_FAIL, "Cant found ID =" + id));
+            throw new AppException(HttpStatus.NOT_FOUND.value(),
+                    new CustomResponseObject(Common.GET_FAIL, "Cant found ID =" + id));
         }
         logger.info("START GET DEVICE BY ID");
         return deviceRepository.getDeviceById(id);
     }
 
-
     @Override
-    public CustomResponseObject saveDevice(Device device) {
+    public Device saveDevice(Device device) {
         logger.info("START SAVE DEVICE");
         if (deviceRepository.existsById(device.getId())) {
-            throw new AppException(HttpStatus.ALREADY_REPORTED.value(), new CustomResponseObject(Common.ADDING_FAIL, "Exist id =" + device.getId()));
+            throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
+                    new CustomResponseObject(Common.ADDING_FAIL, "Exist id =" + device.getId()));
         }
         deviceRepository.save(device);
         logger.info("END SAVE DEVICE");
-        return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding Device Success!");
+        return deviceRepository.findTopByOrderByIdDesc();
     }
 
     @Override
-    public CustomResponseObject updateDevice(Device device) {
+    public Device updateDevice(Device device) {
         logger.info("START UPDATE DEVICE");
 
         if (deviceRepository.existsById(device.getId())) {
@@ -72,19 +73,26 @@ public class DeviceServiceImpl implements DeviceService {
             }
             deviceRepository.save(device);
             logger.info("END UPDATE DEVICE");
-            return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update success!");
+            // return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update success!");
+            return deviceRepository.getDeviceById(device.getId());
         }
-        throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.UPDATE_FAIL, "Not found id = " + device.getId()));
+        throw new AppException(HttpStatus.NOT_FOUND.value(),
+                new CustomResponseObject(Common.UPDATE_FAIL, "Not found id = " + device.getId()));
 
     }
 
     @Override
-    public CustomResponseObject deleteDevice(long id) {
+    public Device deleteDevice(long id) {
         if (deviceRepository.existsById(id)) {
             logger.info("DELETE DEVICE");
-            deviceRepository.deleteById(id);
-            return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete success!");
+            // deviceRepository.deleteById(id);
+            Device device = deviceRepository.getDeviceById(id);
+            device.setStatus(false);
+            deviceRepository.save(device);
+            // return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete success!");
+            return device;
         }
-        throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.DELETE_FAIL, "Not found id = " + id));
+        throw new AppException(HttpStatus.NOT_FOUND.value(),
+                new CustomResponseObject(Common.DELETE_FAIL, "Not found id = " + id));
     }
 }

@@ -2,7 +2,6 @@ package fiveman.hotelservice.service.Impl;
 
 import fiveman.hotelservice.entities.Order;
 import fiveman.hotelservice.entities.OrderDetail;
-import fiveman.hotelservice.entities.ServiceCategory;
 import fiveman.hotelservice.exception.AppException;
 import fiveman.hotelservice.repository.OrderDetailRepository;
 import fiveman.hotelservice.repository.OrderRepository;
@@ -20,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,19 +50,19 @@ public class OrderServiceImpl implements OrderService {
             order = orderRepository.findTopByOrderByIdDesc();
 
             //Save OrderDetailRequest
-            double totalAmount = 0;
+            // double totalAmount = 0;
             for (OrderDetailRequest orderDetailRequest : orderRequest.getLOrderDetailRequests()) {
                 orderDetailRequest.setId(0);
                 orderDetailRequest.setOrder_Id(order.getId());
                 OrderDetail orderDetail = modelMapper.map(orderDetailRequest, OrderDetail.class);
-                double itemAmount = orderDetail.getQuantity() * orderDetail.getAmount();
-                orderDetail.setAmount(itemAmount);
+                // double itemAmount = orderDetail.getQuantity() * orderDetail.getAmount();
+                // orderDetail.setAmount(itemAmount);
                 orderDetailRepository.save(orderDetail);
-                totalAmount += itemAmount;
-                itemAmount = 0;
+                // totalAmount += itemAmount;
+                // itemAmount = 0;
             }
-            order.setTotalAmount(totalAmount);
-            orderRepository.save(order);
+            // order.setTotalAmount(totalAmount);
+            // orderRepository.save(order);
 
         }else{
             throw new AppException(HttpStatus.NOT_FOUND.value(), new CustomResponseObject(Common.GET_FAIL, "Can't detect action !"));
@@ -169,7 +167,7 @@ public class OrderServiceImpl implements OrderService {
         }else if(status.equals(Common.ORDER_PROCESS) && order.getStatus().equals(status)){
             order.setStatus("DONE");
         }
-        order.setTotalAmount(Utilities.calculateTotalAmount(order.getOrderDetails()));
+        // order.setTotalAmount(Utilities.calculateTotalAmount(order.getOrderDetails()));
         orderRepository.save(order);
         OrderResponse orderResponse = mapOrderToResponse(orderRepository.getOrderById(orderId));
         orderResponse.getBooking().setHotel(null);

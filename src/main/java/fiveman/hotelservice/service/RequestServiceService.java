@@ -6,17 +6,17 @@ import fiveman.hotelservice.entities.RequestService;
 import fiveman.hotelservice.response.RequestServiceResponse;
 
 public interface RequestServiceService {
-      List<RequestServiceResponse> getAllRequestService();
-      
-      List<RequestServiceResponse> getRequestServiceByBookingId(long id);
-      
-      RequestServiceResponse getRequestService(long id);
-      
-      RequestServiceResponse saveRequestService(RequestService requestService);
 
-      List<RequestServiceResponse> updateRequestService(RequestService requestService);
+      List<RequestService> getAllRequestService();
 
-      List<RequestServiceResponse> deleteRequestService(long id);
+      List<RequestService> getRequestServiceByBookingId(long id);
 
-      
+      RequestService getRequestService(long id);
+
+      RequestService saveRequestService(RequestService requestService);
+
+      RequestService updateRequestService(RequestService requestService);
+
+      RequestService deleteRequestService(long id);
+
 }

@@ -8,4 +8,5 @@ import fiveman.hotelservice.entities.Utilities;
 @Repository
 public interface UtilitiesRepository extends  JpaRepository<Utilities, Long>{
       Utilities getUtilitiesById(long id);
+      Utilities findTopByOrderByIdDesc();
 }

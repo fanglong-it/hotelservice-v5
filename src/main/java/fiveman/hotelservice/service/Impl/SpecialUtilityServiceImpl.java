@@ -39,7 +39,7 @@ public class SpecialUtilityServiceImpl implements SpecialUtilityService {
       }
 
       @Override
-      public CustomResponseObject saveSpecialUtility(SpecialUtility specialUtility) {
+      public SpecialUtility saveSpecialUtility(SpecialUtility specialUtility) {
             log.info("START OF SAVE ULTILITIES BY ID");
             if (specialUtilityRepository.existsById(specialUtility.getId())) {
                   throw new AppException(HttpStatus.ALREADY_REPORTED.value(),
@@ -47,11 +47,12 @@ public class SpecialUtilityServiceImpl implements SpecialUtilityService {
             }
             specialUtilityRepository.save(specialUtility);
             log.info("END OF SAVE ULTILITIES BY ID");
-            return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding success!");
+            // return new CustomResponseObject(Common.ADDING_SUCCESS, "Adding success!");
+            return specialUtilityRepository.findTopByOrderByIdDesc();
       }
 
       @Override
-      public CustomResponseObject updateSpecialUtility(SpecialUtility specialUtility) {
+      public SpecialUtility updateSpecialUtility(SpecialUtility specialUtility) {
             log.info("START OF UPDATE ULTILITIES BY ID");
             if (!specialUtilityRepository.existsById(specialUtility.getId())) {
                   throw new AppException(HttpStatus.NOT_FOUND.value(),
@@ -59,19 +60,24 @@ public class SpecialUtilityServiceImpl implements SpecialUtilityService {
             }
             specialUtilityRepository.save(specialUtility);
             log.info("END OF UPDATE ULTILITIES BY ID");
-            return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success!");
+            // return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update Success!");
+            return specialUtilityRepository.getSpecialUtilityById(specialUtility.getId());
       }
 
       @Override
-      public CustomResponseObject deleteSpecialUtility(long id) {
+      public SpecialUtility deleteSpecialUtility(long id) {
             log.info("START OF DELETE SPECIAL UTILITY");
             if (!specialUtilityRepository.existsById(id)) {
                   throw new AppException(HttpStatus.NOT_FOUND.value(),
                               new CustomResponseObject(Common.DELETE_FAIL, "Not found Id = " + id));
             }
-            specialUtilityRepository.deleteById(id);
+            // specialUtilityRepository.deleteById(id);
+            SpecialUtility specialUtility = specialUtilityRepository.getSpecialUtilityById(id);
+            specialUtility.setStatus(false);
+            specialUtilityRepository.save(specialUtility);
             log.info("END OF DELETE ULTILITIES BY ID");
-            return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Success!");
+            return specialUtility;
+            // return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete Success!");
       }
 
 }

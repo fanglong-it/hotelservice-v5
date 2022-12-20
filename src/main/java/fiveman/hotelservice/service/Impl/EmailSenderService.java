@@ -35,13 +35,14 @@ public class EmailSenderService implements EmailService {
         List<PriceObject> listPrice = getPrice(list);
 
         // get email
-        String email = getEmail(list);
+        Email email = getEmail(list);
 
         // set context
         Context context = new Context();
         context.setVariable("list", list);
         context.setVariable("totalPrice", totalPrice);
         context.setVariable("listPrice", listPrice);
+        context.setVariable("emailObj", email);
 
         String process = templateEngine.process("email", context);
         javax.mail.internet.MimeMessage mimeMessage = javaMailSender.createMimeMessage();
@@ -49,21 +50,28 @@ public class EmailSenderService implements EmailService {
         try {
             helper.setSubject("Five Men Hotel - Booking Information");
             helper.setText(process, true);
-            helper.setTo(email);
+            helper.setTo(email.getEmail());
         } catch (MessagingException e) {
             throw new AppException(HttpStatus.INTERNAL_SERVER_ERROR, new CustomResponseObject("500", e.getMessage()));
         }
         javaMailSender.send(mimeMessage);
     }
 
-    public String getEmail(List<BookingResponse> list) {
+    public Email getEmail(List<BookingResponse> list) {
         String email = "";
-        for (BookingResponse bookingResponse : list) {
-            if (bookingResponse.getBooking() != null) {
-                email = bookingResponse.getBooking().getCustomer().getEmail();
+        int firstIndex = -1;
+        int lastIndex = -1;
+
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i).getBooking() != null){
+                email = list.get(i).getBooking().getCustomer().getEmail();
+                if(firstIndex == -1){
+                    firstIndex = i;
+                }
+                lastIndex = i;
             }
         }
-        return email;
+        return new Email(email, firstIndex, lastIndex);
     }
 
     public String getTotalPrice(List<BookingResponse> list) {
@@ -73,14 +81,6 @@ public class EmailSenderService implements EmailService {
         for (BookingResponse bookingResponse : list) {
             if (bookingResponse.getBooking() != null) {
                 double price = 0;
-                // for (RoomPrice roPrice : bookingResponse.getRoomType().getRoomPrices()) {
-                // if (roPrice.getDate().equals(currentDate)) {
-                // price = roPrice.getPrice();
-                // }
-                // }
-                // if (price == 0) {
-                // price = bookingResponse.getRoomType().getDefaultPrice();
-                // }
 
                 Booking booking = bookingResponse.getBooking();
 
@@ -88,10 +88,8 @@ public class EmailSenderService implements EmailService {
                 List<String> dates = Utilities.getStringDateBetweenArrivalAndDeparture(booking.getArrivalDate(),
                         booking.getDepartureDate());
                 for (String date : dates) {
-                    // RoomPrice rPrice = roomPriceRepository.getRoomPriceTodayByRoomType(date,
-                    // booking.getRoomTypeId());
                     List<RoomPrice> rPrices = bookingResponse.getRoomType().getRoomPrices();
-                    int result = findIndex(rPrices, date);
+                    int result = Utilities.findIndex(rPrices, date);
                     if (result != -1) {
                         price += rPrices.get(result).getPrice();
                     } else {
@@ -115,8 +113,8 @@ public class EmailSenderService implements EmailService {
 
         // String currentDate = Utilities.getCurrentDate().split(" ")[0];
         for (BookingResponse bookingResponse : list) {
+            PriceObject priceObject = new PriceObject();
             if (bookingResponse.getBooking() != null) {
-                PriceObject priceObject = new PriceObject();
                 double price = 0;
                 double priceByRoom = 0;
 
@@ -126,10 +124,9 @@ public class EmailSenderService implements EmailService {
                 List<String> dates = Utilities.getStringDateBetweenArrivalAndDeparture(booking.getArrivalDate(),
                         booking.getDepartureDate());
                 for (String date : dates) {
-                    // RoomPrice rPrice = roomPriceRepository.getRoomPriceTodayByRoomType(date,
-                    // booking.getRoomTypeId());
+
                     List<RoomPrice> rPrices = bookingResponse.getRoomType().getRoomPrices();
-                    int result = findIndex(rPrices, date);
+                    int result = Utilities.findIndex(rPrices, date);
                     if (result != -1) {
                         price += rPrices.get(result).getPrice();
                     } else {
@@ -137,14 +134,6 @@ public class EmailSenderService implements EmailService {
                     }
                 }
 
-                // for (RoomPrice roPrice : bookingResponse.getRoomType().getRoomPrices()) {
-                // if (roPrice.getDate().equals(currentDate)) {
-                // price = roPrice.getPrice();
-                // }
-                // }
-                // if (price == 0) {
-                // price = bookingResponse.getRoomType().getDefaultPrice();
-                // }
                 if (bookingResponse.getService() != null) {
                     priceByRoom = (price + bookingResponse.getService().getPrice());
                 } else {
@@ -152,8 +141,9 @@ public class EmailSenderService implements EmailService {
                 }
                 priceObject.setPrice(Utilities.parseDoubleToVND(price));
                 priceObject.setPriceByRoom(Utilities.parseDoubleToVND((priceByRoom)));
-                priceObjectList.add(priceObject);
+
             }
+            priceObjectList.add(priceObject);
         }
         return priceObjectList;
     }
@@ -168,12 +158,14 @@ public class EmailSenderService implements EmailService {
         private String priceByRoom;
     }
 
-    public int findIndex(List<RoomPrice> list, String date) {
-        int len = list.size();
-        return IntStream.range(0, len)
-                .filter(i -> date.equals(list.get(i).getDate()))
-                .findFirst() // first occurrence
-                .orElse(-1); // No element found
+    @Data
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public class Email {
+        private String email;
+        private int firstIndex;
+        private int lastIndex;
     }
-
 }

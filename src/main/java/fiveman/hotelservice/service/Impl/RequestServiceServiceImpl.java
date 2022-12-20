@@ -37,24 +37,22 @@ public class RequestServiceServiceImpl implements RequestServiceService {
       }
 
       @Override
-      public List<RequestService> getAllRequestService() {
+      public List<RequestServiceResponse> getAllRequestService() {
             log.info("GET ALL REQUEST SERVICES");
             List<RequestService> requestServices = requestServiceRepository.getAllRequestService();
-            // List<RequestServiceResponse> requestServiceResponses = new ArrayList<>();
-            // for (RequestService requestService : requestServices) {
-            // RequestServiceResponse requestServiceResponse =
-            // mapRequestServiceToResponse(requestService);
-            // requestServiceResponses.add(requestServiceResponse);
-            // }
-
+            List<RequestServiceResponse> requestServiceResponses = new ArrayList<>();
             for (RequestService requestService : requestServices) {
-                  requestService.getBooking().setRequestServices(null);
+                  RequestServiceResponse requestServiceResponse = mapRequestServiceToResponse(requestService);
+                  requestServiceResponses.add(requestServiceResponse);
             }
-            return requestServices;
+            // for (RequestService requestService : requestServices) {
+            // requestService.getBooking().setRequestServices(null);
+            // }
+            return requestServiceResponses;
       }
 
       @Override
-      public RequestService getRequestService(long id) {
+      public RequestServiceResponse getRequestService(long id) {
             log.info("START GET REQUEST SERVICE BY ID");
             if (!requestServiceRepository.existsById(id)) {
                   throw new AppException(HttpStatus.NOT_FOUND.value(),
@@ -62,15 +60,15 @@ public class RequestServiceServiceImpl implements RequestServiceService {
             }
             log.info("END GET REQUEST SERVICE BY ID");
             RequestService requestService = requestServiceRepository.getRequestServiceById(id);
-            requestService.getBooking().setRequestServices(null);
-            return requestService;
+            // requestService.getBooking().setRequestServices(null);
+            return mapRequestServiceToResponse(requestService);
       }
 
       @Autowired
       BookingRepository bookingRepository;
 
       @Override
-      public RequestService saveRequestService(RequestService requestService) {
+      public RequestServiceResponse saveRequestService(RequestService requestService) {
             log.info("START SAVE REQUEST SERVICE");
             Booking booking = bookingRepository.getBookingById(requestService.getBooking().getId());
             boolean isTurnDownDone = true;
@@ -117,18 +115,19 @@ public class RequestServiceServiceImpl implements RequestServiceService {
                   }
             }
             requestService = requestServiceRepository.findTopByOrderByIdDesc();
-            return requestService;
+            return mapRequestServiceToResponse(requestService);
             // return mapRequestServiceToResponse(requestService);
       }
 
       @Override
-      public RequestService updateRequestService(RequestService requestService) {
+      public RequestServiceResponse updateRequestService(RequestService requestService) {
             log.info("START UPDATE REQUEST SERVICE");
             if (requestServiceRepository.existsById(requestService.getId())) {
                   requestServiceRepository.save(requestService);
                   log.info("END UPDATE REQUEST SERVICE");
                   // return new CustomResponseObject(Common.UPDATE_SUCCESS, "Update success!");
-                  return requestServiceRepository.getRequestServiceById(requestService.getId());
+                  return mapRequestServiceToResponse(
+                              requestServiceRepository.getRequestServiceById(requestService.getId()));
 
             }
             throw new AppException(HttpStatus.NOT_FOUND.value(),
@@ -136,7 +135,7 @@ public class RequestServiceServiceImpl implements RequestServiceService {
       }
 
       @Override
-      public RequestService deleteRequestService(long id) {
+      public RequestServiceResponse deleteRequestService(long id) {
             if (requestServiceRepository.existsById(id)) {
                   log.info("DELETE REQUEST SERVICE");
                   RequestService requestService = requestServiceRepository.getRequestServiceById(id);
@@ -144,23 +143,21 @@ public class RequestServiceServiceImpl implements RequestServiceService {
                   requestServiceRepository.save(requestService);
                   // requestServiceRepository.deleteById(id);
                   // return new CustomResponseObject(Common.DELETE_SUCCESS, "Delete success!");
-                  return requestService;
+                  return mapRequestServiceToResponse(requestService);
             }
             throw new AppException(HttpStatus.NOT_FOUND.value(),
                         new CustomResponseObject(Common.DELETE_FAIL, "Not found id = " + id));
       }
 
       @Override
-      public List<RequestService> getRequestServiceByBookingId(long id) {
+      public List<RequestServiceResponse> getRequestServiceByBookingId(long id) {
             List<RequestService> requestServices = requestServiceRepository.getAllRequestServiceByBooking_Id(id);
-            // List<RequestServiceResponse> requestServiceResponses = new ArrayList<>();
+            List<RequestServiceResponse> requestServiceResponses = new ArrayList<>();
             for (RequestService requestService : requestServices) {
-                  // RequestServiceResponse requestServiceResponse =
-                  // mapRequestServiceToResponse(requestService);
-                  // requestServiceResponses.add(requestServiceResponse);
-                  requestService.getBooking().setRequestServices(null);
+                  RequestServiceResponse requestServiceResponse = mapRequestServiceToResponse(requestService);
+                  requestServiceResponses.add(requestServiceResponse);
             }
-            return requestServices;
+            return requestServiceResponses;
       }
 
 }

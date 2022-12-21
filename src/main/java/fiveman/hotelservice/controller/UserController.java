@@ -69,6 +69,16 @@ public class UserController {
         return new ResponseEntity<User>(userService.updateUser(userRequest), HttpStatus.OK);
     }
 
+    @DeleteMapping("/user/delete/{id}")
+    @ApiOperation(value = "Update User")
+    @ApiResponses(value = { //
+            @ApiResponse(code = 400, message = "Something went wrong"), //
+            @ApiResponse(code = 403, message = "Access denied"), //
+            @ApiResponse(code = 500, message = "Expired or invalid JWT token") })
+    public ResponseEntity<User> deleteUser(@PathVariable("id") long user_id) {
+        return new ResponseEntity<User>(userService.deleteUser(user_id), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/me")
     @PreAuthorize("isAuthenticated()")
     @ApiOperation(value = "Get Current User", response = UserResponse.class, authorizations = {

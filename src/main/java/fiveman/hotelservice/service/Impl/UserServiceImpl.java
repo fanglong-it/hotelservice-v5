@@ -185,15 +185,28 @@ public class UserServiceImpl implements UserService {
             throw new AppException(HttpStatus.NOT_FOUND.value(),
                     new CustomResponseObject(Common.UPDATE_FAIL, "Can't find user"));
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setUsername(user.getUsername());
-        user.setUserRole(user.getUserRole());
-        user.setActive(Boolean.valueOf(userRequest.getStatus()));
-        user.setUpdateDate(Utilities.getCurrentDate());
-        user.setLastModifyBy(userRequest.getLastModifyBy());
-        userRepository.save(user);
-        logger.info("END CHECK REGISTRATION");
+        if (!user.getPassword().trim().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setUsername(user.getUsername());
+            user.setUserRole(user.getUserRole());
+            user.setActive(Boolean.valueOf(userRequest.getStatus()));
+            user.setUpdateDate(Utilities.getCurrentDate());
+            user.setLastModifyBy(userRequest.getLastModifyBy());
+            userRepository.save(user);
+            logger.info("END CHECK REGISTRATION");
+        } else {
+            throw new AppException(HttpStatus.BAD_REQUEST.value(),
+                    new CustomResponseObject(Common.UPDATE_FAIL, "Can't update because of password!"));
+        }
         return userRepository.getUserById(userRequest.getId());
+    }
+
+    @Override
+    public User deleteUser(long userId) {
+        User user = userRepository.getUserById(userId);
+        user.setActive(false);
+        userRepository.save(user);
+        return user;
     }
 
     @Override

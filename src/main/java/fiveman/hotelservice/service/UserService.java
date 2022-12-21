@@ -18,6 +18,8 @@ public interface UserService {
 
     User updateUser(UserRequest userRequest);
 
+    User deleteUser(long userId);
+
     User whoami(HttpServletRequest request);
 
     String refresh(String username);

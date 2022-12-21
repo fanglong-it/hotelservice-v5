@@ -396,6 +396,10 @@ public class BookingServiceImpl implements BookingService {
                         booking.setRoomPayment(String.valueOf(roomPrice));
                         booking.setUpdateDate(currentDateTime);
                         booking.setStatus(Common.BOOKING_CANCEL);
+
+                        RoomType roomType = roomTypeRepository.getRoomTypeById(booking.getRoomTypeId());
+                        roomType.setMaxBookingRoom(roomType.getMaxBookingRoom() + 1);
+                        roomTypeRepository.save(roomType);
                         bookingRepository.save(booking);
                     } else {
                         booking.setTotalAmount(
@@ -403,6 +407,9 @@ public class BookingServiceImpl implements BookingService {
                                         + Utilities.calculateTotalOrder(booking.getOrders()));
                         booking.setStatus(Common.BOOKING_CANCEL);
                         booking.setUpdateDate(currentDateTime);
+                        RoomType roomType = roomTypeRepository.getRoomTypeById(booking.getRoomTypeId());
+                        roomType.setMaxBookingRoom(roomType.getMaxBookingRoom() + 1);
+                        roomTypeRepository.save(roomType);
                         bookingRepository.save(booking);
                     }
 
